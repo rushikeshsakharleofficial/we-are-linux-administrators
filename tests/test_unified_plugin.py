@@ -10,7 +10,7 @@ REQUIRED_BINS = ['acl-permissions-expert-audit', 'cf-expert-audit', 'chrony-expe
 def main():
     manifest = json.loads((ROOT/'.claude-plugin/plugin.json').read_text())
     assert manifest['name'] == 'linux-admin'
-    assert manifest['version'] == '1.10.0'
+    assert manifest['version'] == '1.11.0'
     missing_skills = [s for s in REQUIRED_SKILLS if not (ROOT/'skills'/s/'SKILL.md').exists()]
     missing_bins = [b for b in REQUIRED_BINS if not (ROOT/'bin'/b).exists()]
     assert not missing_skills, missing_skills
