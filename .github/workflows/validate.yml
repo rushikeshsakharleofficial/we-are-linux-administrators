@@ -1,0 +1,26 @@
+name: Validate plugin
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Validate JSON
+        run: |
+          python -m json.tool .claude-plugin/plugin.json >/dev/null
+          python -m json.tool hooks/hooks.json >/dev/null
+      - name: Compile Python scripts
+        run: python -m py_compile scripts/*.py
+      - name: Run tests
+        run: |
+          python tests/test_unified_plugin.py
+          python tests/test_command_permission_experts.py
+          python tests/test_firewall_fail2ban_experts.py
+          python tests/test_expert_safety_guard.py

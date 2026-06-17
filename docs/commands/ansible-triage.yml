@@ -1,0 +1,54 @@
+---
+- name: Collect read-only Linux triage evidence
+  hosts: all
+  become: true
+  gather_facts: true
+  serial: 25
+
+  vars:
+    triage_root: "/var/tmp/linux-triage"
+    triage_dir: "{{ triage_root }}/{{ inventory_hostname }}-{{ ansible_date_time.iso8601_basic_short }}"
+
+  tasks:
+    - name: Create triage directory
+      ansible.builtin.file:
+        path: "{{ triage_dir }}"
+        state: directory
+        mode: "0750"
+
+    - name: Run read-only triage commands
+      ansible.builtin.command: "{{ item.cmd }}"
+      loop:
+        - { name: "failed-units", cmd: "systemctl --failed" }
+        - { name: "boot-errors", cmd: "journalctl -b -p err..alert --no-pager" }
+        - { name: "ip-addr", cmd: "ip -br addr" }
+        - { name: "ip-route", cmd: "ip route" }
+        - { name: "sockets", cmd: "ss -lntup" }
+        - { name: "lsblk", cmd: "lsblk -f" }
+        - { name: "findmnt", cmd: "findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS" }
+        - { name: "df", cmd: "df -hT" }
+        - { name: "free", cmd: "free -h" }
+      register: triage_cmds
+      changed_when: false
+      failed_when: false
+
+    - name: Write command outputs
+      ansible.builtin.copy:
+        dest: "{{ triage_dir }}/{{ item.item.name }}.txt"
+        content: |
+          # command: {{ item.item.cmd }}
+          # rc: {{ item.rc }}
+          {{ item.stdout }}
+          {{ item.stderr }}
+        mode: "0640"
+      loop: "{{ triage_cmds.results }}"
+
+    - name: Write facts summary
+      ansible.builtin.copy:
+        dest: "{{ triage_dir }}/facts.yml"
+        content: "{{ ansible_facts | to_nice_yaml }}"
+        mode: "0640"
+
+    - name: Show triage path
+      ansible.builtin.debug:
+        msg: "Triage evidence saved on host at {{ triage_dir }}"

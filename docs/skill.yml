@@ -1,0 +1,44 @@
+name: linux-admin-ai-skill
+version: 1.0.0
+purpose: Expert Linux administration troubleshooting and safe remediation for AI agents.
+default_mode: read_only_first
+entrypoint: SKILL.md
+required_core_modules:
+  - core/00-operating-principles.md
+  - core/01-distro-detection.md
+  - core/02-safety-policy.md
+  - core/03-diagnostic-method.md
+  - core/04-output-format.md
+modules:
+  boot: tasks/boot-failures.md
+  service: tasks/systemd-services.md
+  network: tasks/networking-dns-firewall.md
+  performance: tasks/performance-cpu-memory.md
+  storage: tasks/storage-filesystems-lvm-raid.md
+  permissions: tasks/permissions-selinux-apparmor.md
+  packages: tasks/packages-updates.md
+  kernel: tasks/kernel-panic-lockup.md
+  containers: tasks/containers-docker-podman.md
+  users_auth: tasks/users-auth-sudo-ssh.md
+  logging_monitoring: tasks/logging-monitoring.md
+  automation: tasks/automation-ansible-scripts.md
+risk_classes:
+  read_only:
+    allowed_by_default: true
+    examples: [systemctl status, journalctl, ip addr, ss, lsblk, findmnt, df, free, ps]
+  low_risk_reversible:
+    allowed_by_default: false
+    requires_confirmation: true
+    examples: [restorecon on bounded path, reload noncritical service]
+  disruptive:
+    allowed_by_default: false
+    requires_confirmation: true
+    examples: [restart critical service, firewall change, package rollback, initramfs rebuild]
+  destructive:
+    allowed_by_default: false
+    requires_confirmation: true
+    requires_backup_or_snapshot: true
+    examples: [mkfs, lvreduce, mdadm zero-superblock, fsck on real device, rm -rf]
+output_contract:
+  include: [issue_class, safety_level, facts, read_only_commands, interpretation, ranked_hypotheses, remediation, validation, rollback]
+  avoid: [uncited_guesses, dangerous_shortcuts, unsupported_commands]

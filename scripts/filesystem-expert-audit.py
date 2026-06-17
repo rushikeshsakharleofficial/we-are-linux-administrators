@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+"""Read-only Filesystem Expert audit helper for linux-admin plugin."""
+from __future__ import annotations
+import json, platform, subprocess
+from pathlib import Path
+
+COMMANDS = ['df -hT', 'df -ih', 'lsblk -f -o NAME,FSTYPE,LABEL,UUID,FSAVAIL,FSUSE%,MOUNTPOINTS 2>/dev/null || lsblk -f', 'findmnt -R -o TARGET,SOURCE,FSTYPE,OPTIONS', 'du -xhd1 /var /tmp /home 2>/dev/null | sort -h | tail -30 || true', 'journalctl -k -b --no-pager | grep -Ei "ext4|xfs|btrfs|fsck|i/o error|buffer error|remount|readonly|corrupt" | tail -100 || true', 'dmesg 2>/dev/null | grep -Ei "ext4|xfs|btrfs|fsck|i/o error|buffer error|readonly|corrupt" | tail -100 || true']
+FILES = ['/etc/fstab']
+
+def run(cmd, timeout=4):
+    try:
+        p = subprocess.run(cmd, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=timeout)
+        return {"cmd": cmd, "rc": p.returncode, "output": p.stdout.strip()[-9000:]}
+    except Exception as e:
+        return {"cmd": cmd, "rc": None, "error": str(e)}
+
+def read(path):
+    try:
+        p=Path(path)
+        if p.exists() and p.is_file():
+            return p.read_text(errors='replace')[:8000]
+    except Exception as e:
+        return f"ERROR: {e}"
+    return None
+
+def main():
+    data={"read_only": True, "expert": "filesystem-expert", "host": platform.node(), "kernel": platform.release(), "commands": [], "files": {}}
+    for cmd in COMMANDS:
+        data["commands"].append(run(cmd))
+    for f in FILES:
+        v=read(f)
+        if v is not None:
+            data["files"][f]=v
+    print(json.dumps(data, indent=2, sort_keys=True))
+
+if __name__ == '__main__':
+    main()
