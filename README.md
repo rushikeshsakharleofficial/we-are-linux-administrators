@@ -16,7 +16,7 @@ A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE
 
 ## Quick Start
 
-**Install via Claude Code marketplace:**
+**Install via CLI:**
 
 ```bash
 # Add this repo as a marketplace
@@ -24,6 +24,13 @@ claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrat
 
 # Install the plugin
 claude plugin install linux-admin@we-are-linux-administrators
+```
+
+**Or install via slash commands inside Claude Code:**
+
+```text
+/plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+/plugin install linux-admin@we-are-linux-administrators
 ```
 
 **Or load locally:**
