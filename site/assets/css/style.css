@@ -256,6 +256,16 @@ body::after {
 [data-theme="light"] .terminal-body .tw { color: #fbbf24; }
 [data-theme="light"] .terminal-body .te { color: #f87171; }
 [data-theme="light"] .terminal-body .tcy { color: #22d3ee; }
+/* skill-card-when and scenario-row-label use --text-dim (#94a3b8 in light) which is unreadable on white cards */
+[data-theme="light"] .skill-card-when { color: var(--text-muted); }
+[data-theme="light"] .scenario-row-label { color: var(--text-muted); }
+/* inline <code> elements inherit body color in light mode — ensure mono font text is readable */
+[data-theme="light"] code { color: var(--text-body); background: rgba(0,0,0,0.05); border-radius: 3px; padding: 1px 4px; }
+/* command-block base text and comment spans — ensure readable contrast */
+[data-theme="light"] .command-block { background: #f1f5f9; border-color: rgba(0,0,0,0.1); color: #1e293b; }
+[data-theme="light"] .command-block .cc { color: #64748b; }
+[data-theme="light"] .command-block .cp { color: #15803d; }
+[data-theme="light"] .command-block .ch { color: #0369a1; }
 .hero-glow {
   position: absolute; width: 700px; height: 700px; border-radius: 50%;
   background: radial-gradient(circle, rgba(74,222,128,0.05) 0%, transparent 70%);

@@ -7,8 +7,8 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.16.0-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-89-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
+[![Version](https://img.shields.io/badge/version-1.17.0-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Skills](https://img.shields.io/badge/skills-98-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
 
@@ -18,7 +18,7 @@
 
 A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides **read-only-first diagnostics**, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run.
 
-89 task-specific expert skills covering boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes nodes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, SSH hardening, tcpdump, Ansible, patching, SELinux, AppArmor, capacity planning, and more.
+98 task-specific expert skills covering boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes nodes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, SSH hardening, tcpdump, Ansible, patching, SELinux, AppArmor, capacity planning, and more.
 
 ---
 
@@ -185,6 +185,20 @@ claude --plugin-dir ./we-are-linux-administrators
 | `/linux-admin:bash-script-expert` | Bash script creation, review, hardening, cron/systemd-safe |
 | `/linux-admin:shell-script-expert` | POSIX/portable shell, dash/ash compatibility checks |
 | `/linux-admin:command-expert` | Safe shell pipelines, destructive command review, dry-runs |
+
+### Operational workflow
+
+| Skill | Use |
+|---|---|
+| `/linux-admin:change-plan-expert` | Production change planning, step ordering, blast-radius estimation, approval gates |
+| `/linux-admin:preflight-check-expert` | Pre-change validation, dependency checks, backup verification, go/no-go gates |
+| `/linux-admin:risk-assessment-expert` | Change risk scoring, production impact estimation, mitigation planning |
+| `/linux-admin:production-safety-expert` | Production guardrails, destructive-command review, blast-radius gating |
+| `/linux-admin:maintenance-window-expert` | Maintenance window design, scheduling, pre/post tasks, rollback triggers |
+| `/linux-admin:post-change-validation-expert` | Post-change health checks, service smoke tests, metric baselining |
+| `/linux-admin:rollback-expert` | Rollback planning, recovery points, state restoration, safe cutover reversal |
+| `/linux-admin:root-cause-expert` | Incident root-cause analysis, evidence-based diagnosis, contributing factors |
+| `/linux-admin:incident-timeline-expert` | Incident timeline reconstruction, event ordering, evidence correlation |
 
 ### Shell & config
 

@@ -134,6 +134,15 @@ All expert modules follow the same policy:
 /linux-admin:ssh-hardening-expert <SSH hardening or key auth task>
 /linux-admin:tcpdump-expert <packet capture or tcpdump filter task>
 ```
+| `change-plan-expert` | Linux production change planning, step ordering, blast-radius estimation, approval gates | — |
+| `incident-timeline-expert` | Linux incident timeline reconstruction, event ordering, evidence correlation | — |
+| `maintenance-window-expert` | Linux maintenance window design, scheduling, pre/post tasks, rollback triggers | — |
+| `post-change-validation-expert` | Post-change health checks, service smoke tests, metric baselining, rollback triggers | — |
+| `preflight-check-expert` | Pre-change validation, dependency checks, backup verification, go/no-go gates | — |
+| `production-safety-expert` | Production guardrails, destructive-command review, blast-radius gating, safe rollout | — |
+| `risk-assessment-expert` | Linux change risk scoring, production impact estimation, mitigation planning | — |
+| `rollback-expert` | Linux rollback planning, recovery points, state restoration, safe cutover reversal | — |
+| `root-cause-expert` | Linux incident root-cause analysis, evidence-based diagnosis, contributing factors | — |
 | `ansible-expert` | Ansible playbook review, idempotency, privilege escalation, dry-run, safe fleet rollout | — |
 | `apache-expert` | Apache HTTPD vhosts, modules, MPM behavior, proxying, TLS, access control, safe reload | — |
 | `apparmor-expert` | AppArmor profiles, policy enforcement, audit mode, confinement, safe rule design | — |

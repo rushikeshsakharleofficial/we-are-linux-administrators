@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Browse all 40+ linux-admin skills organized by category: core operations, networking, storage, security, migration, DNS, containers, and more.">
-<meta property="og:title" content="linux-admin — Skills | 89 Expert Linux & SRE Skills">
+<meta property="og:title" content="linux-admin — Skills | 98 Expert Linux & SRE Skills">
 <meta property="og:description" content="Browse all 40+ linux-admin skills organized by category: core operations, networking, storage, security, migration, DNS, containers, and more.">
 <meta property="og:type" content="website">
-<title>linux-admin — Skills | 89 Expert Linux &amp; SRE Skills</title>
+<title>linux-admin — Skills | 98 Expert Linux &amp; SRE Skills</title>
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -51,7 +51,7 @@
 <div class="page-hero">
   <div class="container page-hero-content">
     <span class="section-eyebrow">Capabilities</span>
-    <h1 class="page-hero-title">89 Expert Skills</h1>
+    <h1 class="page-hero-title">98 Expert Skills</h1>
     <p class="page-hero-desc">Every skill is a focused expert module — deep knowledge for one domain. Invoke any skill directly from Claude Code with <code style="font-family:var(--font-mono);color:var(--accent-green)">/linux-admin:&lt;skill&gt;</code></p>
   </div>
 </div>
@@ -59,11 +59,11 @@
 <!-- STAT STRIP -->
 <div class="stat-strip">
   <div class="stat-item">
-    <div class="stat-num">89</div>
+    <div class="stat-num">98</div>
     <div class="stat-label">Total Skills</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num">14</div>
+    <div class="stat-num">15</div>
     <div class="stat-label">Categories</div>
   </div>
   <div class="stat-item">
@@ -97,6 +97,7 @@
       <button class="filter-tab" data-cat="webservers" role="tab" aria-selected="false">Web Servers</button>
       <button class="filter-tab" data-cat="automation" role="tab" aria-selected="false">Automation</button>
       <button class="filter-tab" data-cat="logging" role="tab" aria-selected="false">Logging</button>
+      <button class="filter-tab" data-cat="ops-workflow" role="tab" aria-selected="false">Ops Workflow</button>
     </div>
 
     <!-- Skills grid -->
@@ -910,6 +911,97 @@
         </div>
       </div>
 
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:change-plan-expert</div>
+        <div class="skill-card-desc">Linux production change planning — step ordering, blast-radius estimation, and approval gates.</div>
+        <div class="skill-card-when">Use when: planning a production change and need structured steps with rollback.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:change-plan-expert plan nginx config change on prod</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:incident-timeline-expert</div>
+        <div class="skill-card-desc">Linux incident timeline reconstruction — event ordering and evidence correlation.</div>
+        <div class="skill-card-when">Use when: rebuilding what happened and in what order during an incident.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:incident-timeline-expert reconstruct last night's outage</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:maintenance-window-expert</div>
+        <div class="skill-card-desc">Maintenance window design — scheduling, pre/post tasks, and rollback triggers.</div>
+        <div class="skill-card-when">Use when: planning a scheduled maintenance window with safe entry/exit gates.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:maintenance-window-expert design kernel patching window</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:post-change-validation-expert</div>
+        <div class="skill-card-desc">Post-change health checks — service smoke tests, metric baselining, and rollback triggers.</div>
+        <div class="skill-card-when">Use when: validating a production change completed successfully before closing the window.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:post-change-validation-expert validate after nginx reload</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:preflight-check-expert</div>
+        <div class="skill-card-desc">Pre-change validation — dependency checks, backup verification, and go/no-go gates.</div>
+        <div class="skill-card-when">Use when: running pre-checks before a production change to confirm readiness.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:preflight-check-expert before db migration on prod</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:production-safety-expert</div>
+        <div class="skill-card-desc">Production guardrails — destructive-command review, blast-radius gating, and safe rollout.</div>
+        <div class="skill-card-when">Use when: reviewing a command or script before running it on production.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:production-safety-expert review this iptables flush script</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:risk-assessment-expert</div>
+        <div class="skill-card-desc">Linux change risk scoring — production impact estimation and mitigation planning.</div>
+        <div class="skill-card-when">Use when: scoring the risk of a planned change before approval.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:risk-assessment-expert score kernel upgrade on db server</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:rollback-expert</div>
+        <div class="skill-card-desc">Linux rollback planning — recovery points, state restoration, and safe cutover reversal.</div>
+        <div class="skill-card-when">Use when: designing or executing a rollback after a failed production change.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:rollback-expert rollback failed nginx upgrade</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="ops-workflow">
+        <div class="skill-card-name">/linux-admin:root-cause-expert</div>
+        <div class="skill-card-desc">Linux incident root-cause analysis — evidence-based diagnosis and contributing factor identification.</div>
+        <div class="skill-card-when">Use when: investigating the root cause of an incident after containment.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:root-cause-expert analyse memory spike that killed mysqld</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
     </div><!-- /skills-grid -->
 
     <!-- Info box -->
@@ -930,7 +1022,7 @@
         <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
           <span class="badge badge-green">MIT License</span>
           <span class="badge badge-cyan">Claude Code</span>
-          <span class="badge badge-purple">89 Skills</span>
+          <span class="badge badge-purple">98 Skills</span>
         </div>
       </div>
       <div>
