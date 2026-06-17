@@ -1,45 +1,41 @@
-# we-are-linux-administrators Repository — linux-admin Claude Code Plugin
+<div align="center">
 
-> Repository/package name: `we-are-linux-administrators`. Claude plugin name and command namespace: `linux-admin`.
-A Claude Code plugin converted from the Linux Admin AI Skill package.
+# linux-admin
 
-It gives Claude Code a senior Linux administrator / SRE workflow:
+Senior Linux administrator and SRE workflow as a Claude Code plugin.
 
-- Read-only-first diagnostics.
-- Distro-aware command selection.
-- Evidence-based root-cause analysis.
-- Safety gates for disruptive/destructive commands.
-- Task-specific skills for boot, services, networking, performance, storage, permissions, packages, kernel, containers, auth, logging, and automation.
-- A custom `linux-sre` subagent.
-- Hook-based Bash safety guard.
-- Reusable triage scripts in `bin/`.
-- Codex/Gemini prompt adapters for non-Claude agents.
+[![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
+[![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
 
-## Install / test locally
+</div>
+
+## What is this?
+
+A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 30+ task-specific skills covering boot, networking, storage, permissions, containers, kernel, auth, logging, and more.
+
+## Quick Start
+
+Load the plugin from the repo directory:
 
 ```bash
 claude --plugin-dir ./we-are-linux-administrators
 ```
 
-Or test the zip directly with Claude Code versions that support plugin zip loading:
+Or from a zip:
 
 ```bash
 claude --plugin-dir ./we-are-linux-administrators.zip
 ```
 
-Inside Claude Code:
+Then invoke any skill inside Claude Code:
 
 ```text
 /linux-admin:diagnose nginx.service failed after config change
 /linux-admin:network can ping 8.8.8.8 but DNS fails
 /linux-admin:storage /var is full but du does not match df
-/linux-admin:systemd-expert nginx.service restart loop
-/linux-admin:limits-expert postgres too many open files
-/linux-admin:networking-expert server can ping IP but DNS and HTTPS fail
-/linux-admin:command-expert review this dangerous find/rm command
-/linux-admin:user-permissions-expert design least-privilege sudo for deploy user
-/linux-admin:file-permissions-expert fix app directory write permission safely
-/linux-admin:acl-permissions-expert explain why getfacl shows #effective:r--
+/linux-admin:firewall-expert lockout-safe nftables rule change
+/linux-admin:command-expert review this dangerous find/rm pipeline
 ```
 
 Reload after edits:
@@ -48,41 +44,58 @@ Reload after edits:
 /reload-plugins
 ```
 
-## Included skills
+## Skills
+
+### Core workflows
 
 | Skill | Use |
 |---|---|
-| `/linux-admin:diagnose` | Main router and general Linux issue triage |
-| `/linux-admin:boot` | Boot, emergency mode, initramfs, fstab, GRUB |
+| `/linux-admin:diagnose` | Main router — general Linux issue triage |
+| `/linux-admin:boot` | Boot failures, emergency mode, initramfs, fstab, GRUB |
 | `/linux-admin:service` | systemd services, restart loops, daemon crashes |
 | `/linux-admin:network` | IP, routing, DNS, firewall, sockets |
 | `/linux-admin:performance` | CPU, memory, OOM, load, latency |
 | `/linux-admin:storage` | Disk full, inode full, LVM, RAID, filesystem, SMART |
 | `/linux-admin:permissions` | POSIX permissions, ACLs, SELinux, AppArmor |
-| `/linux-admin:packages` | apt/dnf/rpm/zypper/pacman package issues |
+| `/linux-admin:packages` | apt / dnf / rpm / zypper / pacman package issues |
 | `/linux-admin:kernel` | Panic, lockup, kdump, call traces |
 | `/linux-admin:containers` | Docker, Podman, rootless, mounts, ports |
 | `/linux-admin:auth` | SSH, sudo, PAM, LDAP, SSSD, user access |
 | `/linux-admin:logs` | journald, rsyslog, monitoring, incident timeline |
 | `/linux-admin:automation` | Scripts, Ansible, fleet triage |
-| `/linux-admin:sysctl-expert` | Kernel runtime parameters, safe sysctl tuning, anti-overoptimization |
-| `/linux-admin:systemd-expert` | systemd unit design, restart loops, drop-ins, cgroups, hardening |
-| `/linux-admin:limits-expert` | ulimit, PAM limits, systemd Limit*, nofile/nproc/memlock sizing |
-| `/linux-admin:networking-expert` | Interfaces, routes, DNS, firewall, sockets, MTU, tc, ethtool, TCP evidence |
-| `/linux-admin:firewall-expert` | firewalld, nftables, iptables, UFW, ipset, NAT and lockout-safe changes |
-| `/linux-admin:fail2ban-expert` | Fail2Ban jails, filters, actions, regex testing and false-positive prevention |
-| `/linux-admin:command-expert` | Command review, safe shell pipelines, grep/sed/awk/find/xargs, destructive command safety |
-| `/linux-admin:user-permissions-expert` | Users, groups, sudoers, service accounts, login rights, offboarding |
-| `/linux-admin:file-permissions-expert` | POSIX modes, ownership, umask, special bits, safe recursive chmod/chown |
-| `/linux-admin:acl-permissions-expert` | POSIX ACLs, masks, default ACLs, getfacl/setfacl backup and restore |
 
-## Commands added to PATH
+### Expert skills
+
+| Skill | Use |
+|---|---|
+| `/linux-admin:sysctl-expert` | Kernel runtime parameters, safe sysctl tuning |
+| `/linux-admin:systemd-expert` | Unit design, restart loops, drop-ins, cgroups, hardening |
+| `/linux-admin:limits-expert` | ulimit, PAM limits, systemd Limit*, nofile/nproc sizing |
+| `/linux-admin:networking-expert` | Interfaces, routes, DNS, MTU, tc, ethtool, TCP evidence |
+| `/linux-admin:firewall-expert` | firewalld, nftables, iptables, UFW, ipset, NAT |
+| `/linux-admin:fail2ban-expert` | Jails, filters, actions, regex testing, false-positive prevention |
+| `/linux-admin:command-expert` | Command review, safe shell pipelines, destructive command safety |
+| `/linux-admin:user-permissions-expert` | Users, groups, sudoers, service accounts, offboarding |
+| `/linux-admin:file-permissions-expert` | POSIX modes, ownership, umask, safe recursive chmod/chown |
+| `/linux-admin:acl-permissions-expert` | POSIX ACLs, masks, default ACLs, getfacl/setfacl backup |
+| `/linux-admin:package-manager-expert` | Fix broken apt/dpkg/dnf transactions safely |
+| `/linux-admin:cron-scheduler-expert` | Debug cron jobs that silently don't run |
+| `/linux-admin:chrony-expert` | NTP drift and source quality auditing |
+| `/linux-admin:date-timectl-expert` | Timezone and NTP status fixes |
+| `/linux-admin:quota-expert` | User and project disk quota design |
+| `/linux-admin:disk-mounting-expert` | Validate fstab before reboot |
+| `/linux-admin:filesystem-expert` | Investigate df/du mismatches |
+| `/linux-admin:kernel-expert` | Kernel panic triage and kdump readiness |
+| `/linux-admin:tcp-expert` | Stateful TCP connection lifecycle issues |
+| `/linux-admin:udp-expert` | Datagram loss, buffer, fragmentation, NAT behavior |
+
+## Triage scripts
 
 When the plugin is active, `bin/` is added to Claude Code's Bash PATH:
 
 ```bash
-linux-triage
-linux-log-classifier
+linux-triage                   # general host triage snapshot
+linux-log-classifier           # classify journal/syslog errors by severity
 sysctl-expert-audit
 systemd-expert-audit
 limits-expert-audit
@@ -97,35 +110,63 @@ acl-permissions-expert-audit
 
 ## Safety hook
 
-The plugin includes a `PreToolUse` Bash safety hook:
+The plugin installs a `PreToolUse` Bash safety hook:
 
-- Class 3 destructive commands are denied by default.
-- Class 2 disruptive commands ask for user confirmation.
-- Read-only commands pass without modification.
+- **Class 3** destructive commands are denied outright.
+- **Class 2** disruptive commands require explicit user confirmation.
+- **Read-only** commands pass through without interruption.
 
-This hook is a guardrail, not a replacement for human review.
+This is a guardrail, not a replacement for human review.
 
-## Codex/Gemini use
+## Non-Claude agents
 
-Claude Code plugins are Claude-specific. For other agents, use:
+Claude Code plugins are Claude-specific. For Codex or Gemini, use the adapter files:
 
-- `codex/AGENTS.md`
-- `gemini/GEMINI.md`
-- the task files in `docs/tasks/`
+- `codex/AGENTS.md` — Codex prompt adapter
+- `gemini/GEMINI.md` — Gemini prompt adapter
+- `docs/tasks/` — standalone task files for any agent
 
-## TCP and UDP experts
+## Project Structure
 
-TCP and UDP are intentionally split into separate skills. Use `tcp-expert` for stateful connection lifecycle issues and `udp-expert` for datagram/loss/buffer/fragmentation/NAT behavior.
-
-## Additional expert commands
-
-```text
-/linux-admin:package-manager-expert fix broken apt/dpkg transaction safely
-/linux-admin:cron-scheduler-expert debug why backup cron did not run
-/linux-admin:chrony-expert audit NTP drift and source quality
-/linux-admin:date-timectl-expert fix timezone/NTP status safely
-/linux-admin:quota-expert design user/project quota safely
-/linux-admin:disk-mounting-expert validate fstab before reboot
-/linux-admin:filesystem-expert investigate df and du mismatch
-/linux-admin:kernel-expert triage kernel panic and kdump readiness
 ```
+agents/          linux-sre subagent definition
+bin/             triage scripts added to PATH
+codex/           Codex/OpenAI adapter prompts
+docs/            skill documentation and task files
+gemini/          Gemini adapter prompts
+hooks/           PreToolUse safety hook
+scripts/         utility and validation scripts
+skills/          skill definitions (30+ skills)
+templates/       reusable prompt templates
+tests/           plugin validation tests
+```
+
+## Documentation
+
+| Resource | Description |
+|---|---|
+| [`docs/core/`](docs/core/) | Operating principles, distro detection, safety policy, diagnostic method |
+| [`docs/tasks/`](docs/tasks/) | Standalone task files for non-Claude agents |
+| [`docs/prompts/`](docs/prompts/) | Prompt templates |
+| [`codex/AGENTS.md`](codex/AGENTS.md) | Codex adapter |
+| [`gemini/GEMINI.md`](gemini/GEMINI.md) | Gemini adapter |
+
+## Contributing
+
+Open a PR with a new skill directory under `skills/`, a matching doc under `docs/`, and a test in `tests/`. Follow the naming pattern of existing skills (`<topic>-expert` for deep-dive skills, plain topic names for workflow skills).
+
+<a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=rushikeshsakharleofficial/we-are-linux-administrators" />
+</a>
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=rushikeshsakharleofficial/we-are-linux-administrators&type=Date)](https://star-history.com/#rushikeshsakharleofficial/we-are-linux-administrators&Date)
+
+</div>
