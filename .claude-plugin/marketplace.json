@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Linux administrator and SRE skills for Claude Code — diagnostics, networking, storage, security, kernel, containers, and more.",
-    "version": "1.14.2"
+    "version": "1.14.3"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
       "source": "./",
       "skills": "./skills/",
       "description": "Senior Linux admin and SRE workflow. 30+ expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, and automation.",
-      "version": "1.14.2",
+      "version": "1.14.3",
       "author": {
         "name": "Rushikesh Sakharle",
         "email": "rishiananya123@gmail.com"
