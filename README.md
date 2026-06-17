@@ -12,7 +12,7 @@ Senior Linux administrator and SRE workflow as a Claude Code plugin.
 
 ## What is this?
 
-A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 58 task-specific skills covering boot, networking, storage, LVM, permissions, containers, kernel, auth, logging, auditd, rsyslog, logrotate, MySQL, Nginx, PHP-FPM, backup/restore, incident response, SSH hardening, tcpdump, memory, swap, NTP, NAT, shell config, Bash/shell scripting, token-saving log search, and more.
+A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 89 task-specific skills covering boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes nodes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, SSH hardening, tcpdump, Ansible, patching, SELinux, AppArmor, capacity planning, and more.
 
 ## Quick Start
 

@@ -134,3 +134,34 @@ All expert modules follow the same policy:
 /linux-admin:ssh-hardening-expert <SSH hardening or key auth task>
 /linux-admin:tcpdump-expert <packet capture or tcpdump filter task>
 ```
+| `ansible-expert` | Ansible playbook review, idempotency, privilege escalation, dry-run, safe fleet rollout | — |
+| `apache-expert` | Apache HTTPD vhosts, modules, MPM behavior, proxying, TLS, access control, safe reload | — |
+| `apparmor-expert` | AppArmor profiles, policy enforcement, audit mode, confinement, safe rule design | — |
+| `capacity-planning-expert` | CPU/memory/disk capacity projection, trend analysis, utilization thresholds, scaling triggers | — |
+| `cpu-expert` | CPU saturation, steal time, softirq, run queue pressure, scheduler symptoms, safe tuning | — |
+| `docker-expert` | Docker daemon, containers, images, volumes, networks, logs, resource limits, safe cleanup | — |
+| `haproxy-expert` | HAProxy config, backends, health checks, ACLs, SSL offload, stick tables, safe reload | — |
+| `io-wait-expert` | I/O wait diagnosis, iowait vs blocking vs slow disk, iostat/blktrace evidence | — |
+| `iproute-expert` | ip command, routes, rules, namespaces, traffic control, network namespace isolation | — |
+| `iscsi-expert` | iSCSI initiator/target, multipath, login issues, LUN management, safe disconnect | — |
+| `kubernetes-node-expert` | Kubernetes node health, kubelet, CNI, disk/memory pressure, taints, safe remediation | — |
+| `load-average-expert` | Load average interpretation, CPU vs I/O vs fork pressure, uptime/vmstat evidence | — |
+| `multipath-expert` | Device multipath, dm-multipath config, path failures, failover, WWID binding | — |
+| `nfs-expert` | NFS exports, mounts, stale handles, rpcbind, performance, safe unmount/remount | — |
+| `pam-expert` | PAM stack, module order, auth/account/session/password chains, common pitfalls | — |
+| `patching-expert` | Safe OS patching, rollback planning, kernel lockstep, pre/post validation gates | — |
+| `podman-expert` | Podman rootless, pods, volumes, systemd quadlet/service integration | — |
+| `postgresql-expert` | PostgreSQL health, connections, WAL/checkpoint, vacuum, replication lag, backup/restore | — |
+| `process-expert` | Process states, zombie/orphan/stuck processes, signals, limits, strace/lsof evidence | — |
+| `proxy-expert` | Forward/reverse proxy config, SSL termination, upstream health, caching, headers | — |
+| `raid-expert` | mdadm RAID arrays, degraded state, rebuild, superblock recovery, safe replacement | — |
+| `redis-expert` | Redis memory, eviction policy, persistence, replication, Sentinel, latency, config review | — |
+| `routing-expert` | Linux routing table, policy routing, ECMP, static/dynamic route troubleshooting | — |
+| `runbook-expert` | Structured runbook design, incident steps, validation gates, rollback procedures | — |
+| `samba-expert` | Samba shares, auth, winbind, AD integration, permissions, VFS objects | — |
+| `selinux-expert` | SELinux AVC denials, policy modules, file contexts, booleans, safe enforcement | — |
+| `smart-disk-expert` | SMART data, disk health attributes, failing drive detection, safe replacement planning | — |
+| `sssd-ldap-expert` | SSSD, LDAP, Kerberos, AD domain join, id mapping, offline auth, cache refresh | — |
+| `sudoers-expert` | sudoers rules, NOPASSWD, Defaults, cmnd aliases, safe privilege delegation | — |
+| `vlan-bonding-expert` | VLAN tagging, bonding modes, team config, failover testing, 802.3ad | — |
+| `vulnerability-scan-expert` | Vulnerability scan evidence triage, CVE prioritization, remediation planning | — |

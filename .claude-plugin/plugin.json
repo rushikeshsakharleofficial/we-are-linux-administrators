@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 58 task-specific skills for boot, networking, storage, LVM, permissions, containers, kernel, auth, logging, auditd, rsyslog, logrotate, MySQL, Nginx, PHP-FPM, backup/restore, incident response, SSH hardening, tcpdump, memory, swap, NTP, NAT, shell config, Bash/shell scripting, and token-saving log search.",
-  "version": "1.15.0",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 89 task-specific skills for boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, backup/restore, incident response, SSH hardening, tcpdump, ansible, patching, SELinux, AppArmor, and more.",
+  "version": "1.16.0",
   "author": {
     "name": "Rushikesh Sakharle",
     "email": "rishiananya123@gmail.com"
@@ -200,7 +200,36 @@
     "php-fpm",
     "rsyslog",
     "ssh-hardening",
-    "packet-capture"
+    "packet-capture",
+    "ansible",
+    "apache",
+    "capacity-planning",
+    "cpu-saturation",
+    "docker",
+    "haproxy",
+    "io-wait",
+    "iscsi",
+    "kubernetes-node",
+    "kubelet",
+    "load-average",
+    "multipath",
+    "nfs",
+    "pam",
+    "podman",
+    "postgresql",
+    "process",
+    "proxy",
+    "raid",
+    "redis",
+    "routing",
+    "runbook",
+    "samba",
+    "smart-disk",
+    "sssd",
+    "ldap",
+    "vlan",
+    "bonding",
+    "vulnerability-scan"
   ],
   "displayName": "Linux Admin"
 }
