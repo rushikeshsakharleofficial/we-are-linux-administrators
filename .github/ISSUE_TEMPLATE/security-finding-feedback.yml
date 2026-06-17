@@ -1,0 +1,101 @@
+name: Security finding feedback
+description: Share an approved sanitized finding from linux-admin security-expert.
+title: "[Security feedback]: "
+labels:
+  - security-feedback
+  - skill-training
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve linux-admin.
+
+        Submit this form only for findings from systems you own or are authorized to assess.
+        The plugin must not submit this issue automatically. Review and approve the content before submitting.
+
+  - type: checkboxes
+    id: approval
+    attributes:
+      label: User approval
+      options:
+        - label: I reviewed this issue content and approve submitting it to this public GitHub repository.
+          required: true
+        - label: I removed private or sensitive details from this report.
+          required: true
+        - label: This finding is from a system I own or am authorized to assess.
+          required: true
+
+  - type: input
+    id: skill
+    attributes:
+      label: Skill used
+      placeholder: security-expert, sysctl-expert, limits-expert, systemd-expert, etc.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Finding category
+      options:
+        - firewall or exposure
+        - SSH or authentication
+        - web or TLS
+        - sysctl or kernel hardening
+        - limits or resource ceiling
+        - systemd hardening
+        - audit logging or detection
+        - package or patching
+        - permissions or sudo
+        - false positive
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Sanitized finding summary
+      description: Explain the finding without private details.
+      placeholder: What was expected, what happened, and why it matters.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Add minimal safe output only.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected plugin behavior
+      description: What should linux-admin have checked, warned about, or recommended?
+    validations:
+      required: true
+
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Suggested improvement
+      description: How should the skill, checklist, template, or documentation improve?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity estimate
+      options:
+        - critical
+        - high
+        - medium
+        - low
+        - informational
+        - unsure
+    validations:
+      required: true
