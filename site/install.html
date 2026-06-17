@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Install the linux-admin Claude Code plugin in under 30 seconds. Three installation methods: CLI marketplace, slash commands, or local clone.">
+<meta property="og:title" content="linux-admin — Install | Get Started in 30 Seconds">
+<meta property="og:description" content="Install the linux-admin Claude Code plugin in under 30 seconds. Three installation methods: CLI marketplace, slash commands, or local clone.">
+<meta property="og:type" content="website">
+<title>linux-admin — Install | Get Started in 30 Seconds</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo" aria-label="linux-admin home"><span class="slash">/</span>linux-admin</a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="nav-link" data-page="index.html">Home</a></li>
+      <li><a href="skills.html" class="nav-link" data-page="skills.html">Skills</a></li>
+      <li><a href="install.html" class="nav-link active" data-page="install.html">Install</a></li>
+      <li><a href="architecture.html" class="nav-link" data-page="architecture.html">Architecture</a></li>
+      <li><a href="migration.html" class="nav-link" data-page="migration.html">Migration</a></li>
+      <li><a href="security.html" class="nav-link" data-page="security.html">Security</a></li>
+      <li><a href="examples.html" class="nav-link" data-page="examples.html">Examples</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Switch theme">🌙</button>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="nav-cta">★ GitHub</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html" class="nav-link" data-page="index.html">Home</a>
+  <a href="skills.html" class="nav-link" data-page="skills.html">Skills</a>
+  <a href="install.html" class="nav-link" data-page="install.html">Install</a>
+  <a href="architecture.html" class="nav-link" data-page="architecture.html">Architecture</a>
+  <a href="migration.html" class="nav-link" data-page="migration.html">Migration</a>
+  <a href="security.html" class="nav-link" data-page="security.html">Security</a>
+  <a href="examples.html" class="nav-link" data-page="examples.html">Examples</a>
+  <a href="about.html" class="nav-link" data-page="about.html">About</a>
+  <button class="theme-toggle" onclick="document.getElementById('theme-toggle').click()">🌙 Toggle theme</button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container page-hero-content">
+    <span class="section-eyebrow">Get started</span>
+    <h1 class="page-hero-title">Install in 30 seconds</h1>
+    <p class="page-hero-desc">Three ways to install the linux-admin plugin. Choose the method that fits your workflow. The CLI marketplace method is recommended for most users.</p>
+  </div>
+</div>
+
+<!-- ── SECTION 1: INSTALL METHODS ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Methods</span>
+      <h2 class="section-title">Three install methods</h2>
+      <p class="section-desc">All three methods produce the same result — pick whichever fits your workflow.</p>
+    </div>
+
+    <div class="grid grid-3">
+
+      <!-- Method 1: CLI Marketplace -->
+      <div class="card reveal">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+          <div>
+            <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-green);margin-bottom:4px;">CLI Marketplace</div>
+            <div class="card-body">Recommended for most users</div>
+          </div>
+          <span class="badge badge-green">Recommended</span>
+        </div>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="tdot tdot-r"></span>
+            <span class="tdot tdot-y"></span>
+            <span class="tdot tdot-g"></span>
+            <span class="terminal-title">terminal</span>
+          </div>
+          <div class="terminal-body" style="position:relative;">
+            <button class="copy-btn" aria-label="Copy CLI install commands" data-copy-target="cli-method-text" style="position:absolute;top:8px;right:10px;">copy</button>
+            <div class="tl"><span class="tp">#</span><span class="tc" style="color:var(--text-dim);"> Add marketplace</span></div>
+            <div class="tl"><span class="tp">$</span><span class="tc"> claude plugin marketplace add <span style="color:var(--accent-cyan);">rushikeshsakharleofficial/we-are-linux-administrators</span></span></div>
+            <br>
+            <div class="tl"><span class="tp">#</span><span class="tc" style="color:var(--text-dim);"> Install plugin</span></div>
+            <div class="tl"><span class="tp">$</span><span class="tc"> claude plugin install <span style="color:var(--accent-cyan);">linux-admin@we-are-linux-administrators</span></span></div>
+          </div>
+        </div>
+        <textarea id="cli-method-text" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1">claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+claude plugin install linux-admin@we-are-linux-administrators</textarea>
+      </div>
+
+      <!-- Method 2: Slash commands -->
+      <div class="card reveal d1">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+          <div>
+            <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-cyan);margin-bottom:4px;">Slash Commands</div>
+            <div class="card-body">Inside an active Claude Code session</div>
+          </div>
+          <span class="badge badge-cyan">In-session</span>
+        </div>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="tdot tdot-r"></span>
+            <span class="tdot tdot-y"></span>
+            <span class="tdot tdot-g"></span>
+            <span class="terminal-title">claude code</span>
+          </div>
+          <div class="terminal-body" style="position:relative;">
+            <button class="copy-btn" aria-label="Copy slash command install" data-copy-target="slash-method-text" style="position:absolute;top:8px;right:10px;">copy</button>
+            <div class="tl"><span class="tp">#</span><span class="tc" style="color:var(--text-dim);"> Run inside Claude Code session</span></div>
+            <div class="tl"><span class="tp">›</span><span class="tc"> /plugin marketplace add <span style="color:var(--accent-cyan);">rushikeshsakharleofficial/we-are-linux-administrators</span></span></div>
+            <br>
+            <div class="tl"><span class="tp">›</span><span class="tc"> /plugin install <span style="color:var(--accent-cyan);">linux-admin@we-are-linux-administrators</span></span></div>
+          </div>
+        </div>
+        <textarea id="slash-method-text" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1">/plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+/plugin install linux-admin@we-are-linux-administrators</textarea>
+      </div>
+
+      <!-- Method 3: Local clone -->
+      <div class="card reveal d2">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+          <div>
+            <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-purple);margin-bottom:4px;">Local Clone</div>
+            <div class="card-body">For contributors or offline use</div>
+          </div>
+          <span class="badge badge-purple">Contributors</span>
+        </div>
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="tdot tdot-r"></span>
+            <span class="tdot tdot-y"></span>
+            <span class="tdot tdot-g"></span>
+            <span class="terminal-title">terminal</span>
+          </div>
+          <div class="terminal-body" style="position:relative;">
+            <button class="copy-btn" aria-label="Copy local clone commands" data-copy-target="local-method-text" style="position:absolute;top:8px;right:10px;">copy</button>
+            <div class="tl"><span class="tp">$</span><span class="tc"> git clone <span style="color:var(--accent-cyan);">https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git</span></span></div>
+            <br>
+            <div class="tl"><span class="tp">$</span><span class="tc"> claude --plugin-dir <span style="color:var(--accent-cyan);">./we-are-linux-administrators</span></span></div>
+          </div>
+        </div>
+        <textarea id="local-method-text" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1">git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
+claude --plugin-dir ./we-are-linux-administrators</textarea>
+      </div>
+
+    </div><!-- /grid -->
+  </div>
+</section>
+
+<!-- ── SECTION 2: VALIDATE ── -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Validate</span>
+      <h2 class="section-title">Confirm the install</h2>
+      <p class="section-desc">Run these two checks after installation to confirm everything is wired up correctly.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="reveal">
+        <h3 style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:10px;">1. Validate plugin JSON</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">Check that the plugin manifest is valid JSON. No output means success.</p>
+        <div class="command-block">
+          <button class="copy-btn" aria-label="Copy validate command">copy</button>
+          <span class="cp">$</span> python3 -m json.tool .claude-plugin/plugin.json &gt;/dev/null<br>
+          <span class="cc"># Should print nothing (valid JSON)</span>
+        </div>
+      </div>
+
+      <div class="reveal d1">
+        <h3 style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:10px;">2. Reload plugins</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">Inside Claude Code, run <code style="font-family:var(--font-mono);color:var(--accent-green)">/reload-plugins</code> to pick up the new installation without restarting.</p>
+        <div class="command-block">
+          <button class="copy-btn" aria-label="Copy reload command">copy</button>
+          <span class="cp">›</span> /reload-plugins<br>
+          <span class="cc"># Inside Claude Code — reloads all plugins</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box info-box-green" style="margin-top:32px;">
+      <p>If plugin.json validation fails, re-clone the repository — the file may have been corrupted during download. If <code style="font-family:var(--font-mono);color:var(--accent-green)">/reload-plugins</code> reports no skills found, verify that the plugin directory path is correct and that <code style="font-family:var(--font-mono);color:var(--accent-green)">plugin.json</code> exists at the root of the repository.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 3: FIRST COMMANDS ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">First steps</span>
+      <h2 class="section-title">First commands to try</h2>
+      <p class="section-desc">Paste any of these directly into Claude Code. Each exercises a different category of expertise.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:760px;">
+
+      <div class="command-block reveal">
+        <button class="copy-btn" aria-label="Copy diagnose command">copy</button>
+        <span class="cp">›</span> /linux-admin:diagnose <span class="ch">nginx.service failed after config change</span>
+      </div>
+
+      <div class="command-block reveal d1">
+        <button class="copy-btn" aria-label="Copy network command">copy</button>
+        <span class="cp">›</span> /linux-admin:network <span class="ch">can ping 8.8.8.8 but DNS fails</span>
+      </div>
+
+      <div class="command-block reveal d2">
+        <button class="copy-btn" aria-label="Copy storage command">copy</button>
+        <span class="cp">›</span> /linux-admin:storage <span class="ch">/var is full but du does not match df</span>
+      </div>
+
+      <div class="command-block reveal d3">
+        <button class="copy-btn" aria-label="Copy kernel command">copy</button>
+        <span class="cp">›</span> /linux-admin:kernel-expert <span class="ch">triage kernel panic</span>
+      </div>
+
+      <div class="command-block reveal d4">
+        <button class="copy-btn" aria-label="Copy migration command">copy</button>
+        <span class="cp">›</span> /linux-admin:migration-expert <span class="ch">plan CentOS 7 to Rocky 9 migration</span>
+      </div>
+
+    </div>
+
+    <p style="font-size:0.78rem;color:var(--text-dim);margin-top:20px;">
+      You can also use skills without a colon prefix in conversational form: <span style="color:var(--text-muted);">just describe the problem and mention the skill name</span>.
+      The structured <code style="font-family:var(--font-mono);color:var(--accent-green)">/linux-admin:skill-name</code> form invokes the expert module directly.
+    </p>
+  </div>
+</section>
+
+<!-- ── SECTION 4: LOCAL PREVIEW ── -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Contributors</span>
+      <h2 class="section-title">Local preview</h2>
+      <p class="section-desc">Working on the plugin or this website? Serve the site locally to preview changes before pushing.</p>
+    </div>
+
+    <div style="max-width:600px;">
+      <div class="command-block reveal">
+        <button class="copy-btn" aria-label="Copy local preview command">copy</button>
+        <span class="cc"># Serve the site locally</span><br>
+        <span class="cp">$</span> cd site<br>
+        <span class="cp">$</span> python3 -m http.server 8080<br>
+        <span class="cc"># Open http://localhost:8080</span>
+      </div>
+    </div>
+
+    <div class="info-box info-box-amber" style="margin-top:24px;max-width:600px;">
+      <p>The site uses only static HTML, CSS, and vanilla JS — no build step required. Any browser-served at <code style="font-family:var(--font-mono);color:var(--accent-amber)">http://localhost:8080</code> will load all assets correctly including fonts, theme toggle, and copy buttons.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 5: RELOAD AFTER EDITS ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Development</span>
+      <h2 class="section-title">Reload after skill edits</h2>
+      <p class="section-desc">When you edit a skill file in the repository, reload the plugin inside your Claude Code session to pick up the changes immediately.</p>
+    </div>
+
+    <div style="max-width:520px;">
+      <div class="command-block reveal">
+        <button class="copy-btn" aria-label="Copy reload plugins command">copy</button>
+        <span class="cp">›</span> /reload-plugins<br>
+        <span class="cc"># Reloads all installed plugins from disk</span>
+      </div>
+    </div>
+
+    <p style="font-size:0.78rem;color:var(--text-dim);margin-top:16px;max-width:520px;line-height:1.65;">
+      No restart required. Claude Code hot-reloads plugin skills on demand. Changes to <code style="font-family:var(--font-mono);">.md</code> skill files in the
+      <code style="font-family:var(--font-mono);">skills/</code> directory take effect after the next <code style="font-family:var(--font-mono);color:var(--accent-green)">/reload-plugins</code>.
+    </p>
+  </div>
+</section>
+
+<!-- ── SECTION 6: DISTRO COMPATIBILITY ── -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">Compatibility</span>
+      <h2 class="section-title">Distro compatibility</h2>
+      <p class="section-desc">linux-admin detects your distribution automatically and adapts commands, package manager calls, and file paths accordingly.</p>
+    </div>
+
+    <div class="reveal" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;">
+      <span class="badge badge-green" style="font-size:0.78rem;padding:5px 13px;">Ubuntu 20.04</span>
+      <span class="badge badge-green" style="font-size:0.78rem;padding:5px 13px;">Ubuntu 22.04</span>
+      <span class="badge badge-green" style="font-size:0.78rem;padding:5px 13px;">Ubuntu 24.04</span>
+      <span class="badge badge-cyan" style="font-size:0.78rem;padding:5px 13px;">Debian 11</span>
+      <span class="badge badge-cyan" style="font-size:0.78rem;padding:5px 13px;">Debian 12</span>
+      <span class="badge badge-red" style="font-size:0.78rem;padding:5px 13px;">RHEL 8</span>
+      <span class="badge badge-red" style="font-size:0.78rem;padding:5px 13px;">RHEL 9</span>
+      <span class="badge badge-red" style="font-size:0.78rem;padding:5px 13px;">CentOS Stream</span>
+      <span class="badge badge-amber" style="font-size:0.78rem;padding:5px 13px;">Rocky Linux</span>
+      <span class="badge badge-amber" style="font-size:0.78rem;padding:5px 13px;">AlmaLinux</span>
+      <span class="badge badge-amber" style="font-size:0.78rem;padding:5px 13px;">Fedora 38+</span>
+      <span class="badge badge-purple" style="font-size:0.78rem;padding:5px 13px;">SUSE / openSUSE</span>
+      <span class="badge badge-purple" style="font-size:0.78rem;padding:5px 13px;">Arch Linux</span>
+      <span class="badge badge-purple" style="font-size:0.78rem;padding:5px 13px;">Alpine Linux</span>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <div class="card-icon">🐧</div>
+        <div class="card-title">Distro detection</div>
+        <p class="card-body">Reads <code style="font-family:var(--font-mono);">/etc/os-release</code> to identify the distro and version, then selects the correct package manager and init system.</p>
+      </div>
+      <div class="card reveal d1">
+        <div class="card-icon">📦</div>
+        <div class="card-title">Package manager aware</div>
+        <p class="card-body">Switches between apt, dnf, rpm, zypper, and pacman automatically. Never uses the wrong package manager for your distro.</p>
+      </div>
+      <div class="card reveal d2">
+        <div class="card-icon">🗂️</div>
+        <div class="card-title">Path aware</div>
+        <p class="card-body">Knows that RHEL uses <code style="font-family:var(--font-mono);">/etc/sysconfig/</code> and Debian uses <code style="font-family:var(--font-mono);">/etc/default/</code>. No manual path correction needed.</p>
+      </div>
+    </div>
+
+    <div class="info-box info-box-green" style="margin-top:32px;">
+      <p>If you run on a distro not listed here, linux-admin falls back to POSIX-safe commands and flags when it cannot detect the distribution. Open an issue on GitHub if you encounter distro-specific problems — contributions adding new distro support are welcome.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">/linux-admin</div>
+        <p class="footer-brand-desc">AI-powered Linux administration expertise for Claude Code. Read-only-first, evidence-based, safety-gated.</p>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
+          <span class="badge badge-green">MIT License</span>
+          <span class="badge badge-cyan">Claude Code</span>
+          <span class="badge badge-purple">30+ Skills</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Pages</div>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="install.html">Install</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">More</div>
+        <ul class="footer-links-list">
+          <li><a href="migration.html">Migration</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Links</div>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub Repo</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">Usage Guide</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Rushikesh Sakharle · rushikeshsakharleofficial/we-are-linux-administrators</p>
+      <p class="footer-safety">⚡ read-only-first · evidence-before-change · no blind rm -rf</p>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/copy.js"></script>
+<script src="assets/js/animations.js"></script>
+
+</body>
+</html>

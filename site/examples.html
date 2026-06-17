@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="12 real Linux administration scenarios with the best linux-admin skill, investigation method, and expected answer style for each.">
+<meta property="og:title" content="linux-admin — Examples | 12 Real Linux Admin Scenarios">
+<meta property="og:description" content="12 real Linux administration scenarios with the best linux-admin skill, investigation method, and expected answer style for each.">
+<meta property="og:type" content="website">
+<title>linux-admin — Examples | 12 Real Linux Admin Scenarios</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><span class="slash">/</span>linux-admin</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="skills.html" class="nav-link">Skills</a></li>
+      <li><a href="install.html" class="nav-link">Install</a></li>
+      <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+      <li><a href="migration.html" class="nav-link">Migration</a></li>
+      <li><a href="security.html" class="nav-link">Security</a></li>
+      <li><a href="examples.html" class="nav-link active">Examples</a></li>
+      <li><a href="about.html" class="nav-link">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀</button>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="nav-cta">★ GitHub</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="skills.html" class="nav-link">Skills</a>
+  <a href="install.html" class="nav-link">Install</a>
+  <a href="architecture.html" class="nav-link">Architecture</a>
+  <a href="migration.html" class="nav-link">Migration</a>
+  <a href="security.html" class="nav-link">Security</a>
+  <a href="examples.html" class="nav-link active">Examples</a>
+  <a href="about.html" class="nav-link">About</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container page-hero-content">
+    <span class="section-eyebrow">In practice</span>
+    <h1 class="page-hero-title">12 Real Scenarios</h1>
+    <p class="page-hero-desc">Common Linux problems and exactly how to approach them with linux-admin. Each shows the right skill, investigation method, and expected answer.</p>
+  </div>
+</div>
+
+<!-- SCENARIOS -->
+<section class="section">
+  <div class="container">
+    <div class="grid grid-3" style="gap:14px">
+
+      <!-- 1 -->
+      <div class="scenario-card reveal">
+        <div class="scenario-header">
+          <div class="scenario-num">1</div>
+          <div class="scenario-problem">Nginx service failed after config change</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:service</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">journalctl -xe → nginx -t → find bad directive</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Exact bad line in config + corrected directive</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:service nginx.service failed after config change</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:service nginx.service failed after config change');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="scenario-card reveal d1">
+        <div class="scenario-header">
+          <div class="scenario-num">2</div>
+          <div class="scenario-problem">Server can ping IP but DNS fails</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:network</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">check resolv.conf → test stub resolver → trace systemd-resolved</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Root cause + fix command</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:network can ping 8.8.8.8 but DNS fails</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:network can ping 8.8.8.8 but DNS fails');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="scenario-card reveal d2">
+        <div class="scenario-header">
+          <div class="scenario-num">3</div>
+          <div class="scenario-problem">Disk full but du and df don't match</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:filesystem-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">df -h → du -sh → lsof +L1 → find deleted-open file</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">PID holding file + kill/HUP command</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:filesystem-expert /var full but du shows only 60%</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:filesystem-expert /var full but du shows only 60%');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="scenario-card reveal">
+        <div class="scenario-header">
+          <div class="scenario-num">4</div>
+          <div class="scenario-problem">PostgreSQL "too many open files"</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:limits-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">systemctl show | grep LimitNOFILE → ulimit → pam.d</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Correct LimitNOFILE in systemd drop-in</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:limits-expert postgres FATAL: too many open files</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:limits-expert postgres FATAL: too many open files');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="scenario-card reveal d1">
+        <div class="scenario-header">
+          <div class="scenario-num">5</div>
+          <div class="scenario-problem">Fail2Ban not banning SSH attempts</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:fail2ban-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">fail2ban-client status sshd → check filter regex → test regex</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Fixed filter regex or missing log path</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:fail2ban-expert SSH brute-force not being banned</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:fail2ban-expert SSH brute-force not being banned');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="scenario-card reveal d2">
+        <div class="scenario-header">
+          <div class="scenario-num">6</div>
+          <div class="scenario-problem">Firewall rule blocking HTTPS after deploy</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:firewall-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">nft list ruleset → trace HTTPS chain → find deny rule</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Exact blocking rule + lockout-safe fix</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:firewall-expert lockout-safe HTTPS blocked after deploy</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:firewall-expert lockout-safe HTTPS blocked after deploy');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="scenario-card reveal">
+        <div class="scenario-header">
+          <div class="scenario-num">7</div>
+          <div class="scenario-problem">fstab entry causing boot failure</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:disk-mounting-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">findmnt --verify → check UUID → check fstype → validate options</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Corrected fstab line with explanation</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:disk-mounting-expert validate fstab before reboot</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:disk-mounting-expert validate fstab before reboot');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="scenario-card reveal d1">
+        <div class="scenario-header">
+          <div class="scenario-num">8</div>
+          <div class="scenario-problem">Kernel panic after kernel upgrade</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:kernel-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">dmesg → crash dump → call trace → identify module</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Module name + rebuild/rollback command</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:kernel-expert triage kernel panic after upgrade</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:kernel-expert triage kernel panic after upgrade');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="scenario-card reveal d2">
+        <div class="scenario-header">
+          <div class="scenario-num">9</div>
+          <div class="scenario-problem">SFTP migration with users and keys</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:migration-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">inventory users/keys → plan transfer → validate chroot jails</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Ordered migration runbook</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:migration-expert SFTP server migration preserve chroot jails</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:migration-expert SFTP server migration preserve chroot jails');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="scenario-card reveal">
+        <div class="scenario-header">
+          <div class="scenario-num">10</div>
+          <div class="scenario-problem">Broken APT/DNF transaction</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:package-manager-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">apt-get -f install → dpkg --configure -a → check lock files</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Exact fix sequence for the transaction state</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:package-manager-expert apt transaction interrupted</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:package-manager-expert apt transaction interrupted');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="scenario-card reveal d1">
+        <div class="scenario-header">
+          <div class="scenario-num">11</div>
+          <div class="scenario-problem">Cloudflare DNS audit</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:cf-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">check A/AAAA → proxy status → TTLs → page rules</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">DNS audit report with findings</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:cf-expert audit DNS for example.com</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:cf-expert audit DNS for example.com');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="scenario-card reveal d2">
+        <div class="scenario-header">
+          <div class="scenario-num">12</div>
+          <div class="scenario-problem">Chrony/NTP clock drift</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span class="scenario-row-label">Skill</span>
+            <span class="scenario-row-val">/linux-admin:chrony-expert</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Method</span>
+            <span class="scenario-row-val">chronyc tracking → chronyc sources -v → check pool reachability</span>
+          </div>
+          <div class="scenario-row">
+            <span class="scenario-row-label">Answer</span>
+            <span class="scenario-row-val">Root cause + chrony.conf fix</span>
+          </div>
+          <div class="scenario-cmd">
+            <span>/linux-admin:chrony-expert clock drifting 200ms per hour</span>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('/linux-admin:chrony-expert clock drifting 200ms per hour');this.textContent='copied';setTimeout(()=>this.textContent='copy',2000)">copy</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">/ linux-admin</div>
+        <p class="footer-brand-desc">Senior Linux administrator and SRE workflow as a Claude Code plugin. Built for engineers who need AI that actually knows Linux.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="badge badge-green">MIT License</span>
+          <span class="badge badge-cyan">Claude Code</span>
+          <span class="badge badge-purple">30+ Skills</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Install</div>
+        <ul class="footer-links-list">
+          <li><a href="install.html">Quick Start</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub Repo</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">Usage Guide</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Pages</div>
+        <ul class="footer-links-list">
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="migration.html">Migration</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Docs</div>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/EXPERT_MODULE_INDEX.md" target="_blank" rel="noopener">Expert Index</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/docs/core" target="_blank" rel="noopener">Core Principles</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/codex/AGENTS.md" target="_blank" rel="noopener">Codex Adapter</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">Built with care by <a href="https://github.com/rushikeshsakharleofficial" target="_blank" rel="noopener" style="color:var(--accent-green);text-decoration:none">Rushikesh Sakharle</a> · MIT License</span>
+      <span class="footer-safety">// 12 real scenarios · evidence-first · safety-gated</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/animations.js"></script>
+<script src="assets/js/copy.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

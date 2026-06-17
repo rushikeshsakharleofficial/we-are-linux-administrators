@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin is an open-source Claude Code plugin maintained by Rushikesh Sakharle. It gives AI agents deep Linux administration expertise for real-world SRE workflows.">
+<meta property="og:title" content="linux-admin — About | Project Mission & Audience">
+<meta property="og:description" content="linux-admin is an open-source Claude Code plugin maintained by Rushikesh Sakharle. It gives AI agents deep Linux administration expertise for real-world SRE workflows.">
+<meta property="og:type" content="website">
+<title>linux-admin — About | Project Mission &amp; Audience</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .info-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.82rem;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .info-list-item:last-child { border-bottom: none; }
+  .info-list-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    min-width: 130px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-top: 1px;
+  }
+  .info-list-val {
+    color: var(--text-body);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    word-break: break-all;
+  }
+  .stat-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .stat-block-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    text-align: center;
+  }
+  .stat-block-num {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-green);
+    filter: drop-shadow(0 0 8px rgba(74,222,128,0.35));
+    display: block;
+    margin-bottom: 4px;
+  }
+  .stat-block-label {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .audience-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all 0.25s;
+    text-align: center;
+  }
+  .audience-card:hover { border-color: rgba(74,222,128,0.18); transform: translateY(-2px); box-shadow: var(--shadow-card); }
+  .audience-icon { font-size: 2rem; margin-bottom: 12px; }
+  .audience-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 7px; }
+  .audience-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><span class="slash">/</span>linux-admin</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="skills.html" class="nav-link">Skills</a></li>
+      <li><a href="install.html" class="nav-link">Install</a></li>
+      <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+      <li><a href="migration.html" class="nav-link">Migration</a></li>
+      <li><a href="security.html" class="nav-link">Security</a></li>
+      <li><a href="examples.html" class="nav-link">Examples</a></li>
+      <li><a href="about.html" class="nav-link active">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀</button>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="nav-cta">★ GitHub</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="skills.html" class="nav-link">Skills</a>
+  <a href="install.html" class="nav-link">Install</a>
+  <a href="architecture.html" class="nav-link">Architecture</a>
+  <a href="migration.html" class="nav-link">Migration</a>
+  <a href="security.html" class="nav-link">Security</a>
+  <a href="examples.html" class="nav-link">Examples</a>
+  <a href="about.html" class="nav-link active">About</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container page-hero-content">
+    <span class="section-eyebrow">About the project</span>
+    <h1 class="page-hero-title">Built for Real Linux Engineers</h1>
+    <p class="page-hero-desc">linux-admin is an open-source Claude Code plugin that gives AI a senior Linux administrator mental model — evidence-first, safety-gated, distro-aware.</p>
+  </div>
+</div>
+
+<!-- SECTION 1: MISSION -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Mission</span>
+      <h2 class="section-title">Why This Exists</h2>
+    </div>
+    <div class="info-box info-box-green reveal" style="max-width:780px">
+      <p>linux-admin exists because AI assistants give generic Linux advice that ignores distro differences, safety constraints, and evidence-first diagnostics. This plugin gives Claude Code the structured mental model of a senior SRE: observe before acting, gather evidence before recommending, confirm before executing anything disruptive.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: WHO IT HELPS -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Audience</span>
+      <h2 class="section-title">Who It Helps</h2>
+      <p class="section-desc">linux-admin is designed for anyone who operates Linux systems and needs an AI that reasons correctly about what it's doing.</p>
+    </div>
+    <div class="grid grid-3" style="gap:16px">
+      <div class="audience-card reveal">
+        <div class="audience-icon">👨‍💻</div>
+        <div class="audience-title">Linux Admins</div>
+        <div class="audience-desc">Managing production servers and diagnosing failures under pressure. Get expert guidance without leaving your terminal.</div>
+      </div>
+      <div class="audience-card reveal d1">
+        <div class="audience-icon">🔧</div>
+        <div class="audience-title">SREs / DevOps</div>
+        <div class="audience-desc">On-call triage, incident response, and fleet operations. Structured diagnostics that match an experienced SRE's mental model.</div>
+      </div>
+      <div class="audience-card reveal d2">
+        <div class="audience-icon">🏗️</div>
+        <div class="audience-title">Platform Teams</div>
+        <div class="audience-desc">Infrastructure migrations, kernel tuning, and container workloads. Distro-aware guidance across the whole stack.</div>
+      </div>
+      <div class="audience-card reveal">
+        <div class="audience-icon">🎓</div>
+        <div class="audience-title">Students</div>
+        <div class="audience-desc">Learning Linux troubleshooting with expert guidance. Understand why a command is chosen, not just what it is.</div>
+      </div>
+      <div class="audience-card reveal d1">
+        <div class="audience-icon">🚀</div>
+        <div class="audience-title">Startups</div>
+        <div class="audience-desc">Teams without a dedicated Linux admin. Get production-grade SRE reasoning without the headcount cost.</div>
+      </div>
+      <div class="audience-card reveal d2">
+        <div class="audience-icon">🏢</div>
+        <div class="audience-title">Enterprises</div>
+        <div class="audience-desc">Augmenting existing ops workflows with AI assistance. Safety-gated by design — no rogue destructive commands.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: PROJECT DETAILS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Project details</span>
+      <h2 class="section-title">Facts at a Glance</h2>
+    </div>
+    <div class="grid grid-2" style="gap:28px;max-width:860px">
+      <div class="card reveal">
+        <div class="card-title" style="margin-bottom:18px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-dim)">Project Info</div>
+        <div class="info-list">
+          <div class="info-list-item">
+            <span class="info-list-label">Plugin name</span>
+            <span class="info-list-val">linux-admin</span>
+          </div>
+          <div class="info-list-item">
+            <span class="info-list-label">Repository</span>
+            <span class="info-list-val">rushikeshsakharleofficial/<wbr>we-are-linux-administrators</span>
+          </div>
+          <div class="info-list-item">
+            <span class="info-list-label">Namespace</span>
+            <span class="info-list-val">/linux-admin:&lt;skill&gt;</span>
+          </div>
+          <div class="info-list-item">
+            <span class="info-list-label">License</span>
+            <span class="info-list-val">MIT</span>
+          </div>
+          <div class="info-list-item">
+            <span class="info-list-label">Platforms</span>
+            <span class="info-list-val">Claude Code (native) · Codex (adapter) · Gemini (adapter)</span>
+          </div>
+        </div>
+      </div>
+      <div class="card reveal d1">
+        <div class="card-title" style="margin-bottom:18px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-dim)">Quick Stats</div>
+        <div class="stat-block">
+          <div class="stat-block-item">
+            <span class="stat-block-num">30+</span>
+            <span class="stat-block-label">Skills</span>
+          </div>
+          <div class="stat-block-item">
+            <span class="stat-block-num">6</span>
+            <span class="stat-block-label">Distros</span>
+          </div>
+          <div class="stat-block-item">
+            <span class="stat-block-num">11</span>
+            <span class="stat-block-label">Triage Scripts</span>
+          </div>
+          <div class="stat-block-item">
+            <span class="stat-block-num">3</span>
+            <span class="stat-block-label">Agent Platforms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: MAINTAINER -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header reveal" style="text-align:center">
+      <span class="section-eyebrow">Maintainer</span>
+      <h2 class="section-title">The Person Behind It</h2>
+    </div>
+    <div class="card reveal" style="max-width:380px;margin:0 auto;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px;">👨‍💻</div>
+      <div class="card-title">Rushikesh Sakharle</div>
+      <div class="card-body">Maintainer &amp; author of linux-admin</div>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <a href="https://github.com/rushikeshsakharleofficial" target="_blank" rel="noopener" class="badge badge-green">GitHub</a>
+        <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="badge badge-cyan">Repository</a>
+      </div>
+      <div style="margin-top:16px;font-size:0.75rem;color:var(--text-dim);font-family:var(--font-mono)">Project started: 2024 · MIT License</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: CONTRIBUTING -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Open source</span>
+      <h2 class="section-title">Contributing</h2>
+      <p class="section-desc">linux-admin is open to contributions. New skills, documentation improvements, and test additions are all welcome.</p>
+    </div>
+    <div class="grid grid-3" style="gap:14px;margin-bottom:36px">
+      <div class="card reveal">
+        <div class="card-icon">📁</div>
+        <div class="card-title">New Skill</div>
+        <div class="card-body">Add a skill file under <code style="font-family:var(--font-mono);font-size:0.75rem">skills/</code>. Follow the naming pattern of existing skills — one file per domain, one command namespace per skill.</div>
+      </div>
+      <div class="card reveal d1">
+        <div class="card-icon">📖</div>
+        <div class="card-title">Documentation</div>
+        <div class="card-body">Add documentation under <code style="font-family:var(--font-mono);font-size:0.75rem">docs/</code>. Docs should be specific, example-driven, and focused on real Linux problems.</div>
+      </div>
+      <div class="card reveal d2">
+        <div class="card-icon">🧪</div>
+        <div class="card-title">Tests</div>
+        <div class="card-body">Add test scenarios under <code style="font-family:var(--font-mono);font-size:0.75rem">tests/</code>. Test cases should cover the diagnostic method, not just the final answer.</div>
+      </div>
+    </div>
+    <div class="cta-row reveal">
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="button button-primary">★ View on GitHub</a>
+      <a href="skills.html" class="button button-secondary">Browse Skills</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">/ linux-admin</div>
+        <p class="footer-brand-desc">Senior Linux administrator and SRE workflow as a Claude Code plugin. Built for engineers who need AI that actually knows Linux.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="badge badge-green">MIT License</span>
+          <span class="badge badge-cyan">Claude Code</span>
+          <span class="badge badge-purple">30+ Skills</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Install</div>
+        <ul class="footer-links-list">
+          <li><a href="install.html">Quick Start</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub Repo</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">Usage Guide</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Pages</div>
+        <ul class="footer-links-list">
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="examples.html">Examples</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Docs</div>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/EXPERT_MODULE_INDEX.md" target="_blank" rel="noopener">Expert Index</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/docs/core" target="_blank" rel="noopener">Core Principles</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/codex/AGENTS.md" target="_blank" rel="noopener">Codex Adapter</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">Built with care by <a href="https://github.com/rushikeshsakharleofficial" target="_blank" rel="noopener" style="color:var(--accent-green);text-decoration:none">Rushikesh Sakharle</a> · MIT License</span>
+      <span class="footer-safety">// open-source · MIT · contributions welcome</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/animations.js"></script>
+<script src="assets/js/copy.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

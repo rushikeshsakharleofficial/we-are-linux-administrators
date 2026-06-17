@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Browse all 30+ linux-admin skills organized by category: core operations, networking, storage, security, migration, DNS, containers, and more.">
+<meta property="og:title" content="linux-admin — Skills | 30+ Expert Linux & SRE Skills">
+<meta property="og:description" content="Browse all 30+ linux-admin skills organized by category: core operations, networking, storage, security, migration, DNS, containers, and more.">
+<meta property="og:type" content="website">
+<title>linux-admin — Skills | 30+ Expert Linux &amp; SRE Skills</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo" aria-label="linux-admin home"><span class="slash">/</span>linux-admin</a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="nav-link" data-page="index.html">Home</a></li>
+      <li><a href="skills.html" class="nav-link active" data-page="skills.html">Skills</a></li>
+      <li><a href="install.html" class="nav-link" data-page="install.html">Install</a></li>
+      <li><a href="architecture.html" class="nav-link" data-page="architecture.html">Architecture</a></li>
+      <li><a href="migration.html" class="nav-link" data-page="migration.html">Migration</a></li>
+      <li><a href="security.html" class="nav-link" data-page="security.html">Security</a></li>
+      <li><a href="examples.html" class="nav-link" data-page="examples.html">Examples</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Switch theme">🌙</button>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="nav-cta">★ GitHub</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html" class="nav-link" data-page="index.html">Home</a>
+  <a href="skills.html" class="nav-link" data-page="skills.html">Skills</a>
+  <a href="install.html" class="nav-link" data-page="install.html">Install</a>
+  <a href="architecture.html" class="nav-link" data-page="architecture.html">Architecture</a>
+  <a href="migration.html" class="nav-link" data-page="migration.html">Migration</a>
+  <a href="security.html" class="nav-link" data-page="security.html">Security</a>
+  <a href="examples.html" class="nav-link" data-page="examples.html">Examples</a>
+  <a href="about.html" class="nav-link" data-page="about.html">About</a>
+  <button class="theme-toggle" onclick="document.getElementById('theme-toggle').click()">🌙 Toggle theme</button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container page-hero-content">
+    <span class="section-eyebrow">Capabilities</span>
+    <h1 class="page-hero-title">30+ Expert Skills</h1>
+    <p class="page-hero-desc">Every skill is a focused expert module — deep knowledge for one domain. Invoke any skill directly from Claude Code with <code style="font-family:var(--font-mono);color:var(--accent-green)">/linux-admin:&lt;skill&gt;</code></p>
+  </div>
+</div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-num">35</div>
+    <div class="stat-label">Total Skills</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">8</div>
+    <div class="stat-label">Categories</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Core Skills</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Blind rm -rf</div>
+  </div>
+</div>
+
+<!-- SKILLS SECTION -->
+<section class="section">
+  <div class="container">
+
+    <!-- Filter tabs -->
+    <div class="filter-tabs" id="filter-tabs" role="tablist" aria-label="Skill categories">
+      <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="filter-tab" data-filter="core" role="tab" aria-selected="false">Core Linux</button>
+      <button class="filter-tab" data-filter="system" role="tab" aria-selected="false">System &amp; Runtime</button>
+      <button class="filter-tab" data-filter="network" role="tab" aria-selected="false">Networking</button>
+      <button class="filter-tab" data-filter="storage" role="tab" aria-selected="false">Storage</button>
+      <button class="filter-tab" data-filter="permissions" role="tab" aria-selected="false">Permissions</button>
+      <button class="filter-tab" data-filter="packages" role="tab" aria-selected="false">Packages</button>
+      <button class="filter-tab" data-filter="migration" role="tab" aria-selected="false">Migration</button>
+      <button class="filter-tab" data-filter="dns" role="tab" aria-selected="false">DNS &amp; Cloud</button>
+      <button class="filter-tab" data-filter="security" role="tab" aria-selected="false">Security</button>
+    </div>
+
+    <!-- Skills grid -->
+    <div class="grid grid-auto" id="skills-grid">
+
+      <!-- ── CORE LINUX ── -->
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:diagnose</div>
+        <div class="skill-card-desc">Main triage router. Routes any Linux problem to the right expert. The entry point for any unexpected failure.</div>
+        <div class="skill-card-when">Use when: any unexpected failure or symptom you're not sure how to classify.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:diagnose nginx.service keeps restarting</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:boot</div>
+        <div class="skill-card-desc">Boot failures, GRUB, initramfs, fstab issues. Full coverage of emergency-mode and recovery scenarios.</div>
+        <div class="skill-card-when">Use when: system won't boot or drops to emergency mode.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:boot kernel panic after kernel upgrade</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:service</div>
+        <div class="skill-card-desc">systemd service debugging. Restart loops, crash analysis, unit file issues, dependency chains.</div>
+        <div class="skill-card-when">Use when: a service crashes or enters a restart loop.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:service postgresql restart loop</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:logs</div>
+        <div class="skill-card-desc">journald, rsyslog, incident timeline construction. Correlates events across log sources to build a complete picture.</div>
+        <div class="skill-card-when">Use when: investigating what happened in the past N hours.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:logs build incident timeline for last 2 hours</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:automation</div>
+        <div class="skill-card-desc">Shell scripts, Ansible playbooks, and fleet-wide triage. Debugs why automation fails on specific nodes.</div>
+        <div class="skill-card-when">Use when: deploy scripts fail on some nodes but not others.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:automation check why deploy script fails on 3 nodes</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:performance</div>
+        <div class="skill-card-desc">CPU, memory, OOM, load average, I/O latency. Identifies bottlenecks using read-only diagnostic tools first.</div>
+        <div class="skill-card-when">Use when: high load average, slow response, or mysterious memory growth.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:performance high load average but CPU looks idle</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="core">
+        <div class="skill-card-name">/linux-admin:containers</div>
+        <div class="skill-card-desc">Docker, Podman, rootless containers. Networking failures, mount problems, exit-code analysis.</div>
+        <div class="skill-card-when">Use when: container crashes on startup or networking fails.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:containers app container exits immediately</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── SYSTEM & RUNTIME ── -->
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:systemd-expert</div>
+        <div class="skill-card-desc">Unit design, restart loops, cgroups, drop-ins, and hardening. The deep-dive systemd specialist.</div>
+        <div class="skill-card-when">Use when: a service won't stay up or you need to design a new unit file correctly.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:systemd-expert debug nginx restart loop</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:sysctl-expert</div>
+        <div class="skill-card-desc">Kernel runtime parameters, safe sysctl tuning. Reads current values, explains semantics, validates before writing.</div>
+        <div class="skill-card-when">Use when: tuning kernel networking, memory, or I/O parameters.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:sysctl-expert tune net.core.somaxconn safely</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:limits-expert</div>
+        <div class="skill-card-desc">ulimit, PAM limits, systemd Limit* directives. Traces the full resolution chain: shell → PAM → systemd.</div>
+        <div class="skill-card-when">Use when: too many open files, nproc exhaustion, or ulimit not sticking.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:limits-expert postgres too many open files</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:kernel-expert</div>
+        <div class="skill-card-desc">Kernel panic triage, kdump readiness, call trace reading. Interprets Oops messages and lockup signatures.</div>
+        <div class="skill-card-when">Use when: kernel panics, soft lockups, or RCU stalls.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:kernel-expert triage kernel panic after update</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:date-timectl-expert</div>
+        <div class="skill-card-desc">Timezone and NTP fixes via timedatectl. Handles wrong-time-after-migration and DST confusion.</div>
+        <div class="skill-card-when">Use when: system clock shows wrong time or timezone is incorrect after migration.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:date-timectl-expert timezone wrong after migration</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:chrony-expert</div>
+        <div class="skill-card-desc">NTP drift analysis, source quality auditing, clock skew correction. Works with chronyc and /etc/chrony.conf.</div>
+        <div class="skill-card-when">Use when: clock drifts noticeably or NTP sources are unreliable.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:chrony-expert clock drifting 200ms per hour</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="system">
+        <div class="skill-card-name">/linux-admin:kernel</div>
+        <div class="skill-card-desc">Kernel panic analysis, soft lockup, kdump capture, and kernel call traces. Broad kernel triage skill.</div>
+        <div class="skill-card-when">Use when: kernel panicked after a version upgrade or hardware event.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:kernel panic after 6.8 upgrade</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── NETWORKING ── -->
+      <div class="skill-card reveal" data-cat="network">
+        <div class="skill-card-name">/linux-admin:network</div>
+        <div class="skill-card-desc">IP connectivity, routing, DNS resolution, firewall rules, socket diagnostics. Broad network triage skill.</div>
+        <div class="skill-card-when">Use when: network appears up but something specific isn't working.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:network can ping IP but DNS fails</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="network">
+        <div class="skill-card-name">/linux-admin:networking-expert</div>
+        <div class="skill-card-desc">Interfaces, routes, MTU, tc qdisc, ethtool, TCP evidence. Deep-dive network specialist with protocol awareness.</div>
+        <div class="skill-card-when">Use when: packet loss, MTU mismatches, or interface flapping.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:networking-expert diagnose 40% packet loss on eth1</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="network">
+        <div class="skill-card-name">/linux-admin:tcp-expert</div>
+        <div class="skill-card-desc">TCP connection lifecycle, TIME_WAIT exhaustion, retransmit storms. Reads /proc/net/tcp and ss output.</div>
+        <div class="skill-card-when">Use when: connection refused, port exhaustion, or too many TIME_WAIT states.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:tcp-expert too many TIME_WAIT connections</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="network">
+        <div class="skill-card-name">/linux-admin:udp-expert</div>
+        <div class="skill-card-desc">Datagram loss, receive buffer sizing, fragmentation, NAT hairpin behavior.</div>
+        <div class="skill-card-when">Use when: UDP packet loss under load or VoIP/streaming quality degradation.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:udp-expert UDP packet loss under high load</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="network">
+        <div class="skill-card-name">/linux-admin:firewall-expert</div>
+        <div class="skill-card-desc">nftables, firewalld, iptables, UFW — lockout-safe rule auditing and changes. Never locks you out of SSH.</div>
+        <div class="skill-card-when">Use when: changing firewall rules or investigating unexpected traffic blocks.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:firewall-expert lockout-safe nftables deny-all</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="network">
+        <div class="skill-card-name">/linux-admin:fail2ban-expert</div>
+        <div class="skill-card-desc">Jails, filter regex, actions, false-positive prevention, and ban/unban verification.</div>
+        <div class="skill-card-when">Use when: SSH brute-force not getting banned or legitimate IPs keep getting blocked.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:fail2ban-expert SSH brute-force not being banned</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── STORAGE ── -->
+      <div class="skill-card reveal" data-cat="storage">
+        <div class="skill-card-name">/linux-admin:storage</div>
+        <div class="skill-card-desc">Disk full, inode exhaustion, LVM, RAID, filesystem corruption. Broad storage triage skill.</div>
+        <div class="skill-card-when">Use when: disk full errors or df/du numbers don't match.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:storage /var full but du does not match df</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="storage">
+        <div class="skill-card-name">/linux-admin:disk-mounting-expert</div>
+        <div class="skill-card-desc">Validates fstab entries before reboot. Prevents boot failures from bad mount options or missing UUIDs.</div>
+        <div class="skill-card-when">Use when: you've edited fstab and want to verify before rebooting.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:disk-mounting-expert validate fstab before reboot</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="storage">
+        <div class="skill-card-name">/linux-admin:filesystem-expert</div>
+        <div class="skill-card-desc">df/du mismatch investigation, deleted-but-open file handles, inode exhaustion deep-dive.</div>
+        <div class="skill-card-when">Use when: df shows 99% but du totals only 60% — classic deleted-open-file scenario.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:filesystem-expert df shows 99% but du shows 60%</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="storage">
+        <div class="skill-card-name">/linux-admin:quota-expert</div>
+        <div class="skill-card-desc">User and project disk quota design, enforcement, and troubleshooting across ext4, XFS, and btrfs.</div>
+        <div class="skill-card-when">Use when: setting per-user disk limits or a user is exceeding their quota silently.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:quota-expert set 10G quota for user deploy</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── PERMISSIONS ── -->
+      <div class="skill-card reveal" data-cat="permissions">
+        <div class="skill-card-name">/linux-admin:auth</div>
+        <div class="skill-card-desc">SSH key auth, sudo access, PAM modules, SSSD, and LDAP connectivity. Full auth failure triage.</div>
+        <div class="skill-card-when">Use when: SSH key auth stops working for one user or sudo denies unexpectedly.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:auth SSH key stopped working for one user</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="permissions">
+        <div class="skill-card-name">/linux-admin:permissions</div>
+        <div class="skill-card-desc">POSIX permissions, ACLs, SELinux AVC denials, AppArmor profiles. Broad permissions triage.</div>
+        <div class="skill-card-when">Use when: an app can't write despite seemingly correct permissions.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:permissions app can't write to /data despite 777</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="permissions">
+        <div class="skill-card-name">/linux-admin:command-expert</div>
+        <div class="skill-card-desc">Reviews dangerous shell pipelines — find/rm, xargs, dd, pipes with wildcards. Safety-first analysis.</div>
+        <div class="skill-card-when">Use when: about to run a complex find/rm or xargs pipeline and want a second opinion.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:command-expert review this find/rm pipeline</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="permissions">
+        <div class="skill-card-name">/linux-admin:user-permissions-expert</div>
+        <div class="skill-card-desc">Users, groups, sudoers design, service accounts, and secure offboarding procedures.</div>
+        <div class="skill-card-when">Use when: auditing who has sudo access or offboarding a user safely.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:user-permissions-expert audit sudo access for deploy</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="permissions">
+        <div class="skill-card-name">/linux-admin:file-permissions-expert</div>
+        <div class="skill-card-desc">POSIX modes, ownership, umask, safe recursive chmod/chown without breaking things.</div>
+        <div class="skill-card-when">Use when: need to recursively fix permissions on a web root safely.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:file-permissions-expert safe chmod -R for /var/www</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="permissions">
+        <div class="skill-card-name">/linux-admin:acl-permissions-expert</div>
+        <div class="skill-card-desc">POSIX ACLs, masks, default ACLs, getfacl/setfacl backup and restore procedures.</div>
+        <div class="skill-card-when">Use when: POSIX modes aren't granular enough and you need per-user/group ACLs.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:acl-permissions-expert set default ACL on /data</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── PACKAGES ── -->
+      <div class="skill-card reveal" data-cat="packages">
+        <div class="skill-card-name">/linux-admin:packages</div>
+        <div class="skill-card-desc">apt, dnf, rpm, zypper, pacman issues. Handles broken dependencies, partial upgrades, and repo problems.</div>
+        <div class="skill-card-when">Use when: package install or upgrade fails with dependency errors.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:packages apt upgrade failed halfway</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="packages">
+        <div class="skill-card-name">/linux-admin:package-manager-expert</div>
+        <div class="skill-card-desc">Fixes broken package transactions, interrupted dpkg/rpm states, and corrupted package databases.</div>
+        <div class="skill-card-when">Use when: dpkg was interrupted or rpm database is corrupted.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:package-manager-expert dpkg interrupted needs repair</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── MIGRATION ── -->
+      <div class="skill-card reveal" data-cat="migration">
+        <div class="skill-card-name">/linux-admin:migration-expert</div>
+        <div class="skill-card-desc">Server OS upgrades, full workload migrations, and rollback planning. Produces a phased migration plan with checkpoints.</div>
+        <div class="skill-card-when">Use when: planning a CentOS 7 EOL migration or major OS version upgrade.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:migration-expert plan CentOS 7 to Rocky 9</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── DNS & CLOUD ── -->
+      <div class="skill-card reveal" data-cat="dns">
+        <div class="skill-card-name">/linux-admin:named-expert</div>
+        <div class="skill-card-desc">BIND9 configuration, zone files, DNSSEC, zone transfer, and view-based split-horizon DNS.</div>
+        <div class="skill-card-when">Use when: BIND9 zone transfer fails or DNSSEC validation breaks.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:named-expert zone transfer failing</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="dns">
+        <div class="skill-card-name">/linux-admin:cf-expert</div>
+        <div class="skill-card-desc">Cloudflare edge configuration, Workers, DNS records, tunnel setup, and WAF rules.</div>
+        <div class="skill-card-when">Use when: auditing Cloudflare DNS or troubleshooting a Cloudflare Tunnel.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:cf-expert audit DNS for example.com</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <div class="skill-card reveal" data-cat="dns">
+        <div class="skill-card-name">/linux-admin:dnsmasq-expert</div>
+        <div class="skill-card-desc">Local DNS/DHCP with dnsmasq, split-horizon resolution, override records, and DHCP lease debugging.</div>
+        <div class="skill-card-when">Use when: dnsmasq isn't serving local records or DHCP leases aren't being assigned.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:dnsmasq-expert dnsmasq not serving local records</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+      <!-- ── SECURITY ── -->
+      <div class="skill-card reveal" data-cat="security">
+        <div class="skill-card-name">/linux-admin:os-security-expert</div>
+        <div class="skill-card-desc">OS hardening, CIS benchmark auditing, secure baseline configuration, and remediation guidance.</div>
+        <div class="skill-card-when">Use when: running a CIS benchmark or hardening a freshly provisioned server.</div>
+        <div class="skill-card-cmd">
+          <span>/linux-admin:os-security-expert CIS hardening audit Ubuntu 22.04</span>
+          <button class="copy-btn" aria-label="Copy command">copy</button>
+        </div>
+      </div>
+
+    </div><!-- /skills-grid -->
+
+    <!-- Info box -->
+    <div class="info-box info-box-green" style="margin-top:48px;">
+      <p>All skills follow the same safety policy: read-only diagnostics first, Class 2 changes require confirmation, Class 3 destructive commands are blocked outright. Invoke any skill from within a Claude Code session using the <code style="font-family:var(--font-mono);color:var(--accent-green)">/linux-admin:skill-name</code> slash command.</p>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">/linux-admin</div>
+        <p class="footer-brand-desc">AI-powered Linux administration expertise for Claude Code. Read-only-first, evidence-based, safety-gated.</p>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;">
+          <span class="badge badge-green">MIT License</span>
+          <span class="badge badge-cyan">Claude Code</span>
+          <span class="badge badge-purple">30+ Skills</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Pages</div>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="install.html">Install</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">More</div>
+        <ul class="footer-links-list">
+          <li><a href="migration.html">Migration</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Links</div>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub Repo</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">Usage Guide</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Rushikesh Sakharle · rushikeshsakharleofficial/we-are-linux-administrators</p>
+      <p class="footer-safety">⚡ read-only-first · evidence-before-change · no blind rm -rf</p>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/copy.js"></script>
+<script src="assets/js/animations.js"></script>
+
+<script>
+/* ── Filter tabs ── */
+(function () {
+  var tabs = document.querySelectorAll('.filter-tab');
+  var cards = document.querySelectorAll('.skill-card');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var filter = this.getAttribute('data-filter');
+
+      // Update tab state
+      tabs.forEach(function (t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+
+      // Show / hide cards
+      cards.forEach(function (card) {
+        if (filter === 'all' || card.getAttribute('data-cat') === filter) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}());
+</script>
+
+</body>
+</html>

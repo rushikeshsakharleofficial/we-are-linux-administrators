@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/sitemap.xml

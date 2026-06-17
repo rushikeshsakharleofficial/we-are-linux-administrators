@@ -326,12 +326,72 @@
   <div class="tag-list" style="margin-top:28px">
     <span class="tag tag-red">dmesg</span>
     <span class="tag tag-red">journalctl -k</span>
+    <span class="tag tag-green">kdump</span>
     <span class="tag tag-amber">crash</span>
     <span class="tag tag-amber">kdumpctl</span>
     <span class="tag tag-cyan">kallsyms</span>
     <span class="tag tag-cyan">addr2line</span>
     <span class="tag tag-violet">objdump</span>
     <span class="tag tag-violet">nm vmlinux</span>
+  </div>
+
+  <!-- Static terminal snippet showing tcy output (crash session example) -->
+  <div class="terminal-block reveal" style="margin-top:28px">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">— crash interactive session example</span>
+    </div>
+    <div class="term-body">
+      <div class="tl"><span class="tp">›</span><span class="tc">crash /usr/lib/debug/boot/vmlinux-6.8.0-1-amd64 /var/crash/vmcore</span></div>
+      <div class="tl"><span class="tcy">crash 8.0.1  (Mon Apr 01 11:22:33 2024)</span></div>
+      <div class="tl"><span class="tcy">KERNEL: /usr/lib/debug/boot/vmlinux-6.8.0-1-amd64</span></div>
+      <div class="tl"><span class="td">    DUMPFILE: /var/crash/vmcore  [PARTIAL DUMP]</span></div>
+      <div class="tl"><span class="td">        CPUS: 8</span></div>
+      <div class="tl"><span class="td">        DATE: Tue Jun 17 03:42:11 2025</span></div>
+      <div class="tl"><span class="td">      UPTIME: 02:14:08</span></div>
+      <div class="tl"><span class="ts">crash&gt; bt</span></div>
+      <div class="tl"><span class="to">PID: 8812   TASK: ffff8881234ab000  CPU: 3   COMMAND: "kworker/3:1H"</span></div>
+      <div class="tl"><span class="te"> #0 [ffffb5c9e3f87c30] machine_kexec at ffffffff81073cc0</span></div>
+      <div class="tl"><span class="te"> #1 [ffffb5c9e3f87c88] __crash_kexec at ffffffff8117e5d0</span></div>
+      <div class="tl"><span class="tw"> #2 [ffffb5c9e3f87d10] scsi_dispatch_cmd at ffffffffc0a83f40 [scsi_mod]</span></div>
+    </div>
+  </div>
+
+  <!-- Quick reference: grid-2 and grid-auto -->
+  <div style="margin-top:36px">
+    <div class="section-eyebrow" style="margin-bottom:14px">Triage cheatsheet</div>
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="card">
+        <div class="card-title">Kernel panic vs Oops</div>
+        <div class="card-body">
+          An <strong>oops</strong> is a recoverable kernel error — the kernel logs the trace and may continue. A <strong>panic</strong> is unrecoverable — the system halts or reboots. Oopses can precede panics if the kernel state becomes too corrupt.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Tainted kernel flag</div>
+        <div class="card-body">
+          <code>Tainted: G</code> = proprietary module loaded.
+          <code>OE</code> = out-of-tree + externally built module.
+          A tainted kernel makes upstream bug reports invalid — identify and remove the offending module before filing kernel bugs.
+        </div>
+      </div>
+    </div>
+    <div class="grid-auto">
+      <div class="card">
+        <div class="card-title"><span class="pill">quick</span> Is kdump armed?</div>
+        <div class="card-body"><code>kdumpctl status</code><br>Look for "Kdump is operational"</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="pill">quick</span> Last panic time</div>
+        <div class="card-body"><code>ls -lth /var/crash/</code><br>Sorted by mtime</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="pill">quick</span> Module taint check</div>
+        <div class="card-body"><code>cat /proc/sys/kernel/tainted</code><br>0 = clean kernel</div>
+      </div>
+    </div>
   </div>
 </section>
 

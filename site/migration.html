@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Plan and execute Linux server migrations with AI multi-agent orchestration. CentOS to Rocky, server rebuilds, database migrations, firewall audits.">
+<meta property="og:title" content="linux-admin — Migration Expert | Multi-Agent Linux Migration Planning">
+<meta property="og:description" content="Plan and execute Linux server migrations with AI multi-agent orchestration. CentOS to Rocky, server rebuilds, database migrations, firewall audits.">
+<meta property="og:type" content="website">
+<title>linux-admin — Migration Expert | Multi-Agent Linux Migration Planning</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+/* Migration type grid cards */
+.migration-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.migration-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.25s;
+}
+.migration-card:hover { border-color: rgba(34,211,238,0.25); transform: translateY(-2px); box-shadow: var(--shadow-card); }
+.migration-card-icon { font-size: 1.4rem; margin-bottom: 10px; }
+.migration-card-title { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.migration-card-body { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Agents grid - 4 col -->
+.agents-grid-7 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+/* Shared memory terminal */
+.memory-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.memory-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-soft);
+}
+.memory-body {
+  padding: 22px 26px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.9;
+  color: var(--text-muted);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Timeline phases */
+.phase-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 40px;
+}
+.phase-timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px; top: 16px; bottom: 16px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent-green), rgba(74,222,128,0.1));
+}
+.phase-item {
+  position: relative;
+  padding: 0 0 32px 0;
+}
+.phase-item:last-child { padding-bottom: 0; }
+.phase-dot {
+  position: absolute;
+  left: -34px;
+  top: 4px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 10px rgba(74,222,128,0.5);
+}
+.phase-num {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent-green);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.phase-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.phase-body {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 560px;
+}
+
+/* Safety principles boxes */
+.safety-principles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.safety-principle-box {
+  padding: 20px 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(74,222,128,0.15);
+  border-left: 3px solid var(--accent-green);
+  background: rgba(74,222,128,0.03);
+}
+.safety-principle-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.safety-principle-body {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* Terminal demo */
+.demo-terminal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-glow);
+}
+.demo-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-soft);
+}
+.demo-body {
+  padding: 20px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.95;
+}
+.demo-prompt { color: var(--accent-green); }
+.demo-cmd    { color: var(--text-primary); }
+.demo-arrow  { color: var(--accent-cyan); padding-left: 12px; }
+.demo-risk   { color: var(--accent-amber); padding-left: 12px; }
+.demo-ok     { color: var(--accent-green); padding-left: 12px; }
+.demo-dim    { color: var(--text-dim); padding-left: 12px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><span class="slash">/</span>linux-admin</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="skills.html" class="nav-link">Skills</a></li>
+      <li><a href="install.html" class="nav-link">Install</a></li>
+      <li><a href="architecture.html" class="nav-link">Architecture</a></li>
+      <li><a href="migration.html" class="nav-link active">Migration</a></li>
+      <li><a href="security.html" class="nav-link">Security</a></li>
+      <li><a href="examples.html" class="nav-link">Examples</a></li>
+      <li><a href="about.html" class="nav-link">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀️</button>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" class="nav-cta" target="_blank" rel="noopener">★ GitHub</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="skills.html" class="nav-link">Skills</a>
+  <a href="install.html" class="nav-link">Install</a>
+  <a href="architecture.html" class="nav-link">Architecture</a>
+  <a href="migration.html" class="nav-link active">Migration</a>
+  <a href="security.html" class="nav-link">Security</a>
+  <a href="examples.html" class="nav-link">Examples</a>
+  <a href="about.html" class="nav-link">About</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container page-hero-content">
+    <span class="section-eyebrow">migration-expert</span>
+    <h1 class="page-hero-title">Multi-Agent Migration</h1>
+    <p class="page-hero-desc">Plan complex Linux migrations with AI-orchestrated parallel agents. Risk-first strategy, rollback gates, validated cutover checklists.</p>
+  </div>
+</div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-num">9</div>
+    <div class="stat-label">Migration types</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Specialized agents</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num font-mono" style="font-size:1.6rem;line-height:1.2;padding-top:4px">rollback<br>-first</div>
+    <div class="stat-label">Strategy</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">multi</div>
+    <div class="stat-label">Agent orchestration</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: Migration Types -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Coverage</span>
+      <h2 class="section-title">9 migration types supported</h2>
+      <p class="section-desc">From OS upgrades to DNS cutovers, the migration-expert skill covers the full spectrum of Linux server migration scenarios with purpose-built runbooks for each.</p>
+    </div>
+
+    <div class="migration-grid">
+      <div class="migration-card reveal">
+        <div class="migration-card-icon">🖥️</div>
+        <div class="migration-card-title">Server OS Upgrade</div>
+        <div class="migration-card-body">CentOS 7 to Rocky 9, Ubuntu 20 to 22. In-place or parallel rebuild. Python EOL detection, SysVinit to systemd conversion, kernel ABI checks.</div>
+      </div>
+      <div class="migration-card reveal d1">
+        <div class="migration-card-icon">🔄</div>
+        <div class="migration-card-title">Full Server Clone / Rebuild</div>
+        <div class="migration-card-body">Physical to VM, VM to cloud. Full service inventory, config export, parallel rebuild with validation before cutover. Zero data loss gate.</div>
+      </div>
+      <div class="migration-card reveal d2">
+        <div class="migration-card-icon">🗄️</div>
+        <div class="migration-card-title">Database Migration</div>
+        <div class="migration-card-body">PostgreSQL version upgrades, MySQL to MariaDB transitions. Schema compatibility checks, replication setup, failover validation, rollback snapshots.</div>
+      </div>
+      <div class="migration-card reveal d3">
+        <div class="migration-card-icon">📦</div>
+        <div class="migration-card-title">Linux Patch Rollout</div>
+        <div class="migration-card-body">Fleet-wide kernel updates, security patches, staged rollout. Canary-first strategy with automated health checks after each wave before proceeding.</div>
+      </div>
+      <div class="migration-card reveal">
+        <div class="migration-card-icon">🛡️</div>
+        <div class="migration-card-title">Firewall &amp; Rate-Limit Audit</div>
+        <div class="migration-card-body">Pre-migration network review. Catalogs all firewall rules, identifies redundant or conflicting entries, maps required ports for migrated services.</div>
+      </div>
+      <div class="migration-card reveal d1">
+        <div class="migration-card-icon">📁</div>
+        <div class="migration-card-title">SFTP Migration</div>
+        <div class="migration-card-body">Users, SSH keys, chroot jails, directory permissions. Exports and validates complete SFTP configuration before cutover. Key fingerprint verification included.</div>
+      </div>
+      <div class="migration-card reveal d2">
+        <div class="migration-card-icon">💾</div>
+        <div class="migration-card-title">Storage Migration</div>
+        <div class="migration-card-body">LVM resize, NFS move, block device change. Validates filesystem integrity before and after. fstab entries dry-run tested to prevent boot lockout.</div>
+      </div>
+      <div class="migration-card reveal d3">
+        <div class="migration-card-icon">⚙️</div>
+        <div class="migration-card-title">Service Migration</div>
+        <div class="migration-card-body">Moving workloads between servers. Dependency mapping, port conflict detection, parallel run period with traffic weight shifting and health check gates.</div>
+      </div>
+      <div class="migration-card reveal">
+        <div class="migration-card-icon">🌐</div>
+        <div class="migration-card-title">DNS Migration</div>
+        <div class="migration-card-body">Zone transfer, TTL drain, cutover. Verifies propagation at each DNS tier before old records expire. Automated rollback on validation failure.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Parallel Agent Model -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Agent model</span>
+      <h2 class="section-title">7 specialized parallel agents</h2>
+      <p class="section-desc">The migration-expert skill dispatches purpose-built subagents in parallel. Each agent owns a distinct phase and writes structured output to the shared <code>.migration/</code> memory map.</p>
+    </div>
+
+    <div class="agents-grid-7">
+      <div class="agent-card reveal">
+        <div class="agent-card-icon">🎯</div>
+        <div class="agent-card-name">Migration Orchestrator</div>
+        <div class="agent-card-role">Coordinates all agents, enforces gate sequence, blocks cutover until all gates pass</div>
+      </div>
+      <div class="agent-card reveal d1">
+        <div class="agent-card-icon">📋</div>
+        <div class="agent-card-name">Inventory Agent</div>
+        <div class="agent-card-role">Catalogs services, configs, dependencies, users, crons, open ports, installed packages</div>
+      </div>
+      <div class="agent-card reveal d2">
+        <div class="agent-card-icon">⚠️</div>
+        <div class="agent-card-name">Risk Agent</div>
+        <div class="agent-card-role">Identifies breaking changes, version incompatibilities, deprecated packages, kernel ABI changes</div>
+      </div>
+      <div class="agent-card reveal d3">
+        <div class="agent-card-icon">🌐</div>
+        <div class="agent-card-name">Domain Migration Agent</div>
+        <div class="agent-card-role">Handles service-specific migration logic — databases, firewalls, SFTP, DNS — with domain expertise</div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-card-icon">✅</div>
+        <div class="agent-card-name">Validation Agent</div>
+        <div class="agent-card-role">Post-migration health checks: service up, ports listening, data integrity, performance baseline</div>
+      </div>
+      <div class="agent-card reveal d1">
+        <div class="agent-card-icon">🔄</div>
+        <div class="agent-card-name">Rollback Agent</div>
+        <div class="agent-card-role">Maintains rollback plan throughout migration, triggers automatic rollback on validation failure</div>
+      </div>
+      <div class="agent-card reveal d2">
+        <div class="agent-card-icon">🔍</div>
+        <div class="agent-card-name">Research Agent</div>
+        <div class="agent-card-role">Fetches current release notes, migration guides, and known issues when skill knowledge is insufficient</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Shared Memory Map -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Shared state</span>
+      <h2 class="section-title">Shared memory — the <code>.migration/</code> directory</h2>
+      <p class="section-desc">All agents read and write to a structured directory in the project root. This is the source of truth for the entire migration — reviewable, version-controllable, and auditable.</p>
+    </div>
+
+    <div class="memory-block reveal d1">
+      <div class="memory-bar">
+        <span class="tdot tdot-r"></span>
+        <span class="tdot tdot-y"></span>
+        <span class="tdot tdot-g"></span>
+        <span class="terminal-title">.migration/ — shared agent memory</span>
+      </div>
+      <div class="memory-body"><span class="text-green">.migration/</span>
+<span class="text-muted">├── </span><span class="text-cyan">00-scenario.md</span>          <span style="color:var(--text-dim)"># Migration goal and constraints</span>
+<span class="text-muted">├── </span><span class="text-cyan">01-inventory.md</span>         <span style="color:var(--text-dim)"># Service catalog — written by Inventory Agent</span>
+<span class="text-muted">├── </span><span class="text-cyan">02-dependency-map.md</span>    <span style="color:var(--text-dim)"># Service dependencies and startup order</span>
+<span class="text-muted">├── </span><span class="text-amber">03-risk-register.md</span>     <span style="color:var(--text-dim)"># Breaking changes list — written by Risk Agent</span>
+<span class="text-muted">├── </span><span class="text-cyan">04-agent-dispatch.md</span>    <span style="color:var(--text-dim)"># Agent assignments and status</span>
+<span class="text-muted">├── </span><span class="text-cyan">05-runbook.md</span>           <span style="color:var(--text-dim)"># Step-by-step runbook (47+ steps for major migrations)</span>
+<span class="text-muted">├── </span><span class="text-cyan">06-validation-matrix.md</span> <span style="color:var(--text-dim)"># Post-migration checks — written by Validation Agent</span>
+<span class="text-muted">├── </span><span class="text-green">07-rollback-plan.md</span>     <span style="color:var(--text-dim)"># Rollback procedures — written BEFORE runbook</span>
+<span class="text-muted">└── </span><span class="text-green">08-cutover-checklist.md</span> <span style="color:var(--text-dim)"># Final gate checklist — all agents must sign off</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: Migration Lifecycle Timeline -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Lifecycle</span>
+      <h2 class="section-title">Migration lifecycle — 7 phases</h2>
+      <p class="section-desc">Every migration follows a gated lifecycle. No phase starts until the previous phase's deliverables are complete and written to <code>.migration/</code>.</p>
+    </div>
+
+    <div class="phase-timeline reveal d1">
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">Discovery &amp; Inventory</div>
+        <div class="phase-body">Inventory Agent catalogs all services, configuration files, users, crons, open ports, and installed packages. Output written to <code>01-inventory.md</code> and <code>02-dependency-map.md</code>.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">Risk Assessment</div>
+        <div class="phase-body">Risk Agent analyzes the inventory against the migration target. Breaking changes, version incompatibilities, deprecated packages, and kernel ABI changes are cataloged in <code>03-risk-register.md</code>.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">Runbook Generation</div>
+        <div class="phase-body">Based on inventory and risk register, the Orchestrator generates a step-by-step runbook in <code>05-runbook.md</code>. Each step includes the command, expected output, and validation criteria.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-title">Validation Setup</div>
+        <div class="phase-body">Validation Agent builds the post-migration health check matrix in <code>06-validation-matrix.md</code> before migration begins. Checks cover service state, port availability, data integrity, and performance baselines.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 5</div>
+        <div class="phase-title">Cutover Gate</div>
+        <div class="phase-body">All agents review <code>08-cutover-checklist.md</code>. Backup confirmed, rollback plan written, risk register reviewed, maintenance window confirmed. No migration starts without all gates green.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 6</div>
+        <div class="phase-title">Execution</div>
+        <div class="phase-body">Runbook executed step by step with live status updates. Each step is validated before the next begins. Safety hook guards all destructive operations. Rollback Agent monitors for failure conditions throughout.</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot"></div>
+        <div class="phase-num">Phase 7</div>
+        <div class="phase-title">Post-Migration Validation</div>
+        <div class="phase-body">Validation Agent runs the full matrix from <code>06-validation-matrix.md</code>. Any failing check triggers the Rollback Agent. Pass report written with timestamps, command outputs, and performance comparisons.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: Safety Principles -->
+<section class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Safety principles</span>
+      <h2 class="section-title">Three non-negotiable rules</h2>
+      <p class="section-desc">The migration-expert skill encodes these safety principles directly. They are not suggestions — they are enforced gates in the agent lifecycle.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start" class="reveal d1">
+      <div class="safety-principles">
+        <div class="safety-principle-box">
+          <div class="safety-principle-title">
+            <span>🔄</span> Rollback-first
+          </div>
+          <div class="safety-principle-body">The rollback plan (<code>07-rollback-plan.md</code>) is written before the runbook is started. The Rollback Agent defines snapshot IDs, rollback window duration, and step-by-step recovery procedures. If rollback is not possible, migration does not proceed.</div>
+        </div>
+        <div class="safety-principle-box">
+          <div class="safety-principle-title">
+            <span>🔍</span> Internet research rule
+          </div>
+          <div class="safety-principle-body">When the Risk Agent encounters a package version, kernel change, or migration path that is outside the skill's training, the Research Agent is dispatched to fetch current release notes and official migration guides. No migrations proceed on stale or assumed knowledge.</div>
+        </div>
+        <div class="safety-principle-box">
+          <div class="safety-principle-title">
+            <span>💾</span> Backup gate
+          </div>
+          <div class="safety-principle-body">Cutover is blocked unless a confirmed, tested backup exists. The Orchestrator checks for snapshot, dump, or backup file evidence before writing the cutover gate green. "I think we have backups" is not sufficient — the backup must be verifiable.</div>
+        </div>
+      </div>
+
+      <!-- Side info boxes -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="info-box info-box-green">
+          <p><strong class="text-green">Why rollback-first?</strong> On a production migration at 2 AM, the first question after a failure is "how do we get back?" Having the answer written down before the first command runs is what separates professional migrations from incidents.</p>
+        </div>
+        <div class="info-box info-box-amber">
+          <p><strong style="color:var(--accent-amber)">Why fetch live docs?</strong> CentOS 7 to Rocky 9 is a complex path with evolving tooling. Python 2 EOL handling, SELinux policy gaps, and package naming differences change with each Rocky minor release. Stale knowledge causes silent failures.</p>
+        </div>
+        <div class="info-box info-box-green">
+          <p><strong class="text-green">Why hard-gate backups?</strong> Every "we had backups" post-mortem eventually reveals the backup was untested, on the same system being migrated, or expired. The gate forces proof before cutover.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Terminal Demo -->
+<section class="section bg-alt">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">Live demo</span>
+      <h2 class="section-title">Migration planning in action</h2>
+      <p class="section-desc">Running <code>migration-expert plan</code> dispatches all agents in parallel and produces a complete migration package — inventory, risk register, runbook, and rollback plan — before you touch a single server.</p>
+    </div>
+
+    <div class="demo-terminal reveal d1">
+      <div class="demo-bar">
+        <span class="tdot tdot-r"></span>
+        <span class="tdot tdot-y"></span>
+        <span class="tdot tdot-g"></span>
+        <span class="terminal-title">Claude Code — /linux-admin:migration-expert</span>
+      </div>
+      <div class="demo-body">
+        <div class="tl"><span class="demo-prompt">›</span>&nbsp;<span class="demo-cmd">/linux-admin:migration-expert plan CentOS 7 to Rocky 9 migration</span></div>
+        <div class="tl"><span class="demo-arrow">→ Dispatching inventory agent...</span></div>
+        <div class="tl"><span class="demo-arrow">→ Dispatching risk agent...</span></div>
+        <div class="tl"><span class="demo-arrow">→ Dispatching research agent (CentOS 7 → Rocky 9 migration guide)...</span></div>
+        <div class="tl" style="margin-top:4px"><span class="demo-arrow">→ Inventory complete: 47 packages, 12 services, 3 cron jobs, 2 custom kernel modules</span></div>
+        <div class="tl"><span class="demo-arrow">→ Writing 01-inventory.md, 02-dependency-map.md</span></div>
+        <div class="tl" style="margin-top:4px"><span class="demo-risk">→ Risk: Python 2 EOL packages detected (32 packages)</span></div>
+        <div class="tl"><span class="demo-risk">→ Risk: SysVinit scripts need systemd conversion (4 services)</span></div>
+        <div class="tl"><span class="demo-risk">→ Risk: kernel 3.10 → 5.14 — check custom modules (kmod-lustre, kmod-drbd)</span></div>
+        <div class="tl"><span class="demo-risk">→ Risk: SELinux policy — verify booleans carry over</span></div>
+        <div class="tl"><span class="demo-risk">→ Risk: ifcfg network scripts deprecated — NetworkManager migration required</span></div>
+        <div class="tl"><span class="demo-arrow">→ Writing 03-risk-register.md (5 risks, 2 blockers, 3 advisories)</span></div>
+        <div class="tl" style="margin-top:4px"><span class="demo-arrow">→ Research agent: fetching Rocky 9 migration guide from rockylinux.org...</span></div>
+        <div class="tl"><span class="demo-arrow">→ Research complete: ELevate migration tool recommended for in-place upgrade</span></div>
+        <div class="tl" style="margin-top:4px"><span class="demo-arrow">→ Generating runbook...</span></div>
+        <div class="tl"><span class="demo-arrow">→ 05-runbook.md written (47 steps)</span></div>
+        <div class="tl"><span class="demo-arrow">→ 06-validation-matrix.md written (22 post-migration checks)</span></div>
+        <div class="tl"><span class="demo-arrow">→ Rollback plan: snapshot before conversion, 4h rollback window</span></div>
+        <div class="tl"><span class="demo-arrow">→ 07-rollback-plan.md written</span></div>
+        <div class="tl" style="margin-top:4px"><span class="demo-ok">✓ Migration plan complete. Review .migration/ before proceeding.</span></div>
+        <div class="tl"><span class="demo-ok">✓ Blockers require resolution before cutover gate will open.</span></div>
+        <div class="tl"><span class="demo-dim"># Next: resolve blockers, confirm backup, run /linux-admin:migration-expert cutover<span class="cursor"></span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">/linux-admin</div>
+        <p class="footer-brand-desc">Senior Linux administrator and SRE workflow as a Claude Code plugin. 30+ skills, safety hooks, multi-platform adapters.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge badge-green">MIT License</span>
+          <span class="badge badge-cyan">Multi-Agent</span>
+          <span class="badge badge-amber">Rollback-First</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Pages</div>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="install.html">Install</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">More</div>
+        <ul class="footer-links-list">
+          <li><a href="migration.html">Migration Expert</a></li>
+          <li><a href="security.html">Security</a></li>
+          <li><a href="examples.html">Examples</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-links-list">
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">USAGE.md</a></li>
+          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/EXPERT_MODULE_INDEX.md" target="_blank" rel="noopener">Expert Modules</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">linux-admin plugin — MIT License</p>
+      <p class="footer-safety">rollback-first · gated-cutover · multi-agent</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/copy.js"></script>
+<script src="assets/js/animations.js"></script>
+</body>
+</html>

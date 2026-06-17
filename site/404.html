@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found | linux-admin</title>
+<meta name="description" content="Page not found. Return to linux-admin plugin documentation.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .error-page {
+    min-height: calc(100vh - var(--nav-h));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    padding-top: calc(var(--nav-h) + 60px);
+  }
+  .error-inner { max-width: 520px; margin: 0 auto; }
+  .error-code {
+    font-family: var(--font-mono);
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .error-title {
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  .error-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .error-terminal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-align: left;
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+  .et-prompt { color: var(--accent-green); }
+  .et-cmd { color: var(--text-primary); }
+  .et-out { color: var(--text-muted); display: block; padding-left: 16px; }
+  .et-err { color: #f87171; display: block; padding-left: 16px; }
+  .error-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo" aria-label="linux-admin home"><span class="slash">/</span>linux-admin</a>
+    <ul class="nav-links" role="list">
+      <li><a href="index.html" class="nav-link" data-page="index.html">Home</a></li>
+      <li><a href="skills.html" class="nav-link" data-page="skills.html">Skills</a></li>
+      <li><a href="install.html" class="nav-link" data-page="install.html">Install</a></li>
+      <li><a href="architecture.html" class="nav-link" data-page="architecture.html">Architecture</a></li>
+      <li><a href="migration.html" class="nav-link" data-page="migration.html">Migration</a></li>
+      <li><a href="security.html" class="nav-link" data-page="security.html">Security</a></li>
+      <li><a href="examples.html" class="nav-link" data-page="examples.html">Examples</a></li>
+      <li><a href="about.html" class="nav-link" data-page="about.html">About</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Switch theme">🌙</button>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="nav-cta">★ GitHub</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+  <a href="index.html" class="nav-link" data-page="index.html">Home</a>
+  <a href="skills.html" class="nav-link" data-page="skills.html">Skills</a>
+  <a href="install.html" class="nav-link" data-page="install.html">Install</a>
+  <a href="architecture.html" class="nav-link" data-page="architecture.html">Architecture</a>
+  <a href="migration.html" class="nav-link" data-page="migration.html">Migration</a>
+  <a href="security.html" class="nav-link" data-page="security.html">Security</a>
+  <a href="examples.html" class="nav-link" data-page="examples.html">Examples</a>
+  <a href="about.html" class="nav-link" data-page="about.html">About</a>
+  <button class="theme-toggle" onclick="document.getElementById('theme-toggle').click()">🌙 Toggle theme</button>
+</nav>
+
+<main class="error-page" role="main">
+  <div class="error-inner">
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-desc">The page you're looking for doesn't exist or was moved. Let's get you back to the right place.</p>
+
+    <div class="error-terminal" role="log" aria-label="Error terminal">
+      <div><span class="et-prompt">›</span> <span class="et-cmd">GET /this-page HTTP/1.1</span></div>
+      <span class="et-err">404 Not Found — No route matched</span>
+      <div style="height:8px"></div>
+      <div><span class="et-prompt">›</span> <span class="et-cmd">ls /linux-admin/pages/</span></div>
+      <span class="et-out">index.html  skills.html  install.html  architecture.html</span>
+      <span class="et-out">migration.html  security.html  examples.html  about.html</span>
+      <div style="height:8px"></div>
+      <div><span class="et-prompt">›</span> <span class="et-cmd">cd /linux-admin/</span><span style="display:inline-block;width:8px;height:0.9em;background:var(--accent-green);vertical-align:text-bottom;animation:blink 1.1s step-end infinite;margin-left:2px"></span></div>
+    </div>
+
+    <div class="error-actions">
+      <a href="index.html" class="button button-primary">← Back Home</a>
+      <a href="skills.html" class="button button-secondary">Browse Skills</a>
+    </div>
+  </div>
+</main>
+
+<style>
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+</style>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
