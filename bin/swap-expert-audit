@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+PLUGIN_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"
+exec "$PLUGIN_ROOT/scripts/swap-expert-audit.py" "$@"
