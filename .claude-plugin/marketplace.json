@@ -15,8 +15,10 @@
       },
       "category": "development",
       "source": {
-        "source": "url",
-        "url": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/archive/96bcaa50954a3151993fe82029f458a309518c90.zip",
+        "source": "git-subdir",
+        "url": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git",
+        "path": ".",
+        "ref": "main",
         "sha": "96bcaa50954a3151993fe82029f458a309518c90"
       },
       "homepage": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators"
