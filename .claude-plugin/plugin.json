@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
   "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 58 task-specific skills for boot, networking, storage, LVM, permissions, containers, kernel, auth, logging, auditd, rsyslog, logrotate, MySQL, Nginx, PHP-FPM, backup/restore, incident response, SSH hardening, tcpdump, memory, swap, NTP, NAT, shell config, Bash/shell scripting, and token-saving log search.",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "author": {
     "name": "Rushikesh Sakharle",
     "email": "rishiananya123@gmail.com"
