@@ -12,7 +12,7 @@ Senior Linux administrator and SRE workflow as a Claude Code plugin.
 
 ## What is this?
 
-A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 46 task-specific skills covering boot, networking, storage, permissions, containers, kernel, auth, logging, memory, swap, NTP, NAT, shell config, Bash and portable shell scripting, and more.
+A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 47 task-specific skills covering boot, networking, storage, permissions, containers, kernel, auth, logging, memory, swap, NTP, NAT, shell config, Bash/portable shell scripting, token-saving log search, and more.
 
 ## Quick Start
 
@@ -108,6 +108,7 @@ Reload after edits:
 | `/linux-admin:zshrc-expert` | .zshrc/zshenv/zprofile, plugins, prompt, startup order |
 | `/linux-admin:bash-script-expert` | Create, review, harden, debug, and merge Bash scripts |
 | `/linux-admin:shell-script-expert` | POSIX/portable shell, /bin/sh, dash/ash compatibility review |
+| `/linux-admin:grep-expert` | Token-saving log search with grep/ripgrep, journal pipelines, pattern reuse |
 
 ## Triage scripts
 
@@ -156,7 +157,7 @@ docs/            skill documentation and task files
 gemini/          Gemini adapter prompts
 hooks/           PreToolUse safety hook
 scripts/         utility and validation scripts
-skills/          skill definitions (46 skills)
+skills/          skill definitions (47 skills)
 templates/       reusable prompt templates
 tests/           plugin validation tests
 ```

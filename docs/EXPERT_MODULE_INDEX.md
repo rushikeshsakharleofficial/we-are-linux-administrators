@@ -57,6 +57,7 @@ This is a single plugin package containing the original Linux admin troubleshoot
 | `zshrc-expert` | .zshrc, zshenv, zprofile, zlogin, aliases, plugins, prompt, startup order | — |
 | `bash-script-expert` | Bash script creation, review, hardening, debugging, merging, cron/systemd-safe patterns | — |
 | `shell-script-expert` | POSIX/portable shell, /bin/sh, dash/ash compatibility checks, Bash-to-portable migration | — |
+| `grep-expert` | Token-saving log search with grep/ripgrep, journal pipelines, bounded evidence, pattern reuse | — |
 
 ## Usage
 
@@ -109,4 +110,5 @@ All expert modules follow the same policy:
 /linux-admin:zshrc-expert <zsh startup config task>
 /linux-admin:bash-script-expert <bash script creation/review/debug task>
 /linux-admin:shell-script-expert <portable shell compatibility check>
+/linux-admin:grep-expert <token-saving log search or grep pipeline task>
 ```
