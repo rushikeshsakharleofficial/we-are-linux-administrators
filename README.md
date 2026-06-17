@@ -16,7 +16,13 @@ A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE
 
 ## Quick Start
 
-Load the plugin from the repo directory:
+**Install from GitHub (recommended):**
+
+```text
+/plugin install rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**Or load locally from the repo directory:**
 
 ```bash
 claude --plugin-dir ./we-are-linux-administrators
