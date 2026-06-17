@@ -34,14 +34,21 @@
     });
   }
 
-  // ── Scroll reveal
+  // ── Scroll reveal — show elements already in viewport immediately
   if ('IntersectionObserver' in window) {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
       });
-    }, { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    }, { threshold: 0.05, rootMargin: '0px 0px 40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 80 && rect.bottom > 0) {
+        el.classList.add('visible');
+      } else {
+        obs.observe(el);
+      }
+    });
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
   }
