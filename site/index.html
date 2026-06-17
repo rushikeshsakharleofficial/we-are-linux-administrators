@@ -96,12 +96,26 @@
     text-transform: uppercase;
     margin-bottom: 6px;
   }
+  @keyframes title-shimmer {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
   .hero-title-main {
-    background: linear-gradient(135deg, var(--accent-green) 0%, #86efac 45%, var(--accent-cyan) 100%);
+    background: linear-gradient(90deg,
+      var(--accent-green) 0%,
+      #4ade80 20%,
+      #86efac 38%,
+      #ffffff 50%,
+      #86efac 62%,
+      #4ade80 80%,
+      var(--accent-cyan) 100%
+    );
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 30px rgba(74,222,128,0.25));
+    filter: drop-shadow(0 0 30px rgba(74,222,128,0.3));
+    animation: title-shimmer 2.8s linear infinite;
   }
   .hero-sub {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
