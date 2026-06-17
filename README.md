@@ -12,7 +12,7 @@ Senior Linux administrator and SRE workflow as a Claude Code plugin.
 
 ## What is this?
 
-A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 47 task-specific skills covering boot, networking, storage, permissions, containers, kernel, auth, logging, memory, swap, NTP, NAT, shell config, Bash/portable shell scripting, token-saving log search, and more.
+A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 58 task-specific skills covering boot, networking, storage, LVM, permissions, containers, kernel, auth, logging, auditd, rsyslog, logrotate, MySQL, Nginx, PHP-FPM, backup/restore, incident response, SSH hardening, tcpdump, memory, swap, NTP, NAT, shell config, Bash/shell scripting, token-saving log search, and more.
 
 ## Quick Start
 
@@ -109,6 +109,17 @@ Reload after edits:
 | `/linux-admin:bash-script-expert` | Create, review, harden, debug, and merge Bash scripts |
 | `/linux-admin:shell-script-expert` | POSIX/portable shell, /bin/sh, dash/ash compatibility review |
 | `/linux-admin:grep-expert` | Token-saving log search with grep/ripgrep, journal pipelines, pattern reuse |
+| `/linux-admin:auditd-expert` | auditd rule design, compliance evidence, file/syscall watches, safe rule rollout |
+| `/linux-admin:backup-restore-expert` | Backup planning, rsync/tar, restore validation, ownership/ACL preservation |
+| `/linux-admin:incident-response-expert` | Linux incident triage, evidence collection, containment, timeline |
+| `/linux-admin:logrotate-expert` | logrotate config, rotation triggers, compression, postrotate scripts |
+| `/linux-admin:lvm-expert` | LVM PV/VG/LV management, resize, snapshot, thin provisioning |
+| `/linux-admin:mysql-expert` | MySQL/MariaDB config, replication, slow queries, recovery, permissions |
+| `/linux-admin:nginx-expert` | Nginx config, virtual hosts, reverse proxy, SSL, upstream tuning |
+| `/linux-admin:php-fpm-expert` | PHP-FPM pool config, worker sizing, slow log, socket/TCP mode |
+| `/linux-admin:rsyslog-expert` | rsyslog config, rules, remote logging, filtering, performance |
+| `/linux-admin:ssh-hardening-expert` | SSH config hardening, key auth, ciphers, fail2ban integration |
+| `/linux-admin:tcpdump-expert` | tcpdump captures, filters, evidence extraction, token-saving analysis |
 
 ## Triage scripts
 
@@ -157,7 +168,7 @@ docs/            skill documentation and task files
 gemini/          Gemini adapter prompts
 hooks/           PreToolUse safety hook
 scripts/         utility and validation scripts
-skills/          skill definitions (47 skills)
+skills/          skill definitions (58 skills)
 templates/       reusable prompt templates
 tests/           plugin validation tests
 ```

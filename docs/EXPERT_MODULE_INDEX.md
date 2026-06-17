@@ -58,6 +58,17 @@ This is a single plugin package containing the original Linux admin troubleshoot
 | `bash-script-expert` | Bash script creation, review, hardening, debugging, merging, cron/systemd-safe patterns | — |
 | `shell-script-expert` | POSIX/portable shell, /bin/sh, dash/ash compatibility checks, Bash-to-portable migration | — |
 | `grep-expert` | Token-saving log search with grep/ripgrep, journal pipelines, bounded evidence, pattern reuse | — |
+| `auditd-expert` | auditd rule design, compliance evidence, file/syscall watches, safe rule rollout | — |
+| `backup-restore-expert` | Backup planning, rsync/tar workflows, restore validation, ownership/ACL/SELinux label preservation | — |
+| `incident-response-expert` | Linux incident triage, evidence collection, containment, timeline reconstruction | — |
+| `logrotate-expert` | logrotate config, rotation triggers, compression, postrotate scripts, debug | — |
+| `lvm-expert` | LVM PV/VG/LV management, resize, snapshot, thin provisioning, recovery | — |
+| `mysql-expert` | MySQL/MariaDB config, replication, slow queries, recovery, permissions | — |
+| `nginx-expert` | Nginx config, virtual hosts, reverse proxy, SSL termination, upstream tuning | — |
+| `php-fpm-expert` | PHP-FPM pool config, worker sizing, slow log, socket/TCP mode tuning | — |
+| `rsyslog-expert` | rsyslog config, rules, remote logging, filtering, performance tuning | — |
+| `ssh-hardening-expert` | SSH config hardening, key auth, ciphers, fail2ban integration, lockout safety | — |
+| `tcpdump-expert` | tcpdump captures, BPF filters, evidence extraction, token-saving analysis | — |
 
 ## Usage
 
@@ -111,4 +122,15 @@ All expert modules follow the same policy:
 /linux-admin:bash-script-expert <bash script creation/review/debug task>
 /linux-admin:shell-script-expert <portable shell compatibility check>
 /linux-admin:grep-expert <token-saving log search or grep pipeline task>
+/linux-admin:auditd-expert <audit rule design or compliance evidence task>
+/linux-admin:backup-restore-expert <backup planning or restore validation task>
+/linux-admin:incident-response-expert <Linux incident triage or containment task>
+/linux-admin:logrotate-expert <logrotate config or rotation debug task>
+/linux-admin:lvm-expert <LVM resize, snapshot, or recovery task>
+/linux-admin:mysql-expert <MySQL/MariaDB config, replication, or recovery task>
+/linux-admin:nginx-expert <Nginx config, proxy, or SSL task>
+/linux-admin:php-fpm-expert <PHP-FPM pool config or slow log task>
+/linux-admin:rsyslog-expert <rsyslog config or remote logging task>
+/linux-admin:ssh-hardening-expert <SSH hardening or key auth task>
+/linux-admin:tcpdump-expert <packet capture or tcpdump filter task>
 ```
