@@ -69,12 +69,12 @@
 
       <!-- Method 1: CLI Marketplace -->
       <div class="card reveal">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px;">
           <div>
             <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-green);margin-bottom:4px;">CLI Marketplace</div>
             <div class="card-body">Recommended for most users</div>
           </div>
-          <span class="badge badge-green">Recommended</span>
+          <span class="badge badge-green" style="flex-shrink:0;">Recommended</span>
         </div>
         <div class="terminal">
           <div class="terminal-bar">
@@ -83,27 +83,25 @@
             <span class="tdot tdot-g"></span>
             <span class="terminal-title">terminal</span>
           </div>
-          <div class="terminal-body" style="position:relative;">
-            <button class="copy-btn" aria-label="Copy CLI install commands" data-copy-target="cli-method-text" style="position:absolute;top:8px;right:10px;">copy</button>
+          <div class="terminal-body" style="position:relative;overflow-x:auto;word-break:break-word;overflow-wrap:anywhere;">
+            <button class="copy-btn" aria-label="Copy CLI install commands">copy</button>
             <div class="tl"><span class="tp">#</span><span class="tc" style="color:var(--text-dim);"> Add marketplace</span></div>
-            <div class="tl"><span class="tp">$</span><span class="tc"> claude plugin marketplace add <span style="color:var(--accent-cyan);">rushikeshsakharleofficial/we-are-linux-administrators</span></span></div>
+            <div class="tl"><span class="tp">$</span><span class="tc"> claude plugin marketplace add <span style="color:var(--accent-cyan);">rushikeshsakharleofficial/<wbr>we-are-linux-administrators</span></span></div>
             <br>
             <div class="tl"><span class="tp">#</span><span class="tc" style="color:var(--text-dim);"> Install plugin</span></div>
             <div class="tl"><span class="tp">$</span><span class="tc"> claude plugin install <span style="color:var(--accent-cyan);">linux-admin@we-are-linux-administrators</span></span></div>
           </div>
         </div>
-        <textarea id="cli-method-text" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1">claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
-claude plugin install linux-admin@we-are-linux-administrators</textarea>
       </div>
 
       <!-- Method 2: Slash commands -->
       <div class="card reveal d1">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px;">
           <div>
             <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-cyan);margin-bottom:4px;">Slash Commands</div>
             <div class="card-body">Inside an active Claude Code session</div>
           </div>
-          <span class="badge badge-cyan">In-session</span>
+          <span class="badge badge-cyan" style="flex-shrink:0;">In-session</span>
         </div>
         <div class="terminal">
           <div class="terminal-bar">
@@ -112,26 +110,24 @@ claude plugin install linux-admin@we-are-linux-administrators</textarea>
             <span class="tdot tdot-g"></span>
             <span class="terminal-title">claude code</span>
           </div>
-          <div class="terminal-body" style="position:relative;">
-            <button class="copy-btn" aria-label="Copy slash command install" data-copy-target="slash-method-text" style="position:absolute;top:8px;right:10px;">copy</button>
+          <div class="terminal-body" style="position:relative;overflow-x:auto;word-break:break-word;overflow-wrap:anywhere;">
+            <button class="copy-btn" aria-label="Copy slash command install">copy</button>
             <div class="tl"><span class="tp">#</span><span class="tc" style="color:var(--text-dim);"> Run inside Claude Code session</span></div>
-            <div class="tl"><span class="tp">›</span><span class="tc"> /plugin marketplace add <span style="color:var(--accent-cyan);">rushikeshsakharleofficial/we-are-linux-administrators</span></span></div>
+            <div class="tl"><span class="tp">›</span><span class="tc"> /plugin marketplace add <span style="color:var(--accent-cyan);">rushikeshsakharleofficial/<wbr>we-are-linux-administrators</span></span></div>
             <br>
             <div class="tl"><span class="tp">›</span><span class="tc"> /plugin install <span style="color:var(--accent-cyan);">linux-admin@we-are-linux-administrators</span></span></div>
           </div>
         </div>
-        <textarea id="slash-method-text" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1">/plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
-/plugin install linux-admin@we-are-linux-administrators</textarea>
       </div>
 
       <!-- Method 3: Local clone -->
       <div class="card reveal d2">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px;">
           <div>
             <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-purple);margin-bottom:4px;">Local Clone</div>
             <div class="card-body">For contributors or offline use</div>
           </div>
-          <span class="badge badge-purple">Contributors</span>
+          <span class="badge badge-purple" style="flex-shrink:0;">Contributors</span>
         </div>
         <div class="terminal">
           <div class="terminal-bar">
@@ -140,15 +136,13 @@ claude plugin install linux-admin@we-are-linux-administrators</textarea>
             <span class="tdot tdot-g"></span>
             <span class="terminal-title">terminal</span>
           </div>
-          <div class="terminal-body" style="position:relative;">
-            <button class="copy-btn" aria-label="Copy local clone commands" data-copy-target="local-method-text" style="position:absolute;top:8px;right:10px;">copy</button>
-            <div class="tl"><span class="tp">$</span><span class="tc"> git clone <span style="color:var(--accent-cyan);">https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git</span></span></div>
+          <div class="terminal-body" style="position:relative;overflow-x:auto;word-break:break-word;overflow-wrap:anywhere;">
+            <button class="copy-btn" aria-label="Copy local clone commands">copy</button>
+            <div class="tl"><span class="tp">$</span><span class="tc"> git clone <span style="color:var(--accent-cyan);">https://github.com/rushikeshsakharleofficial/<wbr>we-are-linux-administrators.git</span></span></div>
             <br>
             <div class="tl"><span class="tp">$</span><span class="tc"> claude --plugin-dir <span style="color:var(--accent-cyan);">./we-are-linux-administrators</span></span></div>
           </div>
         </div>
-        <textarea id="local-method-text" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true" tabindex="-1">git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
-claude --plugin-dir ./we-are-linux-administrators</textarea>
       </div>
 
     </div><!-- /grid -->
@@ -165,20 +159,20 @@ claude --plugin-dir ./we-are-linux-administrators</textarea>
     </div>
 
     <div class="grid grid-2">
-      <div class="reveal">
+      <div class="card reveal">
         <h3 style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:10px;">1. Validate plugin JSON</h3>
-        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">Check that the plugin manifest is valid JSON. No output means success.</p>
-        <div class="command-block">
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">Check that the plugin manifest is valid JSON. No output means success.</p>
+        <div class="command-block" style="padding-right:56px;">
           <button class="copy-btn" aria-label="Copy validate command">copy</button>
           <span class="cp">$</span> python3 -m json.tool .claude-plugin/plugin.json &gt;/dev/null<br>
           <span class="cc"># Should print nothing (valid JSON)</span>
         </div>
       </div>
 
-      <div class="reveal d1">
+      <div class="card reveal d1">
         <h3 style="font-size:0.88rem;font-weight:600;color:var(--text-primary);margin-bottom:10px;">2. Reload plugins</h3>
-        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">Inside Claude Code, run <code style="font-family:var(--font-mono);color:var(--accent-green)">/reload-plugins</code> to pick up the new installation without restarting.</p>
-        <div class="command-block">
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">Inside Claude Code, run <code style="font-family:var(--font-mono);color:var(--accent-green)">/reload-plugins</code> to pick up the install without restarting.</p>
+        <div class="command-block" style="padding-right:56px;">
           <button class="copy-btn" aria-label="Copy reload command">copy</button>
           <span class="cp">›</span> /reload-plugins<br>
           <span class="cc"># Inside Claude Code — reloads all plugins</span>
