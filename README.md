@@ -12,7 +12,7 @@ Senior Linux administrator and SRE workflow as a Claude Code plugin.
 
 ## What is this?
 
-A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 30+ task-specific skills covering boot, networking, storage, permissions, containers, kernel, auth, logging, and more.
+A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE mental model. It provides read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates that block or confirm destructive commands before they run. Includes 44 task-specific skills covering boot, networking, storage, permissions, containers, kernel, auth, logging, memory, swap, NTP, NAT, shell config, and more.
 
 ## Quick Start
 
@@ -100,6 +100,12 @@ Reload after edits:
 | `/linux-admin:kernel-expert` | Kernel panic triage and kdump readiness |
 | `/linux-admin:tcp-expert` | Stateful TCP connection lifecycle issues |
 | `/linux-admin:udp-expert` | Datagram loss, buffer, fragmentation, NAT behavior |
+| `/linux-admin:memory-expert` | OOM, PSI, page cache, slab, cgroup memory limits |
+| `/linux-admin:swap-expert` | Swap files, zram/zswap, vm.swappiness, sizing |
+| `/linux-admin:ntp-expert` | NTP sync across chrony/ntpd/timesyncd, offset, drift |
+| `/linux-admin:natting-expert` | SNAT, DNAT, MASQUERADE, port forwarding, conntrack |
+| `/linux-admin:bashrc-expert` | .bashrc/.bash_profile, aliases, PATH, prompt, startup order |
+| `/linux-admin:zshrc-expert` | .zshrc/zshenv/zprofile, plugins, prompt, startup order |
 
 ## Triage scripts
 
@@ -148,7 +154,7 @@ docs/            skill documentation and task files
 gemini/          Gemini adapter prompts
 hooks/           PreToolUse safety hook
 scripts/         utility and validation scripts
-skills/          skill definitions (30+ skills)
+skills/          skill definitions (44 skills)
 templates/       reusable prompt templates
 tests/           plugin validation tests
 ```

@@ -49,6 +49,12 @@ This is a single plugin package containing the original Linux admin troubleshoot
 | `cf-expert` | Cloudflare DNS/WAF/cache/rate-limit/tunnels with MCP/API-safe workflows | `cf-expert-audit` |
 | `dnsmasq-expert` | dnsmasq DNS cache/forwarder, DHCP, PXE/TFTP, split DNS, resolver loops | `dnsmasq-expert-audit` |
 | `os-security-expert` | Linux OS security audit and hardening across SSH, sudo, MAC, auditd, sysctl, logging | `os-security-expert-audit` |
+| `memory-expert` | Memory pressure, OOM killer, page cache, slab, cgroup/container memory limits, PSI | `memory-expert-audit` |
+| `swap-expert` | Swap files, swap partitions, zram/zswap, vm.swappiness, swap sizing, OOM avoidance | `swap-expert-audit` |
+| `ntp-expert` | NTP synchronization across chrony, ntpd, systemd-timesyncd, drift, offset, source quality | — |
+| `natting-expert` | SNAT, DNAT, MASQUERADE, port forwarding, nftables/iptables NAT, conntrack, ip_forward | — |
+| `bashrc-expert` | .bashrc, .bash_profile, aliases, functions, PATH, PS1, startup order, debug slow init | — |
+| `zshrc-expert` | .zshrc, zshenv, zprofile, zlogin, aliases, plugins, prompt, startup order | — |
 
 ## Usage
 
@@ -93,4 +99,10 @@ All expert modules follow the same policy:
 /linux-admin:cf-expert <Cloudflare DNS/WAF/MCP task>
 /linux-admin:dnsmasq-expert <dnsmasq DNS/DHCP task>
 /linux-admin:os-security-expert <Linux OS security audit/hardening task>
+/linux-admin:memory-expert <memory pressure/OOM/cgroup memory task>
+/linux-admin:swap-expert <swap sizing/zram/swappiness task>
+/linux-admin:ntp-expert <NTP sync/drift/source quality task>
+/linux-admin:natting-expert <NAT/SNAT/DNAT/port-forward task>
+/linux-admin:bashrc-expert <bash startup config task>
+/linux-admin:zshrc-expert <zsh startup config task>
 ```
