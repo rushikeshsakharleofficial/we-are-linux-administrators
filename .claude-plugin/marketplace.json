@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "we-are-linux-administrators",
+  "description": "Linux administrator and SRE skills for Claude Code — diagnostics, networking, storage, security, kernel, containers, and more.",
+  "owner": {
+    "name": "Rushikesh Sakharle",
+    "email": "rishiananya123@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "linux-admin",
+      "description": "Senior Linux admin and SRE workflow. 30+ expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, and automation.",
+      "author": {
+        "name": "Rushikesh Sakharle"
+      },
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "rushikeshsakharleofficial/we-are-linux-administrators",
+        "commit": "010fbe0d97d95b51e5c292873c334b00d8e31d82"
+      },
+      "homepage": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators"
+    }
+  ]
+}

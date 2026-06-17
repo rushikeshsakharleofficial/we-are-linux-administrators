@@ -16,17 +16,21 @@ A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE
 
 ## Quick Start
 
-**Clone and load:**
+**Install via Claude Code marketplace:**
+
+```bash
+# Add this repo as a marketplace
+claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+
+# Install the plugin
+claude plugin install linux-admin@we-are-linux-administrators
+```
+
+**Or load locally:**
 
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
 claude --plugin-dir ./we-are-linux-administrators
-```
-
-Or load from a zip:
-
-```bash
-claude --plugin-dir ./we-are-linux-administrators.zip
 ```
 
 Then invoke any skill inside Claude Code:
