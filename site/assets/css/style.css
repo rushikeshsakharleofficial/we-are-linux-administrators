@@ -245,7 +245,24 @@ body::after {
   color: var(--text-body);
 }
 [data-theme="light"] .command-block .cc { color: var(--text-muted); }
-[data-theme="light"] .terminal { background: #1e1e2e; border-color: rgba(0,0,0,0.18); }
+[data-theme="light"] .terminal {
+  background: #1e1e2e;
+  border-color: rgba(0,0,0,0.18);
+  /* restore dark-mode token values so inline var() refs inside terminal stay readable */
+  --text-primary: #ffffff;
+  --text-body:    #d4d4d8;
+  --text-muted:   #71717a;
+  --text-dim:     #94a3b8;
+  --accent-green:  #4ade80;
+  --accent-cyan:   #22d3ee;
+  --accent-purple: #a78bfa;
+  --accent-amber:  #fbbf24;
+  --accent-red:    #f87171;
+  --accent-pink:   #f472b6;
+  --border-soft:   rgba(255,255,255,0.07);
+  --border-medium: rgba(255,255,255,0.12);
+  --bg-elevated:   #111111;
+}
 [data-theme="light"] .terminal-bar { background: #2a2a3d; border-color: rgba(0,0,0,0.2); }
 [data-theme="light"] .terminal-title { color: #94a3b8; }
 [data-theme="light"] .terminal-body .tc { color: #e2e8f0; }

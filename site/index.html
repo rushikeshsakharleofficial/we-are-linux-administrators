@@ -163,14 +163,20 @@
   .ht-dim { color:var(--text-muted); padding-left:16px; display:block; }
   .ht-cur { display:inline-block;width:8px;height:.95em;background:var(--accent-green);vertical-align:text-bottom;animation:blink 1.1s step-end infinite;margin-left:2px; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-  /* Keep hero terminal dark in light mode */
-  [data-theme="light"] .hero-terminal { background: #12121e; border-color: rgba(255,255,255,0.12); }
+  /* Keep hero terminal dark in light mode — restore dark token values so inline var() refs stay readable */
+  [data-theme="light"] .hero-terminal {
+    background: #12121e;
+    border-color: rgba(255,255,255,0.12);
+    --text-primary: #ffffff;
+    --text-body:    #d4d4d8;
+    --text-muted:   #71717a;
+    --text-dim:     #94a3b8;
+    --accent-green:  #4ade80;
+    --accent-cyan:   #22d3ee;
+    --accent-amber:  #fbbf24;
+    --accent-red:    #f87171;
+  }
   [data-theme="light"] .ht-bar { background: #1a1a2e; border-color: rgba(255,255,255,0.1); }
-  [data-theme="light"] .ht-title { color: #94a3b8; }
-  [data-theme="light"] .ht-cmd { color: #e2e8f0; }
-  [data-theme="light"] .ht-out { color: #cbd5e1; }
-  [data-theme="light"] .ht-dim { color: #94a3b8; }
-  [data-theme="light"] .ht-amber { color: #fbbf24; }
 
   /* Feature grid — bento layout */
   .features-section { padding:80px max(24px,5vw); max-width:1200px; margin:0 auto; }
@@ -353,7 +359,7 @@
 <!-- STATS -->
 <div class="stat-strip" role="region" aria-label="Key statistics">
   <div class="stat-item">
-    <span class="stat-num" data-count="44" data-suffix="+">44</span>
+    <span class="stat-num" data-count="98" data-suffix="+">98</span>
     <span class="stat-label">Skills</span>
   </div>
   <div class="stat-item">
@@ -367,6 +373,22 @@
   <div class="stat-item">
     <span class="stat-num">0</span>
     <span class="stat-label">Blind rm -rf</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" id="stat-stars">—</span>
+    <span class="stat-label">⭐ GitHub Stars</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" id="stat-commits">—</span>
+    <span class="stat-label">Total Commits</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" id="stat-prs">—</span>
+    <span class="stat-label">Merged PRs</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" id="stat-solved">—</span>
+    <span class="stat-label">Issues Solved</span>
   </div>
 </div>
 
@@ -632,5 +654,33 @@ claude plugin install linux-admin@we-are-linux-administrators</div>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/copy.js"></script>
 <script src="assets/js/animations.js"></script>
+<script>
+(async () => {
+  const REPO = 'rushikeshsakharleofficial/we-are-linux-administrators';
+  const API  = `https://api.github.com/repos/${REPO}`;
+  const set  = (id, n) => { const el = document.getElementById(id); if (el && n !== null) el.textContent = n.toLocaleString(); };
+  const pageCount = async (url) => {
+    try {
+      const r = await fetch(url + (url.includes('?') ? '&' : '?') + 'per_page=1', {headers:{'Accept':'application/vnd.github+json'}});
+      if (!r.ok) return null;
+      const link = r.headers.get('Link') || '';
+      const m = link.match(/[?&]page=(\d+)>; rel="last"/);
+      return m ? parseInt(m[1]) : 1;
+    } catch { return null; }
+  };
+  try {
+    const [repo, commits, prs, closed] = await Promise.all([
+      fetch(API, {headers:{'Accept':'application/vnd.github+json'}}).then(r => r.json()),
+      pageCount(`${API}/commits`),
+      pageCount(`${API}/pulls?state=closed`),
+      pageCount(`${API}/issues?state=closed&filter=all`),
+    ]);
+    set('stat-stars',  repo.stargazers_count ?? null);
+    set('stat-commits', commits);
+    set('stat-prs',    prs);
+    set('stat-solved', closed !== null && prs !== null ? Math.max(0, closed - prs) : closed);
+  } catch {}
+})();
+</script>
 </body>
 </html>
