@@ -143,7 +143,7 @@ All expert modules follow the same policy:
 | `risk-assessment-expert` | Linux change risk scoring, production impact estimation, mitigation planning | — |
 | `rollback-expert` | Linux rollback planning, recovery points, state restoration, safe cutover reversal | — |
 | `root-cause-expert` | Linux incident root-cause analysis, evidence-based diagnosis, contributing factors | — |
-| `ansible-expert` | Ansible playbook review, idempotency, privilege escalation, dry-run, safe fleet rollout | — |
+| `ansible-expert` | Ansible playbook review, idempotency, CMDB/dynamic inventory, proxy/jump-host access, Python interpreter compatibility, production package update strategy, DR playbooks | — |
 | `apache-expert` | Apache HTTPD vhosts, modules, MPM behavior, proxying, TLS, access control, safe reload | — |
 | `apparmor-expert` | AppArmor profiles, policy enforcement, audit mode, confinement, safe rule design | — |
 | `capacity-planning-expert` | CPU/memory/disk capacity projection, trend analysis, utilization thresholds, scaling triggers | — |

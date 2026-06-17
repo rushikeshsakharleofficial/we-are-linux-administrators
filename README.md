@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.0-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Version](https://img.shields.io/badge/version-1.17.1-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
 [![Skills](https://img.shields.io/badge/skills-98-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
@@ -174,7 +174,7 @@ claude --plugin-dir ./we-are-linux-administrators
 
 | Skill | Use |
 |---|---|
-| `/linux-admin:ansible-expert` | Playbook review, idempotency, privilege escalation, fleet rollout |
+| `/linux-admin:ansible-expert` | Playbook review, idempotency, CMDB inventory, proxy/jump hosts, interpreter compat, DR playbooks |
 | `/linux-admin:patching-expert` | Safe OS patching, rollback planning, pre/post validation |
 | `/linux-admin:cron-scheduler-expert` | cron/crond, systemd timers, missed jobs, DST issues |
 | `/linux-admin:systemd-expert` | Unit design, drop-ins, restart loops, cgroups, service hardening |
@@ -263,7 +263,7 @@ docs/            skill documentation and task files
 gemini/          Gemini adapter prompts
 hooks/           PreToolUse safety hook
 scripts/         utility and validation scripts
-skills/          skill definitions (89 skills)
+skills/          skill definitions (98 skills)
 templates/       reusable prompt templates
 tests/           plugin validation tests
 ```
