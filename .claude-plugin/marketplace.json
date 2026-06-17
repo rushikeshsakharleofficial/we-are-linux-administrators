@@ -1,27 +1,36 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "we-are-linux-administrators",
-  "description": "Linux administrator and SRE skills for Claude Code — diagnostics, networking, storage, security, kernel, containers, and more.",
   "owner": {
     "name": "Rushikesh Sakharle",
-    "email": "rishiananya123@gmail.com"
+    "email": "rishiananya123@gmail.com",
+    "url": "https://github.com/rushikeshsakharleofficial"
+  },
+  "metadata": {
+    "description": "Linux administrator and SRE skills for Claude Code — diagnostics, networking, storage, security, kernel, containers, and more.",
+    "version": "1.10.0"
   },
   "plugins": [
     {
       "name": "linux-admin",
+      "source": "./",
+      "skills": "./skills/",
       "description": "Senior Linux admin and SRE workflow. 30+ expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, and automation.",
+      "version": "1.10.0",
       "author": {
-        "name": "Rushikesh Sakharle"
+        "name": "Rushikesh Sakharle",
+        "email": "rishiananya123@gmail.com"
       },
+      "homepage": "https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/",
+      "repository": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators",
+      "license": "MIT",
       "category": "development",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git",
-        "path": ".",
-        "ref": "main",
-        "sha": "b29ab4588024239e9e78c8739f773c62f3f24f7a"
-      },
-      "homepage": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators"
+      "tags": ["linux", "sre", "systemd", "networking", "storage", "security", "kernel"],
+      "keywords": [
+        "linux", "sre", "systemd", "networking", "storage", "selinux",
+        "troubleshooting", "incident-response", "sysctl", "kernel-tuning",
+        "performance-tuning", "linux-hardening", "firewall", "containers",
+        "migration", "dns", "auth", "boot", "acl", "quota"
+      ]
     }
   ]
 }
