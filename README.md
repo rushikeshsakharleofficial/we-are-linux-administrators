@@ -157,6 +157,8 @@ tests/           plugin validation tests
 
 | Resource | Description |
 |---|---|
+| [`docs/USAGE.md`](docs/USAGE.md) | Deep usage guide — every skill, examples, workflows, tips |
+| [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md) | Full index of all expert modules and audit helpers |
 | [`docs/core/`](docs/core/) | Operating principles, distro detection, safety policy, diagnostic method |
 | [`docs/tasks/`](docs/tasks/) | Standalone task files for non-Claude agents |
 | [`docs/prompts/`](docs/prompts/) | Prompt templates |
