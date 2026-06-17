@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "description": "Claude Code plugin for Linux administration with expert modules for troubleshooting, TCP/UDP, scheduling/time, package managers, sysctl, systemd, limits, networking, firewall, Fail2Ban, commands, users, permissions, quotas, mounting, filesystems, kernel, migration planning, DNS, Cloudflare/MCP, dnsmasq, and OS security.",
-  "version": "1.10.0",
+  "description": "Claude Code plugin for Linux administration with expert modules for troubleshooting, TCP/UDP, scheduling/time, package managers, sysctl, systemd, limits, networking, firewall, Fail2Ban, commands, users, permissions, quotas, mounting, filesystems, kernel, memory, swap, migration planning, DNS, Cloudflare/MCP, dnsmasq, and OS security.",
+  "version": "1.11.0",
   "author": {
     "name": "Rushikesh Sakharle",
     "email": "rishiananya123@gmail.com"
@@ -135,7 +135,22 @@
     "packet-loss",
     "udp-buffer",
     "tcp-sysctl",
-    "udp-sysctl"
+    "udp-sysctl",
+    "swap-expert",
+    "memory-expert",
+    "swap",
+    "swapon",
+    "swapoff",
+    "mkswap",
+    "zram",
+    "zswap",
+    "memory-pressure",
+    "oom",
+    "oom-killer",
+    "proc-meminfo",
+    "vmstat",
+    "overcommit",
+    "page-cache"
   ],
   "displayName": "Linux Admin"
 }
