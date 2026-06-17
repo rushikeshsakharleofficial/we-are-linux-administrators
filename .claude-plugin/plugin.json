@@ -1,0 +1,23 @@
+{
+  "name": "linux-admin",
+  "description": "Claude Code plugin for Linux administration with expert modules for troubleshooting, TCP/UDP, scheduling/time, package managers, sysctl, systemd, limits, networking, firewall, Fail2Ban, commands, users, permissions, quotas, mounting, filesystems, kernel, migration planning, DNS, Cloudflare/MCP, dnsmasq, and OS security.",
+  "version": "1.10.0",
+  "author": {
+    "name": "Rushikesh Sakharle",
+    "email": "rishiananya123@gmail.com"
+  },
+  "license": "MIT",
+  "displayName": "Linux Admin",
+  "keywords": [
+    "linux",
+    "sre",
+    "systemd",
+    "networking",
+    "storage",
+    "security",
+    "troubleshooting",
+    "linux-admin",
+    "we-are-linux-administrators",
+    "claude-code-plugin"
+  ]
+}
