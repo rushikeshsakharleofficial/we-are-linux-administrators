@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin network diagnostics — IP, DNS, routing, TCP states, sockets, MTU, and TLS — all through Claude Code.">
+<meta property="og:title" content="Network Diagnostics — linux-admin for Claude Code">
+<meta property="og:description" content="Debug network issues at every layer: physical link, IP routing, DNS, TCP sockets, and application-layer TLS — with a senior SRE mental model baked in.">
+<meta property="og:type" content="website">
+<title>Network Diagnostics — linux-admin</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root { --accent: #22d3ee; }
+  --accent-dim { color: rgba(34,211,238,0.15); }
+
+  /* Override accent-tinted elements for cyan */
+  .skill-badge {
+    background: rgba(34,211,238,0.1);
+    border-color: rgba(34,211,238,0.2);
+    color: #22d3ee;
+  }
+  .skill-badge::before { background: #22d3ee; box-shadow: 0 0 6px #22d3ee; }
+  .section-eyebrow { color: #22d3ee; }
+  .section-eyebrow::before { background: #22d3ee; }
+  .step-num {
+    background: rgba(34,211,238,0.1);
+    border-color: rgba(34,211,238,0.2);
+    color: #22d3ee;
+  }
+  .btn-primary { background: #22d3ee; color: #000; }
+  .btn-primary:hover { background: #67e8f9; box-shadow: 0 0 24px rgba(34,211,238,0.35), 0 6px 24px rgba(34,211,238,0.2); }
+  .nav-back:hover { color: #22d3ee; border-color: rgba(34,211,238,0.3); background: rgba(34,211,238,0.08); }
+  .nav-gh { color: #22d3ee; border-color: rgba(34,211,238,0.25); }
+  .nav-gh:hover { background: rgba(34,211,238,0.08); box-shadow: 0 0 24px rgba(34,211,238,0.35); }
+  .card:hover { border-color: rgba(34,211,238,0.2); }
+  .step-card:hover { border-color: rgba(34,211,238,0.2); }
+  .related-card:hover { border-color: rgba(34,211,238,0.2); background: rgba(34,211,238,0.03); }
+  .highlight-box {
+    background: rgba(34,211,238,0.04);
+    border-color: rgba(34,211,238,0.15);
+    border-left-color: #22d3ee;
+  }
+  .hero-grid-bg {
+    background-image:
+      linear-gradient(rgba(34,211,238,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,0.03) 1px, transparent 1px);
+  }
+  .pill {
+    background: rgba(34,211,238,0.1);
+    border-color: rgba(34,211,238,0.2);
+    color: #22d3ee;
+  }
+  .stat-n { color: #22d3ee; filter: drop-shadow(0 0 8px rgba(34,211,238,0.4)); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(34,211,238,0.3); }
+
+  .page-title .accent-grad {
+    background: linear-gradient(135deg, #22d3ee 0%, #67e8f9 45%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Network graph canvas sizing */
+  .hero-canvas canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-back">← linux-admin</a>
+  <a href="https://github.com/we-are-linux-administrators/linux-admin" target="_blank" rel="noopener" class="nav-gh">
+    ★ Star on GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-grid-bg"></div>
+  <canvas id="net-canvas" class="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin · network</div>
+    <h1 class="page-title">
+      <span class="accent-grad">Network</span><br>Diagnostics
+    </h1>
+    <p class="page-subtitle">
+      Debug at every layer — from physical link to application TLS — with a senior SRE mental model that reads before it writes.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/we-are-linux-administrators/linux-admin" class="btn-primary" target="_blank" rel="noopener">Install Plugin</a>
+      <a href="#demo" class="btn-ghost">See It In Action</a>
+    </div>
+    <div class="tag-list" style="justify-content:center;margin-top:28px;">
+      <span class="tag tag-cyan">ip / ss</span>
+      <span class="tag tag-cyan">DNS</span>
+      <span class="tag tag-cyan">traceroute / mtr</span>
+      <span class="tag tag-amber">TCP states</span>
+      <span class="tag tag-violet">TLS / curl</span>
+      <span class="tag tag-green">ethtool</span>
+      <span class="tag tag-red">tcpdump</span>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="7">0</div>
+    <div class="stat-l">OSI Layers covered</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="14">0</div>
+    <div class="stat-l">CLI tools known</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="6">0</div>
+    <div class="stat-l">Common failures</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">Diagnostic layers</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: NETWORK DIAGNOSTICS -->
+<section class="content-section">
+  <div class="section-eyebrow">Diagnostics</div>
+  <h2 class="section-heading">Network diagnostics</h2>
+  <p class="section-body">
+    Systematic network troubleshooting across IP, routing, DNS, MTU, socket state, and TCP internals — the skill works layer-by-layer so you never miss the root cause.
+  </p>
+
+  <div class="grid-3">
+    <div class="card reveal d1">
+      <span class="card-icon">🌐</span>
+      <div class="card-title">Layer 3 — IP &amp; Routing</div>
+      <div class="card-body">
+        Inspect interface addresses with <code>ip addr</code>, trace the routing table with <code>ip route show</code>, and examine ARP cache with <code>ip neigh</code>. Pinpoints missing routes, wrong gateway, or interface misconfiguration.
+      </div>
+      <div class="tag-list" style="margin-top:14px;">
+        <span class="tag tag-cyan">ip addr</span>
+        <span class="tag tag-cyan">ip route</span>
+        <span class="tag tag-amber">ARP</span>
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">🔌</span>
+      <div class="card-title">Layer 4 — TCP &amp; Sockets</div>
+      <div class="card-body">
+        Map all listening and established connections with <code>ss -tlnp</code>. Diagnose TCP state machine issues — SYN_SENT, TIME_WAIT floods, FIN_WAIT leaks — and locate the owning process for any socket.
+      </div>
+      <div class="tag-list" style="margin-top:14px;">
+        <span class="tag tag-cyan">ss</span>
+        <span class="tag tag-amber">TCP states</span>
+        <span class="tag tag-red">netstat</span>
+      </div>
+    </div>
+
+    <div class="card reveal d3">
+      <span class="card-icon">🔍</span>
+      <div class="card-title">Application — DNS, curl &amp; TLS</div>
+      <div class="card-body">
+        Resolve DNS with <code>dig +short</code> and <code>host</code>, compare stub resolver vs authoritative answers, walk TLS handshakes with <code>curl -v</code>, and pinpoint certificate chain failures or SNI mismatches.
+      </div>
+      <div class="tag-list" style="margin-top:14px;">
+        <span class="tag tag-violet">dig</span>
+        <span class="tag tag-violet">curl -v</span>
+        <span class="tag tag-green">TLS</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:28px;">
+    <p><strong>Read-only first.</strong> Every diagnostic command the skill runs is non-destructive — it never modifies routing tables, flushes DNS caches, or resets interfaces without explicit confirmation from you.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: TERMINAL DEMO -->
+<section class="content-section bg-surface" id="demo" style="max-width:100%;padding:80px max(24px,5vw);">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="section-eyebrow">Live Demo</div>
+    <h2 class="section-heading">Terminal demo</h2>
+    <p class="section-body">
+      Ask the skill in plain English. It diagnoses the real root cause — not just the surface symptom.
+    </p>
+
+    <div class="terminal-block reveal">
+      <div class="term-titlebar">
+        <span class="tdot r"></span>
+        <span class="tdot y"></span>
+        <span class="tdot g"></span>
+        <span class="tlabel">claude code — network diagnosis</span>
+      </div>
+      <div class="term-body" id="net-term"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: STEP-BY-STEP APPROACH -->
+<section class="content-section">
+  <div class="section-eyebrow">Methodology</div>
+  <h2 class="section-heading">Step-by-step approach</h2>
+  <p class="section-body">
+    The skill follows a strict layer-by-layer diagnostic order so it never skips ahead and misses a lower-level cause.
+  </p>
+
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="step-card reveal d1">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Check physical &amp; link layer</div>
+        <div class="step-desc">
+          <code>ip link show</code> — confirm interface is UP and RUNNING. <code>ethtool eth0</code> — verify link speed, duplex, and auto-negotiation. Catches cable/NIC/driver issues before wasting time on IP.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card reveal d2">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Check IP &amp; routing</div>
+        <div class="step-desc">
+          <code>ip addr show</code> — verify the interface has the expected address and prefix. <code>ip route show</code> — confirm a default gateway exists and the correct metric wins. <code>ip neigh</code> — check ARP entries for the gateway.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card reveal d3">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Test connectivity</div>
+        <div class="step-desc">
+          <code>ping -c4 8.8.8.8</code> — proves raw ICMP reachability to the internet. <code>traceroute</code> or <code>mtr</code> — maps every hop and pinpoints where packets die, time out, or show asymmetric latency.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card reveal d4">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">Verify application layer</div>
+        <div class="step-desc">
+          <code>ss -tlnp</code> — confirm the service is bound and listening on the expected port. <code>curl -sv</code> — walk the full HTTP + TLS handshake. <code>dig +short @8.8.8.8</code> — bypass the local resolver to isolate DNS from connectivity.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: KEY TOOLS -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw);">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="section-eyebrow">Reference</div>
+    <h2 class="section-heading">Key tools</h2>
+    <p class="section-body">Essential one-liners the skill knows and can run on your behalf.</p>
+
+    <div class="grid-2" style="gap:10px;">
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">ss</span> -tlnp
+        <div class="sco"># TCP listening sockets with PID / process name</div>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">ip route show</span>
+        <div class="sco"># Full routing table — default gw, metrics, interfaces</div>
+      </div>
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">dig</span> +short <span class="scp">example.com</span>
+        <div class="sco"># Quick DNS resolution (A record)</div>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">netstat</span> -tuln
+        <div class="sco"># TCP/UDP listeners (fallback when ss not available)</div>
+      </div>
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">ethtool</span> eth0
+        <div class="sco"># Physical link: speed, duplex, auto-neg, wake-on-LAN</div>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">tcpdump</span> -i any host <span class="scp">10.0.0.1</span> -nn -c 50
+        <div class="sco"># Capture packets to/from a host — no DNS reverse lookup</div>
+      </div>
+
+    </div>
+
+    <div class="warn-box" style="margin-top:28px;">
+      <p><strong>tcpdump note:</strong> The skill will ask for confirmation before running packet captures. On production hosts, always scope with <code>-c &lt;count&gt;</code> and a specific host/port filter to avoid flooding disk.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: COMMON FAILURES -->
+<section class="content-section">
+  <div class="section-eyebrow">Failure Patterns</div>
+  <h2 class="section-heading">Common failures</h2>
+  <p class="section-body">
+    Six failure classes the skill recognises by signature — each with a deterministic fix path.
+  </p>
+
+  <div class="grid-auto">
+
+    <div class="card reveal d1">
+      <span class="card-icon">🔴</span>
+      <div class="card-title">DNS not resolving</div>
+      <div class="card-body">
+        <code>ping 8.8.8.8</code> works but <code>ping google.com</code> fails. Root causes: systemd-resolved not running, <code>/etc/resolv.conf</code> points at wrong stub IP, or DNSSEC validation failure.
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">🗺️</span>
+      <div class="card-title">Route missing</div>
+      <div class="card-body">
+        No default route in <code>ip route show</code>. Packets to off-subnet addresses get dropped silently. Caused by DHCP failure, NetworkManager race on boot, or manual route flush.
+      </div>
+    </div>
+
+    <div class="card reveal d3">
+      <span class="card-icon">📦</span>
+      <div class="card-title">MTU mismatch</div>
+      <div class="card-body">
+        Large packets are silently dropped on a path. Small pings work; curl hangs after TLS handshake. Classic VPN / VXLAN symptom. Fix: set <code>ip link set dev eth0 mtu 1450</code> or clamp MSS via iptables.
+      </div>
+    </div>
+
+    <div class="card reveal d1">
+      <span class="card-icon">👂</span>
+      <div class="card-title">Port not listening</div>
+      <div class="card-body">
+        Service is running but <code>ss -tlnp</code> shows it bound to <code>127.0.0.1</code> not <code>0.0.0.0</code>. Connection refused from remote hosts. Fix bind address in the app config, then restart.
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">🚫</span>
+      <div class="card-title">ICMP blocked</div>
+      <div class="card-body">
+        <code>ping</code> fails but TCP connections succeed. Firewall rule drops ICMP echo. Not a connectivity bug — but masks real latency. The skill distinguishes ICMP-blocked vs truly unreachable.
+      </div>
+    </div>
+
+    <div class="card reveal d3">
+      <span class="card-icon">🤝</span>
+      <div class="card-title">TCP SYN drops</div>
+      <div class="card-body">
+        Connections time out instead of getting refused. SYN sent but no SYN-ACK. Causes: firewall, <code>net.core.somaxconn</code> overflow, or iptables <code>DROP</code> (vs <code>REJECT</code>) rule. Diagnose with <code>tcpdump</code> + <code>conntrack</code>.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RELATED -->
+<section class="content-section bg-surface" style="max-width:100%;padding:60px max(24px,5vw);">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="section-eyebrow">Explore More</div>
+    <h2 class="section-heading" style="margin-bottom:20px;">Related skills</h2>
+    <div class="related-grid">
+      <a href="diagnose.html" class="related-card">
+        <span class="rc-icon">🩺</span>
+        <div>
+          <div class="rc-name">diagnose</div>
+          <div class="rc-desc">System-wide triage &amp; health check</div>
+        </div>
+      </a>
+      <a href="firewall.html" class="related-card">
+        <span class="rc-icon">🛡️</span>
+        <div>
+          <div class="rc-name">firewall</div>
+          <div class="rc-desc">iptables, nftables, ufw rules</div>
+        </div>
+      </a>
+      <a href="kernel.html" class="related-card">
+        <span class="rc-icon">⚙️</span>
+        <div>
+          <div class="rc-name">kernel</div>
+          <div class="rc-desc">sysctl, modules, kernel params</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/we-are-linux-administrators/linux-admin" target="_blank" rel="noopener">GitHub</a>
+    <a href="storage.html">Storage</a>
+  </div>
+  <div class="footer-copy">MIT License · Built for Claude Code</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+  // Network graph hero
+  (function () {
+    const canvas = document.getElementById('net-canvas');
+    if (!canvas || !window.DF) return;
+    new window.DF.NetworkGraph(canvas, '#22d3ee');
+  })();
+
+  // Terminal demo
+  (function () {
+    const el = document.getElementById('net-term');
+    if (!el || !window.DF) return;
+
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:network can ping 8.8.8.8 but DNS fails' },
+      { type: 'cyan',    text: '  Checking /etc/resolv.conf …', delay: 300 },
+      { type: 'out',     text: '  nameserver 127.0.0.53', delay: 100 },
+      { type: 'out',     text: '  options edns0 trust-ad', delay: 60 },
+      { type: 'cyan',    text: '  Testing stub resolver (127.0.0.53:53) …', delay: 400 },
+      { type: 'err',     text: '  connection timed out; no servers could be reached', delay: 200 },
+      { type: 'warn',    text: '  systemd-resolved stub is not responding', delay: 80 },
+      { type: 'cyan',    text: '  Checking service status …', delay: 300 },
+      { type: 'out',     text: '  ● systemd-resolved.service - Network Name Resolution', delay: 80 },
+      { type: 'err',     text: '       Loaded: loaded; Active: inactive (dead)', delay: 60 },
+      { type: 'dim',     text: '  ─────────────────────────────────────────────────', delay: 40 },
+      { type: 'success', text: '  Root cause: systemd-resolved service stopped', delay: 80 },
+      { type: 'out',     text: '  Stub listener at 127.0.0.53 not available', delay: 60 },
+      { type: 'dim',     text: '  ─────────────────────────────────────────────────', delay: 40 },
+      { type: 'success', text: '  Fix: systemctl enable --now systemd-resolved', delay: 80 },
+      { type: 'cmd',     text: 'systemctl enable --now systemd-resolved' },
+      { type: 'success', text: '  Created symlink … systemd-resolved.service', delay: 120 },
+      { type: 'success', text: '  ✓ systemd-resolved active and running', delay: 100 },
+      { type: 'cmd',     text: 'dig +short google.com' },
+      { type: 'success', text: '  142.250.80.46', delay: 200 },
+      { type: 'success', text: '  ✓ DNS resolution restored', delay: 80 },
+    ];
+
+    const term = new window.DF.Terminal(el, lines, true);
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { term.start(); obs.unobserve(e.target); } });
+    }, { threshold: 0.2 });
+    obs.observe(el);
+  })();
+</script>
+</body>
+</html>

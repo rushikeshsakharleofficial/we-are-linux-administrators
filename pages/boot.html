@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin:boot — Boot failure recovery for Claude Code. Handles kernel panic, emergency mode, initramfs drops, GRUB recovery, fstab corruption, and dracut rebuild.">
+<meta property="og:title" content="linux-admin:boot — Boot Failure Recovery for Claude Code">
+<meta property="og:description" content="Recover from kernel panic, emergency mode, initramfs failures, GRUB misconfiguration, and fstab corruption with a safety-first mental model.">
+<meta property="og:type" content="website">
+<title>linux-admin — boot | Linux Admin for Claude Code</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root {
+    --accent: #fbbf24;
+    --accent-dim: rgba(251,191,36,0.1);
+    --accent-glow: 0 0 24px rgba(251,191,36,0.35);
+  }
+
+  /* Override accent-coloured elements for amber theme */
+  .skill-badge {
+    background: rgba(251,191,36,0.1);
+    border-color: rgba(251,191,36,0.2);
+    color: var(--accent);
+  }
+  .skill-badge::before {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+  .section-eyebrow { color: var(--accent); }
+  .section-eyebrow::before { background: var(--accent); }
+  .step-num {
+    background: rgba(251,191,36,0.1);
+    border-color: rgba(251,191,36,0.2);
+    color: var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { background: #fde68a; box-shadow: var(--accent-glow), 0 6px 24px rgba(251,191,36,0.2); }
+  .nav-gh { color: var(--accent); border-color: rgba(251,191,36,0.25); }
+  .nav-gh:hover { background: var(--accent-dim); box-shadow: var(--accent-glow); }
+  .nav-back:hover { color: var(--accent); border-color: rgba(251,191,36,0.3); background: var(--accent-dim); }
+  .page-title .accent-grad {
+    background: linear-gradient(135deg, #fbbf24 0%, #fde68a 50%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .card:hover { border-color: rgba(251,191,36,0.18); }
+  .step-card:hover { border-color: rgba(251,191,36,0.18); }
+  .related-card:hover { border-color: rgba(251,191,36,0.2); background: rgba(251,191,36,0.03); }
+  .highlight-box {
+    background: rgba(251,191,36,0.04);
+    border-color: rgba(251,191,36,0.15);
+    border-left-color: var(--accent);
+  }
+  .pill { background: var(--accent-dim); border-color: rgba(251,191,36,0.2); color: var(--accent); }
+  .stat-n { color: var(--accent); filter: drop-shadow(0 0 8px rgba(251,191,36,0.4)); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(251,191,36,0.3); }
+
+  /* Boot log hero container */
+  #boot-log-hero {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+    font-size: 0.72rem;
+    line-height: 1.75;
+    padding: 80px max(32px, 8vw) 40px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 20%, black 65%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 20%, black 65%, transparent 100%);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+  <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="nav-gh" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div id="boot-log-hero"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin:boot</div>
+    <h1 class="page-title">
+      <span class="accent-grad">Boot Failure</span><br>Recovery
+    </h1>
+    <p class="page-subtitle">
+      Kernel panic after an update? Emergency mode with no shell history? initramfs drop? boot walks you through every recovery path with read-only diagnosis first.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="btn-primary" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Install Plugin
+      </a>
+      <a href="#what-it-covers" class="btn-ghost">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Explore
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="3">0</div>
+    <div class="stat-l">Failure Domains</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="6">0</div>
+    <div class="stat-l">Recovery Paths</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="8">0</div>
+    <div class="stat-l">Distros Supported</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">0</div>
+    <div class="stat-l">Blind remounts</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: What it covers -->
+<section class="content-section" id="what-it-covers">
+  <div class="section-eyebrow">Overview</div>
+  <h2 class="section-heading reveal">What It Covers</h2>
+  <p class="section-body reveal d1">
+    boot handles the full spectrum of Linux startup failures — from firmware-level POST problems through GRUB misconfiguration, initramfs failures, and early userspace crashes. Every recovery path is safety-gated.
+  </p>
+
+  <div class="grid-auto reveal d2">
+    <div class="card">
+      <span class="card-icon">&#x1F4A5;</span>
+      <div class="card-title">Kernel Panic</div>
+      <div class="card-body">Post-update kernel panics from missing modules, bad initramfs, or incompatible driver builds. Identifies the panic string and routes to dracut rebuild or module loading fix.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F6A8;</span>
+      <div class="card-title">Emergency Mode</div>
+      <div class="card-body">Diagnoses why systemd dropped to emergency.target — bad fstab entry, missing mount point, failed required unit — and provides the minimal change to exit cleanly.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F4E6;</span>
+      <div class="card-title">initramfs Drop</div>
+      <div class="card-body">Missing kernel module, broken crypttab, dracut build failure, or missing firmware blob. Reconstructs the correct dracut command for the running kernel version.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F9F1;</span>
+      <div class="card-title">GRUB Recovery</div>
+      <div class="card-body">Wrong root UUID, missing kernel entry, corrupted MBR/GPT. Walks through grub2-mkconfig, manual menuentry editing, and grub-install with the correct target device.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F4C1;</span>
+      <div class="card-title">fstab Corruption</div>
+      <div class="card-body">Detects bad UUID, wrong fstype, missing noauto for removable media. Validates the corrected fstab entry with <code>findmnt --verify</code> before recommending any write.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F527;</span>
+      <div class="card-title">dracut Rebuild</div>
+      <div class="card-body">Guides a full initramfs rebuild for the current or a specific kernel version, with correct module inclusion flags for encrypted volumes, LVM, RAID, and network boot.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Boot failure taxonomy -->
+<section class="content-section bg-surface">
+  <div class="content-section">
+    <div class="section-eyebrow">Taxonomy</div>
+    <h2 class="section-heading reveal">Boot Failure Domains</h2>
+    <p class="section-body reveal d1">
+      Boot failures cluster into three distinct failure domains, each with its own diagnostic approach and recovery toolchain.
+    </p>
+
+    <div class="grid-3 reveal d2">
+      <div class="card">
+        <span class="card-icon">&#x1F9B4;</span>
+        <div class="card-title">Firmware / GRUB</div>
+        <div class="card-body">
+          Failures before the kernel hands off to userspace.<br><br>
+          <span class="pill">No POST</span>&nbsp;
+          <span class="pill">Wrong root UUID</span>&nbsp;
+          <span class="pill">Missing kernel entry</span>&nbsp;
+          <span class="pill">Corrupted MBR</span>&nbsp;
+          <span class="pill">Secure Boot conflict</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x1F4E6;</span>
+        <div class="card-title">initramfs</div>
+        <div class="card-body">
+          Failures inside the early boot environment before rootfs mount.<br><br>
+          <span class="pill">Missing module</span>&nbsp;
+          <span class="pill">Bad crypttab</span>&nbsp;
+          <span class="pill">dracut build fail</span>&nbsp;
+          <span class="pill">Missing firmware</span>&nbsp;
+          <span class="pill">LUKS key missing</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x1F504;</span>
+        <div class="card-title">Early Userspace</div>
+        <div class="card-body">
+          Failures after rootfs is mounted but before login prompt.<br><br>
+          <span class="pill">fstab errors</span>&nbsp;
+          <span class="pill">Missing mount point</span>&nbsp;
+          <span class="pill">systemd pivot fail</span>&nbsp;
+          <span class="pill">Required unit crash</span>&nbsp;
+          <span class="pill">SELinux relabel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Terminal Demo -->
+<section class="content-section">
+  <div class="section-eyebrow">Demo</div>
+  <h2 class="section-heading reveal">Kernel Panic After Update</h2>
+  <p class="section-body reveal d1">
+    A typical post-update kernel panic caused by a missing module in the initramfs — traced to root cause and resolved with a targeted dracut rebuild.
+  </p>
+
+  <div class="terminal-block reveal d2">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">claude code — boot recovery session</span>
+    </div>
+    <div class="term-body" id="boot-term"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: Key recovery commands -->
+<section class="content-section bg-surface">
+  <div class="content-section">
+    <div class="section-eyebrow">Commands</div>
+    <h2 class="section-heading reveal">Key Recovery Commands</h2>
+    <p class="section-body reveal d1">
+      The exact commands used in each recovery path, ready to copy into a rescue shell or chroot environment.
+    </p>
+
+    <div class="grid-2 reveal d2" style="gap:12px">
+      <div>
+        <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase">Emergency target entry</p>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># At GRUB menu, append to kernel line:</span><br>
+          systemd.unit=emergency.target<br>
+          <span class="sco"># Then mount root read-write:</span><br>
+          <span class="sch">mount</span> -o remount,rw /<br>
+          <span class="sch">journalctl</span> -xb -p err
+        </div>
+
+        <p style="font-size:0.72rem;color:var(--text-muted);margin:14px 0 6px;letter-spacing:.08em;text-transform:uppercase">GRUB config rebuild</p>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># RHEL/Fedora (BIOS):</span><br>
+          <span class="sch">grub2-mkconfig</span> -o /boot/grub2/grub.cfg<br>
+          <span class="scp"># RHEL/Fedora (UEFI):</span><br>
+          <span class="sch">grub2-mkconfig</span> -o /boot/efi/EFI/redhat/grub.cfg<br>
+          <span class="scp"># Debian/Ubuntu:</span><br>
+          <span class="sch">update-grub</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase">dracut initramfs rebuild</p>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># Rebuild for running kernel:</span><br>
+          <span class="sch">dracut</span> --force<br>
+          <span class="scp"># Rebuild for specific version:</span><br>
+          <span class="sch">dracut</span> --force /boot/initramfs-$(uname -r).img $(uname -r)<br>
+          <span class="scp"># With verbose module list:</span><br>
+          <span class="sch">dracut</span> --force --verbose 2&gt;&amp;1 | grep "module"
+        </div>
+
+        <p style="font-size:0.72rem;color:var(--text-muted);margin:14px 0 6px;letter-spacing:.08em;text-transform:uppercase">fstab validation</p>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># Validate before reboot:</span><br>
+          <span class="sch">findmnt</span> --verify --verbose<br>
+          <span class="scp"># Test-mount a specific entry:</span><br>
+          <span class="sch">mount</span> -a --fake -v<br>
+          <span class="sco"># --fake = dry run, no actual mount</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px" class="reveal d3">
+      <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;letter-spacing:.08em;text-transform:uppercase">systemd-analyze boot blame</p>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># Find slow units after boot:</span><br>
+        <span class="sch">systemd-analyze</span> blame<br>
+        <span class="sch">systemd-analyze</span> critical-chain<br>
+        <span class="scp"># SVG waterfall chart:</span><br>
+        <span class="sch">systemd-analyze</span> plot &gt; boot-chart.svg &amp;&amp; <span class="sch">xdg-open</span> boot-chart.svg
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: Safety protocol -->
+<section class="content-section">
+  <div class="section-eyebrow">Safety</div>
+  <h2 class="section-heading reveal">Safety Protocol</h2>
+  <p class="section-body reveal d1">
+    Boot recovery carries the highest risk of any Linux administration task — a wrong fstab entry or a bad grub.cfg leaves the system unbootable. Every recommendation is gated.
+  </p>
+
+  <div class="highlight-box reveal d2">
+    <p><strong>Read-only first.</strong> All boot diagnostics start by reading logs (<code>journalctl -xb</code>, <code>dmesg</code>), service status, and configuration files. The skill never remounts, never edits fstab, and never writes a new initramfs without first confirming the root cause and presenting the exact change to you for review.</p>
+  </div>
+
+  <div class="highlight-box reveal d3">
+    <p><strong>fstab validation before every write.</strong> If a fstab change is recommended, the corrected entry is always validated with <code>findmnt --verify</code> and <code>mount -a --fake</code> inside the recommendation — the skill will not suggest writing the file without confirming the entry parses correctly.</p>
+  </div>
+
+  <div class="warn-box reveal d4">
+    <p><strong>Never blindly remounts.</strong> Remounting root read-write in a rescue shell is shown explicitly as a required step when needed — not performed automatically. The skill always explains why a remount is necessary before instructing it.</p>
+  </div>
+
+  <div class="grid-3 reveal" style="margin-top:28px;gap:12px">
+    <div class="step-card">
+      <div class="step-num">&#x2713;</div>
+      <div class="step-content">
+        <div class="step-title">Confirm root cause first</div>
+        <div class="step-desc">No recovery command is issued until the failure domain is confirmed by log evidence.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">&#x2713;</div>
+      <div class="step-content">
+        <div class="step-title">Show exact change</div>
+        <div class="step-desc">Every recommended edit is shown in full — diff format where applicable — before instructing the write.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">&#x2713;</div>
+      <div class="step-content">
+        <div class="step-title">Provide rollback path</div>
+        <div class="step-desc">Every recovery step includes how to undo it: the previous GRUB entry, the backup initramfs, the original fstab line.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Related skills -->
+<section class="content-section bg-surface">
+  <div class="content-section">
+    <div class="section-eyebrow">Ecosystem</div>
+    <h2 class="section-heading reveal">Related Skills</h2>
+    <p class="section-body reveal d1">
+      boot hands off to these skills when the failure domain extends beyond boot sequence.
+    </p>
+
+    <div class="related-grid reveal d2">
+      <a href="diagnose.html" class="related-card">
+        <span class="rc-icon">&#x1F50D;</span>
+        <div>
+          <div class="rc-name">diagnose</div>
+          <div class="rc-desc">General triage router — entry point for unknown failures</div>
+        </div>
+      </a>
+      <a href="kernel.html" class="related-card">
+        <span class="rc-icon">&#x1F9EC;</span>
+        <div>
+          <div class="rc-name">kernel</div>
+          <div class="rc-desc">Module loading, sysctl tuning, panic analysis</div>
+        </div>
+      </a>
+      <a href="storage.html" class="related-card">
+        <span class="rc-icon">&#x1F4BE;</span>
+        <div>
+          <div class="rc-name">storage</div>
+          <div class="rc-desc">Disk, LVM, RAID, filesystem repair, LUKS</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a>
+    <a href="diagnose.html">Diagnose</a>
+  </div>
+  <div class="footer-copy">MIT License &copy; 2025</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+(function () {
+  // Hero boot log scrolling animation
+  const heroEl = document.getElementById('boot-log-hero');
+  if (heroEl && window.DF && window.DF.BootLog) {
+    const bootLines = [
+      { text: '[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x412fd050]', color: '#52525b', delay: 40 },
+      { text: '[    0.000000] Linux version 6.8.0-57-generic (buildd@lcy02-amd64-008)', color: '#52525b', delay: 40 },
+      { text: '[    0.210000] ACPI: Core revision 20231115', color: '#52525b', delay: 50 },
+      { text: '[    0.310000] PCI: Using configuration type 1 for base access', color: '#52525b', delay: 50 },
+      { text: '[    0.420000] clocksource: tsc-early: mask: 0xffffffffffffffff', color: '#52525b', delay: 40 },
+      { text: '[  OK  ] Started Update UTMP about System Boot/Shutdown.', color: '#4ade80', delay: 60 },
+      { text: '[  OK  ] Started Load Kernel Modules.', color: '#4ade80', delay: 50 },
+      { text: '[  OK  ] Reached target Local File Systems (Pre).', color: '#4ade80', delay: 60 },
+      { text: '[FAILED] Failed to mount /boot/efi.', color: '#f87171', delay: 70 },
+      { text: '[    *  ] A start job is running for /dev/disk/by-uuid/… (8s / no limit)', color: '#fbbf24', delay: 80 },
+      { text: '[  OK  ] Started Network Manager.', color: '#4ade80', delay: 55 },
+      { text: '[  OK  ] Started OpenSSH server daemon.', color: '#4ade80', delay: 50 },
+      { text: '[  OK  ] Reached target Multi-User System.', color: '#4ade80', delay: 60 },
+      { text: '[  OK  ] Started Daily apt download activities.', color: '#4ade80', delay: 45 },
+      { text: '[FAILED] Failed to start containerd container runtime.', color: '#f87171', delay: 70 },
+      { text: 'dracut-initqueue[412]: Warning: dracut-initqueue timeout - starting timeout scripts', color: '#fbbf24', delay: 80 },
+      { text: 'dracut-initqueue[412]:          Starting Dracut Emergency Shell...', color: '#fbbf24', delay: 60 },
+      { text: '[  OK  ] Started udev Kernel Device Manager.', color: '#4ade80', delay: 50 },
+      { text: '[  OK  ] Started Accounts Service.', color: '#4ade80', delay: 45 },
+      { text: 'kernel: EXT4-fs error (device sda2): ext4_validate_block_bitmap:...', color: '#f87171', delay: 70 },
+      { text: '[  OK  ] Started Load/Save Random Seed.', color: '#4ade80', delay: 50 },
+      { text: '[  OK  ] Started Reached target Basic System.', color: '#4ade80', delay: 45 },
+      { text: 'systemd[1]: Mounting /proc/sys/fs/binfmt_misc...', color: '#52525b', delay: 40 },
+      { text: '[  OK  ] Finished Remount Root and Kernel File Systems.', color: '#4ade80', delay: 55 },
+      { text: '[  OK  ] Started CUPS Scheduler.', color: '#4ade80', delay: 45 },
+      { text: 'kernel: PANIC: VFS: Unable to mount root fs on unknown-block(8,2)', color: '#f87171', delay: 100 },
+      { text: 'kernel: ---[ end Kernel panic - not syncing: VFS ]---', color: '#f87171', delay: 80 },
+    ];
+    new window.DF.BootLog(heroEl, bootLines);
+  }
+
+  // Terminal demo
+  const termEl = document.getElementById('boot-term');
+  if (termEl && window.DF && window.DF.Terminal) {
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:boot kernel panic after update' },
+      { type: 'out',     text: '-- boot v1.4.3 · read-only mode --', delay: 300 },
+      { type: 'dim',     text: '-- phase 1: collect boot evidence --', delay: 200 },
+      { type: 'out',     text: '  reading: journalctl -xb -p err --no-pager', delay: 80 },
+      { type: 'err',     text: '  [ERR] kernel: PANIC: VFS: Unable to mount root fs on unknown-block(8,2)', delay: 80 },
+      { type: 'err',     text: '  [ERR] kernel: --- end Kernel panic - not syncing: VFS ---', delay: 40 },
+      { type: 'out',     text: '  reading: journalctl -xb -p warn | grep dracut', delay: 80 },
+      { type: 'warn',    text: '  [WARN] dracut-initqueue: Warning: dracut-initqueue timeout', delay: 80 },
+      { type: 'warn',    text: '  [WARN] dracut: module "virtio_scsi" not found, skipping', delay: 40 },
+      { type: 'dim',     text: '-- phase 2: hypothesize --', delay: 200 },
+      { type: 'out',     text: '  hypothesis 1 (high): virtio_scsi module missing from initramfs', delay: 80 },
+      { type: 'out',     text: '  hypothesis 2 (low): wrong root UUID in /boot/grub2/grub.cfg', delay: 40 },
+      { type: 'dim',     text: '-- phase 3: verify --', delay: 200 },
+      { type: 'out',     text: '  reading: lsinitrd /boot/initramfs-$(uname -r).img | grep virtio', delay: 80 },
+      { type: 'err',     text: '  [FAIL] virtio_scsi not present in current initramfs image', delay: 80 },
+      { type: 'out',     text: '  reading: /etc/dracut.conf.d/ → no force-drivers entry found', delay: 80 },
+      { type: 'dim',     text: '-- phase 4: root cause confirmed --', delay: 200 },
+      { type: 'success', text: '  ROOT CAUSE: virtio_scsi driver missing from initramfs after kernel update', delay: 80 },
+      { type: 'cyan',    text: '  FIX: boot to previous kernel entry, then rebuild initramfs:', delay: 40 },
+      { type: 'cyan',    text: '  dracut --force --add-drivers "virtio_scsi"', delay: 40 },
+      { type: 'cyan',    text: '  grub2-mkconfig -o /boot/grub2/grub.cfg', delay: 40 },
+      { type: 'dim',     text: '-- no writes performed — review before applying --', delay: 300 },
+    ];
+    const term = new window.DF.Terminal(termEl, lines, true);
+    term.start();
+  }
+})();
+</script>
+</body>
+</html>

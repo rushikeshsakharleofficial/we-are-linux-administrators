@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin performance diagnostics — CPU saturation, memory pressure, OOM kills, I/O wait, and load average analysis for Claude Code.">
+<meta property="og:title" content="linux-admin — Performance | Linux Admin for Claude Code">
+<meta property="og:description" content="Diagnose CPU saturation, I/O wait, OOM kills, and scheduling issues with the linux-admin Claude Code plugin.">
+<meta property="og:type" content="website">
+<title>linux-admin — Performance | Linux Admin for Claude Code</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root {
+    --accent: #4ade80;
+    --accent-dim: rgba(74,222,128,0.12);
+    --accent-glow: 0 0 24px rgba(74,222,128,0.35);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a class="nav-back" href="../index.html">&#8592; linux-admin</a>
+  <a class="nav-gh" href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    Star on GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin skill</div>
+    <h1 class="page-title">
+      <span class="accent-grad">Performance</span><br>Diagnostics
+    </h1>
+    <p class="page-subtitle">
+      CPU saturation, memory pressure, OOM kills, I/O wait, load average
+      analysis, and scheduling issues — resolved with structured SRE workflows.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#terminal-demo">See it in action</a>
+      <a class="btn-ghost" href="#diagnostic-tools">Key tools</a>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="7">0</div>
+    <div class="stat-l">diagnostic tools</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">OOM investigation steps</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="3">0</div>
+    <div class="stat-l">metric categories</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="0">0</div>
+    <div class="stat-l">destructive commands run</div>
+  </div>
+</div>
+
+<!-- SECTION 1: Performance diagnostics overview -->
+<section class="content-section">
+  <div class="section-eyebrow">Overview</div>
+  <h2 class="section-heading">Performance diagnostics</h2>
+  <p class="section-body">
+    From CPU saturation to I/O contention, the linux-admin skill applies a
+    read-only-first, layered diagnostic approach — no guessing, no reboots
+    without cause.
+  </p>
+
+  <div class="grid-3">
+    <div class="card reveal d1">
+      <span class="card-icon">&#x26A1;</span>
+      <div class="card-title">CPU Saturation</div>
+      <div class="card-body">Distinguishes user vs sys vs iowait vs steal time. Identifies runqueue depth, scheduler latency, and throttled cgroups.</div>
+    </div>
+    <div class="card reveal d2">
+      <span class="card-icon">&#x1F4BE;</span>
+      <div class="card-title">Memory Pressure</div>
+      <div class="card-body">Reads /proc/meminfo, tracks page faults, identifies cache eviction pressure and swap usage patterns under load.</div>
+    </div>
+    <div class="card reveal d3">
+      <span class="card-icon">&#x1F480;</span>
+      <div class="card-title">OOM Kills</div>
+      <div class="card-body">Surfaces OOM kill events from dmesg and journalctl, pinpoints culprit processes, and tunes vm.overcommit_memory safely.</div>
+    </div>
+    <div class="card reveal d1">
+      <span class="card-icon">&#x23F3;</span>
+      <div class="card-title">I/O Wait</div>
+      <div class="card-body">Correlates high iowait with specific devices using iostat -x, identifies saturated block devices and offending processes.</div>
+    </div>
+    <div class="card reveal d2">
+      <span class="card-icon">&#x1F4CA;</span>
+      <div class="card-title">Load Average Analysis</div>
+      <div class="card-body">Interprets 1m/5m/15m load averages relative to CPU count, distinguishing CPU-bound from I/O-bound saturation.</div>
+    </div>
+    <div class="card reveal d3">
+      <span class="card-icon">&#x1F500;</span>
+      <div class="card-title">Scheduling Issues</div>
+      <div class="card-body">Detects runqueue starvation, real-time priority inversions, and NUMA imbalances causing intermittent latency spikes.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Reading load average -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="section-eyebrow">Interpretation guide</div>
+    <h2 class="section-heading">Reading load average</h2>
+    <p class="section-body">
+      Three numbers, one picture of system health over time. Most engineers
+      misread them because they skip the CPU count context.
+    </p>
+
+    <div class="highlight-box reveal">
+      <p>
+        <strong>Load average is a queue length, not a percentage.</strong>
+        Running <code>uptime</code> shows three numbers: <strong>1-minute</strong>,
+        <strong>5-minute</strong>, and <strong>15-minute</strong> averages.
+        A value of <strong>1.0 per CPU core</strong> means the system is exactly
+        at capacity — every runnable task gets a core immediately.
+        Values above your core count mean tasks are waiting in queue.
+        A value of <strong>4.0 on a 4-core system</strong> (load = 1.0/core) is
+        fine. A value of <strong>4.0 on a 2-core system</strong> (load = 2.0/core)
+        means half your runnable tasks are waiting. Always divide by
+        <code>nproc</code> before panicking.
+        A rising 1-minute vs a falling 15-minute average signals an active
+        problem; the inverse means things are recovering.
+      </p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:32px">
+      <div class="step-card reveal d1">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Check load vs core count</div>
+          <div class="step-desc">Run <code>uptime</code> and <code>nproc --all</code>. Divide load average by core count. Values over 1.5x sustained warrant investigation.</div>
+        </div>
+      </div>
+      <div class="step-card reveal d2">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Identify trend direction</div>
+          <div class="step-desc">1m &gt; 15m = problem is getting worse. 1m &lt; 15m = recovering. Flat high across all three = sustained saturation for &gt;15 minutes.</div>
+        </div>
+      </div>
+      <div class="step-card reveal d3">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">CPU-bound vs I/O-bound</div>
+          <div class="step-desc">High load + high %iowait in vmstat = I/O bound. High load + near-zero iowait = CPU bound. Very different remediation paths.</div>
+        </div>
+      </div>
+      <div class="step-card reveal d4">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Correlate with application events</div>
+          <div class="step-desc">Check deploy timestamps, cron jobs, or backup windows. Load spikes rarely happen in isolation from application activity.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Terminal demo -->
+<section class="content-section" id="terminal-demo">
+  <div class="section-eyebrow">Live demo</div>
+  <h2 class="section-heading">See the skill at work</h2>
+  <p class="section-body">
+    High load average but CPU looks idle? Classic I/O saturation. Watch
+    linux-admin trace it end-to-end.
+  </p>
+
+  <div class="terminal-block reveal">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">claude-code — /linux-admin:performance</span>
+    </div>
+    <div class="term-body" id="termBody">
+      <div class="tl"><span class="tp">›</span><span class="tc">/linux-admin:performance high load average but CPU looks idle<span class="cursor"></span></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: Key diagnostic tools -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)" id="diagnostic-tools">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="section-eyebrow">Toolbox</div>
+    <h2 class="section-heading">Key diagnostic tools</h2>
+    <p class="section-body">
+      Every snippet the skill reaches for — with the flags that actually matter
+      in production.
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">top</span> -b -n1 | head -20
+        <span class="sco"># single batch pass — safe for scripts</span>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">vmstat</span> 1 5
+        <span class="sco"># 5 samples, 1s interval — r=runqueue, b=blocked, wa=iowait</span>
+      </div>
+
+      <div class="snippet reveal d3">
+        <button class="copy-snip">copy</button>
+        <span class="scp">iostat</span> -x 1 3
+        <span class="sco"># extended stats: %util, await, svctm per device</span>
+      </div>
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">sar</span> -u 1 5
+        <span class="sco"># CPU breakdown over 5 intervals — needs sysstat</span>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">perf</span> top <span class="sch">--sort</span> comm,dso
+        <span class="sco"># live profiling — identifies hot functions without ptrace</span>
+      </div>
+
+      <div class="snippet reveal d3">
+        <button class="copy-snip">copy</button>
+        <span class="scp">strace</span> -p <span class="sch">$PID</span> -c -f -T
+        <span class="sco"># syscall summary on running process (use with care on prod)</span>
+      </div>
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">lsof</span> -p <span class="sch">$PID</span> | wc -l
+        <span class="sco"># file descriptor count — high = possible fd leak or I/O storm</span>
+      </div>
+
+    </div>
+
+    <div class="tag-list" style="margin-top:28px">
+      <span class="tag tag-green">top</span>
+      <span class="tag tag-green">vmstat</span>
+      <span class="tag tag-green">iostat</span>
+      <span class="tag tag-cyan">sar</span>
+      <span class="tag tag-cyan">perf</span>
+      <span class="tag tag-amber">strace</span>
+      <span class="tag tag-amber">lsof</span>
+      <span class="tag tag-red">iotop</span>
+      <span class="tag tag-violet">pidstat</span>
+      <span class="tag tag-violet">mpstat</span>
+    </div>
+
+    <!-- Quick reference grid using grid-2 and grid-auto -->
+    <div style="margin-top:36px">
+      <div class="section-eyebrow" style="margin-bottom:14px">Quick reference</div>
+      <div class="grid-2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-title">CPU saturation signals</div>
+          <div class="card-body">
+            High load, near-zero iowait, high %user or %sys in vmstat. Runqueue depth &gt;1.5x cores. Check with <code>mpstat -P ALL 1</code> to see per-core breakdown.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">I/O saturation signals</div>
+          <div class="card-body">
+            High load, high iowait, <code>b</code> column in vmstat &gt;0. iostat shows device at &gt;80% util. Processes in D (uninterruptible) state in <code>ps aux</code>.
+          </div>
+        </div>
+      </div>
+      <div class="grid-auto">
+        <div class="card">
+          <div class="card-title"><span class="pill">quick</span> Top CPU processes</div>
+          <div class="card-body"><code>ps aux --sort=-%cpu | head -10</code></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="pill">quick</span> Top memory processes</div>
+          <div class="card-body"><code>ps aux --sort=-%mem | head -10</code></div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="pill">quick</span> I/O by process</div>
+          <div class="card-body"><code>iotop -b -n1 -o</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: OOM investigation -->
+<section class="content-section">
+  <div class="section-eyebrow">Memory</div>
+  <h2 class="section-heading">OOM investigation</h2>
+  <p class="section-body">
+    Out-of-memory kills are violent but leave evidence. Follow this sequence
+    before touching vm.overcommit settings.
+  </p>
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="step-card reveal d1">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Check dmesg for OOM kill events</div>
+        <div class="step-desc"><code>dmesg -T | grep -i "oom\|killed process\|out of memory"</code> — timestamps tell you exactly when and how often.</div>
+      </div>
+    </div>
+    <div class="step-card reveal d2">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Find which process was killed</div>
+        <div class="step-desc"><code>dmesg -T | grep "Killed process"</code> shows PID and process name. Cross-reference with systemd journal for restart history.</div>
+      </div>
+    </div>
+    <div class="step-card reveal d3">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Check /proc/meminfo and page cache</div>
+        <div class="step-desc"><code>cat /proc/meminfo</code> — look at MemAvailable (not MemFree), SwapUsed, Shmem, and Slab. High Slab with low MemAvailable = kernel memory leak candidate.</div>
+      </div>
+    </div>
+    <div class="step-card reveal d4">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">Tune vm.overcommit_memory carefully</div>
+        <div class="step-desc"><code>sysctl vm.overcommit_memory=2</code> with <code>vm.overcommit_ratio=80</code> prevents over-allocation but may cause mmap failures. Test in staging first.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WARN BOX and additional terminal classes demo -->
+<section class="content-section" style="padding-top:0">
+  <div class="warn-box reveal">
+    <p>
+      <strong style="color:var(--neon-amber)">Swap usage warning:</strong>
+      Any sustained swap activity (<code>si</code> or <code>so</code> non-zero in vmstat)
+      means the system is memory-starved. Disk-backed swap is orders of magnitude slower
+      than RAM. Address the root cause (memory leak, undersized instance, bloated cache)
+      rather than adding swap space as a band-aid.
+    </p>
+  </div>
+
+  <!-- Static terminal snippet demonstrating tw/tcy classes -->
+  <div class="terminal-block reveal" style="margin-top:20px">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">— vmstat swap column interpretation</span>
+    </div>
+    <div class="term-body">
+      <div class="tl"><span class="tp">›</span><span class="tc">vmstat 1 1</span></div>
+      <div class="tl"><span class="td"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span></div>
+      <div class="tl"><span class="tw"> 0  3   4096  88124  12288 410624  128  256  1024   512  441  990  3  2  0 95  0</span></div>
+      <div class="tl"><span class="tcy">si=128 so=256 — swap in and out active: memory pressure confirmed</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Metrics taxonomy -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="section-eyebrow">Reference</div>
+    <h2 class="section-heading">Metrics taxonomy</h2>
+    <p class="section-body">
+      What each number means and where to find it — so you read context, not noise.
+    </p>
+
+    <div class="grid-3">
+      <div class="card reveal d1">
+        <span class="card-icon">&#x1F9E0;</span>
+        <div class="card-title">CPU Metrics</div>
+        <div class="card-body">
+          <strong style="color:var(--neon-green)">%user</strong> — user-space time<br>
+          <strong style="color:var(--neon-cyan)">%sys</strong> — kernel-space time<br>
+          <strong style="color:var(--neon-amber)">%iowait</strong> — waiting on I/O<br>
+          <strong style="color:var(--neon-red)">%steal</strong> — hypervisor stealing cycles<br>
+          <br>
+          <em style="font-size:0.72rem;color:var(--text-muted)">Source: vmstat, mpstat, sar -u</em>
+        </div>
+      </div>
+      <div class="card reveal d2">
+        <span class="card-icon">&#x1F4C0;</span>
+        <div class="card-title">Memory Metrics</div>
+        <div class="card-body">
+          <strong style="color:var(--neon-green)">MemAvailable</strong> — usable right now<br>
+          <strong style="color:var(--neon-cyan)">Cached</strong> — page cache (reclaimable)<br>
+          <strong style="color:var(--neon-amber)">Buffers</strong> — block device cache<br>
+          <strong style="color:var(--neon-red)">SwapUsed</strong> — spill to disk<br>
+          <br>
+          <em style="font-size:0.72rem;color:var(--text-muted)">Source: /proc/meminfo, free -h</em>
+        </div>
+      </div>
+      <div class="card reveal d3">
+        <span class="card-icon">&#x1F4BE;</span>
+        <div class="card-title">I/O Metrics</div>
+        <div class="card-body">
+          <strong style="color:var(--neon-green)">tput</strong> — MB/s throughput<br>
+          <strong style="color:var(--neon-cyan)">IOPS</strong> — operations per second<br>
+          <strong style="color:var(--neon-amber)">await</strong> — avg service time (ms)<br>
+          <strong style="color:var(--neon-red)">%util</strong> — device saturation (100% = full)<br>
+          <br>
+          <em style="font-size:0.72rem;color:var(--text-muted)">Source: iostat -x, iotop, blktrace</em>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RELATED SKILLS -->
+<section class="content-section">
+  <div class="section-eyebrow">Related</div>
+  <h2 class="section-heading">Related skills</h2>
+  <div class="related-grid" style="margin-top:24px">
+    <a class="related-card" href="diagnose.html">
+      <span class="rc-icon">&#x1F50E;</span>
+      <div>
+        <div class="rc-name">diagnose</div>
+        <div class="rc-desc">General system diagnostics</div>
+      </div>
+    </a>
+    <a class="related-card" href="kernel.html">
+      <span class="rc-icon">&#x1F4A5;</span>
+      <div>
+        <div class="rc-name">kernel</div>
+        <div class="rc-desc">Panic &amp; oops analysis</div>
+      </div>
+    </a>
+    <a class="related-card" href="containers.html">
+      <span class="rc-icon">&#x1F40B;</span>
+      <div>
+        <div class="rc-name">containers</div>
+        <div class="rc-desc">Container resource limits</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">/linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a>
+    <a href="kernel.html">Kernel</a>
+  </div>
+  <div class="footer-copy">linux-admin &copy; 2025 &mdash; Claude Code plugin</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+// Hero waveform
+(function () {
+  const canvas = document.getElementById('heroCanvas');
+  if (canvas && window.DF && window.DF.Waveform) {
+    new window.DF.Waveform(canvas, '#4ade80');
+  }
+})();
+
+// Terminal animation for performance demo
+(function () {
+  const body = document.getElementById('termBody');
+  if (!body || !window.DF || !window.DF.Terminal) return;
+
+  const lines = [
+    { type: 'cmd', text: '/linux-admin:performance high load average but CPU looks idle' },
+    { type: 'out', text: 'linux-admin: load average is 14.2 on an 8-core system (1.77x/core)', delay: 400 },
+    { type: 'out', text: 'Checking vmstat for runqueue and iowait breakdown...', delay: 60 },
+    { type: 'cmd', text: 'vmstat 1 3' },
+    { type: 'dim', text: 'procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----', delay: 80 },
+    { type: 'dim', text: ' r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st', delay: 40 },
+    { type: 'warn', text: ' 0 12      0 312M   88M  4.1G    0    0  3840  1120  892 2140  2  1  0 97  0', delay: 40 },
+    { type: 'warn', text: ' 0 11      0 310M   88M  4.1G    0    0  4096   890  901 2201  1  1  0 98  0', delay: 40 },
+    { type: 'warn', text: ' 0 13      0 308M   88M  4.1G    0    0  3920  1050  887 2180  1  1  0 98  0', delay: 200 },
+    { type: 'err', text: 'FINDING: iowait at 97-98% — CPU idle is not free, it\'s waiting on disk I/O', delay: 120 },
+    { type: 'out', text: 'b column (blocked processes) consistently 11-13 — confirms I/O saturation', delay: 60 },
+    { type: 'out', text: 'Running iostat -x to identify saturated device...', delay: 60 },
+    { type: 'cmd', text: 'iostat -x 1 1' },
+    { type: 'dim', text: 'Device            r/s   w/s  rMB/s  wMB/s  await  svctm  %util', delay: 80 },
+    { type: 'err',  text: 'sda             312.0  48.0   24.0   3.8   185.2   3.2   99.8', delay: 40 },
+    { type: 'dim', text: 'sdb               1.2   0.4    0.1   0.0     2.1   1.1    0.3', delay: 100 },
+    { type: 'err', text: 'FINDING: /dev/sda at 99.8% utilisation — completely saturated', delay: 120 },
+    { type: 'out', text: 'await=185ms (normal <10ms on SSD, <20ms on spinning disk)', delay: 60 },
+    { type: 'out', text: 'Identifying which process is driving reads on /dev/sda...', delay: 60 },
+    { type: 'cmd', text: 'iotop -b -n1 -o | head -15' },
+    { type: 'warn', text: '  PID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO>    COMMAND', delay: 80 },
+    { type: 'err',  text: ' 8821 be/4  postgres  23.84 M/s    1.20 M/s  0.00 %  98.12 % postgres: autovacuum worker', delay: 60 },
+    { type: 'dim', text: ' 8830 be/4  postgres   0.12 M/s    0.08 M/s  0.00 %   0.42 % postgres: backend', delay: 80 },
+    { type: 'err', text: 'FINDING: PostgreSQL autovacuum worker consuming 23 MB/s reads', delay: 120 },
+    { type: 'out', text: 'Checking pg_stat_user_tables for bloat and sequential scans...', delay: 60 },
+    { type: 'cmd', text: 'psql -U postgres -c "SELECT relname, seq_scan, n_dead_tup FROM pg_stat_user_tables ORDER BY seq_scan DESC LIMIT 5;"' },
+    { type: 'warn', text: '     relname      | seq_scan | n_dead_tup', delay: 80 },
+    { type: 'err',  text: ' events           |   142810 |    3891042', delay: 40 },
+    { type: 'dim',  text: ' users            |      241 |       1203', delay: 80 },
+    { type: 'err', text: 'FINDING: events table — 142k sequential scans, 3.8M dead tuples', delay: 120 },
+    { type: 'success', text: 'RECOMMENDATION: Add index on events.created_at (most likely filter column)', delay: 60 },
+    { type: 'success', text: 'RECOMMENDATION: Run VACUUM ANALYZE events; during low-traffic window', delay: 60 },
+    { type: 'success', text: 'RECOMMENDATION: Monitor autovacuum_vacuum_cost_delay to throttle I/O impact', delay: 80 },
+    { type: 'out', text: 'Root cause: unindexed full table scans triggering sequential reads at disk saturation.', delay: 60 },
+    { type: 'out', text: 'Fix: CREATE INDEX CONCURRENTLY idx_events_created ON events(created_at);', delay: 200 },
+  ];
+
+  // Start terminal when it scrolls into view
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        obs.unobserve(e.target);
+        const term = new window.DF.Terminal(body, lines, false);
+        setTimeout(() => term.start(), 600);
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(body);
+})();
+</script>
+</body>
+</html>

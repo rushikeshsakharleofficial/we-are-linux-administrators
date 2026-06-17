@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin safety gate — Three-class command classification system. Read-only commands pass, disruptive commands require confirmation, and destructive commands are blocked entirely via PreToolUse hook.">
+<meta property="og:title" content="linux-admin — Safety Gate | Three-Class Command Classification">
+<meta property="og:description" content="Every command Claude proposes is classified before execution. Class R/O passes, Class 2 asks, Class 3 is blocked. Built on Claude Code's PreToolUse hook.">
+<meta property="og:type" content="website">
+<title>linux-admin — safety | Linux Admin for Claude Code</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root {
+    --accent: #4ade80;
+    --accent-dim: rgba(74,222,128,0.12);
+    --accent-glow: 0 0 24px rgba(74,222,128,0.35);
+  }
+
+  /* Safety visualization */
+  .safety-viz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .safety-class {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1px solid;
+    min-width: 100px;
+  }
+  .safety-class.ro {
+    border-color: rgba(74,222,128,.3);
+    background: rgba(74,222,128,.05);
+    animation: pulse-safe 3s ease-in-out infinite;
+  }
+  .safety-class.c2 {
+    border-color: rgba(251,191,36,.3);
+    background: rgba(251,191,36,.05);
+    animation: pulse-safe 3s ease-in-out infinite .5s;
+  }
+  .safety-class.c3 {
+    border-color: rgba(248,113,113,.3);
+    background: rgba(248,113,113,.05);
+    animation: pulse-safe 3s ease-in-out infinite 1s;
+  }
+  .sc-dot { width: 16px; height: 16px; border-radius: 50%; }
+  .ro .sc-dot { background: #4ade80; box-shadow: 0 0 10px #4ade80; }
+  .c2 .sc-dot { background: #fbbf24; box-shadow: 0 0 10px #fbbf24; }
+  .c3 .sc-dot { background: #f87171; box-shadow: 0 0 10px #f87171; }
+  .sc-label { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; }
+  .ro .sc-label { color: #4ade80; }
+  .c2 .sc-label { color: #fbbf24; }
+  .c3 .sc-label { color: #f87171; }
+  .sc-name { font-size: .8rem; font-weight: 600; color: #fff; }
+  @keyframes pulse-safe {
+    0%, 100% { opacity: .7; transform: scale(1); }
+    50%       { opacity: 1;  transform: scale(1.03); }
+  }
+
+  /* Arrow between classes */
+  .sc-arrow {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  /* Class cards */
+  .class-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .class-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.45); }
+  .class-card.cc-ro  { border-top: 3px solid #4ade80; }
+  .class-card.cc-c2  { border-top: 3px solid #fbbf24; }
+  .class-card.cc-c3  { border-top: 3px solid #f87171; }
+
+  .class-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 12px; border-radius: 100px;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .cb-ro  { background: rgba(74,222,128,0.1);  border: 1px solid rgba(74,222,128,0.25);  color: #4ade80; }
+  .cb-c2  { background: rgba(251,191,36,0.1);  border: 1px solid rgba(251,191,36,0.25);  color: #fbbf24; }
+  .cb-c3  { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.25); color: #f87171; }
+  .cb-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .class-card .cc-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+  .class-card .cc-action { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+  .cc-ro  .cc-action { color: #4ade80; }
+  .cc-c2  .cc-action { color: #fbbf24; }
+  .cc-c3  .cc-action { color: #f87171; }
+
+  .cc-examples { margin-top: 14px; }
+  .cc-examples p { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .cc-example-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cc-ex {
+    display: inline-block;
+    padding: 3px 8px; border-radius: 5px;
+    font-size: 0.7rem; font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: var(--text-secondary);
+  }
+
+  /* Hook architecture */
+  .arch-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .arch-node {
+    padding: 16px 20px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    font-size: 0.83rem;
+    position: relative;
+  }
+  .arch-node .an-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent-dim); border: 1px solid rgba(74,222,128,0.2);
+    color: var(--accent); font-size: 0.68rem; font-weight: 700;
+    margin-right: 10px; flex-shrink: 0;
+    vertical-align: middle;
+  }
+  .arch-node .an-label { color: var(--text-primary); font-weight: 600; vertical-align: middle; }
+  .arch-node .an-sub { font-size: 0.73rem; color: var(--text-muted); margin-top: 4px; padding-left: 32px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.55; }
+  .arch-connector {
+    display: flex; align-items: center; justify-content: center;
+    height: 28px; color: var(--border-default);
+    font-size: 1.1rem;
+  }
+  .arch-connector.branch {
+    gap: 40px;
+    height: 36px;
+  }
+  .arch-outcome {
+    display: flex; gap: 10px;
+  }
+  .ao {
+    flex: 1; padding: 12px 14px; border-radius: var(--radius-md);
+    font-size: 0.75rem; text-align: center; font-weight: 600;
+  }
+  .ao-allow  { background: rgba(74,222,128,0.08);  border: 1px solid rgba(74,222,128,0.2);  color: #4ade80; }
+  .ao-confirm{ background: rgba(251,191,36,0.08);  border: 1px solid rgba(251,191,36,0.2);  color: #fbbf24; }
+  .ao-block  { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); color: #f87171; }
+
+  /* Protects-against grid */
+  .protect-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.25s;
+  }
+  .protect-card:hover { border-color: rgba(248,113,113,0.18); transform: translateY(-2px); }
+  .protect-icon { font-size: 1.3rem; margin-bottom: 10px; display: block; }
+  .protect-title { font-size: 0.88rem; font-weight: 600; margin-bottom: 5px; }
+  .protect-body { font-size: 0.77rem; color: var(--text-secondary); line-height: 1.6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  /* Warn box red variant */
+  .danger-box {
+    padding: 20px 24px;
+    background: rgba(248,113,113,0.04);
+    border: 1px solid rgba(248,113,113,0.15);
+    border-left: 3px solid #f87171;
+    border-radius: var(--radius-md);
+    margin: 20px 0;
+  }
+  .danger-box p { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .danger-box p strong { color: var(--text-primary); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+  <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="nav-gh" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin — safety gate</div>
+    <h1 class="page-title">
+      Every Command<br>
+      <span class="accent-grad">Classified First</span>
+    </h1>
+    <p class="page-subtitle">
+      A PreToolUse hook intercepts every Bash command Claude proposes. Read-only commands pass instantly. Disruptive commands require explicit confirmation. Destructive commands are blocked entirely.
+    </p>
+
+    <!-- Safety visualization -->
+    <div class="safety-viz">
+      <div class="safety-class ro">
+        <div class="sc-dot"></div>
+        <div class="sc-name">Read-Only</div>
+        <div class="sc-label">Pass through</div>
+      </div>
+      <div class="sc-arrow">&#x2192;</div>
+      <div class="safety-class c2">
+        <div class="sc-dot"></div>
+        <div class="sc-name">Class 2</div>
+        <div class="sc-label">Confirm</div>
+      </div>
+      <div class="sc-arrow">&#x2192;</div>
+      <div class="safety-class c3">
+        <div class="sc-dot"></div>
+        <div class="sc-name">Class 3</div>
+        <div class="sc-label">Blocked</div>
+      </div>
+    </div>
+
+    <div class="hero-ctas" style="margin-top:36px">
+      <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="btn-primary" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Install Plugin
+      </a>
+      <a href="#three-class-system" class="btn-ghost">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        How it works
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="3">0</div>
+    <div class="stat-l">Safety Classes</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="0">0</div>
+    <div class="stat-l">Unreviewed Writes</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="1">0</div>
+    <div class="stat-l">Hook per Command</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="100">0</div>
+    <div class="stat-l">% Coverage</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: The safety hook -->
+<section class="content-section" id="safety-hook">
+  <div class="section-eyebrow">Architecture</div>
+  <h2 class="section-heading reveal">The Safety Hook</h2>
+  <p class="section-body reveal d1">
+    The linux-admin plugin installs a <code>PreToolUse</code> Bash hook via Claude Code's settings. Before Claude executes <em>any</em> shell command — regardless of which skill triggered it — this hook inspects the command string against the three-class classification table.
+  </p>
+
+  <div class="grid-2 reveal d2">
+    <div class="card">
+      <span class="card-icon">&#x1F517;</span>
+      <div class="card-title">PreToolUse Event</div>
+      <div class="card-body">Claude Code fires a <code>PreToolUse</code> hook event before every tool call. The hook receives the full command string and can return <code>block</code> to cancel execution or <code>confirm</code> to pause and ask the user. Read-only commands return nothing — they proceed immediately.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F4CB;</span>
+      <div class="card-title">Pattern Classification</div>
+      <div class="card-body">The hook script matches the incoming command against two ordered deny lists: Class 3 (destructive) first, Class 2 (disruptive) second. Any command that clears both lists is treated as read-only and allowed through without interruption.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x26A1;</span>
+      <div class="card-title">Zero Latency on R/O</div>
+      <div class="card-body">Diagnostic commands — the vast majority of what linux-admin runs — are never blocked or delayed. The classification check is a fast in-process string match, not a round-trip. Read-only first is the fastest path through the gate.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F512;</span>
+      <div class="card-title">Cannot Be Bypassed by Skills</div>
+      <div class="card-body">Individual skills cannot disable or override the hook. It is installed at the Claude Code harness level, not inside the skill scripts. Even if a skill is updated or replaced, the safety gate remains active for all Bash tool calls.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Three-class system -->
+<section class="content-section bg-surface" id="three-class-system">
+  <div class="content-section">
+    <div class="section-eyebrow">Classification</div>
+    <h2 class="section-heading reveal">Three-Class System</h2>
+    <p class="section-body reveal d1">
+      Every command fits into exactly one class. The classification is based on worst-case impact, not intent. A command that <em>can</em> be destructive is treated as destructive regardless of the arguments passed.
+    </p>
+
+    <div class="grid-3 reveal d2" style="gap:16px">
+      <!-- Class R/O -->
+      <div class="class-card cc-ro">
+        <div class="class-badge cb-ro"><span class="cb-dot"></span>Class R/O</div>
+        <div class="cc-title">Read-Only</div>
+        <div class="cc-action">Passes immediately — no prompt</div>
+        <p style="font-size:0.8rem;color:var(--text-secondary);line-height:1.65;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Diagnostic and inspection commands that cannot modify system state. These are the workhorses of the plugin — the hook sees them and steps aside.</p>
+        <div class="cc-examples">
+          <p>Examples</p>
+          <div class="cc-example-list">
+            <span class="cc-ex">journalctl</span>
+            <span class="cc-ex">systemctl status</span>
+            <span class="cc-ex">cat</span>
+            <span class="cc-ex">ls</span>
+            <span class="cc-ex">df -h</span>
+            <span class="cc-ex">ip addr</span>
+            <span class="cc-ex">ss -tlnp</span>
+            <span class="cc-ex">netstat</span>
+            <span class="cc-ex">dmesg</span>
+            <span class="cc-ex">top</span>
+            <span class="cc-ex">lsof</span>
+            <span class="cc-ex">ps aux</span>
+            <span class="cc-ex">nft list ruleset</span>
+            <span class="cc-ex">grep</span>
+            <span class="cc-ex">find</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Class 2 -->
+      <div class="class-card cc-c2">
+        <div class="class-badge cb-c2"><span class="cb-dot"></span>Class 2</div>
+        <div class="cc-title">Disruptive</div>
+        <div class="cc-action">Requires explicit "yes" confirmation</div>
+        <p style="font-size:0.8rem;color:var(--text-secondary);line-height:1.65;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Commands that change running system state but whose effects are recoverable — a service can be restarted, a firewall rule can be removed, a sysctl can be reverted. High-risk enough to warrant a pause.</p>
+        <div class="cc-examples">
+          <p>Examples</p>
+          <div class="cc-example-list">
+            <span class="cc-ex">systemctl stop</span>
+            <span class="cc-ex">systemctl restart</span>
+            <span class="cc-ex">firewall-cmd --add-rule</span>
+            <span class="cc-ex">sysctl -w</span>
+            <span class="cc-ex">iptables -A</span>
+            <span class="cc-ex">mount</span>
+            <span class="cc-ex">service restart</span>
+            <span class="cc-ex">nft flush</span>
+            <span class="cc-ex">kill -9</span>
+            <span class="cc-ex">modprobe</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Class 3 -->
+      <div class="class-card cc-c3">
+        <div class="class-badge cb-c3"><span class="cb-dot"></span>Class 3</div>
+        <div class="cc-title">Destructive</div>
+        <div class="cc-action">Blocked — requires evidence first</div>
+        <p style="font-size:0.8rem;color:var(--text-secondary);line-height:1.65;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">Irreversible operations. Once executed, data or configuration cannot be recovered from the system itself. The hook blocks these and asks Claude to provide evidence of root cause before the user can manually override.</p>
+        <div class="cc-examples">
+          <p>Examples</p>
+          <div class="cc-example-list">
+            <span class="cc-ex">rm -rf</span>
+            <span class="cc-ex">dd if=/dev/zero</span>
+            <span class="cc-ex">mkfs.*</span>
+            <span class="cc-ex">shred</span>
+            <span class="cc-ex">wipefs</span>
+            <span class="cc-ex">DROP TABLE</span>
+            <span class="cc-ex">passwd --delete</span>
+            <span class="cc-ex">userdel -r</span>
+            <span class="cc-ex">truncate -s 0</span>
+            <span class="cc-ex">lvremove</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Why this matters -->
+<section class="content-section" id="why-it-matters">
+  <div class="section-eyebrow">Context</div>
+  <h2 class="section-heading reveal">Why This Matters</h2>
+  <p class="section-body reveal d1">
+    AI confidence is not a reliable proxy for correctness. The safety gate exists precisely for cases where the model is certain but wrong.
+  </p>
+
+  <div class="danger-box reveal d2">
+    <p>
+      <strong>Real scenario, paraphrased:</strong> During a disk-space incident, Claude misidentified a misbehaving application's log directory as the sole source of a write storm. It proposed <code>rm -rf /var/log/app/</code> with high confidence. The safety hook blocked it and surfaced the request to the user along with a demand for evidence. Further investigation revealed the write storm was caused by a misconfigured log rotation policy — and the <code>/var/log/app/</code> directory contained the only audit trail proving what had happened. Deleting it would have destroyed the evidence and left the root cause unresolved.
+    </p>
+  </div>
+
+  <div class="highlight-box reveal d3">
+    <p>The gate does not assume Claude is incompetent. It assumes that <strong>even a highly capable model operating on incomplete context can produce a confident, coherent, and wrong recommendation</strong> — and that the cost of a false-positive block is a few extra seconds, while the cost of a false-negative allow is unrecoverable data loss.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: Hook architecture -->
+<section class="content-section bg-surface" id="hook-architecture">
+  <div class="content-section">
+    <div class="section-eyebrow">Internals</div>
+    <h2 class="section-heading reveal">Hook Architecture</h2>
+    <p class="section-body reveal d1">
+      The classification pipeline is a simple, auditable four-step decision tree. Every command goes through the same path in the same order.
+    </p>
+
+    <div class="arch-flow reveal d2">
+      <div class="arch-node">
+        <span class="an-num">1</span>
+        <span class="an-label">Command arrives via PreToolUse event</span>
+        <div class="an-sub">The full command string — including flags and arguments — is passed to the hook script before Claude Code hands it to the shell executor. The hook runs synchronously; Claude waits for a response.</div>
+      </div>
+      <div class="arch-connector">&#x2193;</div>
+      <div class="arch-node">
+        <span class="an-num">2</span>
+        <span class="an-label">Pattern match against Class 3 deny list</span>
+        <div class="an-sub">The command is matched against a curated set of regex patterns covering destructive operations: <code>rm\s+-[^']*r</code>, <code>dd\s+.*of=</code>, <code>mkfs\.</code>, <code>shred</code>, <code>wipefs</code>, and others. If matched, execution is blocked immediately — no further checks.</div>
+      </div>
+      <div class="arch-connector">&#x2193;</div>
+      <div class="arch-node">
+        <span class="an-num">3</span>
+        <span class="an-label">Pattern match against Class 2 confirm list</span>
+        <div class="an-sub">Commands that cleared the Class 3 check are now tested against the Class 2 set: <code>systemctl (stop|restart|disable)</code>, <code>sysctl -w</code>, <code>iptables -[AID]</code>, <code>mount(?!\s+\-l)</code>, and similar. If matched, execution is paused and a confirmation prompt is shown.</div>
+      </div>
+      <div class="arch-connector">&#x2193;</div>
+      <div class="arch-node">
+        <span class="an-num">4</span>
+        <span class="an-label">Allow or block/confirm before execution</span>
+        <div class="an-sub">Commands that clear both deny lists are treated as read-only. The hook returns without output and execution proceeds. The entire check adds sub-millisecond latency on the fast path.</div>
+      </div>
+      <div class="arch-connector">&#x2193;</div>
+      <div class="arch-outcome">
+        <div class="ao ao-allow">Allow (R/O)</div>
+        <div class="ao ao-confirm">Confirm (Class 2)</div>
+        <div class="ao ao-block">Block (Class 3)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: What it protects against -->
+<section class="content-section" id="protects-against">
+  <div class="section-eyebrow">Protection</div>
+  <h2 class="section-heading reveal">What It Protects Against</h2>
+  <p class="section-body reveal d1">
+    Five distinct failure modes that have caused real outages when AI-assisted administration is used without a safety layer.
+  </p>
+
+  <div class="grid-3 reveal d2">
+    <div class="protect-card">
+      <span class="protect-icon">&#x1F3AF;</span>
+      <div class="protect-title">Misidentification</div>
+      <div class="protect-body">Claude correctly observes a symptom but traces it to the wrong file, service, or process. The model proposes a destructive action against the wrong target. The hook blocks and demands evidence before allowing the user to proceed.</div>
+    </div>
+    <div class="protect-card">
+      <span class="protect-icon">&#x1F4A5;</span>
+      <div class="protect-title">Cascade Errors</div>
+      <div class="protect-body">Fixing component A causes component B to fail — but the fix was already executed before the dependency was understood. Class 2 confirmation gives a pause to check dependency chains before committing to a state change.</div>
+    </div>
+    <div class="protect-card">
+      <span class="protect-icon">&#x267B;&#xFE0F;</span>
+      <div class="protect-title">Irreversible Changes</div>
+      <div class="protect-body">There is no undo for <code>mkfs</code>, <code>shred</code>, or <code>wipefs</code>. These are Class 3 by definition. Blocking them unconditionally means the only way to proceed is for the human operator to run the command manually — a deliberate friction point.</div>
+    </div>
+    <div class="protect-card">
+      <span class="protect-icon">&#x2328;&#xFE0F;</span>
+      <div class="protect-title">Typos in Destructive Commands</div>
+      <div class="protect-body">A path typo in a recursive delete command is one of the oldest causes of accidental data loss in Linux. The hook catches the pattern <em>before</em> the shell expands globs and resolves symlinks — when the typo is still visible and correctable.</div>
+    </div>
+    <div class="protect-card">
+      <span class="protect-icon">&#x1F9E0;</span>
+      <div class="protect-title">Stale Context</div>
+      <div class="protect-body">The model's confidence reflects the completeness of context it was given, not ground truth. If logs were truncated, a service was restarted between observations, or a file was already deleted, the model operates on stale data. The hook provides a checkpoint where the human can verify state is still as expected.</div>
+    </div>
+    <div class="protect-card" style="grid-column: span 1;">
+      <span class="protect-icon">&#x1F4A1;</span>
+      <div class="protect-title">Confident but Wrong</div>
+      <div class="protect-body">Language model confidence scores are not calibrated to real-world accuracy on system administration tasks. A very confident proposal is not safer than an uncertain one — it is just more likely to be acted on without scrutiny. The gate provides scrutiny regardless of model confidence.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Related skills -->
+<section class="content-section bg-surface" id="related">
+  <div class="content-section">
+    <div class="section-eyebrow">Ecosystem</div>
+    <h2 class="section-heading reveal">Related Skills</h2>
+    <p class="section-body reveal d1">
+      The safety gate protects every skill in the linux-admin plugin. These are the ones most likely to trigger Class 2 or Class 3 checks.
+    </p>
+
+    <div class="related-grid reveal d2">
+      <a href="diagnose.html" class="related-card">
+        <span class="rc-icon">&#x1F50D;</span>
+        <div>
+          <div class="rc-name">diagnose</div>
+          <div class="rc-desc">Triage router — overwhelmingly read-only, rarely triggers Class 2</div>
+        </div>
+      </a>
+      <a href="network.html" class="related-card">
+        <span class="rc-icon">&#x1F310;</span>
+        <div>
+          <div class="rc-name">network</div>
+          <div class="rc-desc">Interface reconfig and routing changes are Class 2 guarded</div>
+        </div>
+      </a>
+      <a href="firewall.html" class="related-card">
+        <span class="rc-icon">&#x1F6E1;&#xFE0F;</span>
+        <div>
+          <div class="rc-name">firewall-expert</div>
+          <div class="rc-desc">All rule modifications are Class 2; flush + deny-all is Class 3</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a>
+    <a href="firewall.html">Firewall</a>
+  </div>
+  <div class="footer-copy">MIT License &copy; 2025</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+</body>
+</html>

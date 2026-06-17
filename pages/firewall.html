@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin:firewall-expert — Lockout-safe nftables, firewalld, iptables, UFW, and ipset management for Claude Code. Always adds a recovery rule before applying deny-all policies.">
+<meta property="og:title" content="linux-admin:firewall-expert — Lockout-safe Linux Firewall Management">
+<meta property="og:description" content="nftables, firewalld, iptables, UFW, ipset, and NAT — all with a lockout-safe protocol that protects your session before touching a single rule.">
+<meta property="og:type" content="website">
+<title>linux-admin — firewall-expert | Linux Admin for Claude Code</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root {
+    --accent: #fbbf24;
+    --accent-dim: rgba(251,191,36,0.12);
+    --accent-glow: 0 0 24px rgba(251,191,36,0.3);
+  }
+
+  /* Amber overrides for interactive elements */
+  .skill-badge { background: var(--accent-dim); border-color: rgba(251,191,36,0.2); color: var(--accent); }
+  .skill-badge::before { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .section-eyebrow { color: var(--accent); }
+  .section-eyebrow::before { background: var(--accent); }
+  .step-num { background: var(--accent-dim); border-color: rgba(251,191,36,0.2); color: var(--accent); }
+  .nav-back:hover { color: var(--accent); border-color: rgba(251,191,36,0.3); background: var(--accent-dim); }
+  .nav-gh { color: var(--accent); border-color: rgba(251,191,36,0.25); }
+  .nav-gh:hover { background: var(--accent-dim); box-shadow: var(--accent-glow); }
+  .btn-primary { background: var(--accent); }
+  .btn-primary:hover { background: #fde68a; box-shadow: var(--accent-glow), 0 6px 24px rgba(251,191,36,0.2); }
+  .card:hover { border-color: rgba(251,191,36,0.18); }
+  .step-card:hover { border-color: rgba(251,191,36,0.18); }
+  .related-card:hover { border-color: rgba(251,191,36,0.2); background: rgba(251,191,36,0.03); }
+  .snippet .scp { color: var(--accent); }
+  .highlight-box { background: rgba(251,191,36,0.04); border-color: rgba(251,191,36,0.15); border-left-color: var(--accent); }
+  .pill { background: var(--accent-dim); border-color: rgba(251,191,36,0.2); color: var(--accent); }
+  .footer-brand { color: var(--accent); }
+  .footer-links a:hover { color: var(--accent); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(251,191,36,0.3); }
+  .stat-n { color: var(--accent); filter: drop-shadow(0 0 8px rgba(251,191,36,.4)); }
+
+  /* Tool grid card accent border hover */
+  .tool-card { border-top: 2px solid transparent; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+  .tool-card.tc-modern:hover { border-top-color: #fbbf24; }
+  .tool-card.tc-zone:hover   { border-top-color: #a78bfa; }
+  .tool-card.tc-legacy:hover { border-top-color: #f87171; }
+  .tool-card.tc-ufw:hover    { border-top-color: #22d3ee; }
+  .tool-card.tc-ipset:hover  { border-top-color: #4ade80; }
+
+  .tool-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tb-modern { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+  .tb-zone   { background: rgba(167,139,250,0.1); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+  .tb-legacy { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+  .tb-ufw    { background: rgba(34,211,238,0.1);  color: #22d3ee; border: 1px solid rgba(34,211,238,0.25); }
+  .tb-ipset  { background: rgba(74,222,128,0.1);  color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+
+  /* page-title accent override */
+  .page-title .accent-grad {
+    background: linear-gradient(135deg, #fbbf24 0%, #fde68a 45%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-grid-bg {
+    background-image: linear-gradient(rgba(251,191,36,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(251,191,36,0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+  <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="nav-gh" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <canvas id="firewall-canvas" class="hero-canvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin:firewall-expert</div>
+    <h1 class="page-title">
+      <span class="accent-grad">Firewall</span><br>Without Lockout
+    </h1>
+    <p class="page-subtitle">
+      nftables, firewalld, iptables, UFW, and ipset — managed safely. Every rule change starts with a session-preserving recovery rule so you never lock yourself out of a remote host.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="btn-primary" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Install Plugin
+      </a>
+      <a href="#firewall-expertise" class="btn-ghost">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Explore
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="5">0</div>
+    <div class="stat-l">Firewall Tools</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="0">0</div>
+    <div class="stat-l">Lockouts Caused</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="5">0</div>
+    <div class="stat-l">Safety Steps</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="1">0</div>
+    <div class="stat-l">Recovery Rule First</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: Firewall expertise -->
+<section class="content-section" id="firewall-expertise">
+  <div class="section-eyebrow">Overview</div>
+  <h2 class="section-heading reveal">Firewall Expertise</h2>
+  <p class="section-body reveal d1">
+    Full-stack firewall management across every major Linux netfilter frontend. From raw nftables rulesets to high-level UFW policies and large-scale ipset country blocks — with a lockout-safe approach hardwired into every operation.
+  </p>
+
+  <div class="grid-3 reveal d2">
+    <div class="card">
+      <span class="card-icon">&#x1F6E1;&#xFE0F;</span>
+      <div class="card-title">nftables</div>
+      <div class="card-body">Modern netfilter frontend. Atomic rule replacement, sets, maps, and verdict chains in a single consistent syntax. Preferred for all new configurations on kernel 3.13+.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F525;</span>
+      <div class="card-title">firewalld</div>
+      <div class="card-body">Zone-based dynamic firewall daemon. Default on RHEL, Fedora, and Rocky Linux. Manages runtime and permanent rules separately — no service restart needed for live changes.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x26D3;&#xFE0F;</span>
+      <div class="card-title">iptables</div>
+      <div class="card-body">Legacy netfilter interface. Supported for existing configurations and distros that predate nftables. New rulesets are written in nftables whenever possible.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F9F1;</span>
+      <div class="card-title">UFW</div>
+      <div class="card-body">Uncomplicated Firewall — the Ubuntu/Debian standard for simple port management. Ideal for single-server setups and beginners. Wraps iptables with a friendly CLI.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F4CB;</span>
+      <div class="card-title">ipset</div>
+      <div class="card-body">Kernel-level IP set management for matching thousands of addresses efficiently. Used for country blocks, known bad-actor lists, and allowlists that would be impractical in plain iptables rules.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x21C4;</span>
+      <div class="card-title">NAT &amp; Masquerade</div>
+      <div class="card-body">SNAT, DNAT, port forwarding, and masquerade rules for routers, VPN gateways, and container networking. Correct postrouting chain placement verified before application.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Lockout-safe protocol -->
+<section class="content-section bg-surface" id="lockout-safe">
+  <div class="content-section">
+    <div class="section-eyebrow">Safety Protocol</div>
+    <h2 class="section-heading reveal">Lockout-Safe Protocol</h2>
+    <p class="section-body reveal d1">
+      Locking yourself out of a remote server with a bad firewall rule is one of the most painful self-inflicted outages in Linux administration. This protocol makes it structurally impossible.
+    </p>
+
+    <div class="highlight-box reveal d2">
+      <p><strong>The rule:</strong> Before any deny-all or restrictive ruleset is applied, an explicit <code>accept</code> rule for the current session's source IP is inserted at the top of the input chain. This rule is the last thing removed — only after connectivity is confirmed from a second terminal. Recovery rules use a timeout comment so they are easily identified and cleaned up.</p>
+    </div>
+
+    <div class="grid-2 reveal d3" style="gap:12px; margin-top:28px">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Record Current IP</div>
+          <div class="step-desc">Capture the source address of the active SSH session using <code>who -a</code>, <code>ss -tnp</code>, or <code>$SSH_CLIENT</code>. Store it in a shell variable. Never trust what <code>curl ifconfig.me</code> returns — that is the NAT exit IP, not the session source.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Add Emergency Accept Rule</div>
+          <div class="step-desc">Insert an unconditional accept rule for the captured IP at position 1 of the input chain — above any deny rules. For nftables: <code>nft insert rule inet filter input ip saddr $MY_IP accept</code>. For iptables: <code>iptables -I INPUT 1 -s $MY_IP -j ACCEPT</code>.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Apply New Rules</div>
+          <div class="step-desc">Load the new ruleset atomically (<code>nft -f /etc/nftables.conf</code>) or apply changes incrementally. The emergency accept rule at the top of the chain guarantees the current session survives even if the new rules include a deny-all default policy.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Test from a Second Terminal</div>
+          <div class="step-desc">Open a <em>new, independent</em> SSH connection before removing the recovery rule. Confirm the new rules work as intended — services reachable, blocked ports actually blocked. Never close the original session first.</div>
+        </div>
+      </div>
+      <div class="step-card" style="grid-column:1/-1">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-title">Remove Emergency Rule Only After Verified</div>
+          <div class="step-desc">Once connectivity is confirmed in the new terminal, delete the recovery rule by handle or by matching the comment. For nftables: <code>nft delete rule inet filter input handle $(nft -a list ruleset | grep EMERGENCY | awk '{print $NF}')</code>. The ruleset is now clean and intentional.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Terminal demo -->
+<section class="content-section" id="terminal-demo">
+  <div class="section-eyebrow">Demo</div>
+  <h2 class="section-heading reveal">See It in Action</h2>
+  <p class="section-body reveal d1">
+    Blocking all traffic except SSH and web while preserving the active session — using the full lockout-safe protocol with nftables.
+  </p>
+
+  <div class="terminal-block reveal d2">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">claude code — firewall-expert session</span>
+    </div>
+    <div class="term-body" id="firewall-term"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: Tool selection guide -->
+<section class="content-section bg-surface" id="tool-guide">
+  <div class="content-section">
+    <div class="section-eyebrow">Tool Guide</div>
+    <h2 class="section-heading reveal">Which Tool to Use</h2>
+    <p class="section-body reveal d1">
+      Choosing the right frontend matters — mixing tools on the same host leads to rule conflicts and unpredictable filtering behaviour.
+    </p>
+
+    <div class="grid-auto reveal d2">
+      <div class="card tool-card tc-modern">
+        <span class="tool-badge tb-modern">Preferred</span>
+        <div class="card-title">nftables</div>
+        <div class="card-body">Modern replacement for iptables/ip6tables/arptables. Atomic flushes, native sets, single kernel subsystem. Use for all new Linux deployments on kernel 3.13+.</div>
+        <div class="tag-list" style="margin-top:12px">
+          <span class="tag tag-amber">kernel 3.13+</span>
+          <span class="tag tag-amber">atomic</span>
+          <span class="tag tag-amber">sets/maps</span>
+        </div>
+      </div>
+      <div class="card tool-card tc-zone">
+        <span class="tool-badge tb-zone">Zone-based</span>
+        <div class="card-title">firewalld</div>
+        <div class="card-body">RHEL/Fedora/Rocky default. Zones abstract interfaces and sources. Permanent + runtime layers prevent config drift after reboot. Integrates with NetworkManager.</div>
+        <div class="tag-list" style="margin-top:12px">
+          <span class="tag tag-violet">RHEL/Fedora</span>
+          <span class="tag tag-violet">zones</span>
+          <span class="tag tag-violet">dynamic</span>
+        </div>
+      </div>
+      <div class="card tool-card tc-legacy">
+        <span class="tool-badge tb-legacy">Legacy</span>
+        <div class="card-title">iptables</div>
+        <div class="card-body">Avoid for new configurations. Maintain existing rulesets only. Non-atomic rule application creates race windows. Separate tools needed for IPv6, ARP, and bridge filtering.</div>
+        <div class="tag-list" style="margin-top:12px">
+          <span class="tag tag-red">legacy</span>
+          <span class="tag tag-red">non-atomic</span>
+          <span class="tag tag-red">avoid new</span>
+        </div>
+      </div>
+      <div class="card tool-card tc-ufw">
+        <span class="tool-badge tb-ufw">Simple</span>
+        <div class="card-title">UFW</div>
+        <div class="card-body">Ubuntu/Debian-friendly high-level interface. Hides netfilter complexity for single-server, port-based policies. Not suitable for complex multi-zone or NAT setups.</div>
+        <div class="tag-list" style="margin-top:12px">
+          <span class="tag tag-cyan">Ubuntu</span>
+          <span class="tag tag-cyan">beginner</span>
+          <span class="tag tag-cyan">simple</span>
+        </div>
+      </div>
+      <div class="card tool-card tc-ipset">
+        <span class="tool-badge tb-ipset">Performance</span>
+        <div class="card-title">ipset</div>
+        <div class="card-body">Kernel hash/bitmap sets for matching large address lists at O(1) cost. Use with iptables or nftables for country blocks and large blocklists. Complements, does not replace, nftables.</div>
+        <div class="tag-list" style="margin-top:12px">
+          <span class="tag tag-green">O(1) lookup</span>
+          <span class="tag tag-green">large lists</span>
+          <span class="tag tag-green">geo-block</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: Key commands -->
+<section class="content-section" id="key-commands">
+  <div class="section-eyebrow">Commands</div>
+  <h2 class="section-heading reveal">Key Commands</h2>
+  <p class="section-body reveal d1">
+    The essential read-only inspection commands across all five tools. Safe to run on any live system before making changes.
+  </p>
+
+  <div class="grid-2 reveal d2" style="gap:12px">
+    <div>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># Dump entire nftables ruleset with handles</span><br>
+        <span class="sch">nft</span> list ruleset<br>
+        <span class="sch">nft</span> -a list ruleset <span class="sco"># with handle numbers</span>
+      </div>
+      <div class="snippet" style="margin-top:10px">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># firewalld — active zones and rules</span><br>
+        <span class="sch">firewall-cmd</span> --list-all<br>
+        <span class="sch">firewall-cmd</span> --list-all-zones<br>
+        <span class="sch">firewall-cmd</span> --get-active-zones
+      </div>
+      <div class="snippet" style="margin-top:10px">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># Capture current session source IP</span><br>
+        MY_IP=$(echo $SSH_CLIENT | awk '{print $1}')<br>
+        <span class="sco"># Verify: echo $MY_IP</span>
+      </div>
+    </div>
+    <div>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># iptables — save complete ruleset</span><br>
+        <span class="sch">iptables-save</span> <span class="sco"># IPv4</span><br>
+        <span class="sch">ip6tables-save</span> <span class="sco"># IPv6</span><br>
+        <span class="sch">iptables</span> -nvL --line-numbers
+      </div>
+      <div class="snippet" style="margin-top:10px">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># UFW — verbose status with rule numbers</span><br>
+        <span class="sch">ufw</span> status verbose<br>
+        <span class="sch">ufw</span> status numbered
+      </div>
+      <div class="snippet" style="margin-top:10px">
+        <button class="copy-snip">copy</button>
+        <span class="scp"># ipset — list all sets with members</span><br>
+        <span class="sch">ipset</span> list<br>
+        <span class="sch">ipset</span> list &lt;setname&gt;<br>
+        <span class="sco"># Active listening sockets</span><br>
+        <span class="sch">ss</span> -tlnp
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Related skills -->
+<section class="content-section bg-surface" id="related">
+  <div class="content-section">
+    <div class="section-eyebrow">Ecosystem</div>
+    <h2 class="section-heading reveal">Related Skills</h2>
+    <p class="section-body reveal d1">
+      Firewall changes rarely happen in isolation — these skills are commonly invoked alongside firewall-expert.
+    </p>
+
+    <div class="related-grid reveal d2">
+      <a href="diagnose.html" class="related-card">
+        <span class="rc-icon">&#x1F50D;</span>
+        <div>
+          <div class="rc-name">diagnose</div>
+          <div class="rc-desc">Triage unexpected traffic drops after rule changes</div>
+        </div>
+      </a>
+      <a href="network.html" class="related-card">
+        <span class="rc-icon">&#x1F310;</span>
+        <div>
+          <div class="rc-name">network</div>
+          <div class="rc-desc">Interface config, routing, and VPN alongside firewall rules</div>
+        </div>
+      </a>
+      <a href="auth.html" class="related-card">
+        <span class="rc-icon">&#x1F511;</span>
+        <div>
+          <div class="rc-name">auth</div>
+          <div class="rc-desc">SSH hardening, fail2ban, and PAM alongside port filtering</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a>
+    <a href="safety.html">Safety</a>
+  </div>
+  <div class="footer-copy">MIT License &copy; 2025</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+(function () {
+  // ── Packet filter canvas animation ──
+  const canvas = document.getElementById('firewall-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const packets = [];
+  let frame = 0;
+
+  function addPacket() {
+    packets.push({
+      x: 0,
+      y: 80 + Math.random() * (canvas.height - 160),
+      speed: 1.5 + Math.random() * 1.5,
+      blocked: Math.random() > 0.6,
+      color: Math.random() > 0.5 ? '#22d3ee' : '#a78bfa',
+      state: 'moving',
+      flashCount: 0,
+      size: 3 + Math.random() * 2
+    });
+  }
+
+  function drawPacketAnim() {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Wall (firewall)
+    const wallX = W * 0.5;
+    ctx.fillStyle = '#fbbf2420';
+    ctx.fillRect(wallX - 2, 20, 4, H - 40);
+    ctx.strokeStyle = '#fbbf2488';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(wallX, 20); ctx.lineTo(wallX, H - 20); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Label
+    ctx.font = '10px monospace';
+    ctx.fillStyle = '#fbbf24aa';
+    ctx.textAlign = 'center';
+    ctx.fillText('FIREWALL', wallX, 16);
+
+    // LEFT label
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#a1a1aa66';
+    ctx.fillText('UNTRUSTED', 10, 16);
+    ctx.textAlign = 'right';
+    ctx.fillText('TRUSTED', W - 10, 16);
+    ctx.textAlign = 'left';
+
+    if (frame % 40 === 0 && packets.length < 14) addPacket();
+
+    packets.forEach((p, i) => {
+      if (p.state === 'moving') {
+        p.x += p.speed;
+        if (p.x >= wallX && p.blocked) {
+          p.state = 'blocked-flash';
+          p.x = wallX - 4;
+        } else if (p.x > W + 10) {
+          packets.splice(i, 1);
+          return;
+        }
+      } else if (p.state === 'blocked-flash') {
+        p.flashCount++;
+        if (p.flashCount > 20) { packets.splice(i, 1); return; }
+      }
+
+      if (p.state === 'moving') {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + 'cc';
+        ctx.fill();
+        // trail
+        ctx.beginPath();
+        ctx.moveTo(p.x - 14, p.y);
+        ctx.lineTo(p.x - p.size, p.y);
+        ctx.strokeStyle = p.color + '44';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      } else if (p.state === 'blocked-flash') {
+        const alpha = p.flashCount % 6 < 3 ? 'ff' : '44';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#f87171' + alpha;
+        ctx.fill();
+        // X mark
+        ctx.strokeStyle = '#f87171cc';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x - 5, p.y - 5); ctx.lineTo(p.x + 5, p.y + 5);
+        ctx.moveTo(p.x + 5, p.y - 5); ctx.lineTo(p.x - 5, p.y + 5);
+        ctx.stroke();
+      }
+    });
+
+    frame++;
+    requestAnimationFrame(drawPacketAnim);
+  }
+  drawPacketAnim();
+
+  // ── Terminal demo ──
+  const termEl = document.getElementById('firewall-term');
+  if (termEl && window.DF && window.DF.Terminal) {
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:firewall-expert block all traffic except SSH and web' },
+      { type: 'out',     text: '-- firewall-expert v2.1.0 · nftables mode --', delay: 300 },
+      { type: 'dim',     text: '-- step 1: auditing current rules --', delay: 200 },
+      { type: 'out',     text: '  running: nft list ruleset', delay: 80 },
+      { type: 'out',     text: '  table inet filter { chain input policy accept }', delay: 60 },
+      { type: 'dim',     text: '-- step 2: capturing session source IP --', delay: 200 },
+      { type: 'out',     text: '  MY_IP=$(echo $SSH_CLIENT | awk \'{print $1}\')', delay: 80 },
+      { type: 'success', text: '  session source: 203.0.113.42', delay: 60 },
+      { type: 'dim',     text: '-- step 3: inserting emergency accept rule --', delay: 200 },
+      { type: 'warn',    text: '  nft insert rule inet filter input ip saddr 203.0.113.42 comment \\"EMERGENCY\\" accept', delay: 80 },
+      { type: 'success', text: '  [OK] emergency accept rule at position 1 — session protected', delay: 80 },
+      { type: 'dim',     text: '-- step 4: applying new nftables ruleset --', delay: 200 },
+      { type: 'out',     text: '  writing /etc/nftables.conf ...', delay: 80 },
+      { type: 'out',     text: '  table inet filter {', delay: 40 },
+      { type: 'out',     text: '    chain input { type filter hook input priority 0; policy drop;', delay: 40 },
+      { type: 'out',     text: '      ip saddr 203.0.113.42 comment "EMERGENCY" accept', delay: 40 },
+      { type: 'out',     text: '      ct state established,related accept', delay: 40 },
+      { type: 'out',     text: '      tcp dport { 22, 80, 443 } accept', delay: 40 },
+      { type: 'out',     text: '    }', delay: 40 },
+      { type: 'out',     text: '  }', delay: 40 },
+      { type: 'out',     text: '  running: nft -f /etc/nftables.conf', delay: 80 },
+      { type: 'success', text: '  [OK] ruleset loaded atomically', delay: 80 },
+      { type: 'dim',     text: '-- step 5: verifying SSH still reachable --', delay: 200 },
+      { type: 'success', text: '  [OK] port 22 reachable from 203.0.113.42', delay: 80 },
+      { type: 'success', text: '  [OK] port 80/443 reachable from 0.0.0.0/0', delay: 60 },
+      { type: 'dim',     text: '-- step 6: open a second terminal, confirm, then: --', delay: 200 },
+      { type: 'out',     text: '  nft delete rule inet filter input handle <EMERGENCY_HANDLE>', delay: 80 },
+      { type: 'success', text: '  [DONE] lockout-safe — emergency rule removed after verification', delay: 100 },
+    ];
+    const term = new window.DF.Terminal(termEl, lines, true);
+    term.start();
+  }
+})();
+</script>
+</body>
+</html>

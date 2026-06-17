@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin kernel diagnostics — kernel panic, BUG(), lockup, kdump analysis, call trace reading, and oops messages for Claude Code.">
+<meta property="og:title" content="linux-admin — Kernel | Linux Admin for Claude Code">
+<meta property="og:description" content="Diagnose kernel panics, oops messages, and lockups with the linux-admin Claude Code plugin. kdump, crash, call trace reading.">
+<meta property="og:type" content="website">
+<title>linux-admin — Kernel | Linux Admin for Claude Code</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root {
+    --accent: #f87171;
+    --accent-dim: rgba(248,113,113,0.12);
+    --accent-glow: 0 0 24px rgba(248,113,113,0.35);
+  }
+
+  /* Override accent-dependent core.css rules for red accent */
+  .skill-badge {
+    background: rgba(248,113,113,0.10);
+    border-color: rgba(248,113,113,0.22);
+    color: var(--accent);
+  }
+  .skill-badge::before {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+  .section-eyebrow { color: var(--accent); }
+  .section-eyebrow::before { background: var(--accent); }
+  .nav-back:hover { color: var(--accent); border-color: rgba(248,113,113,0.3); background: var(--accent-dim); }
+  .nav-gh { color: var(--accent); border-color: rgba(248,113,113,0.25); }
+  .nav-gh:hover { background: var(--accent-dim); box-shadow: var(--accent-glow); }
+  .step-num { background: var(--accent-dim); border-color: rgba(248,113,113,0.22); color: var(--accent); }
+  .step-card:hover { border-color: rgba(248,113,113,0.2); }
+  .card:hover { border-color: rgba(248,113,113,0.18); }
+  .btn-primary { background: var(--accent); }
+  .btn-primary:hover { background: #fca5a5; box-shadow: var(--accent-glow), 0 6px 24px rgba(248,113,113,0.2); }
+  .pill { background: var(--accent-dim); border-color: rgba(248,113,113,0.22); color: var(--accent); }
+  .stat-n { color: var(--accent); filter: drop-shadow(0 0 8px rgba(248,113,113,0.4)); }
+  .highlight-box { background: rgba(248,113,113,0.04); border-color: rgba(248,113,113,0.15); border-left-color: var(--accent); }
+  .copy-snip:hover { color: var(--accent); border-color: rgba(248,113,113,0.3); }
+  .snippet .scp { color: var(--accent); }
+  .related-card:hover { border-color: rgba(248,113,113,0.2); background: rgba(248,113,113,0.03); }
+  .hero-grid-bg {
+    background-image: linear-gradient(rgba(248,113,113,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(248,113,113,0.03) 1px, transparent 1px);
+  }
+  .footer-brand { color: var(--accent); }
+  .footer-links a:hover { color: var(--accent); }
+  .reveal.visible .step-card { border-left-color: var(--accent); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(248,113,113,0.3); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a class="nav-back" href="../index.html">&#8592; linux-admin</a>
+  <a class="nav-gh" href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    Star on GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin skill</div>
+    <h1 class="page-title">
+      <span class="accent-grad" style="background:linear-gradient(135deg,#f87171 0%,#fca5a5 45%,#fb923c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Kernel</span><br>Diagnostics
+    </h1>
+    <p class="page-subtitle">
+      Kernel panic, BUG(), lockup detection, kdump analysis, call trace reading,
+      and oops messages — dissected with systematic SRE methodology.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#terminal-demo">See it in action</a>
+      <a class="btn-ghost" href="#kdump-setup">kdump setup</a>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">panic anatomy steps</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="5">0</div>
+    <div class="stat-l">key commands</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="0">0</div>
+    <div class="stat-l">reboots required</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="1">0</div>
+    <div class="stat-l">kdump core, full picture</div>
+  </div>
+</div>
+
+<!-- SECTION 1: Kernel diagnostics overview -->
+<section class="content-section">
+  <div class="section-eyebrow">Overview</div>
+  <h2 class="section-heading">Kernel diagnostics</h2>
+  <p class="section-body">
+    When the kernel crashes, it leaves evidence. The linux-admin skill reads
+    that evidence systematically — from oops messages to full vmcore crash dumps.
+  </p>
+
+  <div class="grid-3">
+    <div class="card reveal d1">
+      <span class="card-icon">&#x1F4A5;</span>
+      <div class="card-title">Kernel Panic</div>
+      <div class="card-body">Interprets panic messages, identifies the faulting instruction via RIP, and reads the call trace to find the root cause driver or subsystem.</div>
+    </div>
+    <div class="card reveal d2">
+      <span class="card-icon">&#x1F41B;</span>
+      <div class="card-title">BUG() &amp; WARN()</div>
+      <div class="card-body">Distinguishes fatal BUG() assertions from advisory WARN() traces. Reads kernel source annotations to understand invariant violations.</div>
+    </div>
+    <div class="card reveal d3">
+      <span class="card-icon">&#x1F512;</span>
+      <div class="card-title">Lockup Detection</div>
+      <div class="card-body">Identifies soft lockups (CPU stuck in kernel &gt;20s) vs hard lockups (NMI watchdog). Extracts held lock state from call traces.</div>
+    </div>
+    <div class="card reveal d1">
+      <span class="card-icon">&#x1F4BE;</span>
+      <div class="card-title">kdump Analysis</div>
+      <div class="card-body">Reads vmcore crash dumps with the crash utility, navigates kernel data structures, and identifies the crash context without a live system.</div>
+    </div>
+    <div class="card reveal d2">
+      <span class="card-icon">&#x1F4CB;</span>
+      <div class="card-title">Call Trace Reading</div>
+      <div class="card-body">Parses kernel stack frames top-to-bottom, identifies the triggering function, and maps frames back to kernel modules or out-of-tree drivers.</div>
+    </div>
+    <div class="card reveal d3">
+      <span class="card-icon">&#x26A0;&#xFE0F;</span>
+      <div class="card-title">Oops Messages</div>
+      <div class="card-body">Decodes oops error codes (protection fault, null dereference, divide-by-zero), register state, and memory access addresses.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: Anatomy of a kernel panic -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="section-eyebrow">Reference</div>
+    <h2 class="section-heading">Anatomy of a kernel panic</h2>
+    <p class="section-body">
+      A panic message looks overwhelming but has four distinct sections.
+      linux-admin reads them in order.
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="step-card reveal d1">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Exception type + RIP (instruction pointer)</div>
+          <div class="step-desc">The first line names the panic type: <code>general protection fault</code>, <code>NULL pointer dereference</code>, <code>BUG: kernel NULL pointer dereference</code>. RIP shows the exact instruction address that faulted — this maps directly to a function via <code>addr2line</code> or <code>objdump</code>.</div>
+        </div>
+      </div>
+      <div class="step-card reveal d2">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Registers dump</div>
+          <div class="step-desc">RAX, RBX, RCX, RDX, RSI, RDI and the segment registers at fault time. For pointer dereferences, RDI and RSI often hold the null or corrupt pointer. CR2 holds the faulting address on page faults.</div>
+        </div>
+      </div>
+      <div class="step-card reveal d3">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Call trace (most important section)</div>
+          <div class="step-desc">Read bottom-to-top for causality (the bottom frames show what called into the crash). The top frame after <code>RIP</code> is where the fault occurred. Frames inside brackets <code>[ ]</code> are unreliable — trust the unbracketed ones. Module names in angle brackets (e.g. <code>&lt;scsi_mod&gt;</code>) indicate out-of-tree culprit.</div>
+        </div>
+      </div>
+      <div class="step-card reveal d4">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Modules loaded</div>
+          <div class="step-desc">The final section lists all loaded kernel modules at crash time. Cross-reference with the call trace to identify out-of-tree or third-party modules involved. DKMS-built modules are common culprits after kernel upgrades.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Terminal demo -->
+<section class="content-section" id="terminal-demo">
+  <div class="section-eyebrow">Live demo</div>
+  <h2 class="section-heading">See the skill at work</h2>
+  <p class="section-body">
+    Kernel 6.8 upgrade causes panics? Watch linux-admin trace it from crash
+    dump to root cause.
+  </p>
+
+  <div class="terminal-block reveal">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">claude-code — /linux-admin:kernel</span>
+    </div>
+    <div class="term-body" id="termBody">
+      <div class="tl"><span class="tp">›</span><span class="tc">/linux-admin:kernel panic after upgrading to kernel 6.8<span class="cursor"></span></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: kdump setup -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)" id="kdump-setup">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="section-eyebrow">Production readiness</div>
+    <h2 class="section-heading">kdump setup</h2>
+    <p class="section-body">
+      A crash dump taken at the moment of panic is worth ten hours of
+      speculation. Configure kdump before you need it.
+    </p>
+
+    <div class="highlight-box reveal">
+      <p>
+        <strong>Always have kdump configured in production.</strong>
+        Without a vmcore, you are limited to dmesg ring buffer output which
+        may already be overwritten by the time you look. kdump captures the
+        full memory state at crash time and writes it to a reserved partition
+        before the system reboots. The <code>crash</code> utility can then
+        inspect kernel data structures, task lists, and page tables offline.
+      </p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px">
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="sco"># Install kdump tools (RHEL/CentOS)</span><br>
+        <span class="scp">dnf install</span> kexec-tools crash kernel-debuginfo<br>
+        <br>
+        <span class="sco"># Reserve crash kernel memory — add to GRUB_CMDLINE_LINUX in /etc/default/grub</span><br>
+        <span class="sch">crashkernel=auto</span>
+        <span class="sco"># or fixed: crashkernel=256M</span><br>
+        <br>
+        <span class="scp">grub2-mkconfig</span> -o /boot/grub2/grub.cfg<br>
+        <span class="scp">systemctl</span> enable kdump --now<br>
+        <span class="scp">kdumpctl</span> status
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="sco"># /etc/kdump.conf — set crash dump path</span><br>
+        path /var/crash<br>
+        core_collector makedumpfile -l --message-level 1 -d 31<br>
+        <span class="sco"># -d 31 excludes zero pages, free pages — keeps dump small</span>
+      </div>
+
+      <div class="snippet reveal d3">
+        <button class="copy-snip">copy</button>
+        <span class="sco"># Load and analyse a vmcore dump</span><br>
+        <span class="scp">crash</span> /usr/lib/debug/boot/vmlinux-$(uname -r) /var/crash/vmcore<br>
+        <br>
+        <span class="sco"># Inside crash interactive session:</span><br>
+        crash&gt; <span class="sch">bt</span>        <span class="sco"># backtrace of panicking task</span><br>
+        crash&gt; <span class="sch">log</span>       <span class="sco"># kernel message buffer</span><br>
+        crash&gt; <span class="sch">ps</span>        <span class="sco"># process list at crash time</span><br>
+        crash&gt; <span class="sch">mod</span>       <span class="sco"># loaded modules</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: Key commands -->
+<section class="content-section">
+  <div class="section-eyebrow">Toolbox</div>
+  <h2 class="section-heading">Key commands</h2>
+  <p class="section-body">
+    The first four commands to run after a suspected kernel event — even
+    before opening a ticket.
+  </p>
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+
+    <div class="snippet reveal d1">
+      <button class="copy-snip">copy</button>
+      <span class="scp">dmesg</span> -T | grep -i <span class="sch">'panic\|oops\|bug\|killed\|error\|warn'</span>
+      <span class="sco"># timestamped kernel ring buffer — your first stop after any incident</span>
+    </div>
+
+    <div class="snippet reveal d2">
+      <button class="copy-snip">copy</button>
+      <span class="scp">journalctl</span> -k --since today --no-pager
+      <span class="sco"># kernel messages from journald — survives reboots unlike dmesg</span>
+    </div>
+
+    <div class="snippet reveal d3">
+      <button class="copy-snip">copy</button>
+      <span class="scp">crash</span> /usr/lib/debug/boot/vmlinux-$(uname -r) /var/crash/vmcore
+      <span class="sco"># open crash dump — requires kernel-debuginfo matching exact kernel version</span>
+    </div>
+
+    <div class="snippet reveal d1">
+      <button class="copy-snip">copy</button>
+      <span class="scp">kdumpctl</span> status
+      <span class="sco"># verify kdump service and crash kernel are loaded before the next incident</span>
+    </div>
+
+    <div class="snippet reveal d2">
+      <button class="copy-snip">copy</button>
+      <span class="sco"># Decode a kernel address (needs System.map or vmlinux)</span><br>
+      <span class="scp">grep</span> <span class="sch">ffffffffc0a83f40</span> /proc/kallsyms<br>
+      <span class="sco"># Maps RIP address → function name without a debugger</span>
+    </div>
+
+  </div>
+
+  <div class="tag-list" style="margin-top:28px">
+    <span class="tag tag-red">dmesg</span>
+    <span class="tag tag-red">journalctl -k</span>
+    <span class="tag tag-amber">crash</span>
+    <span class="tag tag-amber">kdumpctl</span>
+    <span class="tag tag-cyan">kallsyms</span>
+    <span class="tag tag-cyan">addr2line</span>
+    <span class="tag tag-violet">objdump</span>
+    <span class="tag tag-violet">nm vmlinux</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Hardware warning -->
+<section class="content-section bg-surface" style="max-width:100%;padding:60px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+
+    <div class="warn-box reveal">
+      <p>
+        <strong style="color:var(--neon-amber)">Hardware fault disclaimer:</strong>
+        Kernel panics with MCE (Machine Check Exception) errors, ECC memory
+        errors logged in <code>mcelog</code> or <code>rasdaemon</code>, or
+        panics that consistently occur under memory pressure may indicate
+        <strong>failing RAM</strong> rather than a software fault.
+        Run <strong>memtest86+</strong> (bootable, minimum 2 passes) and check
+        <code>edac-util -s 4</code> for in-band ECC errors before assuming a
+        driver or configuration problem. Chasing a software root cause on
+        faulty hardware wastes hours.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RELATED SKILLS -->
+<section class="content-section">
+  <div class="section-eyebrow">Related</div>
+  <h2 class="section-heading">Related skills</h2>
+  <div class="related-grid" style="margin-top:24px">
+    <a class="related-card" href="diagnose.html">
+      <span class="rc-icon">&#x1F50E;</span>
+      <div>
+        <div class="rc-name">diagnose</div>
+        <div class="rc-desc">General system diagnostics</div>
+      </div>
+    </a>
+    <a class="related-card" href="performance.html">
+      <span class="rc-icon">&#x26A1;</span>
+      <div>
+        <div class="rc-name">performance</div>
+        <div class="rc-desc">CPU, I/O &amp; memory analysis</div>
+      </div>
+    </a>
+    <a class="related-card" href="boot.html">
+      <span class="rc-icon">&#x1F680;</span>
+      <div>
+        <div class="rc-name">boot</div>
+        <div class="rc-desc">Boot &amp; init failure recovery</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">/linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a>
+    <a href="performance.html">Performance</a>
+  </div>
+  <div class="footer-copy">linux-admin &copy; 2025 &mdash; Claude Code plugin</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+// Hero matrix rain — red color
+(function () {
+  const canvas = document.getElementById('heroCanvas');
+  if (canvas && window.DF && window.DF.MatrixRain) {
+    new window.DF.MatrixRain(canvas, '#f87171');
+  }
+})();
+
+// Terminal animation for kernel panic demo
+(function () {
+  const body = document.getElementById('termBody');
+  if (!body || !window.DF || !window.DF.Terminal) return;
+
+  const lines = [
+    { type: 'cmd', text: '/linux-admin:kernel panic after upgrading to kernel 6.8' },
+    { type: 'out', text: 'linux-admin: checking crash dump directory and journal for panic evidence...', delay: 400 },
+    { type: 'cmd', text: 'ls -lth /var/crash/ | head -5' },
+    { type: 'warn', text: 'total 2.1G', delay: 80 },
+    { type: 'warn', text: '-rw------- 1 root root 2.1G Jun 17 03:42 vmcore', delay: 40 },
+    { type: 'warn', text: '-rw-r--r-- 1 root root  41K Jun 17 03:42 vmcore-dmesg.txt', delay: 100 },
+    { type: 'success', text: 'FOUND: crash dump at /var/crash/vmcore (2.1G) — timestamp 03:42', delay: 120 },
+    { type: 'out', text: 'Reading vmcore-dmesg.txt for panic context (faster than full crash analysis)...', delay: 60 },
+    { type: 'cmd', text: 'grep -A 30 "Oops\\|BUG\\|kernel panic" /var/crash/vmcore-dmesg.txt | head -35' },
+    { type: 'err',  text: '[  892.441203] BUG: kernel NULL pointer dereference, address: 0000000000000058', delay: 80 },
+    { type: 'err',  text: '[  892.441209] #PF: supervisor read access in kernel mode', delay: 40 },
+    { type: 'err',  text: '[  892.441210] #PF: error_code(0x0000) - not-present page', delay: 40 },
+    { type: 'dim',  text: '[  892.441212] PGD 0 P4D 0', delay: 40 },
+    { type: 'err',  text: '[  892.441214] Oops: 0000 [#1] SMP NOPTI', delay: 40 },
+    { type: 'dim',  text: '[  892.441215] CPU: 3 PID: 8812 Comm: kworker/3:1H Tainted: G           OE     6.8.0-1-amd64', delay: 80 },
+    { type: 'warn', text: '[  892.441230] RIP: 0010:scsi_dispatch_cmd+0x58/0x180 [scsi_mod]', delay: 60 },
+    { type: 'out', text: 'Call Trace:', delay: 40 },
+    { type: 'dim',  text: '[  892.441241]  <TASK>', delay: 20 },
+    { type: 'dim',  text: '[  892.441242]  scsi_queue_rq+0x1a8/0x3c0 [scsi_mod]', delay: 20 },
+    { type: 'dim',  text: '[  892.441244]  blk_mq_dispatch_rq_list+0x8f/0x290', delay: 20 },
+    { type: 'warn', text: '[  892.441246]  virtio_scsi_dispatch_cmd+0x3f/0xb0 [virtio_scsi]', delay: 20 },
+    { type: 'dim',  text: '[  892.441248]  blk_mq_do_dispatch_sched+0x31/0x90', delay: 20 },
+    { type: 'dim',  text: '[  892.441250]  __blk_mq_do_dispatch_sched+0x5c/0x1a0', delay: 40 },
+    { type: 'err', text: 'FINDING: NULL pointer deref in scsi_dispatch_cmd+0x58 — RIP in [scsi_mod]', delay: 120 },
+    { type: 'warn', text: 'FINDING: virtio_scsi module involved (Tainted: OE = out-of-tree + externally built)', delay: 80 },
+    { type: 'out', text: 'Checking which module version shipped with 6.8 vs previously loaded...', delay: 60 },
+    { type: 'cmd', text: 'dmesg -T | grep -i "virtio_scsi\\|scsi_mod\\|dkms" | head -10' },
+    { type: 'warn', text: '[  0.812341] virtio_scsi: version 1.0 (DKMS build: 1.0-custom for 6.7.0)', delay: 80 },
+    { type: 'err',  text: '[  0.812398] scsi_mod: disagrees about version of symbol scsi_host_get', delay: 40 },
+    { type: 'err', text: 'FINDING: DKMS-built virtio_scsi 1.0-custom was built for kernel 6.7.0, not 6.8', delay: 120 },
+    { type: 'out', text: 'Symbol version mismatch causes NULL dereference in scsi_dispatch_cmd at first I/O', delay: 60 },
+    { type: 'success', text: 'RECOMMENDATION 1: Rebuild DKMS modules for kernel 6.8', delay: 60 },
+    { type: 'success', text: '  dkms autoinstall -k 6.8.0-1-amd64', delay: 20 },
+    { type: 'success', text: 'RECOMMENDATION 2: If rebuild fails, roll back kernel via GRUB', delay: 60 },
+    { type: 'success', text: '  grub-set-default "Advanced options>6.7.0-1-amd64" && reboot', delay: 20 },
+    { type: 'success', text: 'RECOMMENDATION 3: Pin kernel version in /etc/apt/preferences to prevent auto-upgrade', delay: 80 },
+    { type: 'out', text: 'Root cause: DKMS module built against 6.7 ABI loaded under 6.8 kernel, causing scsi_host_get symbol version mismatch.', delay: 200 },
+  ];
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        obs.unobserve(e.target);
+        const term = new window.DF.Terminal(body, lines, false);
+        setTimeout(() => term.start(), 600);
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(body);
+})();
+</script>
+</body>
+</html>

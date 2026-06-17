@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin auth skill — SSH key auth, sudo, PAM stack, SSSD/LDAP, user lockout, 2FA. Claude Code plugin for Linux SREs.">
+<meta property="og:title" content="Auth — linux-admin Claude Code Plugin">
+<meta property="og:description" content="Diagnose SSH key auth failures, PAM stack issues, SSSD/LDAP problems, and user lockouts with senior SRE context.">
+<meta property="og:type" content="website">
+<title>Auth — linux-admin Claude Code Plugin</title>
+
+<link rel="stylesheet" href="../assets/core.css">
+
+<style>
+  /* ── AUTH ACCENT OVERRIDE (pink) ── */
+  :root {
+    --accent: #f472b6;
+    --accent-dim: rgba(244,114,182,0.12);
+    --accent-glow: 0 0 24px rgba(244,114,182,0.3);
+  }
+
+  /* Accent hover overrides */
+  .nav-back:hover { border-color: rgba(244,114,182,0.3); }
+  .card:hover { border-color: rgba(244,114,182,0.18); }
+  .step-card:hover { border-color: rgba(244,114,182,0.18); }
+  .related-card:hover { border-color: rgba(244,114,182,0.2); background: rgba(244,114,182,0.03); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(244,114,182,0.3); }
+
+  /* ── KEY / LOCK ANIMATION ── */
+  .key-viz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .key-icon {
+    font-size: 3rem;
+    animation: key-float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(244,114,182,0.5));
+  }
+  .lock-icon {
+    font-size: 3.5rem;
+    animation: lock-pulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 16px rgba(244,114,182,0.4));
+  }
+  .arrow-icon {
+    font-size: 1.5rem;
+    color: rgba(244,114,182,.5);
+    animation: arrow-move 1.5s ease-in-out infinite;
+  }
+  @keyframes key-float {
+    0%,100% { transform: translateX(0); }
+    50%      { transform: translateX(12px); }
+  }
+  @keyframes lock-pulse {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+  @keyframes arrow-move {
+    0%,100% { opacity: .3; transform: translateX(0); }
+    50%      { opacity: 1; transform: translateX(4px); }
+  }
+
+  /* ── HERO GRID PINK OVERRIDE ── */
+  .hero-grid-bg {
+    background-image:
+      linear-gradient(rgba(244,114,182,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244,114,182,0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  /* ── ACCENT GRAD PINK ── */
+  .page-title .accent-grad {
+    background: linear-gradient(135deg, #f472b6 0%, #fb7cc5 45%, #fda4c8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── SKILL BADGE PINK ── */
+  .skill-badge {
+    background: rgba(244,114,182,0.1);
+    border-color: rgba(244,114,182,0.25);
+  }
+
+  /* ── PILL PINK ── */
+  .pill {
+    background: rgba(244,114,182,0.1);
+    border-color: rgba(244,114,182,0.25);
+  }
+
+  /* ── HIGHLIGHT BOX PINK ── */
+  .highlight-box {
+    background: rgba(244,114,182,0.04);
+    border-color: rgba(244,114,182,0.15);
+    border-left-color: #f472b6;
+  }
+
+  /* ── STEP NUM PINK ── */
+  .step-num {
+    background: rgba(244,114,182,0.1);
+    border-color: rgba(244,114,182,0.2);
+  }
+
+  /* ── SECTION EYEBROW PINK ── */
+  .section-eyebrow { color: #f472b6; }
+  .section-eyebrow::before { background: #f472b6; }
+
+  /* ── BTN PRIMARY PINK ── */
+  .btn-primary { background: #f472b6; color: #000; }
+  .btn-primary:hover {
+    background: #fb7cc5;
+    box-shadow: 0 0 24px rgba(244,114,182,0.3), 0 6px 24px rgba(244,114,182,0.2);
+  }
+
+  /* ── NAV GH PINK ── */
+  .nav-gh {
+    color: #f472b6;
+    border-color: rgba(244,114,182,0.25);
+  }
+  .nav-gh:hover {
+    background: rgba(244,114,182,0.1);
+    box-shadow: 0 0 24px rgba(244,114,182,0.3);
+  }
+
+  /* ── STAT ── */
+  .stat-n { color: #f472b6; filter: drop-shadow(0 0 8px rgba(244,114,182,.4)); }
+
+  /* ── SNIPPET ACCENT PINK ── */
+  .snippet .scp { color: #f472b6; }
+
+  /* ── TERMINAL PINK PROMPT ── */
+  .tp { color: #f472b6 !important; }
+  .cursor { background: #f472b6; }
+
+  /* ── RELATED CARD HOVER ── */
+  .related-card:hover .rc-name { color: #f472b6; }
+
+  /* ── FOOTER ── */
+  .footer-brand { color: #f472b6; }
+  .footer-links a:hover { color: #f472b6; }
+
+  /* ── dot-blink in pink ── */
+  .skill-badge::before { background: #f472b6; box-shadow: 0 0 6px #f472b6; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">
+    <span class="pfx">/</span>linux-admin
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#install">Install</a></li>
+    <li>
+      <a href="../index.html" class="nav-back">&#8592; Back</a>
+    </li>
+    <li>
+      <a
+        href="https://github.com/rushikesh-sakharle/we-are-linux-administrators"
+        class="nav-gh"
+        target="_blank"
+        rel="noopener noreferrer"
+      >&#9733; Star on GitHub</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">
+      <span>Authentication Diagnostics</span>
+    </div>
+    <h1 class="page-title">
+      <span data-scramble="auth">auth</span><br>
+      <span class="accent-grad">skill</span>
+    </h1>
+    <p class="page-subtitle">
+      SSH key auth, sudo, PAM stack, SSSD/LDAP, user lockout, and 2FA issues —
+      traced to the exact config line or log entry causing the rejection.
+    </p>
+    <div class="hero-ctas">
+      <a href="#demo" class="btn-primary">See it in action</a>
+      <a href="../index.html#install" class="btn-ghost">Install plugin</a>
+    </div>
+
+    <!-- Key / lock animation -->
+    <div class="key-viz" aria-hidden="true">
+      <span class="key-icon">&#128273;</span>
+      <span class="arrow-icon">&#8594;</span>
+      <span class="lock-icon">&#128274;</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT STRIP ── -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="5">0</div>
+    <div class="stat-l">SSH failure types</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">PAM modules checked</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">SSSD checks</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="6">0</div>
+    <div class="stat-l">Key commands</div>
+  </div>
+</div>
+
+<!-- ── SECTION 1: DIAGNOSTICS ── -->
+<section class="content-section">
+  <div class="reveal">
+    <div class="section-eyebrow">01 / Scope</div>
+    <h2 class="section-heading">Authentication diagnostics</h2>
+    <p class="section-body">
+      The auth skill covers every layer of the Linux authentication stack — from SSH daemon
+      key negotiation through PAM modules, SSSD/LDAP, and Kerberos ticket validation.
+    </p>
+  </div>
+
+  <div class="tag-list reveal d1">
+    <span class="tag tag-pink">SSH key auth</span>
+    <span class="tag tag-pink">PAM stack</span>
+    <span class="tag tag-violet">SSSD</span>
+    <span class="tag tag-violet">LDAP / AD</span>
+    <span class="tag tag-amber">sudo</span>
+    <span class="tag tag-red">User lockout</span>
+    <span class="tag tag-cyan">2FA / TOTP</span>
+    <span class="tag tag-pink">SELinux .ssh context</span>
+    <span class="tag tag-amber">faillock</span>
+    <span class="tag tag-violet">Kerberos</span>
+  </div>
+
+  <div class="grid-3 reveal d2" style="margin-top:32px">
+    <div class="card">
+      <span class="card-icon">&#128273;</span>
+      <div class="card-title">SSH key auth</div>
+      <div class="card-body">Wrong file permissions on ~/.ssh or authorized_keys, SELinux context mismatch, StrictModes enforcement, and sshd_config knobs.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#128100;</span>
+      <div class="card-title">sudo &amp; PAM</div>
+      <div class="card-body">sudoers syntax errors, pam_faillock locking users out, pam_tally2 thresholds, missing pam_unix.so, and 2FA module ordering issues.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#127963;</span>
+      <div class="card-title">SSSD / LDAP / AD</div>
+      <div class="card-body">sssd.service failures, stale Kerberos tickets, KDC connectivity, domain join state, ldap_uri mismatches, and offline credential cache.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 2: SSH KEY AUTH FAILURE TAXONOMY ── -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-eyebrow">02 / SSH key taxonomy</div>
+      <h2 class="section-heading">SSH key auth failure taxonomy</h2>
+      <p class="section-body">Walk this checklist in order — each step eliminates an entire class of failure before moving to the next.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <div class="step-card reveal d1">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Check authorized_keys permissions (must be 600)</div>
+          <div class="step-desc">
+            SSH daemon with StrictModes (default: yes) refuses keys from world-readable or group-writable files.
+            <code>chmod 600 ~/.ssh/authorized_keys</code> is the fix.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> stat -c '%a %n' ~/.ssh/authorized_keys<br>
+              <span class="sco"># Expected: 600 /home/user/.ssh/authorized_keys</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d2">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Check ~/.ssh directory ownership (must be 700)</div>
+          <div class="step-desc">
+            The directory itself must be owned by the user and not group- or world-writable.
+            A common mistake is <code>chmod 775 .ssh</code> during group-share setups.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> stat -c '%a %U %n' ~/.ssh<br>
+              <span class="sco"># Expected: 700 username /home/username/.ssh</span><br>
+              <span class="scp">$</span> chmod 700 ~/.ssh
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d3">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Check sshd_config (PubkeyAuthentication yes)</div>
+          <div class="step-desc">
+            Verify the daemon is actually configured to accept public key auth. On RHEL/CentOS
+            an include directive may override the default with a restrictive drop-in.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> sshd -T | grep -i pubkey<br>
+              <span class="sco"># Should show: pubkeyauthentication yes</span><br>
+              <span class="scp">$</span> grep -r PubkeyAuthentication /etc/ssh/sshd_config /etc/ssh/sshd_config.d/ 2&gt;/dev/null
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d4">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Check SELinux context (restorecon -Rv ~/.ssh)</div>
+          <div class="step-desc">
+            On SELinux-enforcing systems, a wrong file context blocks sshd from reading authorized_keys
+            even when permissions are correct. AVC denials appear in <code>/var/log/audit/audit.log</code>.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> ls -laZ ~/.ssh/authorized_keys<br>
+              <span class="sco"># Should show: system_u:object_r:ssh_home_t:s0</span><br>
+              <span class="scp">$</span> sudo restorecon -Rv ~/.ssh
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal" style="transition-delay:.40s">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Read /var/log/auth.log for the exact rejection reason</div>
+          <div class="step-desc">
+            sshd logs the exact cause of rejection. Always read the server-side log — the client side
+            shows only a generic "Permission denied" message even when the reason is permissions.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> sudo grep "sshd" /var/log/auth.log | tail -30<br>
+              <span class="scp">$</span> sudo journalctl -u sshd --since "10 minutes ago" -f
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 3: TERMINAL DEMO ── -->
+<section class="content-section" id="demo">
+  <div class="reveal">
+    <div class="section-eyebrow">03 / Live demo</div>
+    <h2 class="section-heading">Terminal demo</h2>
+    <p class="section-body">Tracing an SSH key auth failure to the exact cause — bad directory permissions.</p>
+  </div>
+
+  <div class="terminal-block reveal d1">
+    <div class="term-titlebar">
+      <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+      <span class="tlabel">linux-admin — auth triage</span>
+    </div>
+    <div class="term-body" id="termBody" style="min-height:300px;overflow:hidden"></div>
+  </div>
+
+  <p class="reveal d2" style="font-size:0.78rem;color:var(--text-muted);margin-top:12px">
+    &#9432; The skill reads log files and file metadata only — no passwords, keys, or credentials are accessed.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 4: PAM STACK ── -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-eyebrow">04 / PAM</div>
+      <h2 class="section-heading">PAM stack</h2>
+      <p class="section-body">The Pluggable Authentication Module stack controls every authentication decision on a Linux system.</p>
+    </div>
+
+    <div class="highlight-box reveal d1">
+      <p>
+        <strong>PAM auth order matters.</strong> Each line in <code>/etc/pam.d/sshd</code> is evaluated in sequence
+        with a control flag: <strong>required</strong> (failure is fatal but stack continues),
+        <strong>requisite</strong> (fail immediately), <strong>sufficient</strong> (success skips the rest),
+        and <strong>optional</strong> (result ignored). A misplaced <code>pam_faillock.so</code> before
+        <code>pam_unix.so</code> can lock users out immediately — even before the password is checked.
+        Always run <code>authselect current</code> to see which profile is active before hand-editing PAM files.
+      </p>
+    </div>
+
+    <div class="grid-2 reveal d2" style="margin-top:28px">
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">/etc/pam.d/sshd (simplified)</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco">#%PAM-1.0</span><br>
+          auth       required     pam_sepermit.so<br>
+          auth       substack     password-auth<br>
+          auth       include      postlogin<br>
+          account    required     pam_nologin.so<br>
+          account    include      password-auth<br>
+          password   include      password-auth<br>
+          session    required     pam_selinux.so close<br>
+          session    required     pam_loginuid.so<br>
+          session    required     pam_selinux.so open env_params<br>
+          session    optional     pam_keyinit.so force revoke<br>
+          session    include      password-auth<br>
+          session    include      postlogin
+        </div>
+      </div>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">/etc/pam.d/sudo</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco">#%PAM-1.0</span><br>
+          auth       include      system-auth<br>
+          account    include      system-auth<br>
+          password   include      system-auth<br>
+          session    optional     pam_keyinit.so revoke<br>
+          session    required     pam_limits.so<br>
+          session    include      system-auth
+        </div>
+
+        <div class="warn-box" style="margin-top:16px">
+          <p>
+            <strong>Warning:</strong> hand-editing PAM files can lock you out of the system. Always keep a
+            root session open as a safety net, and use <code>authselect</code> on RHEL/CentOS or
+            <code>pam-auth-update</code> on Debian/Ubuntu where available.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 5: SSSD / LDAP ISSUES ── -->
+<section class="content-section">
+  <div class="reveal">
+    <div class="section-eyebrow">05 / SSSD &amp; LDAP</div>
+    <h2 class="section-heading">SSSD / LDAP issues</h2>
+    <p class="section-body">When users from a directory service can't log in, walk these four checks to isolate the layer.</p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+
+    <div class="step-card reveal d1">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Check sssd.service status</div>
+        <div class="step-desc">
+          SSSD crashing or in a restart loop is a top cause of all AD/LDAP users getting refused.
+          The service must be active before any other check matters.
+          <div class="snippet" style="margin-top:10px">
+            <span class="scp">$</span> systemctl status sssd.service<br>
+            <span class="scp">$</span> journalctl -u sssd --since "30 min ago" | tail -40
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card reveal d2">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Run sssctl user-show username</div>
+        <div class="step-desc">
+          Shows whether the user is cached, when the cache entry expires, and whether the account is
+          locked in the directory. Much faster than parsing raw SSSD debug logs.
+          <div class="snippet" style="margin-top:10px">
+            <span class="scp">$</span> sssctl user-show username<br>
+            <span class="scp">$</span> sssctl domain-status DOMAINNAME.LOCAL
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card reveal d3">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Check /var/log/sssd/ for domain errors</div>
+        <div class="step-desc">
+          Each SSSD domain has its own log file (e.g. <code>sssd_DOMAINNAME.log</code>). Enable debug
+          level 3 temporarily to see Kerberos and LDAP transaction details.
+          <div class="snippet" style="margin-top:10px">
+            <span class="scp">$</span> ls -lht /var/log/sssd/<br>
+            <span class="scp">$</span> sudo tail -100 /var/log/sssd/sssd_DOMAIN.log | grep -i "error\|fail\|expire"
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card reveal d4">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">Verify KDC reachability</div>
+        <div class="step-desc">
+          Kerberos auth fails silently if the KDC is unreachable. Check DNS resolution of the KDC
+          hostname and UDP/TCP port 88 connectivity before blaming SSSD configuration.
+          <div class="snippet" style="margin-top:10px">
+            <span class="scp">$</span> dig _kerberos._tcp.DOMAIN.LOCAL SRV<br>
+            <span class="scp">$</span> nc -zv KDC_HOSTNAME 88 &amp;&amp; echo "KDC reachable"<br>
+            <span class="scp">$</span> kinit username@DOMAIN.LOCAL &amp;&amp; klist
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 6: KEY COMMANDS ── -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-eyebrow">06 / Commands</div>
+      <h2 class="section-heading">Key commands</h2>
+      <p class="section-body">Read-only auth diagnostic commands — no passwords accessed, no account states modified.</p>
+    </div>
+
+    <div class="grid-2 reveal d1">
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">SSH verbose debug</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco"># Run from CLIENT to see full negotiation</span><br>
+          <span class="scp">$</span> ssh -vvv user@host 2&gt;&amp;1 | grep -A2 "Trying\|offer\|AUTH\|key"
+        </div>
+
+        <div style="font-size:0.72rem;color:var(--text-muted);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.08em">sshd effective config</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco"># Shows merged config including Match blocks</span><br>
+          <span class="scp">$</span> sshd -T | grep -E "pubkey|authkey|strictmode|maxauth"
+        </div>
+
+        <div style="font-size:0.72rem;color:var(--text-muted);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.08em">User lockout</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco"># Check pam_faillock state</span><br>
+          <span class="scp">$</span> faillock --user username<br>
+          <span class="sco"># Reset lockout (requires root)</span><br>
+          <span class="scp">$</span> sudo faillock --user username --reset
+        </div>
+      </div>
+      <div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">User resolution</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco"># Local vs directory user check</span><br>
+          <span class="scp">$</span> id username<br>
+          <span class="scp">$</span> getent passwd username<br>
+          <span class="sco"># Shows which NSS source resolved the user</span>
+        </div>
+
+        <div style="font-size:0.72rem;color:var(--text-muted);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.08em">2FA / TOTP status</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco"># Check if google-authenticator module is in PAM</span><br>
+          <span class="scp">$</span> grep -r "pam_google_authenticator" /etc/pam.d/<br>
+          <span class="sco"># Check user TOTP secret file</span><br>
+          <span class="scp">$</span> ls -la ~/.google_authenticator
+        </div>
+
+        <div style="font-size:0.72rem;color:var(--text-muted);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.08em">Audit log</div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp">$</span> sudo ausearch -m USER_AUTH --start recent -i | tail -20
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 7: RELATED ── -->
+<section class="content-section">
+  <div class="reveal">
+    <div class="section-eyebrow">07 / Related skills</div>
+    <h2 class="section-heading">Explore related skills</h2>
+  </div>
+
+  <div class="related-grid reveal d1">
+    <a href="diagnose.html" class="related-card">
+      <span class="rc-icon">&#128269;</span>
+      <div>
+        <div class="rc-name">diagnose</div>
+        <div class="rc-desc">System-wide triage starting point</div>
+      </div>
+    </a>
+    <a href="containers.html" class="related-card">
+      <span class="rc-icon">&#128230;</span>
+      <div>
+        <div class="rc-name">containers</div>
+        <div class="rc-desc">Docker, Podman, cgroup limits</div>
+      </div>
+    </a>
+    <a href="firewall.html" class="related-card">
+      <span class="rc-icon">&#128293;</span>
+      <div>
+        <div class="rc-name">firewall</div>
+        <div class="rc-desc">iptables, nftables, firewalld rules</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-brand">/linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#skills">Skills</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="containers.html">Containers</a>
+  </div>
+  <div class="footer-copy">auth skill &mdash; linux-admin Claude Code plugin</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+(function() {
+  // ── Hero canvas: particle network (pink) ──
+  const canvas = document.getElementById('heroCanvas');
+  if (canvas && window.DF) {
+    new DF.Particles(canvas, {
+      color: '#f472b6',
+      count: 45,
+      speed: 0.22,
+      maxDist: 85,
+      size: 1.2,
+    });
+  }
+
+  // ── Terminal demo ──
+  const termEl = document.getElementById('termBody');
+  if (termEl && window.DF) {
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:auth SSH key auth stopped working for one user' },
+      { type: 'out',     text: 'Reading /var/log/auth.log...', delay: 400 },
+      { type: 'cmd',     text: 'sudo grep "sshd" /var/log/auth.log | grep "alice" | tail -10' },
+      { type: 'err',     text: 'Authentication refused: bad ownership or modes for directory /home/alice/.ssh', delay: 300 },
+      { type: 'out',     text: 'StrictModes rejection detected. Checking permissions...', delay: 500 },
+      { type: 'cmd',     text: 'stat -c \'%a %U %n\' /home/alice/.ssh' },
+      { type: 'warn',    text: '775 alice /home/alice/.ssh', delay: 200 },
+      { type: 'out',     text: 'Found: .ssh directory is mode 775 (group-writable).', delay: 300 },
+      { type: 'out',     text: 'sshd StrictModes requires: owner=alice, mode=700.', delay: 100 },
+      { type: 'cmd',     text: 'stat -c \'%a %U %n\' /home/alice/.ssh/authorized_keys' },
+      { type: 'out',     text: '644 alice /home/alice/.ssh/authorized_keys', delay: 200 },
+      { type: 'warn',    text: 'authorized_keys is 644 (world-readable). Needs 600.', delay: 200 },
+      { type: 'out',     text: '', delay: 60 },
+      { type: 'success', text: '  Root cause: .ssh is 775 (should be 700); authorized_keys is 644 (should be 600).', delay: 120 },
+      { type: 'success', text: '  Fix:', delay: 80 },
+      { type: 'success', text: '    chmod 700 /home/alice/.ssh', delay: 60 },
+      { type: 'success', text: '    chmod 600 /home/alice/.ssh/authorized_keys', delay: 60 },
+      { type: 'success', text: '  No sshd restart required — change takes effect on next login attempt.', delay: 100 },
+    ];
+    const t = new DF.Terminal(termEl, lines, true);
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { t.start(); obs.disconnect(); }
+    }, { threshold: 0.2 });
+    obs.observe(termEl);
+  }
+})();
+</script>
+</body>
+</html>

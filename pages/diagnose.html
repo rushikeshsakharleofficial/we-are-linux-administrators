@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin:diagnose — The SRE triage router for Claude Code. Routes any Linux problem to the correct expert skill using an observe-hypothesize-verify-fix mental model.">
+<meta property="og:title" content="linux-admin:diagnose — Intelligent Linux Diagnostics for Claude Code">
+<meta property="og:description" content="Route any Linux problem to the right expert skill. Read-only-first diagnostics with a full SRE mental model.">
+<meta property="og:type" content="website">
+<title>linux-admin — diagnose | Linux Admin for Claude Code</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root {
+    --accent: #4ade80;
+    --accent-dim: rgba(74,222,128,0.12);
+    --accent-glow: 0 0 24px rgba(74,222,128,0.35);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-back">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+  <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="nav-gh" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <canvas class="hero-canvas" id="radar-canvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin:diagnose</div>
+    <h1 class="page-title">
+      <span class="accent-grad">Diagnose</span><br>Any Linux Problem
+    </h1>
+    <p class="page-subtitle">
+      The intelligent triage router. Describe the symptom in plain English — diagnose reads logs, checks service state, and routes to the right expert skill automatically.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" class="btn-primary" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        Install Plugin
+      </a>
+      <a href="#what-it-does" class="btn-ghost">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Explore
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="30">0</div>
+    <div class="stat-l">Expert Skills</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="8">0</div>
+    <div class="stat-l">Distros Supported</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">SRE Loop Phases</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n">0</div>
+    <div class="stat-l">Writes Without Audit</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: What it does -->
+<section class="content-section" id="what-it-does">
+  <div class="section-eyebrow">Overview</div>
+  <h2 class="section-heading reveal">The Main Skill Router</h2>
+  <p class="section-body reveal d1">
+    <code>diagnose</code> is the entry point for every unknown Linux problem. Describe a symptom in natural language and the skill reads relevant logs, checks service state, identifies the failure domain, and hands off to a specialist — all without touching the filesystem.
+  </p>
+
+  <div class="grid-2 reveal d2">
+    <div class="card">
+      <span class="card-icon">&#x1F50D;</span>
+      <div class="card-title">Read-Only First</div>
+      <div class="card-body">Every diagnosis begins by gathering evidence passively — <code>journalctl</code>, <code>dmesg</code>, <code>systemctl status</code>, <code>ss</code>, <code>ps</code>. No writes, no changes, no risk until a root cause is confirmed.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F9ED;</span>
+      <div class="card-title">Automatic Routing</div>
+      <div class="card-body">Once the failure domain is identified — boot, network, storage, kernel, auth, or a specific service — diagnose hands control to the correct expert skill with full context already loaded.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x1F4CB;</span>
+      <div class="card-title">Distro-Aware Commands</div>
+      <div class="card-body">Automatically selects the right toolchain for Ubuntu/Debian <code>apt</code> vs RHEL <code>dnf</code> vs SUSE <code>zypper</code>, adjusting log paths, service managers, and package names accordingly.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#x26A0;&#xFE0F;</span>
+      <div class="card-title">Safety Gates</div>
+      <div class="card-body">Flags ambiguous or high-risk configurations before recommending any change. Validates fstab entries, confirms upstream reachability, and checks dependency chains in systemd before touching anything.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: SRE Mental Model -->
+<section class="content-section bg-surface">
+  <div class="content-section">
+    <div class="section-eyebrow">Methodology</div>
+    <h2 class="section-heading reveal">The SRE Mental Model</h2>
+    <p class="section-body reveal d1">
+      Every diagnosis follows a strict four-phase loop borrowed from production incident response. No guessing, no shotgun fixes — structured evidence gathering at every step.
+    </p>
+
+    <div class="grid-2 reveal d2" style="gap:12px">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Observe</div>
+          <div class="step-desc">Collect all available signals without interpretation. Logs, metrics, service state, socket state, kernel ring buffer, resource utilisation. Build the full picture before forming any theory.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Hypothesize</div>
+          <div class="step-desc">Rank candidate root causes by probability given the observed evidence. Distinguish symptoms from causes. Generate a narrow list of testable hypotheses — not a broad shotgun.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Verify</div>
+          <div class="step-desc">Run targeted, read-only checks to confirm or eliminate each hypothesis. A hypothesis is only confirmed when evidence is conclusive, never just plausible. Every check is explained.</div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">Fix</div>
+          <div class="step-desc">Only after root cause is confirmed: propose the minimal safe remediation, show the exact commands, and — when relevant — hand off to the specialist skill with full context pre-loaded.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: Terminal Demo -->
+<section class="content-section">
+  <div class="section-eyebrow">Demo</div>
+  <h2 class="section-heading reveal">See It in Action</h2>
+  <p class="section-body reveal d1">
+    A real-world nginx upstream failure — from symptom description to confirmed root cause and fix recommendation, entirely read-only.
+  </p>
+
+  <div class="terminal-block reveal d2">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">claude code — diagnose session</span>
+    </div>
+    <div class="term-body" id="diagnose-term"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: What it investigates -->
+<section class="content-section bg-surface">
+  <div class="content-section">
+    <div class="section-eyebrow">Scope</div>
+    <h2 class="section-heading reveal">What It Investigates</h2>
+    <p class="section-body reveal d1">
+      Three primary investigation axes — every diagnosis covers all three before forming a hypothesis.
+    </p>
+
+    <div class="grid-3 reveal d2">
+      <div class="card">
+        <span class="card-icon">&#x1F4DC;</span>
+        <div class="card-title">System Logs</div>
+        <div class="card-body">
+          Full-spectrum log review using <code>journalctl -xe</code>, <code>dmesg</code>, and service-specific files under <code>/var/log/</code>. Correlates timestamps across sources to build a timeline of failure.
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x2699;&#xFE0F;</span>
+        <div class="card-title">Service State</div>
+        <div class="card-body">
+          Inspects <code>systemctl status</code>, unit file dependencies, restart counts, activation timestamps, and failed dependency chains. Catches cascading failures before they mislead the investigation.
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">&#x1F4CA;</span>
+        <div class="card-title">Resource Pressure</div>
+        <div class="card-body">
+          Checks CPU saturation, memory pressure, OOM events, disk utilisation, inode exhaustion, and file descriptor limits. Many "service failures" are actually resource starvation in disguise.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: Supported distros -->
+<section class="content-section">
+  <div class="section-eyebrow">Compatibility</div>
+  <h2 class="section-heading reveal">Supported Distributions</h2>
+  <p class="section-body reveal d1">
+    Every command and log path is adapted at runtime for the detected distribution. No manual configuration required.
+  </p>
+
+  <div class="tag-list reveal d2">
+    <span class="tag tag-green">Ubuntu</span>
+    <span class="tag tag-green">Debian</span>
+    <span class="tag tag-amber">RHEL</span>
+    <span class="tag tag-amber">CentOS</span>
+    <span class="tag tag-amber">Fedora</span>
+    <span class="tag tag-cyan">SUSE</span>
+    <span class="tag tag-cyan">openSUSE</span>
+    <span class="tag tag-green">Arch</span>
+    <span class="tag tag-cyan">Alpine</span>
+  </div>
+
+  <div class="highlight-box reveal d3" style="margin-top:28px">
+    <p><strong>Distro detection is automatic.</strong> The skill reads <code>/etc/os-release</code> on first run and caches the result for the session. Package manager selection, log paths, and command flags are all adapted without any user configuration.</p>
+  </div>
+
+  <div class="warn-box reveal d4">
+    <p><strong>Note:</strong> Alpine Linux uses <code>musl libc</code> and OpenRC by default — some systemd-specific checks will be adapted automatically when Alpine is detected. Container-only installs (no <code>/sbin/init</code>) are handled gracefully.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: Key investigation commands -->
+<section class="content-section bg-surface">
+  <div class="content-section">
+    <div class="section-eyebrow">Commands</div>
+    <h2 class="section-heading reveal">Investigation Toolkit</h2>
+    <p class="section-body reveal d1">
+      The read-only commands that diagnose uses under the hood — all safe to run on production systems.
+    </p>
+
+    <div class="grid-2 reveal d2" style="gap:12px">
+      <div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># Structured journal dump with context</span><br>
+          <span class="sch">journalctl</span> -xe --no-pager -n 200<br>
+          <span class="sch">journalctl</span> -u &lt;service&gt; --since "1 hour ago"<br>
+          <span class="sco"># Filter by priority: -p err</span>
+        </div>
+        <div class="snippet" style="margin-top:10px">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># Kernel ring buffer</span><br>
+          <span class="sch">dmesg</span> -T --level=err,warn | tail -40<br>
+          <span class="sco"># -T = human-readable timestamps</span>
+        </div>
+      </div>
+      <div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># Service state + dependency tree</span><br>
+          <span class="sch">systemctl</span> status &lt;service&gt; -l --no-pager<br>
+          <span class="sch">systemctl</span> list-dependencies &lt;service&gt;<br>
+          <span class="sco"># Restart storm: check ActiveEnterTimestamp</span>
+        </div>
+        <div class="snippet" style="margin-top:10px">
+          <button class="copy-snip">copy</button>
+          <span class="scp"># Resource pressure snapshot</span><br>
+          <span class="sch">cat</span> /proc/pressure/{cpu,memory,io}<br>
+          <span class="sch">df</span> -h && <span class="sch">df</span> -i<br>
+          <span class="sco"># fd limits: cat /proc/&lt;pid&gt;/limits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 7: Related skills -->
+<section class="content-section">
+  <div class="section-eyebrow">Ecosystem</div>
+  <h2 class="section-heading reveal">Related Skills</h2>
+  <p class="section-body reveal d1">
+    diagnose routes to these specialist skills once the failure domain is confirmed.
+  </p>
+
+  <div class="related-grid reveal d2">
+    <a href="boot.html" class="related-card">
+      <span class="rc-icon">&#x1F9F0;</span>
+      <div>
+        <div class="rc-name">boot</div>
+        <div class="rc-desc">Kernel panic, GRUB, initramfs, fstab recovery</div>
+      </div>
+    </a>
+    <a href="network.html" class="related-card">
+      <span class="rc-icon">&#x1F310;</span>
+      <div>
+        <div class="rc-name">network</div>
+        <div class="rc-desc">Routing, firewall, DNS, interface config</div>
+      </div>
+    </a>
+    <a href="storage.html" class="related-card">
+      <span class="rc-icon">&#x1F4BE;</span>
+      <div>
+        <div class="rc-name">storage</div>
+        <div class="rc-desc">Disk, LVM, RAID, mount, filesystem repair</div>
+      </div>
+    </a>
+    <a href="performance.html" class="related-card">
+      <span class="rc-icon">&#x26A1;</span>
+      <div>
+        <div class="rc-name">performance</div>
+        <div class="rc-desc">CPU saturation, memory pressure, I/O profiling</div>
+      </div>
+    </a>
+    <a href="kernel.html" class="related-card">
+      <span class="rc-icon">&#x1F9EC;</span>
+      <div>
+        <div class="rc-name">kernel</div>
+        <div class="rc-desc">Module loading, sysctl, panic analysis</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener">GitHub</a>
+    <a href="boot.html">Boot</a>
+  </div>
+  <div class="footer-copy">MIT License &copy; 2025</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+(function () {
+  // Hero radar animation
+  const canvas = document.getElementById('radar-canvas');
+  if (canvas && window.DF && window.DF.Radar) {
+    new window.DF.Radar(canvas, '#4ade80');
+  }
+
+  // Terminal demo
+  const termEl = document.getElementById('diagnose-term');
+  if (termEl && window.DF && window.DF.Terminal) {
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:diagnose nginx.service failed after latest config change' },
+      { type: 'out',     text: '-- diagnose v1.4.3 · read-only mode --', delay: 300 },
+      { type: 'dim',     text: '-- phase 1: observe --', delay: 200 },
+      { type: 'out',     text: '  reading: journalctl -u nginx --since "30 min ago"', delay: 80 },
+      { type: 'err',     text: '  [ERR] nginx: upstream connect() failed (111: Connection refused)', delay: 80 },
+      { type: 'err',     text: '  [ERR] nginx: while connecting to upstream 127.0.0.1:8080', delay: 40 },
+      { type: 'out',     text: '  reading: systemctl status nginx.service', delay: 80 },
+      { type: 'warn',    text: '  [WARN] Active: failed (Result: exit-code) since 14:22:07', delay: 40 },
+      { type: 'out',     text: '  reading: systemctl status app.service', delay: 80 },
+      { type: 'success', text: '  [OK]   app.service: active (running) on :8080', delay: 80 },
+      { type: 'dim',     text: '-- phase 2: hypothesize --', delay: 200 },
+      { type: 'out',     text: '  hypothesis 1 (high): upstream block missing in nginx.conf', delay: 80 },
+      { type: 'out',     text: '  hypothesis 2 (low): app binding changed to different port', delay: 40 },
+      { type: 'dim',     text: '-- phase 3: verify --', delay: 200 },
+      { type: 'out',     text: '  reading: nginx -T 2>&1 | grep upstream', delay: 80 },
+      { type: 'err',     text: '  [ERR] no upstream block found matching "127.0.0.1:8080"', delay: 80 },
+      { type: 'out',     text: '  reading: /etc/nginx/nginx.conf → upstream section', delay: 80 },
+      { type: 'warn',    text: '  [WARN] upstream block removed in last commit (14:19:44)', delay: 80 },
+      { type: 'dim',     text: '-- phase 4: root cause confirmed --', delay: 200 },
+      { type: 'success', text: '  ROOT CAUSE: upstream block deleted from /etc/nginx/nginx.conf', delay: 80 },
+      { type: 'cyan',    text: '  FIX: restore upstream block pointing to app.service:8080', delay: 40 },
+      { type: 'cyan',    text: '  then: nginx -t && systemctl reload nginx', delay: 40 },
+      { type: 'dim',     text: '-- no writes performed --', delay: 300 },
+    ];
+    const term = new window.DF.Terminal(termEl, lines, true);
+    term.start();
+  }
+})();
+</script>
+</body>
+</html>

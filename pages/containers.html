@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin containers skill — Docker, Podman, rootless containers, networking, cgroup limits, volume mounts. Claude Code plugin for Linux SREs.">
+<meta property="og:title" content="Containers — linux-admin Claude Code Plugin">
+<meta property="og:description" content="Diagnose container failures, networking issues, cgroup limits, and rootless Podman setups with senior SRE context.">
+<meta property="og:type" content="website">
+<title>Containers — linux-admin Claude Code Plugin</title>
+
+<link rel="stylesheet" href="../assets/core.css">
+
+<style>
+  /* ── CONTAINERS ACCENT OVERRIDE ── */
+  :root {
+    --accent: #22d3ee;
+    --accent-dim: rgba(34,211,238,0.12);
+    --accent-glow: 0 0 24px rgba(34,211,238,0.3);
+  }
+
+  /* Accent hover fixes for cyan */
+  .nav-back:hover { border-color: rgba(34,211,238,0.3); }
+  .card:hover { border-color: rgba(34,211,238,0.18); }
+  .step-card:hover { border-color: rgba(34,211,238,0.18); }
+  .related-card:hover { border-color: rgba(34,211,238,0.2); background: rgba(34,211,238,0.03); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(34,211,238,0.3); }
+
+  /* ── CONTAINER VIZ ── */
+  .container-viz {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: 36px;
+  }
+  .c-box {
+    width: 52px;
+    border-radius: 8px;
+    border: 1px solid rgba(34,211,238,0.3);
+    background: rgba(34,211,238,0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: .6rem;
+    color: rgba(34,211,238,.7);
+    animation: float-box var(--dur, 3s) ease-in-out infinite;
+  }
+  .c-box .cb-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(34,211,238,.6);
+    box-shadow: 0 0 6px rgba(34,211,238,.6);
+  }
+  @keyframes float-box {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+
+  /* ── HERO GRID CYAN OVERRIDE ── */
+  .hero-grid-bg {
+    background-image:
+      linear-gradient(rgba(34,211,238,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,0.03) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  /* ── ACCENT GRAD CYAN ── */
+  .page-title .accent-grad {
+    background: linear-gradient(135deg, #22d3ee 0%, #67e8f9 45%, #a5f3fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── SKILL BADGE CYAN ── */
+  .skill-badge {
+    background: rgba(34,211,238,0.1);
+    border-color: rgba(34,211,238,0.25);
+  }
+
+  /* ── PILL CYAN ── */
+  .pill {
+    background: rgba(34,211,238,0.1);
+    border-color: rgba(34,211,238,0.25);
+  }
+
+  /* ── HIGHLIGHT BOX CYAN ── */
+  .highlight-box {
+    background: rgba(34,211,238,0.04);
+    border-color: rgba(34,211,238,0.15);
+    border-left-color: #22d3ee;
+  }
+
+  /* ── STEP NUM CYAN ── */
+  .step-num {
+    background: rgba(34,211,238,0.1);
+    border-color: rgba(34,211,238,0.2);
+  }
+
+  /* ── SECTION EYEBROW CYAN ── */
+  .section-eyebrow::before { background: #22d3ee; }
+
+  /* ── BTN PRIMARY CYAN ── */
+  .btn-primary { background: #22d3ee; }
+  .btn-primary:hover {
+    background: #67e8f9;
+    box-shadow: 0 0 24px rgba(34,211,238,0.3), 0 6px 24px rgba(34,211,238,0.2);
+  }
+
+  /* ── NAV GH CYAN ── */
+  .nav-gh {
+    color: #22d3ee;
+    border-color: rgba(34,211,238,0.25);
+  }
+  .nav-gh:hover {
+    background: rgba(34,211,238,0.1);
+    box-shadow: 0 0 24px rgba(34,211,238,0.3);
+  }
+
+  /* ── STAT ── */
+  .stat-n { color: #22d3ee; filter: drop-shadow(0 0 8px rgba(34,211,238,.4)); }
+
+  /* ── SNIPPET CYAN ACCENT ── */
+  .snippet .scp { color: #22d3ee; }
+
+  /* ── TERMINAL CYAN PROMPT ── */
+  .tp { color: #22d3ee !important; }
+  .cursor { background: #22d3ee; }
+
+  /* ── SECTION DIVIDER ACCENT ── */
+  .section-eyebrow { color: #22d3ee; }
+
+  /* ── WARN BOX stays amber ── */
+
+  /* ── RELATED CARD HOVER ── */
+  .related-card:hover .rc-name { color: #22d3ee; }
+
+  /* ── FOOTER ── */
+  .footer-brand { color: #22d3ee; }
+  .footer-links a:hover { color: #22d3ee; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-logo">
+    <span class="pfx">/</span>linux-admin
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#install">Install</a></li>
+    <li>
+      <a href="../index.html" class="nav-back">&#8592; Back</a>
+    </li>
+    <li>
+      <a
+        href="https://github.com/rushikesh-sakharle/we-are-linux-administrators"
+        class="nav-gh"
+        target="_blank"
+        rel="noopener noreferrer"
+      >&#9733; Star on GitHub</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="skill-badge">
+      <span>Container Diagnostics</span>
+    </div>
+    <h1 class="page-title">
+      <span data-scramble="containers">containers</span><br>
+      <span class="accent-grad">skill</span>
+    </h1>
+    <p class="page-subtitle">
+      Docker &amp; Podman triage, rootless containers, cgroup limits, networking
+      failures, and volume permission issues — all with read-only-first safety.
+    </p>
+    <div class="hero-ctas">
+      <a href="#demo" class="btn-primary">See it in action</a>
+      <a href="../index.html#install" class="btn-ghost">Install plugin</a>
+    </div>
+
+    <!-- Container viz animation -->
+    <div class="container-viz" aria-hidden="true">
+      <div class="c-box" style="height:80px;--dur:2.5s">
+        <div class="cb-dot"></div>
+        nginx
+      </div>
+      <div class="c-box" style="height:60px;--dur:3.2s">
+        <div class="cb-dot"></div>
+        redis
+      </div>
+      <div class="c-box" style="height:100px;--dur:2.8s">
+        <div class="cb-dot"></div>
+        postgres
+      </div>
+      <div class="c-box" style="height:70px;--dur:3.5s">
+        <div class="cb-dot"></div>
+        app
+      </div>
+      <div class="c-box" style="height:90px;--dur:2.3s">
+        <div class="cb-dot"></div>
+        proxy
+      </div>
+      <div class="c-box" style="height:55px;--dur:3.8s">
+        <div class="cb-dot"></div>
+        worker
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT STRIP ── -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="12">0</div>
+    <div class="stat-l">Failure patterns</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="5">0</div>
+    <div class="stat-l">Key commands</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">cgroup checks</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="6">0</div>
+    <div class="stat-l">Exit code maps</div>
+  </div>
+</div>
+
+<!-- ── SECTION 1: DIAGNOSTICS ── -->
+<section class="content-section">
+  <div class="reveal">
+    <div class="section-eyebrow">01 / Scope</div>
+    <h2 class="section-heading">Container diagnostics</h2>
+    <p class="section-body">
+      The containers skill covers the full lifecycle — from image pull failures and
+      broken entrypoints, to cgroup memory limits killing processes at runtime.
+      Works with both Docker and Podman, rootful and rootless.
+    </p>
+  </div>
+
+  <div class="tag-list reveal d1">
+    <span class="tag tag-cyan">Docker</span>
+    <span class="tag tag-cyan">Podman</span>
+    <span class="tag tag-violet">Rootless containers</span>
+    <span class="tag tag-amber">cgroup v1/v2</span>
+    <span class="tag tag-green">Bridge networking</span>
+    <span class="tag tag-red">OOM kills</span>
+    <span class="tag tag-cyan">Volume mounts</span>
+    <span class="tag tag-violet">SELinux labels</span>
+    <span class="tag tag-amber">nsenter</span>
+    <span class="tag tag-green">docker stats</span>
+  </div>
+
+  <div class="grid-3 reveal d2" style="margin-top:32px">
+    <div class="card">
+      <span class="card-icon">&#128230;</span>
+      <div class="card-title">Image &amp; startup</div>
+      <div class="card-body">Pull errors, missing tags, corrupted layers, entrypoint mismatches, and init process crashes traced to exit codes.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#127760;</span>
+      <div class="card-title">Networking</div>
+      <div class="card-body">Port conflicts on bridge interfaces, DNS resolution inside containers, overlay network splits, and iptables rule mismatches.</div>
+    </div>
+    <div class="card">
+      <span class="card-icon">&#128190;</span>
+      <div class="card-title">Storage &amp; cgroups</div>
+      <div class="card-body">Volume mount permission failures, SELinux label issues, memory.limit_in_bytes exceeded, and blkio throttle analysis.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 2: COMMON FAILURES ── -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-eyebrow">02 / Failure taxonomy</div>
+      <h2 class="section-heading">Common container failures</h2>
+      <p class="section-body">Three root-cause categories — the skill narrows to the specific leaf node before suggesting fixes.</p>
+    </div>
+
+    <div class="grid-3 reveal d1">
+      <!-- card 1 -->
+      <div class="card">
+        <span class="card-icon">&#128683;</span>
+        <div class="card-title">Container won't start</div>
+        <div class="card-body">
+          <strong style="color:var(--text-primary)">Image pull failure</strong> — bad credentials, missing registry, network timeout.<br><br>
+          <strong style="color:var(--text-primary)">Entrypoint crash</strong> — binary not found in image, wrong CMD args, missing env vars.<br><br>
+          <strong style="color:var(--text-primary)">Resource limits</strong> — cgroup memory too low, CPU quota enforced at start, pids.max hit.
+        </div>
+      </div>
+      <!-- card 2 -->
+      <div class="card">
+        <span class="card-icon">&#128268;</span>
+        <div class="card-title">Networking issues</div>
+        <div class="card-body">
+          <strong style="color:var(--text-primary)">Port conflict</strong> — host port already bound; docker daemon fails silently.<br><br>
+          <strong style="color:var(--text-primary)">Bridge / overlay</strong> — docker0 missing, IPAM exhausted, iptables FORWARD DROP.<br><br>
+          <strong style="color:var(--text-primary)">DNS inside container</strong> — /etc/resolv.conf points to 127.0.0.11 but dnsmasq not running.
+        </div>
+      </div>
+      <!-- card 3 -->
+      <div class="card">
+        <span class="card-icon">&#128194;</span>
+        <div class="card-title">Storage problems</div>
+        <div class="card-body">
+          <strong style="color:var(--text-primary)">Volume mount</strong> — source path missing on host, wrong mount type (bind vs volume).<br><br>
+          <strong style="color:var(--text-primary)">Permission denied</strong> — UID mismatch between container process and host file owner.<br><br>
+          <strong style="color:var(--text-primary)">SELinux label</strong> — missing :z or :Z suffix; AVC denial logged in audit.log.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 3: TERMINAL DEMO ── -->
+<section class="content-section" id="demo">
+  <div class="reveal">
+    <div class="section-eyebrow">03 / Live demo</div>
+    <h2 class="section-heading">Terminal demo</h2>
+    <p class="section-body">Paste the skill command and watch it triage an app container that exits immediately.</p>
+  </div>
+
+  <div class="terminal-block reveal d1">
+    <div class="term-titlebar">
+      <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+      <span class="tlabel">linux-admin — container triage</span>
+    </div>
+    <div class="term-body" id="termBody" style="min-height:280px;overflow:hidden"></div>
+  </div>
+
+  <p class="reveal d2" style="font-size:0.78rem;color:var(--text-muted);margin-top:12px">
+    &#9432; The skill reads container metadata and cgroup files — no containers are restarted or modified.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 4: ROOTLESS CONTAINERS ── -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-eyebrow">04 / Rootless</div>
+      <h2 class="section-heading">Rootless containers</h2>
+      <p class="section-body">Podman rootless containers run entirely as an unprivileged user — safer, but with their own failure modes.</p>
+    </div>
+
+    <div class="highlight-box reveal d1">
+      <p>
+        <strong>Why rootless?</strong> With rootless Podman, container processes run as your real UID on the host.
+        A root escape in the container only gives the attacker your user account — not the full system.
+        The trade-off is <strong>uid/gid mapping via newuidmap</strong>: each container user maps to a
+        subuid range in <code>/etc/subuid</code> and <code>/etc/subgid</code>. Most mount failures
+        in rootless mode trace back to a missing or wrong subuid range, or to a volume whose host path
+        is owned by a UID outside that range.
+      </p>
+    </div>
+
+    <div class="grid-2 reveal d2" style="margin-top:28px">
+      <div>
+        <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+          Check rootless runtime info and uid mapping:
+        </div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="scp">$</span> podman info --format json | jq '.host.remoteSocket, .store.runRoot'<br>
+          <span class="scp">$</span> podman unshare ls -la /var/data<br>
+          <span class="sco"># runs ls inside the user namespace so UIDs appear as root maps them</span><br>
+          <span class="scp">$</span> cat /etc/subuid | grep $USER<br>
+          <span class="sco"># e.g.  rushikesh:100000:65536  — 65536 UIDs allocated</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+          Common rootless fixes:
+        </div>
+        <div class="snippet">
+          <button class="copy-snip">copy</button>
+          <span class="sco"># Fix missing subuid entry</span><br>
+          <span class="scp">$</span> sudo usermod --add-subuids 100000-165535 $USER<br>
+          <span class="scp">$</span> sudo usermod --add-subgids 100000-165535 $USER<br>
+          <span class="scp">$</span> podman system migrate<br>
+          <br>
+          <span class="sco"># Fix volume permission (chown inside user ns)</span><br>
+          <span class="scp">$</span> podman unshare chown 0:0 /path/to/volume
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 5: KEY COMMANDS ── -->
+<section class="content-section">
+  <div class="reveal">
+    <div class="section-eyebrow">05 / Commands</div>
+    <h2 class="section-heading">Key commands</h2>
+    <p class="section-body">Read-only inspection commands the skill runs — never modifies running containers.</p>
+  </div>
+
+  <div class="grid-2 reveal d1">
+    <div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">Inspect &amp; logs</div>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> docker inspect container_name<br>
+        <span class="scp">$</span> docker logs --tail 50 -f container_name
+      </div>
+
+      <div style="font-size:0.72rem;color:var(--text-muted);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.08em">Enter namespace</div>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="sco"># enter PID+mount ns of running container</span><br>
+        <span class="scp">$</span> nsenter --target PID --mount --pid /bin/bash
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">Live stats &amp; Podman</div>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> docker stats --no-stream<br>
+        <span class="scp">$</span> podman pod ls<br>
+        <span class="scp">$</span> podman inspect --format '&#123;&#123;.HostConfig.Resources&#125;&#125;' app
+      </div>
+
+      <div style="font-size:0.72rem;color:var(--text-muted);margin:16px 0 6px;text-transform:uppercase;letter-spacing:.08em">Image history</div>
+      <div class="snippet">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> docker history --no-trunc image_name<br>
+        <span class="scp">$</span> docker image inspect image_name | jq '.[].Config'
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 6: CGROUP INVESTIGATION ── -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw)">
+  <div style="max-width:1160px;margin:0 auto">
+    <div class="reveal">
+      <div class="section-eyebrow">06 / cgroup investigation</div>
+      <h2 class="section-heading">cgroup resource checks</h2>
+      <p class="section-body">Walk the cgroup hierarchy to find which limit is being enforced against your container.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <div class="step-card reveal d1">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Check memory usage vs limit</div>
+          <div class="step-desc">
+            Read <code>memory.usage_in_bytes</code> and compare against <code>memory.limit_in_bytes</code>.
+            If usage is near limit, the OOM killer will fire — look for exit code 137.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> cat /sys/fs/cgroup/memory/docker/CONTAINER_ID/memory.usage_in_bytes<br>
+              <span class="scp">$</span> cat /sys/fs/cgroup/memory/docker/CONTAINER_ID/memory.limit_in_bytes
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d2">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Check CPU shares</div>
+          <div class="step-desc">
+            <code>cpu.shares</code> (cgroup v1) or <code>cpu.weight</code> (cgroup v2) controls relative CPU
+            scheduling priority. Default is 1024. Very low values throttle CPU access under contention.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> cat /sys/fs/cgroup/cpu/docker/CONTAINER_ID/cpu.shares<br>
+              <span class="scp">$</span> cat /sys/fs/cgroup/cpu/docker/CONTAINER_ID/cpu.cfs_quota_us
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d3">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Check blkio throttle</div>
+          <div class="step-desc">
+            Block I/O throttling can make disk-heavy containers appear hung. Check device major:minor
+            mappings and per-device read/write BPS limits.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> cat /sys/fs/cgroup/blkio/docker/CONTAINER_ID/blkio.throttle.read_bps_device<br>
+              <span class="scp">$</span> cat /sys/fs/cgroup/blkio/docker/CONTAINER_ID/blkio.throttle.write_bps_device
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d4">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Check pids.max</div>
+          <div class="step-desc">
+            If a container forks aggressively (e.g. Celery workers, PHP-FPM), it may hit the pids limit
+            and fail to spawn new processes — even though memory and CPU look fine.
+            <div class="snippet" style="margin-top:10px">
+              <span class="scp">$</span> cat /sys/fs/cgroup/pids/docker/CONTAINER_ID/pids.max<br>
+              <span class="scp">$</span> cat /sys/fs/cgroup/pids/docker/CONTAINER_ID/pids.current
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SECTION 7: RELATED ── -->
+<section class="content-section">
+  <div class="reveal">
+    <div class="section-eyebrow">07 / Related skills</div>
+    <h2 class="section-heading">Explore related skills</h2>
+  </div>
+
+  <div class="related-grid reveal d1">
+    <a href="diagnose.html" class="related-card">
+      <span class="rc-icon">&#128269;</span>
+      <div>
+        <div class="rc-name">diagnose</div>
+        <div class="rc-desc">System-wide triage starting point</div>
+      </div>
+    </a>
+    <a href="performance.html" class="related-card">
+      <span class="rc-icon">&#9889;</span>
+      <div>
+        <div class="rc-name">performance</div>
+        <div class="rc-desc">CPU, memory, and I/O profiling</div>
+      </div>
+    </a>
+    <a href="auth.html" class="related-card">
+      <span class="rc-icon">&#128273;</span>
+      <div>
+        <div class="rc-name">auth</div>
+        <div class="rc-desc">SSH keys, PAM, SSSD, sudo issues</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-brand">/linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#skills">Skills</a>
+    <a href="https://github.com/rushikesh-sakharle/we-are-linux-administrators" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="auth.html">Auth</a>
+  </div>
+  <div class="footer-copy">containers skill &mdash; linux-admin Claude Code plugin</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+(function() {
+  // ── Hero canvas: particle network (cyan) ──
+  const canvas = document.getElementById('heroCanvas');
+  if (canvas && window.DF) {
+    new DF.Particles(canvas, {
+      color: '#22d3ee',
+      count: 45,
+      speed: 0.25,
+      maxDist: 90,
+      size: 1.2,
+    });
+  }
+
+  // ── Terminal demo ──
+  const termEl = document.getElementById('termBody');
+  if (termEl && window.DF) {
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:containers app container exits immediately' },
+      { type: 'out',     text: 'Reading container metadata...', delay: 400 },
+      { type: 'cmd',     text: 'docker inspect app --format \'{{json .State}}\'' },
+      { type: 'cyan',    text: '{"Status":"exited","ExitCode":137,"OOMKilled":false}', delay: 200 },
+      { type: 'out',     text: 'Exit code 137 = SIGKILL (128+9). Checking cgroup memory...', delay: 500 },
+      { type: 'cmd',     text: 'cat /sys/fs/cgroup/memory/docker/$(docker inspect app -f \'{{.Id}}\')/memory.limit_in_bytes' },
+      { type: 'cyan',    text: '268435456', delay: 200 },
+      { type: 'out',     text: 'Limit: 256 MiB', delay: 100 },
+      { type: 'cmd',     text: 'docker logs app --tail 20 2>&1 | grep -i "java\|heap\|OutOfMemory"' },
+      { type: 'warn',    text: 'java.lang.OutOfMemoryError: Java heap space', delay: 300 },
+      { type: 'success', text: '  Root cause identified: JVM heap exceeds 256 MiB container limit.', delay: 200 },
+      { type: 'success', text: '  Spring Boot default heap = 25% of available RAM = ~320 MiB attempted.', delay: 100 },
+      { type: 'out',     text: '', delay: 80 },
+      { type: 'success', text: '  Recommendation:', delay: 80 },
+      { type: 'success', text: '    docker run --memory=512m ...   (double the limit)  OR', delay: 60 },
+      { type: 'success', text: '    -e JAVA_TOOL_OPTIONS=-Xmx200m (cap JVM heap explicitly)', delay: 60 },
+    ];
+    const t = new DF.Terminal(termEl, lines, true);
+    // Start when section is visible
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { t.start(); obs.disconnect(); }
+    }, { threshold: 0.2 });
+    obs.observe(termEl);
+  }
+})();
+</script>
+</body>
+</html>

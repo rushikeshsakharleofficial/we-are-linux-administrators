@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin storage diagnostics — disk full, inode exhaustion, LVM, RAID, filesystem corruption, df/du mismatch, and SMART failures.">
+<meta property="og:title" content="Storage Diagnostics — linux-admin for Claude Code">
+<meta property="og:description" content="Debug storage issues: df/du mismatch, deleted-but-open files, inode exhaustion, LVM, RAID, SMART — with a read-only-first SRE approach.">
+<meta property="og:type" content="website">
+<title>Storage Diagnostics — linux-admin</title>
+<link rel="stylesheet" href="../assets/core.css">
+<style>
+  :root { --accent: #a78bfa; }
+
+  /* Override accent-tinted elements for violet */
+  .skill-badge {
+    background: rgba(167,139,250,0.1);
+    border-color: rgba(167,139,250,0.2);
+    color: #a78bfa;
+  }
+  .skill-badge::before { background: #a78bfa; box-shadow: 0 0 6px #a78bfa; }
+  .section-eyebrow { color: #a78bfa; }
+  .section-eyebrow::before { background: #a78bfa; }
+  .step-num {
+    background: rgba(167,139,250,0.1);
+    border-color: rgba(167,139,250,0.2);
+    color: #a78bfa;
+  }
+  .btn-primary { background: #a78bfa; color: #000; }
+  .btn-primary:hover { background: #c4b5fd; box-shadow: 0 0 24px rgba(167,139,250,0.35), 0 6px 24px rgba(167,139,250,0.2); }
+  .nav-back:hover { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
+  .nav-gh { color: #a78bfa; border-color: rgba(167,139,250,0.25); }
+  .nav-gh:hover { background: rgba(167,139,250,0.08); box-shadow: 0 0 24px rgba(167,139,250,0.35); }
+  .card:hover { border-color: rgba(167,139,250,0.2); }
+  .step-card:hover { border-color: rgba(167,139,250,0.2); }
+  .related-card:hover { border-color: rgba(167,139,250,0.2); background: rgba(167,139,250,0.03); }
+  .highlight-box {
+    background: rgba(167,139,250,0.04);
+    border-color: rgba(167,139,250,0.15);
+    border-left-color: #a78bfa;
+  }
+  .hero-grid-bg {
+    background-image:
+      linear-gradient(rgba(167,139,250,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(167,139,250,0.03) 1px, transparent 1px);
+  }
+  .pill {
+    background: rgba(167,139,250,0.1);
+    border-color: rgba(167,139,250,0.2);
+    color: #a78bfa;
+  }
+  .stat-n { color: #a78bfa; filter: drop-shadow(0 0 8px rgba(167,139,250,0.4)); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(167,139,250,0.3); }
+
+  .page-title .accent-grad {
+    background: linear-gradient(135deg, #a78bfa 0%, #c4b5fd 45%, #f472b6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Disk viz animation */
+  .disk-viz {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 360px;
+    max-width: 90vw;
+    margin: 32px auto 0;
+  }
+  .disk-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .disk-label {
+    font-size: .72rem;
+    color: #a1a1aa;
+    width: 50px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .disk-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .disk-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    transform-origin: left;
+    animation: fill-bar 2s ease forwards;
+  }
+  .disk-fill.danger {
+    background: #f87171;
+    box-shadow: 0 0 12px #f87171, 0 0 24px rgba(248,113,113,0.4);
+  }
+  .disk-pct {
+    font-size: .72rem;
+    color: var(--accent);
+    width: 36px;
+    flex-shrink: 0;
+  }
+  .disk-pct.danger { color: #f87171; }
+  @keyframes fill-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  /* Stagger disk fill animations */
+  .disk-bar-wrap:nth-child(1) .disk-fill { animation-delay: 0.1s; transform: scaleX(0); }
+  .disk-bar-wrap:nth-child(2) .disk-fill { animation-delay: 0.3s; transform: scaleX(0); }
+  .disk-bar-wrap:nth-child(3) .disk-fill { animation-delay: 0.5s; transform: scaleX(0); }
+  .disk-bar-wrap:nth-child(4) .disk-fill { animation-delay: 0.7s; transform: scaleX(0); }
+  .disk-bar-wrap:nth-child(5) .disk-fill { animation-delay: 0.9s; transform: scaleX(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="../index.html" class="nav-back">← linux-admin</a>
+  <a href="https://github.com/we-are-linux-administrators/linux-admin" target="_blank" rel="noopener" class="nav-gh">
+    ★ Star on GitHub
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-content">
+    <div class="skill-badge">linux-admin · storage</div>
+    <h1 class="page-title">
+      <span class="accent-grad">Storage</span><br>Diagnostics
+    </h1>
+    <p class="page-subtitle">
+      Disk full, inode exhaustion, LVM degraded, or a baffling df/du mismatch — the skill traces every byte to its root cause.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/we-are-linux-administrators/linux-admin" class="btn-primary" target="_blank" rel="noopener">Install Plugin</a>
+      <a href="#demo" class="btn-ghost">See It In Action</a>
+    </div>
+
+    <!-- Disk fill viz -->
+    <div class="disk-viz">
+      <div class="disk-bar-wrap">
+        <span class="disk-label">/var</span>
+        <div class="disk-track">
+          <div class="disk-fill danger" style="width:99%"></div>
+        </div>
+        <span class="disk-pct danger">99%</span>
+      </div>
+      <div class="disk-bar-wrap">
+        <span class="disk-label">/home</span>
+        <div class="disk-track">
+          <div class="disk-fill" style="width:78%"></div>
+        </div>
+        <span class="disk-pct">78%</span>
+      </div>
+      <div class="disk-bar-wrap">
+        <span class="disk-label">/boot</span>
+        <div class="disk-track">
+          <div class="disk-fill" style="width:45%"></div>
+        </div>
+        <span class="disk-pct">45%</span>
+      </div>
+      <div class="disk-bar-wrap">
+        <span class="disk-label">/tmp</span>
+        <div class="disk-track">
+          <div class="disk-fill" style="width:23%"></div>
+        </div>
+        <span class="disk-pct">23%</span>
+      </div>
+      <div class="disk-bar-wrap">
+        <span class="disk-label">/proc</span>
+        <div class="disk-track">
+          <div class="disk-fill" style="width:0.5%"></div>
+        </div>
+        <span class="disk-pct">0%</span>
+      </div>
+    </div>
+
+    <div class="tag-list" style="justify-content:center;margin-top:28px;">
+      <span class="tag tag-violet">df / du</span>
+      <span class="tag tag-violet">lsof +L1</span>
+      <span class="tag tag-amber">LVM</span>
+      <span class="tag tag-amber">RAID</span>
+      <span class="tag tag-red">SMART</span>
+      <span class="tag tag-cyan">findmnt</span>
+      <span class="tag tag-green">inodes</span>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-n" data-count="5">0</div>
+    <div class="stat-l">Failure patterns</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="8">0</div>
+    <div class="stat-l">CLI tools known</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="4">0</div>
+    <div class="stat-l">Diagnostic steps</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-n" data-count="100">0</div>
+    <div class="stat-l">% read-only first</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 1: STORAGE DIAGNOSTICS -->
+<section class="content-section">
+  <div class="section-eyebrow">Diagnostics</div>
+  <h2 class="section-heading">Storage diagnostics</h2>
+  <p class="section-body">
+    From "disk full" alerts to silent inode exhaustion — the skill covers the full storage diagnostic surface without ever running destructive commands first.
+  </p>
+
+  <div class="grid-auto">
+    <div class="card reveal d1">
+      <span class="card-icon">💽</span>
+      <div class="card-title">Disk full</div>
+      <div class="card-body">
+        <code>df -h</code> shows 100% usage. The skill drills into which directory is the culprit with <code>du -sh /*</code> and handles the subtle case where df and du disagree due to deleted-but-open files.
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">🗂️</span>
+      <div class="card-title">Inode exhaustion</div>
+      <div class="card-body">
+        <code>df</code> shows free space but you can't create files. <code>df -i</code> reveals 100% inode use. Common culprit: millions of small temp files or mail queue entries. The skill finds and quantifies them.
+      </div>
+    </div>
+
+    <div class="card reveal d3">
+      <span class="card-icon">📦</span>
+      <div class="card-title">LVM</div>
+      <div class="card-body">
+        <code>lvs</code>, <code>pvs</code>, <code>vgs</code> — inspect logical volumes, physical disks, and volume groups. Identifies inactive PVs, thin-pool overcommit, and missing volume group activation on boot.
+      </div>
+    </div>
+
+    <div class="card reveal d1">
+      <span class="card-icon">🔄</span>
+      <div class="card-title">RAID &amp; mdadm</div>
+      <div class="card-body">
+        Read <code>/proc/mdstat</code> and run <code>mdadm --detail</code> to detect degraded arrays, failed member disks, resync progress, and estimated rebuild time.
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">🔧</span>
+      <div class="card-title">Filesystem corruption</div>
+      <div class="card-body">
+        Check kernel logs for <code>EXT4-fs error</code>, <code>XFS: Internal error</code>, or <code>BTRFS: tree checker</code> messages. The skill reads <code>dmesg</code> and <code>/var/log/kern.log</code> to surface I/O errors before they cascade.
+      </div>
+    </div>
+
+    <div class="card reveal d3">
+      <span class="card-icon">❤️</span>
+      <div class="card-title">SMART failures</div>
+      <div class="card-body">
+        <code>smartctl -a /dev/sda</code> — reads SMART health status, reallocated sector count, pending sector count, and uncorrectable error count. Gives you early warning before a drive fully fails.
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:28px;">
+    <p><strong>Safety gate.</strong> The skill never runs <code>fsck</code>, <code>mkfs</code>, or LVM resize operations without explicit user confirmation and a remount-ro or unmount step first.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: DF/DU MISMATCH MYSTERY -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw);">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="section-eyebrow">Deep Dive</div>
+    <h2 class="section-heading">The df/du mismatch mystery</h2>
+    <p class="section-body">
+      The single most confusing storage scenario: <code>df</code> says 99% full, <code>du</code> only accounts for 60%. Where did 39% go?
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="step-card reveal d1">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">df shows 99% used</div>
+          <div class="step-desc">
+            <code>df -h /var</code> — filesystem reports only 1 GiB free on a 100 GiB partition. Alerts firing, application writes failing. Urgency: high.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d2">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">du shows only 60% — 39% is missing</div>
+          <div class="step-desc">
+            <code>du -sh /var</code> only accounts for ~61 GiB. The filesystem thinks 99 GiB is used, but only 61 GiB of files exist on disk. The remaining 38 GiB is invisible to <code>du</code>.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d3">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">lsof +L1 finds the deleted-but-open file</div>
+          <div class="step-desc">
+            <code>lsof +L1</code> lists files with a link count below 1 — i.e., deleted from the directory tree but still held open by a running process. Output shows <code>/var/log/app.log (deleted)</code> held by pid <strong>9823</strong>, consuming 38 GiB.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card reveal d4">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Kill process → space returns instantly</div>
+          <div class="step-desc">
+            The kernel only releases the blocks once the last file descriptor to the deleted inode is closed. Sending <code>SIGHUP</code> to reopen logs (or <code>kill -9 9823</code> as a last resort) causes the kernel to reclaim all 38 GiB immediately — no fsck, no reboot.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: TERMINAL DEMO -->
+<section class="content-section" id="demo">
+  <div class="section-eyebrow">Live Demo</div>
+  <h2 class="section-heading">Terminal demo</h2>
+  <p class="section-body">
+    The skill walks the full df/du mismatch investigation — finding the deleted open file and recovering the space.
+  </p>
+
+  <div class="terminal-block reveal">
+    <div class="term-titlebar">
+      <span class="tdot r"></span>
+      <span class="tdot y"></span>
+      <span class="tdot g"></span>
+      <span class="tlabel">claude code — storage diagnosis</span>
+    </div>
+    <div class="term-body" id="storage-term"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: KEY COMMANDS -->
+<section class="content-section bg-surface" style="max-width:100%;padding:80px max(24px,5vw);">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="section-eyebrow">Reference</div>
+    <h2 class="section-heading">Key commands</h2>
+    <p class="section-body">Essential one-liners — copy and run them or let the skill run them for you.</p>
+
+    <div class="grid-2" style="gap:10px;">
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">df</span> -h
+        <div class="sco"># Human-readable disk usage per mountpoint</div>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">du</span> -sh /* 2&gt;/dev/null | sort -rh | head -20
+        <div class="sco"># Top directories by size — suppress permission errors</div>
+      </div>
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">lsof</span> +L1
+        <div class="sco"># Files deleted but still held open (link count &lt; 1)</div>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">lvs</span> &amp;&amp; <span class="sch">pvs</span> &amp;&amp; <span class="sch">vgs</span>
+        <div class="sco"># LVM: logical volumes, physical vols, volume groups</div>
+      </div>
+
+      <div class="snippet reveal d1">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">smartctl</span> -a /dev/sda
+        <div class="sco"># Full SMART health report for a block device</div>
+      </div>
+
+      <div class="snippet reveal d2">
+        <button class="copy-snip">copy</button>
+        <span class="scp">$</span> <span class="sch">findmnt</span> --verify --verbose
+        <div class="sco"># Verify all mounts in /etc/fstab are consistent</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 5: COMMON FAILURES -->
+<section class="content-section">
+  <div class="section-eyebrow">Failure Patterns</div>
+  <h2 class="section-heading">Common failures</h2>
+  <p class="section-body">Five storage failure classes the skill recognises by symptom and resolves with a deterministic fix path.</p>
+
+  <div class="grid-auto">
+
+    <div class="card reveal d1">
+      <span class="card-icon">👻</span>
+      <div class="card-title">df/du mismatch — deleted open files</div>
+      <div class="card-body">
+        <code>df</code> reports high usage but <code>du</code> accounts for much less. Kernel is holding blocks for files deleted while still open by a process. <code>lsof +L1</code> finds the culprit. Fix: SIGHUP or kill the process.
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">🧱</span>
+      <div class="card-title">Inode exhaustion</div>
+      <div class="card-body">
+        <code>df -h</code> shows free space but <code>touch newfile</code> fails with <em>No space left on device</em>. <code>df -i</code> reveals 100% inodes consumed. Common culprit: millions of tiny temp files or mail queue.
+      </div>
+    </div>
+
+    <div class="card reveal d3">
+      <span class="card-icon">📦</span>
+      <div class="card-title">LVM not activated</div>
+      <div class="card-body">
+        After a reboot, a volume group is present (<code>pvs</code> shows the PV) but the logical volumes are inactive. Fix: <code>vgchange -ay vg_name</code> then mount. Root cause: missing <code>lvm2-monitor.service</code> on boot.
+      </div>
+    </div>
+
+    <div class="card reveal d1">
+      <span class="card-icon">🚨</span>
+      <div class="card-title">RAID degraded</div>
+      <div class="card-body">
+        <code>/proc/mdstat</code> shows <code>[UU_]</code> instead of <code>[UUU]</code>. One member disk failed. The skill reads <code>mdadm --detail /dev/md0</code>, identifies the failed disk, and walks you through replacement.
+      </div>
+    </div>
+
+    <div class="card reveal d2">
+      <span class="card-icon">💥</span>
+      <div class="card-title">Filesystem corruption</div>
+      <div class="card-body">
+        Kernel logs show <code>EXT4-fs error</code> or <code>XFS: Internal error</code>. The skill reads <code>dmesg</code> for I/O error patterns, identifies the block device, and recommends safe remediation steps (remount-ro before fsck).
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RELATED -->
+<section class="content-section bg-surface" style="max-width:100%;padding:60px max(24px,5vw);">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="section-eyebrow">Explore More</div>
+    <h2 class="section-heading" style="margin-bottom:20px;">Related skills</h2>
+    <div class="related-grid">
+      <a href="diagnose.html" class="related-card">
+        <span class="rc-icon">🩺</span>
+        <div>
+          <div class="rc-name">diagnose</div>
+          <div class="rc-desc">System-wide triage &amp; health check</div>
+        </div>
+      </a>
+      <a href="kernel.html" class="related-card">
+        <span class="rc-icon">⚙️</span>
+        <div>
+          <div class="rc-name">kernel</div>
+          <div class="rc-desc">sysctl, modules, kernel params</div>
+        </div>
+      </a>
+      <a href="performance.html" class="related-card">
+        <span class="rc-icon">📈</span>
+        <div>
+          <div class="rc-name">performance</div>
+          <div class="rc-desc">I/O wait, CPU, memory profiling</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-brand">linux-admin</div>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/we-are-linux-administrators/linux-admin" target="_blank" rel="noopener">GitHub</a>
+    <a href="network.html">Network</a>
+  </div>
+  <div class="footer-copy">MIT License · Built for Claude Code</div>
+</footer>
+
+<script src="../assets/core.js"></script>
+<script>
+  // Storage terminal demo
+  (function () {
+    const el = document.getElementById('storage-term');
+    if (!el || !window.DF) return;
+
+    const lines = [
+      { type: 'cmd',     text: '/linux-admin:storage /var is full but du does not match df' },
+      { type: 'cyan',    text: '  Reading df -h /var …', delay: 300 },
+      { type: 'out',     text: '  Filesystem      Size  Used Avail Use% Mounted on', delay: 60 },
+      { type: 'err',     text: '  /dev/sda1       100G   99G  500M  99% /var', delay: 60 },
+      { type: 'cyan',    text: '  Reading du -sh /var/* …', delay: 400 },
+      { type: 'out',     text: '  45G  /var/lib', delay: 80 },
+      { type: 'out',     text: '  12G  /var/cache', delay: 60 },
+      { type: 'out',     text: '  4.1G /var/log', delay: 60 },
+      { type: 'out',     text: '  Total visible: ~61G', delay: 80 },
+      { type: 'warn',    text: '  df says 99G used — du only accounts for 61G', delay: 80 },
+      { type: 'warn',    text: '  38G unaccounted → likely deleted-but-open files', delay: 60 },
+      { type: 'cyan',    text: '  Running: lsof +L1 /var …', delay: 400 },
+      { type: 'out',     text: '  COMMAND   PID   USER  FD TYPE DEVICE  SIZE/OFF NLINK NAME', delay: 60 },
+      { type: 'err',     text: '  java     9823 appuser  32u  REG  8,1  38654705664     0 /var/log/app.log (deleted)', delay: 80 },
+      { type: 'dim',     text: '  ──────────────────────────────────────────────────────────', delay: 40 },
+      { type: 'success', text: '  Root cause: /var/log/app.log was deleted while held open', delay: 80 },
+      { type: 'success', text: '  Process java PID 9823 still holds the file descriptor', delay: 60 },
+      { type: 'success', text: '  Kernel cannot release 38G until the FD is closed', delay: 60 },
+      { type: 'dim',     text: '  ──────────────────────────────────────────────────────────', delay: 40 },
+      { type: 'out',     text: '  Option A (safe): kill -HUP 9823  — asks app to reopen logs', delay: 80 },
+      { type: 'out',     text: '  Option B (force): kill -9 9823   — hard kill, verify service restart', delay: 60 },
+      { type: 'cmd',     text: 'kill -HUP 9823' },
+      { type: 'success', text: '  ✓ Signal sent. Verifying …', delay: 300 },
+      { type: 'cmd',     text: 'df -h /var' },
+      { type: 'success', text: '  /dev/sda1   100G   61G   39G   61% /var', delay: 200 },
+      { type: 'success', text: '  ✓ 38G recovered — /var now at 61%', delay: 80 },
+    ];
+
+    const term = new window.DF.Terminal(el, lines, true);
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { term.start(); obs.unobserve(e.target); } });
+    }, { threshold: 0.2 });
+    obs.observe(el);
+  })();
+</script>
+</body>
+</html>
