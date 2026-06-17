@@ -55,6 +55,8 @@ This is a single plugin package containing the original Linux admin troubleshoot
 | `natting-expert` | SNAT, DNAT, MASQUERADE, port forwarding, nftables/iptables NAT, conntrack, ip_forward | — |
 | `bashrc-expert` | .bashrc, .bash_profile, aliases, functions, PATH, PS1, startup order, debug slow init | — |
 | `zshrc-expert` | .zshrc, zshenv, zprofile, zlogin, aliases, plugins, prompt, startup order | — |
+| `bash-script-expert` | Bash script creation, review, hardening, debugging, merging, cron/systemd-safe patterns | — |
+| `shell-script-expert` | POSIX/portable shell, /bin/sh, dash/ash compatibility checks, Bash-to-portable migration | — |
 
 ## Usage
 
@@ -105,4 +107,6 @@ All expert modules follow the same policy:
 /linux-admin:natting-expert <NAT/SNAT/DNAT/port-forward task>
 /linux-admin:bashrc-expert <bash startup config task>
 /linux-admin:zshrc-expert <zsh startup config task>
+/linux-admin:bash-script-expert <bash script creation/review/debug task>
+/linux-admin:shell-script-expert <portable shell compatibility check>
 ```

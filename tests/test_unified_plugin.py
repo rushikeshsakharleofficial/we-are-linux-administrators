@@ -4,13 +4,13 @@ import json
 
 ROOT = Path(__file__).resolve().parents[1]
 
-REQUIRED_SKILLS = ['acl-permissions-expert', 'auth', 'automation', 'boot', 'cf-expert', 'chrony-expert', 'command-expert', 'containers', 'cron-scheduler-expert', 'date-timectl-expert', 'diagnose', 'disk-mounting-expert', 'dnsmasq-expert', 'fail2ban-expert', 'file-permissions-expert', 'filesystem-expert', 'firewall-expert', 'kernel', 'kernel-expert', 'limits-expert', 'logs', 'migration-expert', 'named-expert', 'network', 'networking-expert', 'os-security-expert', 'package-manager-expert', 'packages', 'performance', 'permissions', 'quota-expert', 'service', 'storage', 'sysctl-expert', 'systemd-expert', 'tcp-expert', 'udp-expert', 'user-permissions-expert']
+REQUIRED_SKILLS = ['acl-permissions-expert', 'auth', 'automation', 'bash-script-expert', 'boot', 'cf-expert', 'chrony-expert', 'command-expert', 'containers', 'cron-scheduler-expert', 'date-timectl-expert', 'diagnose', 'disk-mounting-expert', 'dnsmasq-expert', 'fail2ban-expert', 'file-permissions-expert', 'filesystem-expert', 'firewall-expert', 'kernel', 'kernel-expert', 'limits-expert', 'logs', 'migration-expert', 'named-expert', 'network', 'networking-expert', 'os-security-expert', 'package-manager-expert', 'packages', 'performance', 'permissions', 'quota-expert', 'service', 'shell-script-expert', 'storage', 'sysctl-expert', 'systemd-expert', 'tcp-expert', 'udp-expert', 'user-permissions-expert']
 REQUIRED_BINS = ['acl-permissions-expert-audit', 'cf-expert-audit', 'chrony-expert-audit', 'command-expert-audit', 'cron-scheduler-expert-audit', 'date-timectl-expert-audit', 'disk-mounting-expert-audit', 'dnsmasq-expert-audit', 'fail2ban-expert-audit', 'file-permissions-expert-audit', 'filesystem-expert-audit', 'firewall-expert-audit', 'kernel-expert-audit', 'limits-expert-audit', 'linux-log-classifier', 'linux-triage', 'migration-expert-audit', 'named-expert-audit', 'networking-expert-audit', 'os-security-expert-audit', 'package-manager-expert-audit', 'quota-expert-audit', 'sysctl-expert-audit', 'systemd-expert-audit', 'tcp-expert-audit', 'udp-expert-audit', 'user-permissions-expert-audit']
 
 def main():
     manifest = json.loads((ROOT/'.claude-plugin/plugin.json').read_text())
     assert manifest['name'] == 'linux-admin'
-    assert manifest['version'] == '1.12.0'
+    assert manifest['version'] == '1.13.0'
     missing_skills = [s for s in REQUIRED_SKILLS if not (ROOT/'skills'/s/'SKILL.md').exists()]
     missing_bins = [b for b in REQUIRED_BINS if not (ROOT/'bin'/b).exists()]
     assert not missing_skills, missing_skills

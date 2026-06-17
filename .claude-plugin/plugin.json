@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "description": "Claude Code plugin for Linux administration with expert modules for troubleshooting, TCP/UDP, scheduling/time, package managers, sysctl, systemd, limits, networking, firewall, Fail2Ban, commands, users, permissions, quotas, mounting, filesystems, kernel, memory, swap, migration planning, DNS, Cloudflare/MCP, dnsmasq, OS security, NTP, NAT, and shell config.",
-  "version": "1.12.0",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 46 task-specific skills for boot, networking, storage, permissions, containers, kernel, auth, logging, memory, swap, NTP, NAT, shell config, and Bash/shell scripting.",
+  "version": "1.13.0",
   "author": {
     "name": "Rushikesh Sakharle",
     "email": "rishiananya123@gmail.com"
@@ -167,7 +167,19 @@
     "bash-profile",
     "zshrc",
     "zshenv",
-    "shell-config"
+    "shell-config",
+    "bash-script",
+    "shell-script",
+    "posix-shell",
+    "bash-scripting",
+    "shell-scripting",
+    "script-review",
+    "shellcheck",
+    "script-debugging",
+    "script-merging",
+    "portable-shell",
+    "dash",
+    "ash"
   ],
   "displayName": "Linux Admin"
 }
