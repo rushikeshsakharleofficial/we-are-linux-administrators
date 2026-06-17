@@ -339,19 +339,7 @@
         <span class="ht-dot green"></span>
         <span class="ht-title">claude-code — linux-admin</span>
       </div>
-      <div class="ht-body" id="ht-body">
-        <div class="ht-line">
-          <span class="ht-prompt">›</span>
-          <span class="ht-cmd">/linux-admin:network can ping 8.8.8.8 but DNS fails</span>
-        </div>
-        <span class="ht-cyan">[ READ-ONLY ] Collecting evidence before any changes...</span>
-        <span class="ht-out">Checking resolv.conf → nameserver 127.0.0.53 (systemd-resolved)</span>
-        <span class="ht-out">Testing DNS fallback → dig @8.8.8.8 google.com ... OK</span>
-        <span class="ht-out">Checking stub listener → ss -tlnp | grep 53 → not listening</span>
-        <span class="ht-amber">✦ Root cause: systemd-resolved stub resolver not running</span>
-        <span class="ht-success">✓ Fix: systemctl enable --now systemd-resolved</span>
-        <span class="ht-dim"># Class 2 — confirm before executing<span class="ht-cur"></span></span>
-      </div>
+      <div class="ht-body" id="ht-body"></div>
     </div>
   </div>
 </div>

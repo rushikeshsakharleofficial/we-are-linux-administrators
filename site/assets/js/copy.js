@@ -1,9 +1,20 @@
 /* copy.js — Copy button for command blocks */
+function cleanCopyText(raw) {
+  return raw
+    .replace(/^copy$/gm, '')
+    .split('\n')
+    .filter(l => !/^\s*#/.test(l.trim()))   // strip comment lines
+    .map(l => l.replace(/^\s*\$\s+/, '').replace(/^\s*\$\s*$/, ''))  // strip $ prompt
+    .filter(l => l.trim())
+    .join('\n')
+    .trim();
+}
+
 (function () {
   document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const block = btn.closest('.command-block, .skill-card-cmd, .terminal-body, [data-copy-parent]');
-      const text = block ? block.innerText.replace(/^copy$/gm, '').trim() : '';
+      const text = block ? cleanCopyText(block.innerText) : '';
       navigator.clipboard.writeText(text).then(() => {
         const orig = btn.textContent;
         btn.textContent = 'copied!';
@@ -21,7 +32,7 @@
     btn.addEventListener('click', () => {
       const target = document.querySelector(btn.dataset.copy);
       if (!target) return;
-      navigator.clipboard.writeText(target.innerText.trim()).then(() => {
+      navigator.clipboard.writeText(cleanCopyText(target.innerText)).then(() => {
         const orig = btn.textContent;
         btn.textContent = 'copied!';
         setTimeout(() => { btn.textContent = orig; }, 2000);

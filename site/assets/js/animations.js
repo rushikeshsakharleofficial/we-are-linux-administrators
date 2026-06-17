@@ -66,6 +66,66 @@ class TerminalTyper {
 }
 window.TerminalTyper = TerminalTyper;
 
+// ── Hero terminal typing animation
+(function () {
+  const body = document.getElementById('ht-body');
+  if (!body) return;
+  const lines = [
+    { type: 'cmd',     text: '/linux-admin:network can ping 8.8.8.8 but DNS fails' },
+    { type: 'cyan',    text: '[ READ-ONLY ] Collecting evidence before any changes...' },
+    { type: 'out',     text: 'Checking resolv.conf → nameserver 127.0.0.53 (systemd-resolved)' },
+    { type: 'out',     text: 'Testing DNS fallback → dig @8.8.8.8 google.com ... OK' },
+    { type: 'out',     text: 'Checking stub listener → ss -tlnp | grep 53 → not listening' },
+    { type: 'amber',   text: '✦ Root cause: systemd-resolved stub resolver not running' },
+    { type: 'success', text: '✓ Fix: systemctl enable --now systemd-resolved' },
+    { type: 'dim',     text: '# Class 2 — confirm before executing' },
+  ];
+  const clsMap = { out:'ht-out', dim:'ht-dim', success:'ht-success', cyan:'ht-cyan', amber:'ht-amber' };
+  function run() {
+    body.innerHTML = '';
+    let i = 0;
+    function next() {
+      if (i >= lines.length) { setTimeout(run, 4200); return; }
+      const l = lines[i];
+      if (l.type === 'cmd') {
+        const div = document.createElement('div');
+        div.className = 'ht-line';
+        const prompt = document.createElement('span');
+        prompt.className = 'ht-prompt'; prompt.textContent = '›';
+        const span = document.createElement('span');
+        span.className = 'ht-cmd';
+        const cur = document.createElement('span');
+        cur.className = 'ht-cur';
+        span.appendChild(cur);
+        div.appendChild(prompt); div.appendChild(span);
+        body.appendChild(div);
+        let j = 0;
+        (function tick() {
+          span.textContent = l.text.slice(0, j);
+          span.appendChild(cur);
+          if (j < l.text.length) { j++; setTimeout(tick, 26 + Math.random() * 12); }
+          else { cur.remove(); i++; setTimeout(next, 380); }
+        })();
+      } else {
+        const span = document.createElement('span');
+        span.className = clsMap[l.type] || 'ht-out';
+        span.textContent = l.text;
+        if (l.type === 'dim') {
+          const cur = document.createElement('span');
+          cur.className = 'ht-cur';
+          span.appendChild(cur);
+        }
+        body.appendChild(span);
+        i++;
+        setTimeout(next, l.type === 'cyan' ? 110 : 60);
+      }
+      body.scrollTop = body.scrollHeight;
+    }
+    next();
+  }
+  run();
+})();
+
 // ── Floating card animation
 document.querySelectorAll('.float-card').forEach((card, i) => {
   card.style.animation = `float-y ${3 + i * 0.4}s ease-in-out infinite`;
