@@ -14,7 +14,7 @@
       "name": "linux-admin",
       "source": "./",
       "skills": "./skills/",
-      "description": "Senior Linux admin and SRE workflow. 30+ expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, and automation.",
+      "description": "Senior Linux admin and SRE workflow. 98 expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, automation, and more.",
       "version": "1.17.2",
       "author": {
         "name": "Rushikesh Sakharle",

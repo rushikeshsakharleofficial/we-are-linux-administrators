@@ -1,0 +1,36 @@
+{
+  "name": "linux-admin",
+  "version": "1.17.2",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 98 expert skills",
+  "bin": {
+    "linux-admin": "./bin/linux-admin-install.js",
+    "linux-admin-install": "./bin/linux-admin-install.js"
+  },
+  "scripts": {
+    "install-plugin": "node bin/linux-admin-install.js"
+  },
+  "keywords": [
+    "claude-code",
+    "linux",
+    "sre",
+    "devops",
+    "plugin",
+    "admin",
+    "networking",
+    "storage",
+    "security"
+  ],
+  "author": {
+    "name": "Rushikesh Sakharle",
+    "url": "https://github.com/rushikeshsakharleofficial"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git"
+  },
+  "homepage": "https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/",
+  "engines": {
+    "node": ">=18"
+  }
+}
