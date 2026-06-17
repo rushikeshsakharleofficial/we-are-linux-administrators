@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 30+ skills covering boot, networking, storage, containers, kernel, auth, and more.">
+<meta property="og:title" content="linux-admin — SRE Intelligence for Claude Code">
+<meta property="og:description" content="Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, distro-aware commands, safety gates, 30+ skills.">
+<meta property="og:type" content="website">
+<title>linux-admin — SRE Intelligence for Claude Code</title>
+<style>
+  :root {
+    --bg-base: #000000;
+    --bg-surface: #080808;
+    --bg-elevated: #111111;
+    --bg-overlay: #1a1a1a;
+    --bg-hover: #1e1e1e;
+    --neon-green: #4ade80;
+    --neon-cyan: #22d3ee;
+    --neon-violet: #a78bfa;
+    --neon-pink: #f472b6;
+    --neon-amber: #fbbf24;
+    --neon-red: #f87171;
+    --glow-green: 0 0 20px rgba(74,222,128,0.3);
+    --glow-cyan: 0 0 20px rgba(34,211,238,0.3);
+    --glow-violet: 0 0 20px rgba(167,139,250,0.3);
+    --glass-bg: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.07);
+    --glass-border-hover: rgba(74,222,128,0.2);
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-muted: #52525b;
+    --border-subtle: rgba(255,255,255,0.05);
+    --border-default: rgba(255,255,255,0.08);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 max(24px, 5vw);
+    height: 60px;
+    background: rgba(0,0,0,0.85);
+    border-bottom: 1px solid var(--border-subtle);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .nav-logo .logo-prefix { color: var(--neon-green); }
+  .nav-logo .logo-sep { color: var(--text-muted); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--neon-green); }
+
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--neon-green);
+    border-radius: var(--radius-sm);
+    color: var(--neon-green) !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    transition: background 0.2s, box-shadow 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: rgba(74,222,128,0.08) !important;
+    box-shadow: var(--glow-green) !important;
+    color: var(--neon-green) !important;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px max(24px,5vw) 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74,222,128,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,222,128,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,222,128,0.06) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    color: var(--neon-green);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    box-shadow: 0 0 6px var(--neon-green);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .hero h1 .h1-prefix {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.55em;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .h1-main {
+    background: linear-gradient(135deg, var(--neon-green) 0%, #86efac 40%, var(--neon-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(74,222,128,0.3));
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--text-secondary);
+    max-width: 580px;
+    margin: 20px auto 40px;
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--neon-green);
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover {
+    background: #86efac;
+    box-shadow: var(--glow-green), 0 8px 30px rgba(74,222,128,0.25);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover {
+    color: var(--text-primary);
+    border-color: var(--border-default);
+    background: var(--glass-bg);
+    transform: translateY(-1px);
+  }
+
+  /* Terminal window */
+  .terminal-wrap {
+    margin-top: 60px;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+  }
+
+  .terminal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(74,222,128,0.05);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .term-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .term-dot.red { background: #ff5f57; }
+  .term-dot.yellow { background: #febc2e; }
+  .term-dot.green { background: #28c840; }
+
+  .term-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .terminal-body {
+    padding: 20px 24px;
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  .term-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .term-prompt { color: var(--neon-green); white-space: nowrap; }
+  .term-cmd { color: var(--text-primary); }
+  .term-out { color: var(--text-secondary); padding-left: 16px; }
+  .term-dim { color: var(--text-muted); padding-left: 16px; }
+  .term-success { color: var(--neon-green); padding-left: 16px; }
+  .term-cyan { color: var(--neon-cyan); }
+  .term-violet { color: var(--neon-violet); }
+  .term-amber { color: var(--neon-amber); }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--neon-green);
+    vertical-align: text-bottom;
+    animation: cursor-blink 1.1s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    padding: 20px max(24px,5vw);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: center;
+    gap: clamp(24px, 6vw, 80px);
+    flex-wrap: wrap;
+    background: var(--bg-surface);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .stat-num {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--neon-green);
+    letter-spacing: -0.02em;
+    filter: drop-shadow(0 0 10px rgba(74,222,128,0.4));
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION ── */
+  section {
+    padding: 80px max(24px,5vw);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  section.full-width {
+    max-width: 100%;
+    padding: 80px 0;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: var(--neon-green);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--neon-green);
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin-bottom: 48px;
+  }
+
+  /* ── FEATURE CARDS ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .feature-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(74,222,128,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .feature-card:hover {
+    border-color: var(--glass-border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .feature-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .feature-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* ── INSTALL ── */
+  .install-section {
+    background: var(--bg-surface);
+  }
+
+  .install-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .install-grid { grid-template-columns: 1fr; }
+  }
+
+  .install-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .install-card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .install-card-title {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    font-family: inherit;
+    letter-spacing: 0.05em;
+  }
+
+  .copy-btn:hover { color: var(--neon-green); background: rgba(74,222,128,0.08); }
+  .copy-btn.copied { color: var(--neon-green); }
+
+  .install-card-body {
+    padding: 20px;
+  }
+
+  .install-card-body pre {
+    font-size: 0.8rem;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .install-card-body pre .cmd-prefix { color: var(--neon-green); }
+  .install-card-body pre .cmd-comment { color: var(--text-muted); }
+  .install-card-body pre .cmd-highlight { color: var(--neon-cyan); }
+
+  /* ── SKILLS ── */
+  .skills-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 28px;
+    padding: 4px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    width: fit-content;
+  }
+
+  .tab-btn {
+    padding: 7px 16px;
+    background: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+
+  .tab-btn.active {
+    background: rgba(74,222,128,0.1);
+    color: var(--neon-green);
+    box-shadow: 0 0 0 1px rgba(74,222,128,0.2);
+  }
+
+  .tab-btn:hover:not(.active) { color: var(--text-secondary); }
+
+  .skills-panel { display: none; }
+  .skills-panel.active { display: block; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+
+  .skill-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .skill-card:hover {
+    border-color: rgba(74,222,128,0.2);
+    background: rgba(74,222,128,0.03);
+  }
+
+  .skill-tag {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    color: var(--neon-green);
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.15);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  .skill-name {
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .skill-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* ── SAFETY ── */
+  .safety-section { background: var(--bg-surface); }
+
+  .safety-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 800px) {
+    .safety-grid { grid-template-columns: 1fr; }
+  }
+
+  .safety-card {
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .safety-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .safety-card.class-ro {
+    background: rgba(74,222,128,0.04);
+    border-color: rgba(74,222,128,0.15);
+    color: var(--neon-green);
+  }
+
+  .safety-card.class-2 {
+    background: rgba(251,191,36,0.04);
+    border-color: rgba(251,191,36,0.15);
+    color: var(--neon-amber);
+  }
+
+  .safety-card.class-3 {
+    background: rgba(248,113,113,0.04);
+    border-color: rgba(248,113,113,0.15);
+    color: var(--neon-red);
+  }
+
+  .safety-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .safety-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+
+  .safety-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .safety-example {
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.3);
+    border-radius: var(--radius-sm);
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+
+  /* ── TRIAGE SCRIPTS ── */
+  .scripts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 32px;
+  }
+
+  .script-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    font-size: 0.78rem;
+    transition: all 0.2s;
+  }
+
+  .script-item:hover {
+    border-color: rgba(34,211,238,0.2);
+    background: rgba(34,211,238,0.03);
+  }
+
+  .script-item-icon {
+    color: var(--neon-cyan);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .script-item-name {
+    color: var(--neon-cyan);
+    font-family: monospace;
+  }
+
+  /* ── USAGE EXAMPLES ── */
+  .example-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .example-item {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+    transition: border-color 0.2s;
+  }
+
+  .example-item:hover { border-color: rgba(74,222,128,0.15); }
+
+  .example-prompt-label {
+    font-size: 0.68rem;
+    color: var(--neon-green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  .example-prompt-text {
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    font-family: monospace;
+  }
+
+  /* ── AGENTS SECTION ── */
+  .agents-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .agents-grid { grid-template-columns: 1fr; }
+  }
+
+  .agent-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all 0.2s;
+  }
+
+  .agent-card:hover { transform: translateY(-2px); border-color: rgba(167,139,250,0.2); }
+
+  .agent-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--neon-violet);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .agent-badge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    background: rgba(167,139,250,0.1);
+    border: 1px solid rgba(167,139,250,0.2);
+    border-radius: 100px;
+    color: var(--neon-violet);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .agent-file {
+    font-size: 0.73rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .agent-desc {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    padding: 48px max(24px,5vw);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 800px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .footer-inner { grid-template-columns: 1fr; }
+  }
+
+  .footer-brand .brand-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--neon-green);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-brand p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    max-width: 220px;
+    margin-bottom: 20px;
+  }
+
+  .footer-links h4 {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+
+  .footer-links ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .footer-links a:hover { color: var(--neon-green); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-bottom p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .footer-bottom a { color: var(--neon-green); text-decoration: none; }
+
+  /* ── BADGES ── */
+  .badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border: 1px solid;
+  }
+
+  .badge-green {
+    background: rgba(74,222,128,0.08);
+    border-color: rgba(74,222,128,0.2);
+    color: var(--neon-green);
+  }
+
+  .badge-cyan {
+    background: rgba(34,211,238,0.08);
+    border-color: rgba(34,211,238,0.2);
+    color: var(--neon-cyan);
+  }
+
+  .badge-violet {
+    background: rgba(167,139,250,0.08);
+    border-color: rgba(167,139,250,0.2);
+    color: var(--neon-violet);
+  }
+
+  /* ── SCROLL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .cursor { animation: none; opacity: 1; }
+    @keyframes pulse-glow { 0%, 100% { opacity: 0.6; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } }
+  }
+
+  /* ── SECTION BG ALTERNATION ── */
+  .bg-surface { background: var(--bg-surface); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(74,222,128,0.3); }
+
+  /* mobile nav */
+  .nav-mobile-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: block; }
+    .install-grid { grid-template-columns: 1fr; }
+    .skills-tabs { width: 100%; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="logo-prefix">/</span><span>linux-admin</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#install">Install</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#safety">Safety</a></li>
+    <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="nav-cta">★ GitHub</a></li>
+  </ul>
+  <button class="nav-mobile-toggle" onclick="toggleMobileNav(this)">☰</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-badge">Claude Code Plugin · MIT License</div>
+
+  <h1>
+    <span class="h1-prefix">$ claude plugin install</span>
+    <span class="h1-main">linux-admin</span>
+  </h1>
+
+  <p class="hero-sub">
+    Give Claude Code a senior Linux administrator and SRE mental model.
+    Read-only-first diagnostics, distro-aware command selection, and safety gates —
+    across 30+ specialized skills.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#install" class="btn-primary">
+      <span>→</span> Quick Install
+    </a>
+    <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="btn-ghost">
+      <span>★</span> View on GitHub
+    </a>
+  </div>
+
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="term-dot red"></span>
+        <span class="term-dot yellow"></span>
+        <span class="term-dot green"></span>
+        <span class="term-title">claude-code — linux-admin</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="term-line">
+          <span class="term-prompt">›</span>
+          <span class="term-cmd">/linux-admin:network can ping 8.8.8.8 but DNS fails</span>
+        </div>
+        <div class="term-line">
+          <span class="term-out term-cyan">[ READ-ONLY ] Collecting evidence before any changes...</span>
+        </div>
+        <div class="term-line">
+          <span class="term-out">Checking resolv.conf → nameserver 127.0.0.53 (systemd-resolved)</span>
+        </div>
+        <div class="term-line">
+          <span class="term-out">Testing DNS fallback → dig @8.8.8.8 google.com ... OK</span>
+        </div>
+        <div class="term-line">
+          <span class="term-out">Checking stub listener → ss -tlnp | grep 53 → not listening</span>
+        </div>
+        <div class="term-line">
+          <span class="term-out term-amber">✦ Root cause: systemd-resolved stub resolver not running</span>
+        </div>
+        <div class="term-line">
+          <span class="term-success">✓ Fix: systemctl enable --now systemd-resolved</span>
+        </div>
+        <div class="term-line">
+          <span class="term-dim"># Class 2 — confirm before executing<span class="cursor"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-num">30+</span>
+    <span class="stat-label">Skills</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">11</span>
+    <span class="stat-label">Triage Scripts</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">3</span>
+    <span class="stat-label">Agent Platforms</span>
+  </div>
+  <div class="stat">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Blind rm -rf</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-tag reveal">What it does</div>
+  <h2 class="section-title reveal reveal-delay-1">SRE intelligence, built into Claude Code</h2>
+  <p class="section-desc reveal reveal-delay-2">
+    Not a chatbot. A structured mental model — the way a seasoned Linux administrator thinks
+    when something breaks at 2 AM.
+  </p>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <span class="feature-icon">🔍</span>
+      <div class="feature-title">Read-only-first diagnostics</div>
+      <p class="feature-desc">Gathers evidence before touching anything. Follows the observe → hypothesize → verify → fix loop every senior SRE uses.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <span class="feature-icon">🐧</span>
+      <div class="feature-title">Distro-aware command selection</div>
+      <p class="feature-desc">Detects Ubuntu/Debian, RHEL/CentOS, Fedora, SUSE, Arch. Uses the right package manager, service manager, and file paths for each.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <span class="feature-icon">🛡️</span>
+      <div class="feature-title">Safety gates on destructive commands</div>
+      <p class="feature-desc">PreToolUse hook classifies every command. Class 3 (rm -rf, dd, mkfs) is blocked. Class 2 (systemctl stop, firewall changes) requires explicit confirmation.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <span class="feature-icon">🎯</span>
+      <div class="feature-title">Evidence-based root-cause analysis</div>
+      <p class="feature-desc">No guessing. Chases the actual error back through logs, service dependencies, kernel messages, and config files to find the true root cause.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">⚡</span>
+      <div class="feature-title">30+ task-specific skills</div>
+      <p class="feature-desc">Deep-dive expert modules for sysctl, systemd, nftables, fail2ban, LVM, kdump, SSSD, PAM, ACLs, and more. Each is a focused specialist.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <span class="feature-icon">🤖</span>
+      <div class="feature-title">Multi-agent platform support</div>
+      <p class="feature-desc">Claude Code native. Adapters for Codex (AGENTS.md) and Gemini (GEMINI.md) included. Works wherever your AI agent runs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install" class="bg-surface" style="max-width:100%; padding: 80px max(24px,5vw);">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-tag reveal">Get started</div>
+    <h2 class="section-title reveal reveal-delay-1">Install in 30 seconds</h2>
+    <p class="section-desc reveal reveal-delay-2">
+      Three ways to install — CLI, slash command, or local clone.
+      Then invoke any skill directly inside Claude Code.
+    </p>
+
+    <div class="install-grid">
+      <div class="install-card reveal">
+        <div class="install-card-header">
+          <span class="install-card-title">CLI — Recommended</span>
+          <button class="copy-btn" onclick="copyCode(this, 'cli-code')">copy</button>
+        </div>
+        <div class="install-card-body">
+          <pre id="cli-code"><span class="cmd-comment"># Add marketplace</span>
+<span class="cmd-prefix">$</span> claude plugin marketplace add <span class="cmd-highlight">rushikeshsakharleofficial/we-are-linux-administrators</span>
+
+<span class="cmd-comment"># Install plugin</span>
+<span class="cmd-prefix">$</span> claude plugin install <span class="cmd-highlight">linux-admin@we-are-linux-administrators</span></pre>
+        </div>
+      </div>
+
+      <div class="install-card reveal reveal-delay-1">
+        <div class="install-card-header">
+          <span class="install-card-title">Slash commands (inside Claude)</span>
+          <button class="copy-btn" onclick="copyCode(this, 'slash-code')">copy</button>
+        </div>
+        <div class="install-card-body">
+          <pre id="slash-code"><span class="cmd-comment"># Inside Claude Code session</span>
+<span class="cmd-prefix">›</span> /plugin marketplace add <span class="cmd-highlight">rushikeshsakharleofficial/we-are-linux-administrators</span>
+
+<span class="cmd-prefix">›</span> /plugin install <span class="cmd-highlight">linux-admin@we-are-linux-administrators</span></pre>
+        </div>
+      </div>
+
+      <div class="install-card reveal">
+        <div class="install-card-header">
+          <span class="install-card-title">Local clone</span>
+          <button class="copy-btn" onclick="copyCode(this, 'local-code')">copy</button>
+        </div>
+        <div class="install-card-body">
+          <pre id="local-code"><span class="cmd-prefix">$</span> git clone <span class="cmd-highlight">https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git</span>
+
+<span class="cmd-prefix">$</span> claude --plugin-dir ./we-are-linux-administrators</pre>
+        </div>
+      </div>
+
+      <div class="install-card reveal reveal-delay-1">
+        <div class="install-card-header">
+          <span class="install-card-title">Usage examples</span>
+        </div>
+        <div class="install-card-body">
+          <pre><span class="cmd-prefix">›</span> /linux-admin:diagnose nginx.service failed
+<span class="cmd-prefix">›</span> /linux-admin:storage /var is full but du &lt; df
+<span class="cmd-prefix">›</span> /linux-admin:firewall-expert nftables rule change
+<span class="cmd-prefix">›</span> /linux-admin:kernel panic after kernel update
+<span class="cmd-prefix">›</span> /linux-admin:auth SSH key auth stopped working</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-tag reveal">Capabilities</div>
+  <h2 class="section-title reveal reveal-delay-1">30+ specialized skills</h2>
+  <p class="section-desc reveal reveal-delay-2">
+    Core workflow skills for fast triage, deep expert modules for thorough investigations,
+    and standalone task files for non-Claude agents.
+  </p>
+
+  <div class="skills-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab(this, 'core')">Core</button>
+    <button class="tab-btn" onclick="switchTab(this, 'expert')">Expert</button>
+    <button class="tab-btn" onclick="switchTab(this, 'network')">Network & Firewall</button>
+    <button class="tab-btn" onclick="switchTab(this, 'security')">Security & Auth</button>
+  </div>
+
+  <div class="skills-panel active" id="panel-core">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-tag">diagnose</span>
+        <div><div class="skill-name">Main router</div><div class="skill-desc">General Linux issue triage — entry point for any problem</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">boot</span>
+        <div><div class="skill-name">Boot failures</div><div class="skill-desc">Emergency mode, initramfs, fstab, GRUB, dracut</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">service</span>
+        <div><div class="skill-name">systemd services</div><div class="skill-desc">Restart loops, daemon crashes, unit file debugging</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">network</span>
+        <div><div class="skill-name">Networking</div><div class="skill-desc">IP, routing, DNS, firewall, socket diagnostics</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">performance</span>
+        <div><div class="skill-name">Performance</div><div class="skill-desc">CPU, memory, OOM, load average, I/O latency</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">storage</span>
+        <div><div class="skill-name">Storage</div><div class="skill-desc">Disk full, inode full, LVM, RAID, SMART, filesystems</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">permissions</span>
+        <div><div class="skill-name">Permissions</div><div class="skill-desc">POSIX permissions, ACLs, SELinux, AppArmor</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">packages</span>
+        <div><div class="skill-name">Package management</div><div class="skill-desc">apt / dnf / rpm / zypper / pacman issues</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">kernel</span>
+        <div><div class="skill-name">Kernel</div><div class="skill-desc">Panic, lockup, kdump, call traces</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">containers</span>
+        <div><div class="skill-name">Containers</div><div class="skill-desc">Docker, Podman, rootless containers, mounts, ports</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">auth</span>
+        <div><div class="skill-name">Auth & access</div><div class="skill-desc">SSH, sudo, PAM, LDAP, SSSD, user access</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">logs</span>
+        <div><div class="skill-name">Logging</div><div class="skill-desc">journald, rsyslog, incident timeline construction</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag">automation</span>
+        <div><div class="skill-name">Automation</div><div class="skill-desc">Shell scripts, Ansible, fleet-wide triage</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skills-panel" id="panel-expert">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">sysctl-expert</div><div class="skill-desc">Kernel runtime parameter tuning, safe sysctl audit</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">systemd-expert</div><div class="skill-desc">Unit design, drop-ins, cgroups, hardening, restart loops</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">limits-expert</div><div class="skill-desc">ulimit, PAM limits, systemd Limit*, nofile/nproc sizing</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">kernel-expert</div><div class="skill-desc">Kernel panic triage, kdump readiness, call trace analysis</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">package-manager-expert</div><div class="skill-desc">Fix broken apt/dpkg/dnf transactions safely</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">cron-scheduler-expert</div><div class="skill-desc">Debug cron jobs that silently don't run</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">chrony-expert</div><div class="skill-desc">NTP drift, source quality auditing, clock skew</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">quota-expert</div><div class="skill-desc">User and project disk quota design and enforcement</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">disk-mounting-expert</div><div class="skill-desc">Validate fstab entries before reboot — no lockout risk</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">filesystem-expert</div><div class="skill-desc">Investigate df/du mismatches, deleted-but-open files</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">migration-expert</div><div class="skill-desc">Safe server and workload migration planning</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-violet);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.15)">expert</span>
+        <div><div class="skill-name">os-security-expert</div><div class="skill-desc">OS hardening, CIS benchmarks, audit findings</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skills-panel" id="panel-network">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">networking-expert</div><div class="skill-desc">Interfaces, routes, DNS, MTU, tc qdisc, ethtool, TCP evidence</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">firewall-expert</div><div class="skill-desc">firewalld, nftables, iptables, UFW, ipset, NAT — lockout-safe</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">tcp-expert</div><div class="skill-desc">Stateful TCP connection lifecycle, TIME_WAIT, retransmit storms</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">udp-expert</div><div class="skill-desc">Datagram loss, buffer sizing, fragmentation, NAT behavior</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">fail2ban-expert</div><div class="skill-desc">Jails, filters, actions, regex testing, false-positive prevention</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">dnsmasq-expert</div><div class="skill-desc">Local DNS/DHCP, split-horizon, override records</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">named-expert</div><div class="skill-desc">BIND9 configuration, zone files, DNSSEC</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-cyan);background:rgba(34,211,238,0.08);border-color:rgba(34,211,238,0.15)">net</span>
+        <div><div class="skill-name">cf-expert</div><div class="skill-desc">Cloudflare edge config, Workers, DNS, tunnel setup</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skills-panel" id="panel-security">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-pink);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.15)">sec</span>
+        <div><div class="skill-name">command-expert</div><div class="skill-desc">Review dangerous shell pipelines, find/rm, xargs risks</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-pink);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.15)">sec</span>
+        <div><div class="skill-name">user-permissions-expert</div><div class="skill-desc">Users, groups, sudoers, service accounts, secure offboarding</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-pink);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.15)">sec</span>
+        <div><div class="skill-name">file-permissions-expert</div><div class="skill-desc">POSIX modes, ownership, umask, safe recursive chmod/chown</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-pink);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.15)">sec</span>
+        <div><div class="skill-name">acl-permissions-expert</div><div class="skill-desc">POSIX ACLs, masks, default ACLs, getfacl/setfacl backup</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-pink);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.15)">sec</span>
+        <div><div class="skill-name">os-security-expert</div><div class="skill-desc">Hardening, CIS benchmarks, audit findings, secure baseline</div></div>
+      </div>
+      <div class="skill-card">
+        <span class="skill-tag" style="color:var(--neon-pink);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.15)">sec</span>
+        <div><div class="skill-name">auth</div><div class="skill-desc">SSH, sudo, PAM, LDAP, SSSD — authentication failure triage</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section id="safety" class="bg-surface" style="max-width:100%; padding:80px max(24px,5vw);">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-tag reveal">Safety policy</div>
+    <h2 class="section-title reveal reveal-delay-1">Three-class command safety gate</h2>
+    <p class="section-desc reveal reveal-delay-2">
+      A PreToolUse hook inspects every command before it executes. Commands are classified by blast radius
+      and handled accordingly — no surprises, no silent destruction.
+    </p>
+
+    <div class="safety-grid">
+      <div class="safety-card class-ro reveal">
+        <div class="safety-label">Class R/O</div>
+        <div class="safety-title">Read-only</div>
+        <p class="safety-desc">Diagnostic commands pass through instantly. Zero friction on gathering evidence.</p>
+        <div class="safety-example">cat, journalctl, ss, ip, df, du, systemctl status, ps, top, lsof, netstat</div>
+      </div>
+      <div class="safety-card class-2 reveal reveal-delay-1">
+        <div class="safety-label">Class 2</div>
+        <div class="safety-title">Confirm required</div>
+        <p class="safety-desc">Disruptive commands halt and display a clear warning. You confirm, then they run.</p>
+        <div class="safety-example">systemctl stop|restart, firewall-cmd --add-rule, iptables -A, sysctl -w</div>
+      </div>
+      <div class="safety-card class-3 reveal reveal-delay-2">
+        <div class="safety-label">Class 3</div>
+        <div class="safety-title">Blocked outright</div>
+        <p class="safety-desc">Destructive commands are denied entirely. The plugin explains why and suggests a safe alternative.</p>
+        <div class="safety-example">rm -rf /, dd if=/dev/zero, mkfs.*, shred, wipefs, drop database</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIAGE SCRIPTS -->
+<section id="scripts">
+  <div class="section-tag reveal">Bin scripts</div>
+  <h2 class="section-title reveal reveal-delay-1">11 triage scripts, added to PATH</h2>
+  <p class="section-desc reveal reveal-delay-2">
+    When the plugin is active, <code>bin/</code> is added to Claude Code's Bash PATH.
+    Run these to capture a structured snapshot before any diagnosis.
+  </p>
+
+  <div class="scripts-grid">
+    <div class="script-item reveal">
+      <span class="script-item-icon">⚡</span>
+      <span class="script-item-name">linux-triage</span>
+    </div>
+    <div class="script-item reveal reveal-delay-1">
+      <span class="script-item-icon">📋</span>
+      <span class="script-item-name">linux-log-classifier</span>
+    </div>
+    <div class="script-item reveal reveal-delay-2">
+      <span class="script-item-icon">🔧</span>
+      <span class="script-item-name">sysctl-expert-audit</span>
+    </div>
+    <div class="script-item reveal">
+      <span class="script-item-icon">🔧</span>
+      <span class="script-item-name">systemd-expert-audit</span>
+    </div>
+    <div class="script-item reveal reveal-delay-1">
+      <span class="script-item-icon">🔧</span>
+      <span class="script-item-name">limits-expert-audit</span>
+    </div>
+    <div class="script-item reveal reveal-delay-2">
+      <span class="script-item-icon">🌐</span>
+      <span class="script-item-name">networking-expert-audit</span>
+    </div>
+    <div class="script-item reveal">
+      <span class="script-item-icon">🛡️</span>
+      <span class="script-item-name">firewall-expert-audit</span>
+    </div>
+    <div class="script-item reveal reveal-delay-1">
+      <span class="script-item-icon">🚫</span>
+      <span class="script-item-name">fail2ban-expert-audit</span>
+    </div>
+    <div class="script-item reveal reveal-delay-2">
+      <span class="script-item-icon">⚠️</span>
+      <span class="script-item-name">command-expert-audit</span>
+    </div>
+    <div class="script-item reveal">
+      <span class="script-item-icon">👤</span>
+      <span class="script-item-name">user-permissions-expert-audit</span>
+    </div>
+    <div class="script-item reveal reveal-delay-1">
+      <span class="script-item-icon">📁</span>
+      <span class="script-item-name">file-permissions-expert-audit</span>
+    </div>
+  </div>
+</section>
+
+<!-- USAGE EXAMPLES -->
+<section class="bg-surface" id="usage" style="max-width:100%; padding:80px max(24px,5vw);">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-tag reveal">In practice</div>
+    <h2 class="section-title reveal reveal-delay-1">How to use it</h2>
+    <p class="section-desc reveal reveal-delay-2">
+      Describe the problem in plain English. The right expert skill handles the rest.
+    </p>
+
+    <div class="example-list">
+      <div class="example-item reveal">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:diagnose <span style="color:var(--neon-green)">nginx.service failed after config change</span></span>
+      </div>
+      <div class="example-item reveal reveal-delay-1">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:network <span style="color:var(--neon-green)">can ping 8.8.8.8 but DNS fails</span></span>
+      </div>
+      <div class="example-item reveal reveal-delay-2">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:storage <span style="color:var(--neon-green)">/var is full but du does not match df</span></span>
+      </div>
+      <div class="example-item reveal">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:firewall-expert <span style="color:var(--neon-green)">lockout-safe nftables rule to block country IP ranges</span></span>
+      </div>
+      <div class="example-item reveal reveal-delay-1">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:kernel <span style="color:var(--neon-green)">kernel panic on boot after upgrading to 6.8</span></span>
+      </div>
+      <div class="example-item reveal reveal-delay-2">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:auth <span style="color:var(--neon-green)">SSH key auth stopped working for one user only</span></span>
+      </div>
+      <div class="example-item reveal">
+        <span class="example-prompt-label">›</span>
+        <span class="example-prompt-text">/linux-admin:command-expert <span style="color:var(--neon-green)">review this find/rm pipeline before I run it</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MULTI-AGENT -->
+<section id="agents">
+  <div class="section-tag reveal">Multi-agent</div>
+  <h2 class="section-title reveal reveal-delay-1">Works across AI agent platforms</h2>
+  <p class="section-desc reveal reveal-delay-2">
+    Native Claude Code plugin. Adapter files included for Codex and Gemini.
+    Standalone task files work with any agent that can read a file.
+  </p>
+
+  <div class="agents-grid">
+    <div class="agent-card reveal">
+      <div class="agent-name">
+        Claude Code
+        <span class="agent-badge">Native</span>
+      </div>
+      <div class="agent-file">.claude-plugin/plugin.json</div>
+      <p class="agent-desc">Full plugin integration — skills, hooks, bin scripts, marketplace install. All 30+ skills available as slash commands.</p>
+    </div>
+    <div class="agent-card reveal reveal-delay-1">
+      <div class="agent-name">
+        Codex / OpenAI
+        <span class="agent-badge">Adapter</span>
+      </div>
+      <div class="agent-file">codex/AGENTS.md</div>
+      <p class="agent-desc">Prompt adapter that loads the linux-admin mental model into Codex sessions. Same diagnostic rigor, different runtime.</p>
+    </div>
+    <div class="agent-card reveal reveal-delay-2">
+      <div class="agent-name">
+        Gemini CLI
+        <span class="agent-badge">Adapter</span>
+      </div>
+      <div class="agent-file">gemini/GEMINI.md</div>
+      <p class="agent-desc">Gemini-specific adapter. Standalone task files in docs/tasks/ work for any agent that can ingest markdown context.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-name">/ linux-admin</div>
+      <p>Senior Linux administrator and SRE workflow as a Claude Code plugin. Built for engineers who need AI that actually knows Linux.</p>
+      <div class="badges">
+        <span class="badge badge-green">MIT License</span>
+        <span class="badge badge-cyan">Claude Code</span>
+        <span class="badge badge-violet">30+ Skills</span>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h4>Install</h4>
+      <ul>
+        <li><a href="#install">Quick Start</a></li>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub Repo</a></li>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">Usage Guide</a></li>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h4>Skills</h4>
+      <ul>
+        <li><a href="#skills">Core Skills</a></li>
+        <li><a href="#skills">Expert Modules</a></li>
+        <li><a href="#scripts">Triage Scripts</a></li>
+        <li><a href="#safety">Safety Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h4>Docs</h4>
+      <ul>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/EXPERT_MODULE_INDEX.md" target="_blank" rel="noopener">Expert Index</a></li>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/docs/core" target="_blank" rel="noopener">Core Principles</a></li>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/codex/AGENTS.md" target="_blank" rel="noopener">Codex Adapter</a></li>
+        <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/gemini/GEMINI.md" target="_blank" rel="noopener">Gemini Adapter</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Built with care by <a href="https://github.com/rushikeshsakharleofficial" target="_blank" rel="noopener">Rushikesh Sakharle</a></p>
+    <p>MIT License · <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">rushikeshsakharleofficial/we-are-linux-administrators</a></p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Mouse glow on feature cards
+  document.querySelectorAll('.feature-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+  });
+
+  // Tabs
+  function switchTab(btn, panel) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.skills-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + panel).classList.add('active');
+  }
+
+  // Copy code
+  function copyCode(btn, id) {
+    const el = document.getElementById(id);
+    const text = el ? el.innerText : '';
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      btn.textContent = 'failed';
+      setTimeout(() => { btn.textContent = 'copy'; }, 2000);
+    });
+  }
+
+  // Mobile nav
+  function toggleMobileNav(btn) {
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') {
+      links.style.display = 'none';
+      btn.textContent = '☰';
+    } else {
+      links.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:rgba(0,0,0,0.97);border-bottom:1px solid rgba(255,255,255,0.05);padding:16px max(24px,5vw);gap:16px;';
+      btn.textContent = '✕';
+    }
+  }
+
+  // Typing animation in terminal
+  const lines = [
+    { type: 'cmd', prefix: '›', text: '/linux-admin:storage /var full but du &lt; df' },
+    { type: 'out', text: '[ READ-ONLY ] Investigating filesystem anomaly...' },
+    { type: 'out', text: 'df -h /var → Used: 99% (38G/40G)' },
+    { type: 'out', text: 'du -sh /var → 24G ← 14G missing' },
+    { type: 'out', text: 'Checking deleted-but-open files → lsof +L1 /var' },
+    { type: 'amber', text: '✦ Root cause: /var/log/app.log deleted but still open by pid 4821' },
+    { type: 'success', text: '✓ Fix: kill 4821 (or HUP log daemon) to release 14G' },
+  ];
+
+  let lineIdx = 0, charIdx = 0, phase = 'type';
+  const body = document.getElementById('terminal-body');
+
+  function nextLine() {
+    if (lineIdx >= lines.length) {
+      setTimeout(() => {
+        body.innerHTML = '';
+        lineIdx = 0;
+        charIdx = 0;
+        phase = 'type';
+        tick();
+      }, 3500);
+      return;
+    }
+
+    const l = lines[lineIdx];
+    const div = document.createElement('div');
+    div.className = 'term-line';
+
+    if (l.type === 'cmd') {
+      div.innerHTML = `<span class="term-prompt">›</span><span class="term-cmd"></span>`;
+    } else if (l.type === 'amber') {
+      div.innerHTML = `<span class="term-out term-amber"></span>`;
+    } else if (l.type === 'success') {
+      div.innerHTML = `<span class="term-success"></span>`;
+    } else {
+      div.innerHTML = `<span class="term-out${l.text.startsWith('[') ? ' term-cyan' : ''}"></span>`;
+    }
+
+    // Remove old cursor
+    const oldCursor = body.querySelector('.cursor');
+    if (oldCursor) oldCursor.remove();
+
+    body.appendChild(div);
+    const target = div.querySelector('span:last-child');
+
+    let i = 0;
+    const speed = l.type === 'cmd' ? 35 : 12;
+
+    function typeChar() {
+      if (i < l.text.length) {
+        target.innerHTML = l.text.slice(0, i + 1) + (l.type === 'cmd' ? '<span class="cursor"></span>' : '');
+        i++;
+        setTimeout(typeChar, speed + (Math.random() * speed * 0.4));
+      } else {
+        const cur = target.querySelector('.cursor');
+        if (cur) cur.remove();
+        lineIdx++;
+        setTimeout(nextLine, l.type === 'cmd' ? 400 : 60);
+      }
+    }
+    typeChar();
+  }
+
+  // Start typing animation after a short delay
+  setTimeout(() => {
+    body.innerHTML = '';
+    nextLine();
+  }, 1500);
+</script>
+
+</body>
+</html>
