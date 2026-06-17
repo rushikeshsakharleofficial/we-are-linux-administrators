@@ -52,7 +52,7 @@
   <div class="container page-hero-content">
     <span class="section-eyebrow">Get started</span>
     <h1 class="page-hero-title">Install in 30 seconds</h1>
-    <p class="page-hero-desc">Three ways to install the linux-admin plugin. Choose the method that fits your workflow. The CLI marketplace method is recommended for most users.</p>
+    <p class="page-hero-desc">Four ways to install the linux-admin plugin. The npx one-liner is the fastest — it detects Claude Code and runs the install automatically.</p>
   </div>
 </div>
 
@@ -61,8 +61,32 @@
   <div class="container">
     <div class="section-header">
       <span class="section-eyebrow">Methods</span>
-      <h2 class="section-title">Three install methods</h2>
-      <p class="section-desc">All three methods produce the same result — pick whichever fits your workflow.</p>
+      <h2 class="section-title">Four install methods</h2>
+      <p class="section-desc">All four methods produce the same result — pick whichever fits your workflow.</p>
+    </div>
+
+    <!-- Method 0: npx (GitHub Release) — full width -->
+    <div class="card reveal" style="margin-bottom:18px;border-color:rgba(167,139,250,0.3);border-top:2px solid var(--accent-purple);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+        <div>
+          <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-purple);margin-bottom:4px;">npx — GitHub Release</div>
+          <div class="card-body">One command. Detects Claude Code, adds marketplace, installs plugin. Requires Node.js 18+.</div>
+        </div>
+        <span class="badge" style="flex-shrink:0;background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.3);color:var(--accent-purple);">Fastest</span>
+      </div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="tdot tdot-r"></span>
+          <span class="tdot tdot-y"></span>
+          <span class="tdot tdot-g"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <div class="terminal-body" style="position:relative;">
+          <button class="copy-btn" aria-label="Copy npx install command">copy</button>
+          <div class="tl"><span class="tp">$</span><span class="tc" style="color:var(--accent-cyan);"> npx github:rushikeshsakharleofficial/we-are-linux-administrators</span></div>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);">Release: <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/releases/tag/v1.17.2" target="_blank" rel="noopener" style="color:var(--accent-purple);">v1.17.2</a></p>
     </div>
 
     <div class="grid grid-3">

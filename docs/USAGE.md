@@ -33,7 +33,13 @@ The plugin will never flush a firewall, rebuild initramfs, or `chmod -R 777` as 
 
 ## Install
 
-**Via Claude Code marketplace (recommended):**
+**One-line npx installer (GitHub Release v1.17.2):**
+
+```bash
+npx github:rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**Via Claude Code marketplace:**
 
 ```bash
 claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators

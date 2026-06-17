@@ -24,7 +24,13 @@ A Claude Code plugin that gives Claude Code a senior Linux administrator and SRE
 
 ## Quick Start
 
-**CLI marketplace (recommended):**
+**One-line npx installer (GitHub Release):**
+
+```bash
+npx github:rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**CLI marketplace:**
 
 ```bash
 claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
@@ -50,6 +56,8 @@ claude --plugin-dir ./we-are-linux-administrators
 ```text
 /reload-plugins
 ```
+
+> Latest release: [v1.17.2](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/releases/tag/v1.17.2)
 
 ---
 
