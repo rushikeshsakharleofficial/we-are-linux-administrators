@@ -104,7 +104,7 @@
   }
   .hero-sub {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
-    color: var(--text-secondary);
+    color: var(--text-body);
     max-width: 600px;
     margin: 20px auto 40px;
     line-height: 1.75;
@@ -126,7 +126,7 @@
   }
   .hero-terminal {
     background: var(--bg-secondary);
-    border: 1px solid var(--border-default);
+    border: 1px solid var(--border-medium);
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,222,128,0.04);
@@ -137,7 +137,7 @@
     gap: 6px;
     padding: 12px 18px;
     background: var(--bg-card);
-    border-bottom: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-soft);
   }
   .ht-dot { width: 12px; height: 12px; border-radius: 50%; }
   .ht-dot.red { background: #ff5f57; }
@@ -155,7 +155,7 @@
   .ht-line { display:flex; align-items:flex-start; gap:8px; }
   .ht-prompt { color:var(--accent-green); flex-shrink:0; }
   .ht-cmd { color:var(--text-primary); }
-  .ht-out { color:var(--text-secondary); padding-left:16px; display:block; }
+  .ht-out { color:var(--text-body); padding-left:16px; display:block; }
   .ht-success { color:var(--accent-green); padding-left:16px; display:block; }
   .ht-cyan { color:var(--accent-cyan); padding-left:16px; display:block; }
   .ht-amber { color:#fbbf24; padding-left:16px; display:block; }
@@ -170,8 +170,8 @@
     gap:clamp(24px,6vw,80px);
     flex-wrap:wrap;
     padding:28px max(24px,5vw);
-    border-top:1px solid var(--border-subtle);
-    border-bottom:1px solid var(--border-subtle);
+    border-top:1px solid var(--border-soft);
+    border-bottom:1px solid var(--border-soft);
     background:var(--bg-secondary);
   }
   .stat-item { display:flex; flex-direction:column; align-items:center; gap:2px; }
@@ -209,7 +209,7 @@
   .safety-card.c3 { background:rgba(248,113,113,.04); border-color:rgba(248,113,113,.15); color:#f87171; }
   .safety-label { font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:6px; opacity:.8; font-family:var(--font-mono); }
   .safety-title { font-size:1rem; font-weight:700; margin-bottom:8px; color:var(--text-primary); }
-  .safety-desc { font-size:.8rem; color:var(--text-secondary); line-height:1.65; }
+  .safety-desc { font-size:.8rem; color:var(--text-body); line-height:1.65; }
   .safety-examples { margin-top:12px; padding:10px 14px; background:rgba(0,0,0,.3); border-radius:var(--radius-sm); font-size:.73rem; color:var(--text-muted); font-family:var(--font-mono); }
 
   /* Deep dives grid */
@@ -217,7 +217,7 @@
   .dive-card {
     padding:18px 20px;
     background:var(--bg-card);
-    border:1px solid var(--border-default);
+    border:1px solid var(--border-medium);
     border-radius:var(--radius-md);
     text-decoration:none;
     transition:all .2s;
@@ -253,7 +253,7 @@
     display:flex; align-items:flex-start; gap:12px;
     padding:14px 16px;
     background:var(--bg-card);
-    border:1px solid var(--border-default);
+    border:1px solid var(--border-medium);
     border-radius:var(--radius-md);
     transition:all .2s;
   }
@@ -363,22 +363,22 @@
 </div>
 
 <!-- STATS -->
-<div class="stats-strip" role="region" aria-label="Key statistics">
+<div class="stat-strip" role="region" aria-label="Key statistics">
   <div class="stat-item">
-    <span class="stat-val" data-count="30" data-suffix="+">30+</span>
-    <span class="stat-lbl">Skills</span>
+    <span class="stat-num" data-count="30" data-suffix="+">30+</span>
+    <span class="stat-label">Skills</span>
   </div>
   <div class="stat-item">
-    <span class="stat-val" data-count="11">11</span>
-    <span class="stat-lbl">Triage Scripts</span>
+    <span class="stat-num" data-count="11">11</span>
+    <span class="stat-label">Triage Scripts</span>
   </div>
   <div class="stat-item">
-    <span class="stat-val" data-count="3">3</span>
-    <span class="stat-lbl">Agent Platforms</span>
+    <span class="stat-num" data-count="3">3</span>
+    <span class="stat-label">Agent Platforms</span>
   </div>
   <div class="stat-item">
-    <span class="stat-val">0</span>
-    <span class="stat-lbl">Blind rm -rf</span>
+    <span class="stat-num">0</span>
+    <span class="stat-label">Blind rm -rf</span>
   </div>
 </div>
 
@@ -390,34 +390,34 @@
 
   <div class="features-grid">
     <div class="feature-card reveal">
-      <div class="feature-card-icon">🔍</div>
-      <div class="feature-card-title">Read-only-first diagnostics</div>
-      <p class="feature-card-desc">Gathers evidence before touching anything. Follows the observe → hypothesize → verify → fix loop every senior SRE uses.</p>
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Read-only-first diagnostics</div>
+      <p class="card-body">Gathers evidence before touching anything. Follows the observe → hypothesize → verify → fix loop every senior SRE uses.</p>
     </div>
     <div class="feature-card reveal">
-      <div class="feature-card-icon">🐧</div>
-      <div class="feature-card-title">Distro-aware command selection</div>
-      <p class="feature-card-desc">Detects Ubuntu/Debian, RHEL/CentOS, Fedora, SUSE, Arch. Uses the right package manager, service manager, and file paths for each.</p>
+      <div class="card-icon">🐧</div>
+      <div class="card-title">Distro-aware command selection</div>
+      <p class="card-body">Detects Ubuntu/Debian, RHEL/CentOS, Fedora, SUSE, Arch. Uses the right package manager, service manager, and file paths for each.</p>
     </div>
     <div class="feature-card reveal">
-      <div class="feature-card-icon">🛡️</div>
-      <div class="feature-card-title">Safety gates on destructive commands</div>
-      <p class="feature-card-desc">PreToolUse hook classifies every command. Class 3 (rm -rf, dd, mkfs) is blocked. Class 2 (systemctl stop, firewall changes) requires explicit confirmation.</p>
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Safety gates on destructive commands</div>
+      <p class="card-body">PreToolUse hook classifies every command. Class 3 (rm -rf, dd, mkfs) is blocked. Class 2 (systemctl stop, firewall changes) requires explicit confirmation.</p>
     </div>
     <div class="feature-card reveal">
-      <div class="feature-card-icon">🎯</div>
-      <div class="feature-card-title">Evidence-based root-cause analysis</div>
-      <p class="feature-card-desc">No guessing. Chases the actual error back through logs, service dependencies, kernel messages, and config files to find the true root cause.</p>
+      <div class="card-icon">🎯</div>
+      <div class="card-title">Evidence-based root-cause analysis</div>
+      <p class="card-body">No guessing. Chases the actual error back through logs, service dependencies, kernel messages, and config files to find the true root cause.</p>
     </div>
     <div class="feature-card reveal">
-      <div class="feature-card-icon">⚡</div>
-      <div class="feature-card-title">30+ task-specific skills</div>
-      <p class="feature-card-desc">Deep-dive expert modules for sysctl, systemd, nftables, fail2ban, LVM, kdump, SSSD, PAM, ACLs, and more. Each is a focused specialist.</p>
+      <div class="card-icon">⚡</div>
+      <div class="card-title">30+ task-specific skills</div>
+      <p class="card-body">Deep-dive expert modules for sysctl, systemd, nftables, fail2ban, LVM, kdump, SSSD, PAM, ACLs, and more. Each is a focused specialist.</p>
     </div>
     <div class="feature-card reveal">
-      <div class="feature-card-icon">🤖</div>
-      <div class="feature-card-title">Multi-agent platform support</div>
-      <p class="feature-card-desc">Claude Code native. Adapters for Codex (AGENTS.md) and Gemini (GEMINI.md) included. Works wherever your AI agent runs.</p>
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Multi-agent platform support</div>
+      <p class="card-body">Claude Code native. Adapters for Codex (AGENTS.md) and Gemini (GEMINI.md) included. Works wherever your AI agent runs.</p>
     </div>
   </div>
 </section>
@@ -575,9 +575,9 @@
 
   <div class="terminal" style="max-width:640px;margin:0 auto 32px;text-align:left;" role="region" aria-label="Install command">
     <div class="terminal-bar">
-      <span class="tb-dot red"></span>
-      <span class="tb-dot yellow"></span>
-      <span class="tb-dot green"></span>
+      <span class="tdot tdot-r"></span>
+      <span class="tdot tdot-y"></span>
+      <span class="tdot tdot-g"></span>
       <span class="terminal-title">bash</span>
     </div>
     <div class="terminal-body">

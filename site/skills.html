@@ -82,16 +82,16 @@
 
     <!-- Filter tabs -->
     <div class="filter-tabs" id="filter-tabs" role="tablist" aria-label="Skill categories">
-      <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
-      <button class="filter-tab" data-filter="core" role="tab" aria-selected="false">Core Linux</button>
-      <button class="filter-tab" data-filter="system" role="tab" aria-selected="false">System &amp; Runtime</button>
-      <button class="filter-tab" data-filter="network" role="tab" aria-selected="false">Networking</button>
-      <button class="filter-tab" data-filter="storage" role="tab" aria-selected="false">Storage</button>
-      <button class="filter-tab" data-filter="permissions" role="tab" aria-selected="false">Permissions</button>
-      <button class="filter-tab" data-filter="packages" role="tab" aria-selected="false">Packages</button>
-      <button class="filter-tab" data-filter="migration" role="tab" aria-selected="false">Migration</button>
-      <button class="filter-tab" data-filter="dns" role="tab" aria-selected="false">DNS &amp; Cloud</button>
-      <button class="filter-tab" data-filter="security" role="tab" aria-selected="false">Security</button>
+      <button class="filter-tab active" data-cat="all" role="tab" aria-selected="true">All</button>
+      <button class="filter-tab" data-cat="core" role="tab" aria-selected="false">Core Linux</button>
+      <button class="filter-tab" data-cat="system" role="tab" aria-selected="false">System &amp; Runtime</button>
+      <button class="filter-tab" data-cat="network" role="tab" aria-selected="false">Networking</button>
+      <button class="filter-tab" data-cat="storage" role="tab" aria-selected="false">Storage</button>
+      <button class="filter-tab" data-cat="permissions" role="tab" aria-selected="false">Permissions</button>
+      <button class="filter-tab" data-cat="packages" role="tab" aria-selected="false">Packages</button>
+      <button class="filter-tab" data-cat="migration" role="tab" aria-selected="false">Migration</button>
+      <button class="filter-tab" data-cat="dns" role="tab" aria-selected="false">DNS &amp; Cloud</button>
+      <button class="filter-tab" data-cat="security" role="tab" aria-selected="false">Security</button>
     </div>
 
     <!-- Skills grid -->
@@ -545,7 +545,7 @@
 
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      var filter = this.getAttribute('data-filter');
+      var filter = this.getAttribute('data-cat');
 
       // Update tab state
       tabs.forEach(function (t) {
