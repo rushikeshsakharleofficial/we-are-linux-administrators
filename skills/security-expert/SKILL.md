@@ -3,6 +3,7 @@ name: security-expert
 description: Defensive Linux security validation expert for authorized servers. Uses an incident-driven model to review exposure, identity, privilege, kernel/sysctl, systemd sandboxing, limits, logging, patch posture, supply-chain risk, and ransomware recovery readiness. Plans safe dummy simulations, classifies failed controls, and routes fixes to the right expert skill.
 argument-hint: "[audit|dummy-tests|validate|fix-plan|report|score] [owned server scope]"
 effort: high
+updated: "2026-06-18"
 allowed-tools: "Read Grep Glob Bash"
 ---
 
