@@ -1,5 +1,7 @@
 {
   "id": "2026-06-18-load-balancer-release-1.17.17",
+  "type": "plugin-release",
+  "showPopup": true,
   "version": "1.17.17",
   "date": "2026-06-18",
   "title": "New load balancer expert skills are live",
@@ -7,7 +9,7 @@
   "highlights": [
     "New /linux-admin:load-balancer-expert router recommends the best load balancer for your request.",
     "Added specialist skills for NGINX proxy, F5, LVS/IPVS, keepalived, DNS/GSLB, and cloud load balancers.",
-    "NPM package metadata and GitHub release notes are aligned to 1.17.17 with 106 expert skills."
+    "Plugin package metadata is aligned to 1.17.17 with 106 expert skills."
   ],
   "commands": {
     "claudeCode": [
@@ -19,15 +21,5 @@
       "git pull origin main",
       "npm install -g linux-admin@latest"
     ]
-  },
-  "links": [
-    {
-      "label": "Release notes",
-      "href": "../RELEASE.md"
-    },
-    {
-      "label": "Load balancer docs",
-      "href": "../docs/load-balancer-expert/load-balancer-research.md"
-    }
-  ]
+  }
 }
