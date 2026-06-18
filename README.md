@@ -7,8 +7,8 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.9-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-99-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
+[![Version](https://img.shields.io/badge/version-1.17.16-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Skills](https://img.shields.io/badge/skills-106-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
 
@@ -18,41 +18,30 @@
 
 `linux-admin` is a Claude Code plugin that gives Claude Code a senior Linux administrator and SRE operating model: read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates for risky shell commands.
 
-Current plugin metadata version: **1.17.9**  
-Current skill count: **99 task-specific skills**
+Current plugin metadata version: **1.17.16**  
+Current skill count: **106 task-specific skills**
 
-The project covers boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes nodes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, SSH hardening, tcpdump, Ansible, patching, SELinux, AppArmor, capacity planning, operational safety, and defensive Linux security validation.
+The project covers boot, networking, storage, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
 
 ---
 
 ## Quick Start
 
-**One-line npx installer:**
-
 ```bash
 npx github:rushikeshsakharleofficial/we-are-linux-administrators
 ```
-
-**Claude Code marketplace:**
 
 ```bash
 claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
 claude plugin install linux-admin@we-are-linux-administrators
 ```
 
-**Inside Claude Code:**
+Inside Claude Code:
 
 ```text
 /plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
 /plugin install linux-admin@we-are-linux-administrators
 /reload-plugins
-```
-
-**Local clone:**
-
-```bash
-git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
-claude --plugin-dir ./we-are-linux-administrators
 ```
 
 ---
@@ -77,7 +66,24 @@ claude --plugin-dir ./we-are-linux-administrators
 
 ---
 
-## Expert skill groups
+## Load balancer skill family
+
+| Skill | Use |
+|---|---|
+| `/linux-admin:load-balancer-expert` | Main router and recommender. Classifies the request and suggests the best-fit load balancer before routing to a specialist. |
+| `/linux-admin:haproxy-expert` | HAProxy frontend/backend, ACL, health check, TLS, stickiness, and safe reload work. |
+| `/linux-admin:nginx-proxy-expert` | NGINX reverse proxy and load balancing: upstreams, 502/503/504, TLS/SNI, headers, WebSocket/gRPC. |
+| `/linux-admin:f5-expert` | F5 BIG-IP style virtual servers, pools, monitors, profiles, SNAT, persistence, and HA failover. |
+| `/linux-admin:lvs-ipvs-expert` | Linux LVS/IPVS, ipvsadm, ldirectord, NAT/DR/TUN modes, schedulers, persistence, ARP/DSR. |
+| `/linux-admin:keepalived-expert` | keepalived VRRP, VIP ownership, health scripts, failover, split-brain, and IPVS integration. |
+| `/linux-admin:dns-gslb-expert` | DNS/GSLB, weighted/geo/latency routing, TTL behavior, multi-region failover, MX balancing. |
+| `/linux-admin:cloud-lb-expert` | AWS/Azure/GCP managed load balancers, target health, listeners, TLS, source IP, logs, and safe cloud cutovers. |
+
+The main router recommends one primary option and one backup option using protocol, layer, deployment type, traffic volume, HA target, TLS strategy, source IP needs, persistence, budget, team skill, observability, and security requirements.
+
+---
+
+## Other expert skill groups
 
 ### Networking & firewall
 
@@ -91,75 +97,21 @@ claude --plugin-dir ./we-are-linux-administrators
 
 `kernel-expert`, `sysctl-expert`, `memory-expert`, `swap-expert`, `cpu-expert`, `io-wait-expert`, `load-average-expert`, `process-expert`, `capacity-planning-expert`
 
-### Containers & orchestration
-
-`docker-expert`, `podman-expert`, `kubernetes-node-expert`
-
 ### Databases, middleware & web
 
 `mysql-expert`, `postgresql-expert`, `redis-expert`, `nginx-expert`, `apache-expert`, `haproxy-expert`, `php-fpm-expert`, `samba-expert`
 
 ### Auth & security
 
-| Skill | Use |
-|---|---|
-| `/linux-admin:security-expert` | Defensive Linux security validation for owned servers. Uses an incident-driven model, safe dummy tests, scoring, and routing to specialist fix skills. |
-| `/linux-admin:os-security-expert` | Linux OS hardening review across SSH, sudo, MAC, auditd, and sysctl |
-| `/linux-admin:ssh-hardening-expert` | SSH config hardening, key auth, ciphers, lockout-safe reloads |
-| `/linux-admin:auditd-expert` | auditd rule design, compliance evidence, file/syscall watches |
-| `/linux-admin:selinux-expert` | SELinux AVC denials, policy modules, contexts, booleans |
-| `/linux-admin:apparmor-expert` | AppArmor profiles, enforcement, audit mode, safe rule design |
-| `/linux-admin:pam-expert` | PAM stack, module order, auth/account/session/password chains |
-| `/linux-admin:sssd-ldap-expert` | SSSD, LDAP, Kerberos, AD joins, ID mapping, cache |
-| `/linux-admin:user-permissions-expert` | Users, groups, sudoers, service accounts, offboarding |
-| `/linux-admin:file-permissions-expert` | POSIX modes, ownership, umask, safe recursive chmod/chown |
-| `/linux-admin:acl-permissions-expert` | POSIX ACLs, masks, default ACLs, getfacl/setfacl backup |
-| `/linux-admin:sudoers-expert` | sudoers rules, NOPASSWD, Defaults, safe privilege delegation |
-| `/linux-admin:vulnerability-scan-expert` | CVE triage, scan evidence prioritization, remediation planning |
-
-### Time, logging & DNS
-
-`chrony-expert`, `date-timectl-expert`, `ntp-expert`, `rsyslog-expert`, `named-expert`, `dnsmasq-expert`, `cf-expert`, `grep-expert`
+`security-expert`, `os-security-expert`, `ssh-hardening-expert`, `auditd-expert`, `selinux-expert`, `apparmor-expert`, `pam-expert`, `sssd-ldap-expert`, `user-permissions-expert`, `file-permissions-expert`, `acl-permissions-expert`, `sudoers-expert`, `vulnerability-scan-expert`
 
 ### Automation & operations
 
 `ansible-expert`, `patching-expert`, `cron-scheduler-expert`, `systemd-expert`, `limits-expert`, `migration-expert`, `incident-response-expert`, `runbook-expert`, `bash-script-expert`, `shell-script-expert`, `command-expert`
 
-### Operational workflow
-
-`change-plan-expert`, `preflight-check-expert`, `risk-assessment-expert`, `production-safety-expert`, `maintenance-window-expert`, `post-change-validation-expert`, `rollback-expert`, `root-cause-expert`, `incident-timeline-expert`
-
-### Shell & config
-
-`bashrc-expert`, `zshrc-expert`, `package-manager-expert`
-
 ---
 
-## Security expert
-
-The new `/linux-admin:security-expert` skill is defensive-only and designed for authorized Linux servers.
-
-It reviews security through an attacker lifecycle instead of only a generic checklist:
-
-1. Initial access
-2. Execution
-3. Persistence
-4. Privilege escalation
-5. Defense evasion and impairment
-6. Credential access
-7. Discovery
-8. Lateral movement
-9. Collection
-10. Exfiltration
-11. Impact and recovery
-
-It also includes a 100-point evidence-based score model covering attack surface, SSH/auth, firewall/network, patch posture, sudo/privilege boundaries, systemd hardening, sysctl hardening, resource controls, SELinux/AppArmor, logging/detection, and backup/ransomware recovery readiness.
-
-The skill refuses third-party targets, stealth, malware, exploit chains, credential theft, high-rate guessing, and disruptive testing without a controlled maintenance plan.
-
----
-
-## Privacy and security feedback
+## Security and privacy
 
 The project does **not** automatically collect server data, create GitHub issues, open pull requests, post comments, or submit reports from a user's machine.
 
@@ -177,8 +129,8 @@ See:
 `bin/` is added to Claude Code's Bash PATH when the plugin is active:
 
 ```bash
-linux-triage                   # general host triage snapshot
-linux-log-classifier           # classify journal/syslog errors by severity
+linux-triage
+linux-log-classifier
 sysctl-expert-audit
 systemd-expert-audit
 limits-expert-audit
@@ -193,80 +145,20 @@ acl-permissions-expert-audit
 
 ---
 
-## Safety hook
-
-The plugin installs a `PreToolUse` Bash safety hook:
-
-- **Class R/O** read-only diagnostics pass without interruption.
-- **Class 2** disruptive commands require explicit user confirmation.
-- **Class 3** destructive commands are denied outright.
-
-This is a guardrail, not a replacement for human review.
-
----
-
-## Non-Claude agents
-
-Claude Code plugins are Claude-specific. For Codex or Gemini, use the adapter files:
-
-- `codex/AGENTS.md` — Codex/OpenAI adapter prompt
-- `gemini/GEMINI.md` — Gemini adapter prompt
-- `docs/tasks/` — standalone task files for any agent
-
----
-
-## Project structure
-
-```text
-agents/          linux-sre subagent definition
-bin/             triage scripts added to PATH
-codex/           Codex/OpenAI adapter prompts
-docs/            skill documentation, research notes, and task files
-gemini/          Gemini adapter prompts
-hooks/           PreToolUse safety hook
-scripts/         utility and validation scripts
-skills/          skill definitions (99 skills)
-templates/       reusable prompt templates
-tests/           plugin validation tests
-```
-
----
-
 ## Documentation
 
 | Resource | Description |
 |---|---|
-| [`docs/USAGE.md`](docs/USAGE.md) | Deep usage guide — skills, examples, workflows, tips |
-| [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md) | Full index of expert modules and audit helpers |
-| [`docs/core/`](docs/core/) | Operating principles, distro detection, safety policy, diagnostic method |
+| [`docs/USAGE.md`](docs/USAGE.md) | Usage guide |
+| [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md) | Expert module index |
+| [`docs/load-balancer-expert/load-balancer-research.md`](docs/load-balancer-expert/load-balancer-research.md) | Load balancer research and recommendation notes |
 | [`docs/security-expert/linux-security-research.md`](docs/security-expert/linux-security-research.md) | Incident-driven Linux security research notes |
 | [`docs/security-expert/linux-security-checklist.md`](docs/security-expert/linux-security-checklist.md) | Security audit checklist and output contract |
-| [`docs/tasks/`](docs/tasks/) | Standalone task files for non-Claude agents |
 | [`codex/AGENTS.md`](codex/AGENTS.md) | Codex/OpenAI adapter |
 | [`gemini/GEMINI.md`](gemini/GEMINI.md) | Gemini adapter |
-
----
-
-## Contributing
-
-Open a PR with a new skill directory under `skills/` and a matching test in `tests/`. Follow the naming pattern of existing skills: `<topic>-expert` for deep-dive skills, plain topic names for workflow skills.
-
-Security finding feedback must be sanitized and explicitly approved by the user before submission.
-
-<a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=rushikeshsakharleofficial/we-are-linux-administrators" />
-</a>
 
 ---
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
----
-
-<div align="center">
-
-[![Star History Chart](https://api.star-history.com/svg?repos=rushikeshsakharleofficial/we-are-linux-administrators&type=Date)](https://star-history.com/#rushikeshsakharleofficial/we-are-linux-administrators&Date)
-
-</div>
