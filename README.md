@@ -46,6 +46,16 @@ Inside Claude Code:
 
 ---
 
+## NPM release
+
+`package.json` is aligned to version **1.17.17** and **106 expert skills**.
+
+Publishing is handled by `.github/workflows/npm-publish.yml` when a GitHub Release is published or when the workflow is manually dispatched. The repository must have an `NPM_TOKEN` secret with npm publish permission.
+
+See [`RELEASE.md`](RELEASE.md) for the current release notes.
+
+---
+
 ## Core workflows
 
 | Skill | Use |
