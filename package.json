@@ -37,6 +37,11 @@
     "url": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git"
   },
   "homepage": "https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/",
+  "files": [
+    "bin/linux-admin-install.js",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=18"
   }

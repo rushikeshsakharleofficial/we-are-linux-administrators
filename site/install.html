@@ -52,7 +52,7 @@
   <div class="container page-hero-content">
     <span class="section-eyebrow">Get started</span>
     <h1 class="page-hero-title">Install in 30 seconds</h1>
-    <p class="page-hero-desc">Four ways to install the linux-admin plugin. The npx one-liner is the fastest — it detects Claude Code and runs the install automatically.</p>
+    <p class="page-hero-desc">Six ways to install the linux-admin plugin. The npx one-liner is the fastest — it detects Claude Code and runs the install automatically.</p>
   </div>
 </div>
 
@@ -61,8 +61,8 @@
   <div class="container">
     <div class="section-header">
       <span class="section-eyebrow">Methods</span>
-      <h2 class="section-title">Four install methods</h2>
-      <p class="section-desc">All four methods produce the same result — pick whichever fits your workflow.</p>
+      <h2 class="section-title">Six install methods</h2>
+      <p class="section-desc">All six methods produce the same result — pick whichever fits your workflow.</p>
     </div>
 
     <!-- Method 0: npx (GitHub Release) — full width -->
@@ -87,6 +87,55 @@
         </div>
       </div>
       <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);">Release: <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/releases/tag/v1.17.17" target="_blank" rel="noopener" style="color:var(--accent-purple);">v1.17.17</a></p>
+    </div>
+
+    <!-- Method 0b: npm global -->
+    <div class="card reveal" style="margin-bottom:18px;border-color:rgba(34,211,238,0.3);border-top:2px solid var(--accent-cyan);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+        <div>
+          <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-cyan);margin-bottom:4px;">npm — Global Install</div>
+          <div class="card-body">Install globally via npm. Adds a <code style="font-family:var(--font-mono);font-size:0.82em;">linux-admin</code> command that wires up the Claude Code plugin. Requires Node.js 18+.</div>
+        </div>
+        <span class="badge" style="flex-shrink:0;background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);color:var(--accent-cyan);">npm registry</span>
+      </div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="tdot tdot-r"></span>
+          <span class="tdot tdot-y"></span>
+          <span class="tdot tdot-g"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <div class="terminal-body" style="position:relative;">
+          <button class="copy-btn" aria-label="Copy npm global install command">copy</button>
+          <div class="tl"><span class="tp">$</span><span class="tc" style="color:var(--accent-cyan);"> npm install -g linux-admin</span></div>
+          <div class="tl" style="margin-top:6px;"><span class="tp">$</span><span class="tc" style="color:var(--accent-green);"> linux-admin</span></div>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);">Package: <a href="https://www.npmjs.com/package/linux-admin" target="_blank" rel="noopener" style="color:var(--accent-cyan);">npmjs.com/package/linux-admin</a></p>
+    </div>
+
+    <!-- Method 0c: skillfish -->
+    <div class="card reveal" style="margin-bottom:28px;border-color:rgba(74,222,128,0.3);border-top:2px solid var(--accent-green);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
+        <div>
+          <div class="card-title" style="font-family:var(--font-mono);color:var(--accent-green);margin-bottom:4px;">skillfish — Skills Manager</div>
+          <div class="card-body">Install via <a href="https://skill.fish" target="_blank" rel="noopener" style="color:var(--accent-green);">skillfish</a> — the universal AI skills manager for Claude Code, Cursor, Copilot, and more.</div>
+        </div>
+        <span class="badge badge-green" style="flex-shrink:0;">Multi-agent</span>
+      </div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="tdot tdot-r"></span>
+          <span class="tdot tdot-y"></span>
+          <span class="tdot tdot-g"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <div class="terminal-body" style="position:relative;">
+          <button class="copy-btn" aria-label="Copy skillfish install command">copy</button>
+          <div class="tl"><span class="tp">$</span><span class="tc" style="color:var(--accent-green);"> npx skillfish@latest install rushikeshsakharleofficial/we-are-linux-administrators</span></div>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted);">Works with Claude Code, Cursor, Copilot, Gemini CLI, and more.</p>
     </div>
 
     <div class="grid grid-3">

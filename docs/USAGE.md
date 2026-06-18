@@ -33,10 +33,23 @@ The plugin will never flush a firewall, rebuild initramfs, or `chmod -R 777` as 
 
 ## Install
 
-**One-line npx installer (GitHub Release v1.17.17):**
+**npx (fastest, GitHub Release v1.17.17):**
 
 ```bash
 npx github:rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**npm global:**
+
+```bash
+npm install -g linux-admin
+linux-admin
+```
+
+**skillfish (multi-agent support — Claude Code, Cursor, Copilot, and more):**
+
+```bash
+npx skillfish@latest install rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
 **Via Claude Code marketplace:**

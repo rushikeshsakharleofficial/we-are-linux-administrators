@@ -1,0 +1,21 @@
+{
+  "name": "linux-admin",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 106 expert skills for boot, networking, storage, security, containers, and more.",
+  "version": "1.17.17",
+  "author": "Rushikesh Sakharle",
+  "homepage": "https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/",
+  "repository": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators",
+  "license": "MIT",
+  "category": "linux",
+  "tags": ["linux", "sre", "devops", "networking", "security", "storage", "containers", "claude-code"],
+  "install": {
+    "claude-code": {
+      "marketplace": "rushikeshsakharleofficial/we-are-linux-administrators",
+      "plugin": "linux-admin@we-are-linux-administrators"
+    },
+    "npm": "linux-admin",
+    "npx": "github:rushikeshsakharleofficial/we-are-linux-administrators"
+  },
+  "skills_count": 106,
+  "entrypoint": "bin/linux-admin-install.js"
+}

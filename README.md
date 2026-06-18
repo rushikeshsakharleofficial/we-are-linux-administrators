@@ -27,16 +27,33 @@ The project covers boot, networking, storage, load balancing, HAProxy, NGINX pro
 
 ## Quick Start
 
+**npx (fastest):**
+
 ```bash
 npx github:rushikeshsakharleofficial/we-are-linux-administrators
 ```
+
+**npm global:**
+
+```bash
+npm install -g linux-admin
+linux-admin
+```
+
+**skillfish (multi-agent support):**
+
+```bash
+npx skillfish@latest install rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**CLI marketplace:**
 
 ```bash
 claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
 claude plugin install linux-admin@we-are-linux-administrators
 ```
 
-Inside Claude Code:
+**Inside Claude Code:**
 
 ```text
 /plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
