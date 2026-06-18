@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "version": "1.17.3",
-  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 98 expert skills",
+  "version": "1.17.17",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 106 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
     "linux-admin-install": "./bin/linux-admin-install.js"
@@ -18,7 +18,14 @@
     "admin",
     "networking",
     "storage",
-    "security"
+    "security",
+    "load-balancing",
+    "haproxy",
+    "nginx",
+    "f5",
+    "keepalived",
+    "ipvs",
+    "gslb"
   ],
   "author": {
     "name": "Rushikesh Sakharle",
