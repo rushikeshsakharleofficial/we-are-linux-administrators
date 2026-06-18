@@ -33,7 +33,7 @@ The plugin will never flush a firewall, rebuild initramfs, or `chmod -R 777` as 
 
 ## Install
 
-**One-line npx installer (GitHub Release v1.17.2):**
+**One-line npx installer (GitHub Release v1.17.17):**
 
 ```bash
 npx github:rushikeshsakharleofficial/we-are-linux-administrators
