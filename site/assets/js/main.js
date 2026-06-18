@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.17.8';
+  const PROJECT_VERSION = '1.17.9';
   const SKILL_COUNT = '99';
 
   function setMeta(selector, value) {
