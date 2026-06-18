@@ -93,6 +93,22 @@ See [`RELEASE.md`](RELEASE.md) for the current release notes.
 
 ---
 
+## Security expert
+
+`/linux-admin:security-expert` is the defensive Linux security validation router. It uses an incident-driven model to review attack surface, SSH/auth, firewall, patch posture, privilege boundaries, sysctl hardening, limits, systemd sandboxing, SELinux/AppArmor, logging, backup recovery, mail security, and container risk.
+
+It is designed for owned or explicitly authorized systems only.
+
+```bash
+/linux-admin:security-expert audit this web server
+/linux-admin:security-expert score this mail server security posture
+/linux-admin:security-expert generate fix plan for failed SSH and sysctl checks
+```
+
+The security expert can prepare sanitized GitHub feedback drafts, but it must not submit issues, pull requests, comments, reports, or server data without explicit user approval.
+
+---
+
 ## Load balancer skill family
 
 | Skill | Use |
@@ -158,6 +174,7 @@ See:
 ```bash
 linux-triage
 linux-log-classifier
+security-expert-audit
 sysctl-expert-audit
 systemd-expert-audit
 limits-expert-audit
@@ -181,6 +198,9 @@ acl-permissions-expert-audit
 | [`docs/load-balancer-expert/load-balancer-research.md`](docs/load-balancer-expert/load-balancer-research.md) | Load balancer research and recommendation notes |
 | [`docs/security-expert/linux-security-research.md`](docs/security-expert/linux-security-research.md) | Incident-driven Linux security research notes |
 | [`docs/security-expert/linux-security-checklist.md`](docs/security-expert/linux-security-checklist.md) | Security audit checklist and output contract |
+| [`docs/security-expert/strategies.md`](docs/security-expert/strategies.md) | Security expert strategy and routing model |
+| [`docs/security-expert/security-score-model.md`](docs/security-expert/security-score-model.md) | Linux security score model |
+| [`templates/security-audit-report.md`](templates/security-audit-report.md) | Security audit report template |
 | [`codex/AGENTS.md`](codex/AGENTS.md) | Codex/OpenAI adapter |
 | [`gemini/GEMINI.md`](gemini/GEMINI.md) | Gemini adapter |
 
