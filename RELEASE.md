@@ -1,8 +1,8 @@
-# Release 1.17.17
+# Release 1.17.18
 
 ## Package
 
-- NPM package version: `1.17.17`
+- NPM package version: `1.17.18`
 - Skill count: `106`
 - Package name: `linux-admin`
 

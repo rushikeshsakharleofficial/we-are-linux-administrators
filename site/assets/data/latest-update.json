@@ -1,15 +1,15 @@
 {
-  "id": "2026-06-18-load-balancer-release-1.17.17",
+  "id": "2026-06-18-load-balancer-release-1.17.18",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.17",
+  "version": "1.17.18",
   "date": "2026-06-18",
   "title": "New load balancer expert skills are live",
   "summary": "Update your linux-admin plugin to get the new load-balancer router and specialist skills for HAProxy, NGINX proxy, F5, LVS/IPVS, keepalived, DNS/GSLB, and cloud load balancers.",
   "highlights": [
     "New /linux-admin:load-balancer-expert router recommends the best load balancer for your request.",
     "Added specialist skills for NGINX proxy, F5, LVS/IPVS, keepalived, DNS/GSLB, and cloud load balancers.",
-    "Plugin package metadata is aligned to 1.17.17 with 106 expert skills."
+    "Plugin package metadata is aligned to 1.17.18 with 106 expert skills."
   ],
   "commands": {
     "claudeCode": [

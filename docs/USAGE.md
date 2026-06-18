@@ -33,7 +33,7 @@ The plugin will never flush a firewall, rebuild initramfs, or `chmod -R 777` as 
 
 ## Install
 
-**npx (fastest, GitHub Release v1.17.17):**
+**npx (fastest, GitHub Release v1.17.18):**
 
 ```bash
 npx github:rushikeshsakharleofficial/we-are-linux-administrators

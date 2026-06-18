@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.17-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Version](https://img.shields.io/badge/version-1.17.18-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
 [![Skills](https://img.shields.io/badge/skills-106-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
@@ -18,7 +18,7 @@
 
 `linux-admin` is a Claude Code plugin that gives Claude Code a senior Linux administrator and SRE operating model: read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates for risky shell commands.
 
-Current plugin metadata version: **1.17.17**  
+Current plugin metadata version: **1.17.18**  
 Current skill count: **106 task-specific skills**
 
 The project covers boot, networking, storage, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
@@ -65,7 +65,7 @@ claude plugin install linux-admin@we-are-linux-administrators
 
 ## NPM release
 
-`package.json` is aligned to version **1.17.17** and **106 expert skills**.
+`package.json` is aligned to version **1.17.18** and **106 expert skills**.
 
 Publishing is handled by `.github/workflows/npm-publish.yml` when a GitHub Release is published or when the workflow is manually dispatched. The repository must have an `NPM_TOKEN` secret with npm publish permission.
 

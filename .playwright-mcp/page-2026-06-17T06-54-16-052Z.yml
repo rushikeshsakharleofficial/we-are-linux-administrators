@@ -1,0 +1,299 @@
+- generic [active] [ref=e1]:
+  - navigation "Main navigation" [ref=e2]:
+    - generic [ref=e3]:
+      - link "linux-admin home" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: /
+        - text: linux-admin
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Home" [ref=e8] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e9]:
+          - link "Skills" [ref=e10] [cursor=pointer]:
+            - /url: skills.html
+        - listitem [ref=e11]:
+          - link "Install" [ref=e12] [cursor=pointer]:
+            - /url: install.html
+        - listitem [ref=e13]:
+          - link "Architecture" [ref=e14] [cursor=pointer]:
+            - /url: architecture.html
+        - listitem [ref=e15]:
+          - link "Migration" [ref=e16] [cursor=pointer]:
+            - /url: migration.html
+        - listitem [ref=e17]:
+          - link "Security" [ref=e18] [cursor=pointer]:
+            - /url: security.html
+        - listitem [ref=e19]:
+          - link "Examples" [ref=e20] [cursor=pointer]:
+            - /url: examples.html
+        - listitem [ref=e21]:
+          - link "About" [ref=e22] [cursor=pointer]:
+            - /url: about.html
+      - generic [ref=e23]:
+        - button "Switch to dark mode" [ref=e24] [cursor=pointer]: ☀️
+        - link "★ GitHub" [ref=e25] [cursor=pointer]:
+          - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators
+  - banner [ref=e26]:
+    - generic [ref=e27]: Claude Code Plugin · MIT License
+    - heading "$ claude plugin install linux-admin" [level=1] [ref=e28]:
+      - generic [ref=e29]: $ claude plugin install
+      - text: linux-admin
+    - paragraph [ref=e30]: Give Claude Code a senior Linux administrator and SRE mental model. Read-only-first diagnostics, distro-aware command selection, and safety gates — across 30+ specialized skills.
+    - generic [ref=e31]:
+      - link "→ Quick Install" [ref=e32] [cursor=pointer]:
+        - /url: install.html
+      - link "★ View on GitHub" [ref=e33] [cursor=pointer]:
+        - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators
+    - generic [ref=e35]:
+      - generic [ref=e40]: claude-code — linux-admin
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]: ›
+          - generic [ref=e44]: /linux-admin:network can ping 8.8.8.8 but DNS fails
+        - generic [ref=e45]: "[ READ-ONLY ] Collecting evidence before any changes..."
+        - generic [ref=e46]: Checking resolv.conf → nameserver 127.0.0.53 (systemd-resolved)
+        - generic [ref=e47]: Testing DNS fallback → dig @8.8.8.8 google.com ... OK
+        - generic [ref=e48]: Checking stub listener → ss -tlnp | grep 53 → not listening
+        - generic [ref=e49]: "✦ Root cause: systemd-resolved stub resolver not running"
+        - generic [ref=e50]: "✓ Fix: systemctl enable --now systemd-resolved"
+        - generic [ref=e51]: "# Class 2 — confirm before executing"
+  - region "Key statistics" [ref=e53]:
+    - generic [ref=e54]: 30+ Skills
+    - generic [ref=e55]: 11 Triage Scripts
+    - generic [ref=e56]: 3 Agent Platforms
+    - generic [ref=e57]: 0 Blind rm -rf
+  - generic [ref=e58]:
+    - generic [ref=e59]: // What it does
+    - heading "SRE intelligence, built into Claude Code" [level=2] [ref=e60]
+    - paragraph [ref=e61]: Not a chatbot. A structured mental model — the way a seasoned Linux administrator thinks when something breaks at 2 AM.
+    - generic [ref=e62]:
+      - generic [ref=e63]:
+        - generic [ref=e64]: 🔍
+        - generic [ref=e65]: Read-only-first diagnostics
+        - paragraph [ref=e66]: Gathers evidence before touching anything. Follows the observe → hypothesize → verify → fix loop every senior SRE uses. No destructive action runs before you have a diagnosis.
+      - generic [ref=e67]:
+        - generic [ref=e68]: 🐧
+        - generic [ref=e69]: Distro-aware command selection
+        - paragraph [ref=e70]: Detects Ubuntu, RHEL, Fedora, SUSE, Arch. Uses the right package manager and service manager for each.
+      - generic [ref=e71]:
+        - generic [ref=e72]: 🛡️
+        - generic [ref=e73]: Safety gates on destructive commands
+        - paragraph [ref=e74]: PreToolUse hook classifies every command. Class 3 (rm -rf, dd, mkfs) is blocked. Class 2 requires explicit confirmation.
+      - generic [ref=e75]:
+        - generic [ref=e76]: 🎯
+        - generic [ref=e77]: Evidence-based root-cause analysis
+        - paragraph [ref=e78]: No guessing. Chases the error through logs, service dependencies, kernel messages, and config files.
+      - generic [ref=e79]:
+        - generic [ref=e80]: ⚡
+        - generic [ref=e81]: 30+ task-specific skills
+        - paragraph [ref=e82]: Expert modules for sysctl, systemd, nftables, LVM, kdump, SSSD, PAM, ACLs, and more.
+      - generic [ref=e83]:
+        - generic [ref=e84]: 🤖
+        - generic [ref=e85]: Multi-agent platform support
+        - paragraph [ref=e86]: Claude Code native. Adapters for Codex (AGENTS.md) and Gemini (GEMINI.md) included. Works wherever your AI agent runs.
+  - region "Safety model" [ref=e87]:
+    - generic [ref=e88]:
+      - generic [ref=e89]: // Command safety
+      - heading "Three-class protection model" [level=2] [ref=e90]
+      - paragraph [ref=e91]: Every shell command passes through a classification gate before execution. No exceptions.
+      - generic [ref=e92]:
+        - generic [ref=e93]:
+          - generic [ref=e94]: Class R/O
+          - generic [ref=e95]: Read-only — instant pass
+          - paragraph [ref=e96]: Diagnostic commands run immediately with zero friction. Evidence collection has no gating.
+          - generic [ref=e97]: cat · journalctl · systemctl status · ss · ip · df · du · ps · lsof · dmesg
+        - generic [ref=e98]:
+          - generic [ref=e99]: Class 2
+          - generic [ref=e100]: Disruptive — confirm required
+          - paragraph [ref=e101]: Command halts. Warning is shown. User must type 'yes' to proceed. Never skipped.
+          - generic [ref=e102]: systemctl stop · systemctl restart · firewall-cmd · sysctl -w · mount · iptables -A
+        - generic [ref=e103]:
+          - generic [ref=e104]: Class 3
+          - generic [ref=e105]: Destructive — blocked entirely
+          - paragraph [ref=e106]: Plugin refuses, explains why, and suggests a safer alternative. Not a warning — a hard block.
+          - generic [ref=e107]: rm -rf / · dd if=/dev/zero · mkfs.* · shred · wipefs · DROP TABLE · userdel -r
+      - link "Full security model →" [ref=e109] [cursor=pointer]:
+        - /url: security.html
+  - generic [ref=e110]:
+    - generic [ref=e111]: // Capabilities
+    - heading "Skills overview" [level=2] [ref=e112]
+    - paragraph [ref=e113]: Core workflow skills for fast triage, deep expert modules for thorough investigations, and standalone task files for non-Claude agents.
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]: diagnose
+        - generic [ref=e117]:
+          - generic [ref=e118]: Main router
+          - generic [ref=e119]: General Linux issue triage — entry point for any problem
+      - generic [ref=e120]:
+        - generic [ref=e121]: boot
+        - generic [ref=e122]:
+          - generic [ref=e123]: Boot failures
+          - generic [ref=e124]: Emergency mode, initramfs, fstab, GRUB, dracut
+      - generic [ref=e125]:
+        - generic [ref=e126]: service
+        - generic [ref=e127]:
+          - generic [ref=e128]: systemd services
+          - generic [ref=e129]: Restart loops, daemon crashes, unit file debugging
+      - generic [ref=e130]:
+        - generic [ref=e131]: network
+        - generic [ref=e132]:
+          - generic [ref=e133]: Networking
+          - generic [ref=e134]: IP, routing, DNS, firewall, socket diagnostics
+      - generic [ref=e135]:
+        - generic [ref=e136]: storage
+        - generic [ref=e137]:
+          - generic [ref=e138]: Storage
+          - generic [ref=e139]: Disk full, inode full, LVM, RAID, filesystems
+      - generic [ref=e140]:
+        - generic [ref=e141]: kernel
+        - generic [ref=e142]:
+          - generic [ref=e143]: Kernel
+          - generic [ref=e144]: Panic, lockup, kdump, call traces
+      - generic [ref=e145]:
+        - generic [ref=e146]: performance
+        - generic [ref=e147]:
+          - generic [ref=e148]: Performance
+          - generic [ref=e149]: CPU, memory, OOM, load average, I/O latency
+      - generic [ref=e150]:
+        - generic [ref=e151]: containers
+        - generic [ref=e152]:
+          - generic [ref=e153]: Containers
+          - generic [ref=e154]: Docker, Podman, rootless containers, ports
+      - generic [ref=e155]:
+        - generic [ref=e156]: auth
+        - generic [ref=e157]:
+          - generic [ref=e158]: Auth & access
+          - generic [ref=e159]: SSH, sudo, PAM, LDAP, SSSD, user access
+      - generic [ref=e160]:
+        - generic [ref=e161]: migration-expert
+        - generic [ref=e162]:
+          - generic [ref=e163]: Migration Expert
+          - generic [ref=e164]: Multi-agent OS migration with rollback-first planning
+      - generic [ref=e165]:
+        - generic [ref=e166]: firewall-expert
+        - generic [ref=e167]:
+          - generic [ref=e168]: Firewall Expert
+          - generic [ref=e169]: nftables, firewalld, iptables — lockout-safe changes
+      - generic [ref=e170]:
+        - generic [ref=e171]: kernel-expert
+        - generic [ref=e172]:
+          - generic [ref=e173]: Kernel Expert
+          - generic [ref=e174]: Panic triage, kdump readiness, call trace analysis
+    - link "Browse all 35 skills →" [ref=e176] [cursor=pointer]:
+      - /url: skills.html
+  - region "Feature deep dives" [ref=e177]:
+    - generic [ref=e178]:
+      - generic [ref=e179]: // Deep dives
+      - heading "Animated feature pages" [level=2] [ref=e180]
+      - paragraph [ref=e181]: Each skill has a dedicated deep-dive page with interactive canvas animations and investigation walkthroughs.
+      - generic [ref=e182]:
+        - link "diagnose Animated radar sonar — triage routing in real time" [ref=e183] [cursor=pointer]:
+          - /url: pages/diagnose.html
+          - generic [ref=e184]: diagnose
+          - generic [ref=e185]: Animated radar sonar — triage routing in real time
+        - link "boot Live boot log stream — initramfs & fstab failures" [ref=e186] [cursor=pointer]:
+          - /url: pages/boot.html
+          - generic [ref=e187]: boot
+          - generic [ref=e188]: Live boot log stream — initramfs & fstab failures
+        - link "network Packet flow graph — DNS & routing diagnostics" [ref=e189] [cursor=pointer]:
+          - /url: pages/network.html
+          - generic [ref=e190]: network
+          - generic [ref=e191]: Packet flow graph — DNS & routing diagnostics
+        - link "storage Animated disk fill bars — inode & df/du triage" [ref=e192] [cursor=pointer]:
+          - /url: pages/storage.html
+          - generic [ref=e193]: storage
+          - generic [ref=e194]: Animated disk fill bars — inode & df/du triage
+        - link "performance Live oscilloscope — CPU, memory, OOM analysis" [ref=e195] [cursor=pointer]:
+          - /url: pages/performance.html
+          - generic [ref=e196]: performance
+          - generic [ref=e197]: Live oscilloscope — CPU, memory, OOM analysis
+        - link "kernel Matrix rain — panic & call trace triage" [ref=e198] [cursor=pointer]:
+          - /url: pages/kernel.html
+          - generic [ref=e199]: kernel
+          - generic [ref=e200]: Matrix rain — panic & call trace triage
+        - link "containers Floating container cards — Docker & Podman debugging" [ref=e201] [cursor=pointer]:
+          - /url: pages/containers.html
+          - generic [ref=e202]: containers
+          - generic [ref=e203]: Floating container cards — Docker & Podman debugging
+        - link "auth Key-lock animation — SSH & PAM forensics" [ref=e204] [cursor=pointer]:
+          - /url: pages/auth.html
+          - generic [ref=e205]: auth
+          - generic [ref=e206]: Key-lock animation — SSH & PAM forensics
+        - link "firewall Canvas packet filter — nftables & iptables triage" [ref=e207] [cursor=pointer]:
+          - /url: pages/firewall.html
+          - generic [ref=e208]: firewall
+          - generic [ref=e209]: Canvas packet filter — nftables & iptables triage
+        - link "safety Traffic lights — command classification walkthrough" [ref=e210] [cursor=pointer]:
+          - /url: pages/safety.html
+          - generic [ref=e211]: safety
+          - generic [ref=e212]: Traffic lights — command classification walkthrough
+  - generic [ref=e213]:
+    - generic [ref=e214]: // Get started
+    - heading "Install in 30 seconds" [level=2] [ref=e215]
+    - paragraph [ref=e216]: Three installation methods. Zero build step. No Node.js required.
+    - region "Install command" [ref=e217]:
+      - generic [ref=e222]: bash
+      - generic [ref=e223]:
+        - generic [ref=e224]: claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators claude plugin install linux-admin@we-are-linux-administrators
+        - button "Copy install command" [ref=e225] [cursor=pointer]: copy
+    - generic [ref=e226]:
+      - link "Full install guide" [ref=e227] [cursor=pointer]:
+        - /url: install.html
+      - link "See examples" [ref=e228] [cursor=pointer]:
+        - /url: examples.html
+  - contentinfo [ref=e229]:
+    - generic [ref=e230]:
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - generic [ref=e233]: /linux-admin
+          - paragraph [ref=e234]: AI-powered Linux administration expertise for Claude Code. Read-only-first, evidence-based, safety-gated.
+          - generic [ref=e235]:
+            - generic [ref=e236]: MIT License
+            - generic [ref=e237]: Claude Code
+            - generic [ref=e238]: 30+ Skills
+        - generic [ref=e239]:
+          - generic [ref=e240]: Pages
+          - list [ref=e241]:
+            - listitem [ref=e242]:
+              - link "Home" [ref=e243] [cursor=pointer]:
+                - /url: index.html
+            - listitem [ref=e244]:
+              - link "Skills" [ref=e245] [cursor=pointer]:
+                - /url: skills.html
+            - listitem [ref=e246]:
+              - link "Install" [ref=e247] [cursor=pointer]:
+                - /url: install.html
+            - listitem [ref=e248]:
+              - link "Architecture" [ref=e249] [cursor=pointer]:
+                - /url: architecture.html
+        - generic [ref=e250]:
+          - generic [ref=e251]: More
+          - list [ref=e252]:
+            - listitem [ref=e253]:
+              - link "Migration" [ref=e254] [cursor=pointer]:
+                - /url: migration.html
+            - listitem [ref=e255]:
+              - link "Security" [ref=e256] [cursor=pointer]:
+                - /url: security.html
+            - listitem [ref=e257]:
+              - link "Examples" [ref=e258] [cursor=pointer]:
+                - /url: examples.html
+            - listitem [ref=e259]:
+              - link "About" [ref=e260] [cursor=pointer]:
+                - /url: about.html
+        - generic [ref=e261]:
+          - generic [ref=e262]: Links
+          - list [ref=e263]:
+            - listitem [ref=e264]:
+              - link "GitHub Repo" [ref=e265] [cursor=pointer]:
+                - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators
+            - listitem [ref=e266]:
+              - link "Usage Guide" [ref=e267] [cursor=pointer]:
+                - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md
+            - listitem [ref=e268]:
+              - link "License" [ref=e269] [cursor=pointer]:
+                - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE
+      - generic [ref=e270]:
+        - paragraph [ref=e271]: © 2024 Rushikesh Sakharle · rushikeshsakharleofficial/we-are-linux-administrators
+        - paragraph [ref=e272]: ⚡ read-only-first · evidence-before-change · no blind rm -rf

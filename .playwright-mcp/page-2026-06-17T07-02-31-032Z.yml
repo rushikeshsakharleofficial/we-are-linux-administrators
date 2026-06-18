@@ -1,0 +1,289 @@
+- generic [active] [ref=e1]:
+  - navigation "Main navigation" [ref=e2]:
+    - generic [ref=e3]:
+      - link "linux-admin home" [ref=e4] [cursor=pointer]:
+        - /url: index.html
+        - generic [ref=e5]: /
+        - text: linux-admin
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Home" [ref=e8] [cursor=pointer]:
+            - /url: index.html
+        - listitem [ref=e9]:
+          - link "Skills" [ref=e10] [cursor=pointer]:
+            - /url: skills.html
+        - listitem [ref=e11]:
+          - link "Install" [ref=e12] [cursor=pointer]:
+            - /url: install.html
+        - listitem [ref=e13]:
+          - link "Architecture" [ref=e14] [cursor=pointer]:
+            - /url: architecture.html
+        - listitem [ref=e15]:
+          - link "Migration" [ref=e16] [cursor=pointer]:
+            - /url: migration.html
+        - listitem [ref=e17]:
+          - link "Security" [ref=e18] [cursor=pointer]:
+            - /url: security.html
+        - listitem [ref=e19]:
+          - link "Examples" [ref=e20] [cursor=pointer]:
+            - /url: examples.html
+        - listitem [ref=e21]:
+          - link "About" [ref=e22] [cursor=pointer]:
+            - /url: about.html
+      - generic [ref=e23]:
+        - button "Switch to light mode" [ref=e24] [cursor=pointer]: 🌙
+        - link "★ GitHub" [ref=e25] [cursor=pointer]:
+          - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators
+  - generic [ref=e27]:
+    - generic [ref=e28]: // Get started
+    - heading "Install in 30 seconds" [level=1] [ref=e29]
+    - paragraph [ref=e30]: Three ways to install the linux-admin plugin. Choose the method that fits your workflow. The CLI marketplace method is recommended for most users.
+  - generic [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]: // Methods
+      - heading "Three install methods" [level=2] [ref=e35]
+      - paragraph [ref=e36]: All three methods produce the same result — pick whichever fits your workflow.
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - generic [ref=e41]: CLI Marketplace
+            - generic [ref=e42]: Recommended for most users
+          - generic [ref=e43]: Recommended
+        - generic [ref=e44]:
+          - generic [ref=e49]: terminal
+          - generic [ref=e50]:
+            - button "Copy CLI install commands" [ref=e51] [cursor=pointer]: copy
+            - generic [ref=e52]:
+              - generic [ref=e53]: "#"
+              - generic [ref=e54]: Add marketplace
+            - generic [ref=e55]:
+              - generic [ref=e56]: $
+              - generic [ref=e57]: claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+            - generic [ref=e58]:
+              - generic [ref=e59]: "#"
+              - generic [ref=e60]: Install plugin
+            - generic [ref=e61]:
+              - generic [ref=e62]: $
+              - generic [ref=e63]: claude plugin install linux-admin@we-are-linux-administrators
+        - textbox [ref=e64]: claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators claude plugin install linux-admin@we-are-linux-administrators
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - generic [ref=e68]: Slash Commands
+            - generic [ref=e69]: Inside an active Claude Code session
+          - generic [ref=e70]: In-session
+        - generic [ref=e71]:
+          - generic [ref=e76]: claude code
+          - generic [ref=e77]:
+            - button "Copy slash command install" [ref=e78] [cursor=pointer]: copy
+            - generic [ref=e79]:
+              - generic [ref=e80]: "#"
+              - generic [ref=e81]: Run inside Claude Code session
+            - generic [ref=e82]:
+              - generic [ref=e83]: ›
+              - generic [ref=e84]: /plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+            - generic [ref=e85]:
+              - generic [ref=e86]: ›
+              - generic [ref=e87]: /plugin install linux-admin@we-are-linux-administrators
+        - textbox [ref=e88]: /plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators /plugin install linux-admin@we-are-linux-administrators
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e92]: Local Clone
+            - generic [ref=e93]: For contributors or offline use
+          - generic [ref=e94]: Contributors
+        - generic [ref=e95]:
+          - generic [ref=e100]: terminal
+          - generic [ref=e101]:
+            - button "Copy local clone commands" [ref=e102] [cursor=pointer]: copy
+            - generic [ref=e103]:
+              - generic [ref=e104]: $
+              - generic [ref=e105]: git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
+            - generic [ref=e106]:
+              - generic [ref=e107]: $
+              - generic [ref=e108]: claude --plugin-dir ./we-are-linux-administrators
+        - textbox [ref=e109]: git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git claude --plugin-dir ./we-are-linux-administrators
+  - generic [ref=e111]:
+    - generic [ref=e112]:
+      - generic [ref=e113]: // Validate
+      - heading "Confirm the install" [level=2] [ref=e114]
+      - paragraph [ref=e115]: Run these two checks after installation to confirm everything is wired up correctly.
+    - generic [ref=e116]:
+      - generic [ref=e117]:
+        - heading "1. Validate plugin JSON" [level=3] [ref=e118]
+        - paragraph [ref=e119]: Check that the plugin manifest is valid JSON. No output means success.
+        - generic [ref=e120]:
+          - button "Copy validate command" [ref=e121] [cursor=pointer]: copy
+          - text: $ python3 -m json.tool .claude-plugin/plugin.json >/dev/null
+          - text: "# Should print nothing (valid JSON)"
+      - generic [ref=e122]:
+        - heading "2. Reload plugins" [level=3] [ref=e123]
+        - paragraph [ref=e124]:
+          - text: Inside Claude Code, run
+          - code [ref=e125]: /reload-plugins
+          - text: to pick up the new installation without restarting.
+        - generic [ref=e126]:
+          - button "Copy reload command" [ref=e127] [cursor=pointer]: copy
+          - text: › /reload-plugins
+          - text: "# Inside Claude Code — reloads all plugins"
+    - paragraph [ref=e129]:
+      - text: If plugin.json validation fails, re-clone the repository — the file may have been corrupted during download. If
+      - code [ref=e130]: /reload-plugins
+      - text: reports no skills found, verify that the plugin directory path is correct and that
+      - code [ref=e131]: plugin.json
+      - text: exists at the root of the repository.
+  - generic [ref=e133]:
+    - generic [ref=e134]:
+      - generic [ref=e135]: // First steps
+      - heading "First commands to try" [level=2] [ref=e136]
+      - paragraph [ref=e137]: Paste any of these directly into Claude Code. Each exercises a different category of expertise.
+    - generic [ref=e138]:
+      - generic [ref=e139]:
+        - button "Copy diagnose command" [ref=e140] [cursor=pointer]: copy
+        - text: › /linux-admin:diagnose nginx.service failed after config change
+      - generic [ref=e141]:
+        - button "Copy network command" [ref=e142] [cursor=pointer]: copy
+        - text: › /linux-admin:network can ping 8.8.8.8 but DNS fails
+      - generic [ref=e143]:
+        - button "Copy storage command" [ref=e144] [cursor=pointer]: copy
+        - text: › /linux-admin:storage /var is full but du does not match df
+      - generic [ref=e145]:
+        - button "Copy kernel command" [ref=e146] [cursor=pointer]: copy
+        - text: › /linux-admin:kernel-expert triage kernel panic
+      - generic [ref=e147]:
+        - button "Copy migration command" [ref=e148] [cursor=pointer]: copy
+        - text: › /linux-admin:migration-expert plan CentOS 7 to Rocky 9 migration
+    - paragraph [ref=e149]:
+      - text: "You can also use skills without a colon prefix in conversational form: just describe the problem and mention the skill name. The structured"
+      - code [ref=e150]: /linux-admin:skill-name
+      - text: form invokes the expert module directly.
+  - generic [ref=e152]:
+    - generic [ref=e153]:
+      - generic [ref=e154]: // Contributors
+      - heading "Local preview" [level=2] [ref=e155]
+      - paragraph [ref=e156]: Working on the plugin or this website? Serve the site locally to preview changes before pushing.
+    - generic [ref=e158]:
+      - button "Copy local preview command" [ref=e159] [cursor=pointer]: copy
+      - text: "# Serve the site locally"
+      - text: $ cd site
+      - text: $ python3 -m http.server 8080
+      - text: "# Open http://localhost:8080"
+    - paragraph [ref=e161]:
+      - text: The site uses only static HTML, CSS, and vanilla JS — no build step required. Any browser-served at
+      - code [ref=e162]: http://localhost:8080
+      - text: will load all assets correctly including fonts, theme toggle, and copy buttons.
+  - generic [ref=e164]:
+    - generic [ref=e165]:
+      - generic [ref=e166]: // Development
+      - heading "Reload after skill edits" [level=2] [ref=e167]
+      - paragraph [ref=e168]: When you edit a skill file in the repository, reload the plugin inside your Claude Code session to pick up the changes immediately.
+    - generic [ref=e170]:
+      - button "Copy reload plugins command" [ref=e171] [cursor=pointer]: copy
+      - text: › /reload-plugins
+      - text: "# Reloads all installed plugins from disk"
+    - paragraph [ref=e172]:
+      - text: No restart required. Claude Code hot-reloads plugin skills on demand. Changes to
+      - code [ref=e173]: .md
+      - text: skill files in the
+      - code [ref=e174]: skills/
+      - text: directory take effect after the next
+      - code [ref=e175]: /reload-plugins
+      - text: .
+  - generic [ref=e177]:
+    - generic [ref=e178]:
+      - generic [ref=e179]: // Compatibility
+      - heading "Distro compatibility" [level=2] [ref=e180]
+      - paragraph [ref=e181]: linux-admin detects your distribution automatically and adapts commands, package manager calls, and file paths accordingly.
+    - generic [ref=e182]:
+      - generic [ref=e183]: Ubuntu 20.04
+      - generic [ref=e184]: Ubuntu 22.04
+      - generic [ref=e185]: Ubuntu 24.04
+      - generic [ref=e186]: Debian 11
+      - generic [ref=e187]: Debian 12
+      - generic [ref=e188]: RHEL 8
+      - generic [ref=e189]: RHEL 9
+      - generic [ref=e190]: CentOS Stream
+      - generic [ref=e191]: Rocky Linux
+      - generic [ref=e192]: AlmaLinux
+      - generic [ref=e193]: Fedora 38+
+      - generic [ref=e194]: SUSE / openSUSE
+      - generic [ref=e195]: Arch Linux
+      - generic [ref=e196]: Alpine Linux
+    - generic [ref=e197]:
+      - generic [ref=e198]:
+        - generic [ref=e199]: 🐧
+        - generic [ref=e200]: Distro detection
+        - paragraph [ref=e201]:
+          - text: Reads
+          - code [ref=e202]: /etc/os-release
+          - text: to identify the distro and version, then selects the correct package manager and init system.
+      - generic [ref=e203]:
+        - generic [ref=e204]: 📦
+        - generic [ref=e205]: Package manager aware
+        - paragraph [ref=e206]: Switches between apt, dnf, rpm, zypper, and pacman automatically. Never uses the wrong package manager for your distro.
+      - generic [ref=e207]:
+        - generic [ref=e208]: 🗂️
+        - generic [ref=e209]: Path aware
+        - paragraph [ref=e210]:
+          - text: Knows that RHEL uses
+          - code [ref=e211]: /etc/sysconfig/
+          - text: and Debian uses
+          - code [ref=e212]: /etc/default/
+          - text: . No manual path correction needed.
+    - paragraph [ref=e214]: If you run on a distro not listed here, linux-admin falls back to POSIX-safe commands and flags when it cannot detect the distribution. Open an issue on GitHub if you encounter distro-specific problems — contributions adding new distro support are welcome.
+  - contentinfo [ref=e215]:
+    - generic [ref=e216]:
+      - generic [ref=e217]:
+        - generic [ref=e218]:
+          - generic [ref=e219]: /linux-admin
+          - paragraph [ref=e220]: AI-powered Linux administration expertise for Claude Code. Read-only-first, evidence-based, safety-gated.
+          - generic [ref=e221]:
+            - generic [ref=e222]: MIT License
+            - generic [ref=e223]: Claude Code
+            - generic [ref=e224]: 30+ Skills
+        - generic [ref=e225]:
+          - generic [ref=e226]: Pages
+          - list [ref=e227]:
+            - listitem [ref=e228]:
+              - link "Home" [ref=e229] [cursor=pointer]:
+                - /url: index.html
+            - listitem [ref=e230]:
+              - link "Skills" [ref=e231] [cursor=pointer]:
+                - /url: skills.html
+            - listitem [ref=e232]:
+              - link "Install" [ref=e233] [cursor=pointer]:
+                - /url: install.html
+            - listitem [ref=e234]:
+              - link "Architecture" [ref=e235] [cursor=pointer]:
+                - /url: architecture.html
+        - generic [ref=e236]:
+          - generic [ref=e237]: More
+          - list [ref=e238]:
+            - listitem [ref=e239]:
+              - link "Migration" [ref=e240] [cursor=pointer]:
+                - /url: migration.html
+            - listitem [ref=e241]:
+              - link "Security" [ref=e242] [cursor=pointer]:
+                - /url: security.html
+            - listitem [ref=e243]:
+              - link "Examples" [ref=e244] [cursor=pointer]:
+                - /url: examples.html
+            - listitem [ref=e245]:
+              - link "About" [ref=e246] [cursor=pointer]:
+                - /url: about.html
+        - generic [ref=e247]:
+          - generic [ref=e248]: Links
+          - list [ref=e249]:
+            - listitem [ref=e250]:
+              - link "GitHub Repo" [ref=e251] [cursor=pointer]:
+                - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators
+            - listitem [ref=e252]:
+              - link "Usage Guide" [ref=e253] [cursor=pointer]:
+                - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md
+            - listitem [ref=e254]:
+              - link "License" [ref=e255] [cursor=pointer]:
+                - /url: https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE
+      - generic [ref=e256]:
+        - paragraph [ref=e257]: © 2024 Rushikesh Sakharle · rushikeshsakharleofficial/we-are-linux-administrators
+        - paragraph [ref=e258]: ⚡ read-only-first · evidence-before-change · no blind rm -rf
