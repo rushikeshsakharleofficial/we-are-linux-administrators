@@ -3,100 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="linux-admin enforces read-only-first, evidence-before-change, and three-class command safety gates. No blind rm -rf, no guessing, no unconfirmed destructive ops.">
-<meta property="og:title" content="linux-admin — Security | Safety-First Linux Operations">
-<meta property="og:description" content="linux-admin enforces read-only-first, evidence-before-change, and three-class command safety gates. No blind rm -rf, no guessing, no unconfirmed destructive ops.">
+<meta name="description" content="linux-admin security model: read-only-first diagnostics, defensive validation, security-expert scoring, sysctl/limits/systemd hardening, logging, recovery, and user-approved feedback only.">
+<meta property="og:title" content="linux-admin — Security Expert">
+<meta property="og:description" content="Defensive Linux security validation for authorized servers with scoring, fix routing, and privacy-safe feedback.">
 <meta property="og:type" content="website">
-<title>linux-admin — Security | Safety-First Linux Operations</title>
+<title>linux-admin — Security Expert</title>
 <link rel="stylesheet" href="assets/css/style.css">
-<style>
-  .gate-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    transition: all 0.25s;
-  }
-  .gate-card-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .gate-card-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-  }
-  .gate-card-desc {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.65;
-    margin-bottom: 18px;
-  }
-  .code-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .code-chip {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    padding: 3px 9px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-soft);
-    color: var(--text-muted);
-  }
-  [data-theme="light"] .code-chip {
-    background: #ffffff !important;
-    border-color: rgba(0,0,0,0.18) !important;
-    color: inherit;
-  }
-  .step-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-md);
-    padding: 22px 24px;
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    transition: all 0.25s;
-  }
-  .step-card:hover { border-color: rgba(74,222,128,0.2); transform: translateY(-1px); box-shadow: var(--shadow-card); }
-  .step-num-circle {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: rgba(74,222,128,0.1);
-    border: 1px solid rgba(74,222,128,0.25);
-    color: var(--accent-green);
-    font-size: 0.75rem; font-weight: 700;
-    font-family: var(--font-mono);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .step-content-title { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-  .step-content-body { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
-  .badges-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-  .principle-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-md);
-    padding: 20px 22px;
-    border-left: 3px solid transparent;
-    transition: all 0.25s;
-  }
-  .principle-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
-  .principle-icon { font-size: 1.3rem; margin-bottom: 10px; }
-  .principle-title { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
-  .principle-body { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
-</style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-inner">
     <a href="index.html" class="navbar-logo"><span class="slash">/</span>linux-admin</a>
@@ -120,7 +35,6 @@
   </div>
 </nav>
 
-<!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobile-nav">
   <a href="index.html" class="nav-link">Home</a>
   <a href="skills.html" class="nav-link">Skills</a>
@@ -132,300 +46,107 @@
   <a href="about.html" class="nav-link">About</a>
 </div>
 
-<!-- PAGE HERO -->
 <div class="page-hero">
   <div class="container page-hero-content">
-    <span class="section-eyebrow">Safety-first</span>
-    <h1 class="page-hero-title">Security by Design</h1>
-    <p class="page-hero-desc">Every operation goes through evidence collection before a change recommendation. Destructive commands are blocked. Disruptive commands require confirmation.</p>
+    <span class="section-eyebrow">Security expert</span>
+    <h1 class="page-hero-title">Defensive Linux Security Validation</h1>
+    <p class="page-hero-desc">`security-expert` reviews authorized Linux servers using an incident-driven model: exposure, SSH, firewall, privilege boundaries, sysctl, limits, systemd hardening, logging, patch posture, and backup recovery.</p>
   </div>
 </div>
 
-<!-- STAT STRIP -->
 <div class="stat-strip">
   <div class="stat-item">
-    <div class="stat-num">0</div>
-    <div class="stat-label">Blind rm -rf</div>
+    <div class="stat-num">106</div>
+    <div class="stat-label">Expert Skills</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num" style="color:var(--accent-red);filter:drop-shadow(0 0 10px rgba(248,113,113,0.35))">Class 3</div>
-    <div class="stat-label">Blocked entirely</div>
+    <div class="stat-num">20</div>
+    <div class="stat-label">Security Domains</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num" style="color:var(--accent-amber);filter:drop-shadow(0 0 10px rgba(251,191,36,0.35))">Class 2</div>
-    <div class="stat-label">Confirmed required</div>
+    <div class="stat-num">100</div>
+    <div class="stat-label">Score Model</div>
   </div>
   <div class="stat-item">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Read-only-first</div>
+    <div class="stat-num">Opt-in</div>
+    <div class="stat-label">GitHub Feedback</div>
   </div>
 </div>
 
-<!-- SECTION 1: CORE PHILOSOPHY -->
 <section class="section">
   <div class="container">
     <div class="section-header reveal">
-      <span class="section-eyebrow">Core philosophy</span>
-      <h2 class="section-title">Seven Inviolable Principles</h2>
-      <p class="section-desc">These constraints are not configurable. They are baked into every skill and enforced by the hook layer before any command runs.</p>
+      <span class="section-eyebrow">How it works</span>
+      <h2 class="section-title">Security is more than one checklist</h2>
+      <p class="section-desc">The skill follows a lifecycle model: identify assets, protect controls, detect abuse, respond safely, and verify recovery.</p>
     </div>
-    <div class="grid grid-auto" style="gap:14px">
-      <div class="principle-card reveal" style="border-left-color:var(--accent-green)">
-        <div class="principle-icon">🔍</div>
-        <div class="principle-title">Read-only first</div>
-        <div class="principle-body">Gather evidence before any change suggestion. No command is recommended before diagnostic data is collected and reviewed.</div>
+    <div class="grid grid-auto">
+      <div class="feature-card reveal">
+        <div class="feature-icon">🧭</div>
+        <h3>Role-aware audit</h3>
+        <p>Classifies the server first: web, mail, DNS, database, monitoring, jump host, VPN/router, container host, backup, or low-memory VPS.</p>
       </div>
-      <div class="principle-card reveal d1" style="border-left-color:var(--accent-cyan)">
-        <div class="principle-icon">📋</div>
-        <div class="principle-title">Evidence before change</div>
-        <div class="principle-body">Root cause must be confirmed, not guessed. A hypothesis is not a diagnosis. Only confirmed root causes justify a change recommendation.</div>
+      <div class="feature-card reveal d1">
+        <div class="feature-icon">🛡️</div>
+        <h3>Defensive validation</h3>
+        <p>Uses safe, authorized checks to confirm whether controls block or detect expected weak paths. No stealth, no exploitation, no disruption.</p>
       </div>
-      <div class="principle-card reveal d2" style="border-left-color:var(--accent-purple)">
-        <div class="principle-icon">🚫</div>
-        <div class="principle-title">No blind tuning</div>
-        <div class="principle-body">Never suggest sysctl, ulimit, or kernel parameter changes without supporting evidence from observed system behaviour.</div>
-      </div>
-      <div class="principle-card reveal" style="border-left-color:var(--accent-amber)">
-        <div class="principle-icon">⚠️</div>
-        <div class="principle-title">No destructive command without confirmation</div>
-        <div class="principle-body">Class 2 commands always halt for an explicit user confirmation before the plugin proceeds. No exceptions.</div>
-      </div>
-      <div class="principle-card reveal d1" style="border-left-color:var(--accent-amber)">
-        <div class="principle-icon">💾</div>
-        <div class="principle-title">Backup before migration</div>
-        <div class="principle-body">No cutover is recommended without a confirmed backup. Migration plans that skip the backup step are rejected outright.</div>
-      </div>
-      <div class="principle-card reveal d2" style="border-left-color:var(--accent-cyan)">
-        <div class="principle-icon">🔄</div>
-        <div class="principle-title">Rollback before cutover</div>
-        <div class="principle-body">A rollback plan must exist before execution starts. The plugin generates a rollback procedure as part of every migration runbook.</div>
-      </div>
-      <div class="principle-card reveal" style="border-left-color:var(--accent-green)">
-        <div class="principle-icon">✅</div>
-        <div class="principle-title">Validate after every change</div>
-        <div class="principle-body">Post-change verification is not optional. Every suggested change includes explicit validation steps to confirm the fix worked.</div>
+      <div class="feature-card reveal d2">
+        <div class="feature-icon">📊</div>
+        <h3>Security scoring</h3>
+        <p>Scores attack surface, SSH, firewall, patching, sudo, systemd, sysctl, limits, MAC, logs, and backup recovery readiness.</p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- SECTION 2: THREE-CLASS COMMAND GATE -->
 <section class="section bg-alt">
   <div class="container">
     <div class="section-header reveal">
-      <span class="section-eyebrow">Command classification</span>
-      <h2 class="section-title">Three-Class Command Gate</h2>
-      <p class="section-desc">Every Bash command is classified before execution. The classification determines whether it passes, halts for confirmation, or is blocked entirely.</p>
+      <span class="section-eyebrow">Security domains</span>
+      <h2 class="section-title">What security-expert reviews</h2>
     </div>
-    <div class="grid grid-3" style="gap:18px">
-
-      <!-- Class R/O — Green -->
-      <div class="gate-card reveal" style="background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.2);border-top:3px solid var(--accent-green)">
-        <div class="gate-card-label" style="color:var(--accent-green)">Class R/O — Read-Only</div>
-        <div class="gate-card-title">Pass through instantly</div>
-        <div class="gate-card-desc">Zero friction. Diagnostic commands run immediately with no prompt. These are the backbone of the evidence-gathering phase.</div>
-        <div class="code-chips">
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">cat</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">journalctl</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">systemctl status</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">ss</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">ip</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">df</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">du</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">ps</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">top</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">lsof</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">netstat</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">dmesg</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">id</span>
-          <span class="code-chip" style="color:var(--accent-green);border-color:rgba(74,222,128,0.2)">getent</span>
-        </div>
-      </div>
-
-      <!-- Class 2 — Amber -->
-      <div class="gate-card reveal d1" style="background:rgba(251,191,36,0.04);border-color:rgba(251,191,36,0.2);border-top:3px solid var(--accent-amber)">
-        <div class="gate-card-label" style="color:var(--accent-amber)">Class 2 — Disruptive</div>
-        <div class="gate-card-title">Confirm required</div>
-        <div class="gate-card-desc">Command halts, a warning is shown, and the user must type 'yes' to proceed. These commands change system state but can be recovered from.</div>
-        <div class="code-chips">
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">systemctl stop</span>
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">systemctl restart</span>
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">firewall-cmd --add-rule</span>
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">sysctl -w</span>
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">mount</span>
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">iptables -A</span>
-          <span class="code-chip" style="color:var(--accent-amber);border-color:rgba(251,191,36,0.2)">service restart</span>
-        </div>
-      </div>
-
-      <!-- Class 3 — Red -->
-      <div class="gate-card reveal d2" style="background:rgba(248,113,113,0.04);border-color:rgba(248,113,113,0.2);border-top:3px solid var(--accent-red)">
-        <div class="gate-card-label" style="color:var(--accent-red)">Class 3 — Destructive</div>
-        <div class="gate-card-title">Blocked entirely</div>
-        <div class="gate-card-desc">Plugin refuses outright, explains exactly why the command is blocked, and suggests a safer alternative that achieves the intended goal.</div>
-        <div class="code-chips">
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">rm -rf /</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">dd if=/dev/zero</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">mkfs.*</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">shred</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">wipefs</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">DROP TABLE</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">passwd --delete</span>
-          <span class="code-chip" style="color:var(--accent-red);border-color:rgba(248,113,113,0.2)">userdel -r</span>
-        </div>
-      </div>
-
+    <div class="grid grid-auto">
+      <div class="feature-card reveal"><h3>Exposure</h3><p>Ports, bind addresses, IPv4/IPv6 parity, firewall zones, NAT, cloud security groups, admin panels.</p></div>
+      <div class="feature-card reveal"><h3>SSH/Auth</h3><p>OpenSSH version, password/root login, PAM/MFA, fail2ban, auth logs, key ownership, emergency access.</p></div>
+      <div class="feature-card reveal"><h3>Privilege</h3><p>Sudoers, SUID/SGID, capabilities, service accounts, writable privileged paths, user/group drift.</p></div>
+      <div class="feature-card reveal"><h3>Systemd</h3><p>User/Group, NoNewPrivileges, ProtectSystem, ProtectHome, capabilities, resource limits, environment exposure.</p></div>
+      <div class="feature-card reveal"><h3>Sysctl</h3><p>Kernel exposure, ptrace/eBPF/perf restrictions, filesystem protections, redirect/source-route controls.</p></div>
+      <div class="feature-card reveal"><h3>Limits</h3><p>nofile, nproc, memlock, core dumps, TasksMax, MemoryMax, PAM limits, and blast-radius controls.</p></div>
+      <div class="feature-card reveal"><h3>Detection</h3><p>journald, rsyslog, auditd, fail2ban, file integrity, sudo/auth logs, retention, and time sync.</p></div>
+      <div class="feature-card reveal"><h3>Recovery</h3><p>Immutable/offline backups, restore tests, snapshots, backup credential separation, ransomware readiness.</p></div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- SECTION 3: OPERATIONS REQUIRING CONFIRMATION -->
 <section class="section">
   <div class="container">
     <div class="section-header reveal">
-      <span class="section-eyebrow">Confirmation gate</span>
-      <h2 class="section-title">Operations That Always Ask</h2>
-      <p class="section-desc">Any operation in this list triggers a hard stop and an explicit confirmation prompt. No exceptions, no shortcuts, no context overrides.</p>
+      <span class="section-eyebrow">Command</span>
+      <h2 class="section-title">Use it from Claude Code</h2>
     </div>
-    <div class="badges-wrap reveal">
-      <span class="badge badge-amber">package upgrades</span>
-      <span class="badge badge-amber">service restarts</span>
-      <span class="badge badge-amber">firewall changes</span>
-      <span class="badge badge-amber">fstab edits</span>
-      <span class="badge badge-amber">mount / remount</span>
-      <span class="badge badge-amber">fsck / xfs_repair</span>
-      <span class="badge badge-amber">sysctl writes</span>
-      <span class="badge badge-amber">chmod / chown recursive</span>
-      <span class="badge badge-amber">user deletion</span>
-      <span class="badge badge-amber">DB restore</span>
-      <span class="badge badge-amber">migration cutover</span>
+    <div class="code-panel reveal">
+      <pre><code>/linux-admin:security-expert audit this web server
+/linux-admin:security-expert score this mail server security posture
+/linux-admin:security-expert generate fix plan for failed SSH and sysctl checks</code></pre>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- SECTION 4: REAL SCENARIO -->
 <section class="section bg-alt">
   <div class="container">
     <div class="section-header reveal">
-      <span class="section-eyebrow">Real scenario</span>
-      <h2 class="section-title">The Hook That Saved /var/log</h2>
-      <p class="section-desc">A real incident where the safety gate prevented an irreversible data loss event.</p>
+      <span class="section-eyebrow">Privacy</span>
+      <h2 class="section-title">No automatic GitHub submission</h2>
+      <p class="section-desc">The skill can prepare sanitized feedback drafts, but GitHub issues, pull requests, comments, reports, or server data must not be submitted without explicit user approval.</p>
     </div>
-    <div class="info-box info-box-amber reveal" style="max-width:780px">
-      <p>At 14:32, Claude identified <code style="font-family:var(--font-mono);color:var(--accent-amber)">/var/log/app.log</code> as a zombie file causing 38 GB of hidden disk usage. Without the safety hook, the next suggestion would have been <code style="font-family:var(--font-mono);color:var(--accent-red)">rm -rf /var/log/</code>. The <strong style="color:var(--text-primary)">PreToolUse hook blocked it</strong> and demanded the evidence first. The correct fix — HUP the log daemon — recovered the space without deleting anything.</p>
-    </div>
-    <div style="margin-top:24px" class="reveal d1">
-      <div class="command-block" style="max-width:680px">
-        <span class="cp">$</span> lsof +L1 | grep app.log<br>
-        <span class="cc"># app 18432 root   4u  REG  8,1  38.2G  0 /var/log/app.log (deleted)</span><br>
-        <span class="cp">$</span> kill -HUP 18432<br>
-        <span class="ch"># File descriptor released — 38 GB reclaimed</span>
-        <button class="copy-btn" onclick="this.previousElementSibling && navigator.clipboard.writeText('lsof +L1 | grep app.log\nkill -HUP 18432')">copy</button>
-      </div>
+    <div class="hero-actions reveal">
+      <a href="privacy.html" class="btn btn-primary">Read privacy policy</a>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/docs/security-expert" class="btn btn-ghost" target="_blank" rel="noopener">Security docs</a>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- SECTION 5: HOOK ARCHITECTURE -->
-<section class="section">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-eyebrow">Hook architecture</span>
-      <h2 class="section-title">How the Safety Gate Works</h2>
-      <p class="section-desc">Four deterministic steps execute before every Bash command. The gate is synchronous and cannot be bypassed by prompt injection.</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px;max-width:680px">
-      <div class="step-card reveal">
-        <div class="step-num-circle">1</div>
-        <div>
-          <div class="step-content-title">PreToolUse event fires before every Bash command</div>
-          <div class="step-content-body">Claude Code's hook layer intercepts every tool call of type Bash before it reaches the shell. The command string is extracted and passed downstream.</div>
-        </div>
-      </div>
-      <div class="step-card reveal d1">
-        <div class="step-num-circle">2</div>
-        <div>
-          <div class="step-content-title"><code style="font-family:var(--font-mono);font-size:0.8rem">scripts/command_safety_guard.py</code> classifies the command</div>
-          <div class="step-content-body">The guard script tests the command string against ordered pattern lists: Class 3 (destructive) checked first, then Class 2 (disruptive). Unmatched commands pass as Class R/O.</div>
-        </div>
-      </div>
-      <div class="step-card reveal d2">
-        <div class="step-num-circle" style="background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.25);color:var(--accent-red)">3</div>
-        <div>
-          <div class="step-content-title">Class 3 match — deny with explanation and safe alternative</div>
-          <div class="step-content-body">The hook returns a deny decision immediately. The response includes the reason for blocking and at least one safer command that achieves the user's stated intent without the destructive side-effect.</div>
-        </div>
-      </div>
-      <div class="step-card reveal d3">
-        <div class="step-num-circle" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.25);color:var(--accent-amber)">4</div>
-        <div>
-          <div class="step-content-title">Class 2 match — halt and display confirmation prompt</div>
-          <div class="step-content-body">Execution is suspended. The user sees a warning explaining exactly what the command will change, why it is classified as disruptive, and what the impact of proceeding will be. Confirmation is required before the hook allows execution.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand-name">/ linux-admin</div>
-        <p class="footer-brand-desc">Senior Linux administrator and SRE workflow as a Claude Code plugin. Built for engineers who need AI that actually knows Linux.</p>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <span class="badge badge-green">MIT License</span>
-          <span class="badge badge-cyan">Claude Code</span>
-          <span class="badge badge-purple">89 Skills</span>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Install</div>
-        <ul class="footer-links-list">
-          <li><a href="install.html">Quick Start</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener">GitHub Repo</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/USAGE.md" target="_blank" rel="noopener">Usage Guide</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Pages</div>
-        <ul class="footer-links-list">
-          <li><a href="skills.html">Skills</a></li>
-          <li><a href="architecture.html">Architecture</a></li>
-          <li><a href="migration.html">Migration</a></li>
-          <li><a href="examples.html">Examples</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-col-title">Docs</div>
-        <ul class="footer-links-list">
-          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/docs/EXPERT_MODULE_INDEX.md" target="_blank" rel="noopener">Expert Index</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/docs/core" target="_blank" rel="noopener">Core Principles</a></li>
-          <li><a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/codex/AGENTS.md" target="_blank" rel="noopener">Codex Adapter</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="footer-copy">Built with care by <a href="https://github.com/rushikeshsakharleofficial" target="_blank" rel="noopener" style="color:var(--accent-green);text-decoration:none">Rushikesh Sakharle</a> · MIT License</span>
-      <span class="footer-safety" style="color:var(--accent-red)">// Class 3 blocked · Class 2 confirmed · 0 blind rm -rf</span>
-    </div>
-  </div>
-</footer>
-
-<script src="assets/js/theme.js"></script>
-<script src="assets/js/animations.js"></script>
-<script src="assets/js/copy.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
