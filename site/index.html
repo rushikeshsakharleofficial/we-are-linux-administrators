@@ -587,18 +587,44 @@
 <section style="padding:80px max(24px,5vw); max-width:1200px; margin:0 auto; text-align:center;">
   <span class="section-eyebrow reveal">Get started</span>
   <h2 class="section-title reveal">Install in 30 seconds</h2>
-  <p class="section-desc reveal" style="margin:0 auto 40px;">Four installation methods. Zero build step.</p>
+  <p class="section-desc reveal" style="margin:0 auto 40px;">Six installation methods. Zero build step.</p>
 
   <div class="terminal" style="max-width:640px;margin:0 auto 20px;text-align:left;" role="region" aria-label="Install command">
     <div class="terminal-bar">
       <span class="tdot tdot-r"></span>
       <span class="tdot tdot-y"></span>
       <span class="tdot tdot-g"></span>
-      <span class="terminal-title">bash — one-line install</span>
+      <span class="terminal-title">bash — npx (fastest)</span>
     </div>
     <div class="terminal-body" style="position:relative;">
       <div class="command-block" id="install-cmd-npx" style="margin:0;border:none;padding:6px 0;background:transparent;color:var(--accent-cyan);">npx github:rushikeshsakharleofficial/we-are-linux-administrators</div>
       <button class="copy-btn" aria-label="Copy npx install command">copy</button>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:20px;">or npm global:</p>
+  <div class="terminal" style="max-width:640px;margin:0 auto 20px;text-align:left;" role="region" aria-label="npm global install">
+    <div class="terminal-bar">
+      <span class="tdot tdot-r"></span>
+      <span class="tdot tdot-y"></span>
+      <span class="tdot tdot-g"></span>
+      <span class="terminal-title">bash — npm global</span>
+    </div>
+    <div class="terminal-body" style="position:relative;">
+      <div class="command-block" id="install-cmd-npm" style="margin:0;border:none;padding:6px 0;background:transparent;color:var(--accent-cyan);">npm install -g linux-admin</div>
+      <button class="copy-btn" aria-label="Copy npm global install command">copy</button>
+    </div>
+  </div>
+  <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:20px;">or skillfish:</p>
+  <div class="terminal" style="max-width:640px;margin:0 auto 20px;text-align:left;" role="region" aria-label="skillfish install">
+    <div class="terminal-bar">
+      <span class="tdot tdot-r"></span>
+      <span class="tdot tdot-y"></span>
+      <span class="tdot tdot-g"></span>
+      <span class="terminal-title">bash — skillfish</span>
+    </div>
+    <div class="terminal-body" style="position:relative;">
+      <div class="command-block" id="install-cmd-skillfish" style="margin:0;border:none;padding:6px 0;background:transparent;color:var(--accent-green);">npx skillfish@latest install rushikeshsakharleofficial/we-are-linux-administrators</div>
+      <button class="copy-btn" aria-label="Copy skillfish install command">copy</button>
     </div>
   </div>
   <p style="font-size:0.75rem;color:var(--text-muted);margin-bottom:20px;">or via marketplace:</p>
@@ -607,7 +633,7 @@
       <span class="tdot tdot-r"></span>
       <span class="tdot tdot-y"></span>
       <span class="tdot tdot-g"></span>
-      <span class="terminal-title">bash</span>
+      <span class="terminal-title">bash — marketplace</span>
     </div>
     <div class="terminal-body">
       <div class="command-block" id="install-cmd">claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
