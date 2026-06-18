@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 98 task-specific skills for boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes nodes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, SSH hardening, tcpdump, Ansible, patching, SELinux, AppArmor, capacity planning, and more.",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 99 task-specific skills for boot, networking, storage, LVM, RAID, iSCSI, NFS, multipath, permissions, containers, Docker, Podman, Kubernetes nodes, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, logrotate, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, defensive security validation, SSH hardening, tcpdump, Ansible, patching, SELinux, AppArmor, capacity planning, and more.",
   "version": "1.17.8",
   "author": {
     "name": "Rushikesh Sakharle",
@@ -81,6 +81,11 @@
     "dhcp",
     "pxe",
     "os-security-expert",
+    "security-expert",
+    "security-validation",
+    "linux-security-audit",
+    "incident-driven-security",
+    "security-feedback",
     "auditd",
     "apparmor",
     "linux-admin",
@@ -242,7 +247,6 @@
     "change-management",
     "production-safety",
     "preflight",
-    "rollback",
     "risk-assessment",
     "root-cause-analysis",
     "maintenance-window",
