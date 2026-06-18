@@ -49,7 +49,7 @@ linux-admin
 **skillfish (multi-agent support — Claude Code, Cursor, Copilot, and more):**
 
 ```bash
-npx skillfish@latest install rushikeshsakharleofficial/we-are-linux-administrators
+npx skillfish@latest add rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
 **Via Claude Code marketplace:**

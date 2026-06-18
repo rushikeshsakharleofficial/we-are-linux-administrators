@@ -43,7 +43,7 @@ linux-admin
 **skillfish (multi-agent support):**
 
 ```bash
-npx skillfish@latest install rushikeshsakharleofficial/we-are-linux-administrators
+npx skillfish@latest add rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
 **CLI marketplace:**
