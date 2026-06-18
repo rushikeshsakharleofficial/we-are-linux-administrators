@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 106 task-specific skills for boot, networking, storage, load balancing, web proxies, enterprise ADCs, Linux L4 balancing, DNS traffic steering, cloud load balancers, kernel, auth, logging, databases, web servers, backup/restore, incident response, defensive security validation, patching, SELinux, AppArmor, capacity planning, and production safety.",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 106 task-specific skills for boot, networking, storage, load balancing, web proxies, enterprise ADCs, Linux L4 balancing, DNS traffic steering, cloud load balancers, kernel, auth, logging, databases, web servers, backup/restore, incident response, defensive security validation, security scoring, patching, SELinux, AppArmor, capacity planning, and production safety.",
   "version": "1.17.17",
   "author": {
     "name": "Rushikesh Sakharle",
@@ -21,6 +21,11 @@
     "dns-traffic-steering",
     "kernel",
     "security",
+    "security-expert",
+    "linux-security-audit",
+    "security-scoring",
+    "security-hardening",
+    "security-feedback",
     "incident-response",
     "production-safety"
   ],
