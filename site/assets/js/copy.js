@@ -39,4 +39,10 @@ function cleanCopyText(raw) {
       });
     });
   });
+
+  // Release notice loader: plugin/skill updates only, never website-only changes.
+  const releaseNotice = document.createElement('script');
+  releaseNotice.src = 'assets/js/release-notice.js';
+  releaseNotice.defer = true;
+  document.body.appendChild(releaseNotice);
 })();
