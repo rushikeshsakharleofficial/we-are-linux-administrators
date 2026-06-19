@@ -658,6 +658,37 @@ body::after {
   .nav-cta { display: none; }
 }
 
+/* ── CARD FAN CAROUSEL ── */
+.fan-layout {
+  perspective: 1200px;
+  height: auto;
+  min-height: 22rem;
+}
+@media(min-width: 640px) { .fan-layout { min-height: 26rem; } }
+@media(min-width: 768px) { .fan-layout { min-height: 28rem; } }
+@media(min-width: 1024px) { .fan-layout { min-height: 34rem; } }
+@media(min-width: 1280px) { .fan-layout { min-height: 38rem; } }
+
+.fan-card {
+  position: absolute;
+  width: 14rem;
+  height: 20rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-subtle);
+  will-change: transform, opacity;
+}
+@media(max-width: 480px) { .fan-card { width: 10rem; height: 14rem; } }
+@media(max-width: 640px) { .fan-card { width: 11rem; height: 16rem; } }
+@media(max-width: 768px) { .fan-card { width: 12rem; height: 18rem; } }
+@media(max-width: 1024px) { .fan-card { width: 13rem; height: 19rem; } }
+
+.carousel-dot {
+  display: inline-block;
+  cursor: pointer;
+}
+
 /* ── MISC UTILITIES ── */
 .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0; }
 .text-green { color: var(--accent-green); }
