@@ -225,37 +225,54 @@
   /* Deep dives grid */
   .dives-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-top:48px; }
   .dive-card {
-    padding:18px 20px;
-    background:var(--bg-card);
-    border:1px solid var(--border-medium);
-    border-radius:var(--radius-md);
-    text-decoration:none;
-    transition:all .2s;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
+    padding: 18px 20px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, box-shadow 0.3s, background 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
   }
-  .dive-card:hover { transform:translateY(-2px); }
-  .dive-card-name { font-family:var(--font-mono); font-size:.82rem; font-weight:600; }
+  /* shimmer sweep */
+  .dive-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
+    background-size: 200% 100%;
+    background-position: 150% 0;
+    transition: background-position 0s;
+    pointer-events: none;
+  }
+  .dive-card:hover::before { background-position: -50% 0; transition: background-position 0.5s ease; }
+  .dive-card:hover { transform: translateY(-4px); }
+  .dive-card-name { font-family:var(--font-mono); font-size:.82rem; font-weight:700; letter-spacing:0.02em; }
   .dive-card-desc { font-size:.75rem; color:var(--text-muted); line-height:1.5; }
-  .dive-green { border-color:rgba(74,222,128,.15); }
-  .dive-green:hover { border-color:rgba(74,222,128,.4); box-shadow:0 0 16px rgba(74,222,128,.1); }
+  .dive-green { border-color:rgba(74,222,128,.14); }
+  .dive-green:hover { border-color:rgba(74,222,128,.4); background:rgba(74,222,128,.04); box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 20px rgba(74,222,128,.12); }
   .dive-green .dive-card-name { color:var(--accent-green); }
-  .dive-cyan { border-color:rgba(34,211,238,.15); }
-  .dive-cyan:hover { border-color:rgba(34,211,238,.4); box-shadow:0 0 16px rgba(34,211,238,.1); }
+  .dive-cyan { border-color:rgba(34,211,238,.14); }
+  .dive-cyan:hover { border-color:rgba(34,211,238,.4); background:rgba(34,211,238,.04); box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 20px rgba(34,211,238,.12); }
   .dive-cyan .dive-card-name { color:var(--accent-cyan); }
-  .dive-violet { border-color:rgba(167,139,250,.15); }
-  .dive-violet:hover { border-color:rgba(167,139,250,.4); box-shadow:0 0 16px rgba(167,139,250,.1); }
+  .dive-violet { border-color:rgba(167,139,250,.14); }
+  .dive-violet:hover { border-color:rgba(167,139,250,.4); background:rgba(167,139,250,.04); box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 20px rgba(167,139,250,.12); }
   .dive-violet .dive-card-name { color:var(--accent-purple); }
-  .dive-amber { border-color:rgba(251,191,36,.15); }
-  .dive-amber:hover { border-color:rgba(251,191,36,.4); box-shadow:0 0 16px rgba(251,191,36,.1); }
+  .dive-amber { border-color:rgba(251,191,36,.14); }
+  .dive-amber:hover { border-color:rgba(251,191,36,.4); background:rgba(251,191,36,.04); box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 20px rgba(251,191,36,.12); }
   .dive-amber .dive-card-name { color:#fbbf24; }
-  .dive-pink { border-color:rgba(244,114,182,.15); }
-  .dive-pink:hover { border-color:rgba(244,114,182,.4); box-shadow:0 0 16px rgba(244,114,182,.1); }
+  .dive-pink { border-color:rgba(244,114,182,.14); }
+  .dive-pink:hover { border-color:rgba(244,114,182,.4); background:rgba(244,114,182,.04); box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 20px rgba(244,114,182,.12); }
   .dive-pink .dive-card-name { color:#f472b6; }
-  .dive-red { border-color:rgba(248,113,113,.15); }
-  .dive-red:hover { border-color:rgba(248,113,113,.4); box-shadow:0 0 16px rgba(248,113,113,.1); }
+  .dive-red { border-color:rgba(248,113,113,.14); }
+  .dive-red:hover { border-color:rgba(248,113,113,.4); background:rgba(248,113,113,.04); box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 20px rgba(248,113,113,.12); }
   .dive-red .dive-card-name { color:#f87171; }
+  /* light theme */
+  [data-theme="light"] .dive-card { background:rgba(255,255,255,0.8); }
 
   /* Skills preview */
   .skills-preview-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; margin-top:32px; }
