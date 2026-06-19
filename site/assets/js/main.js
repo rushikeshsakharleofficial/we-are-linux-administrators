@@ -211,16 +211,14 @@
     menu.querySelectorAll('.nav-link').forEach(a => {
       a.addEventListener('click', () => {
         menu.classList.remove('open');
-        burger.classList.remove('open');
-        burger.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-expanded', 'false');
       });
     });
 
     document.addEventListener('click', e => {
-      if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
-        mobileNav.classList.remove('open');
-        burger.classList.remove('open');
-        burger.setAttribute('aria-expanded', 'false');
+      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
       }
     });
   }
