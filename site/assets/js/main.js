@@ -293,4 +293,27 @@
       });
     });
   }
+  // 3D tilt + mouse-glow for animated feature cards
+  document.querySelectorAll('.anim-card').forEach(card => {
+    const MAX_TILT = 10;
+
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
+      card.style.transform = `perspective(700px) rotateY(${dx * MAX_TILT}deg) rotateX(${-dy * MAX_TILT}deg) translateZ(4px)`;
+
+      const mx = ((e.clientX - rect.left) / rect.width) * 100;
+      const my = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', mx + '%');
+      card.style.setProperty('--my', my + '%');
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(700px) rotateY(0deg) rotateX(0deg) translateZ(0)';
+    });
+  });
 })();

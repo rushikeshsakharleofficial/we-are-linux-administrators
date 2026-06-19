@@ -664,6 +664,135 @@ body::after {
 .text-muted { color: var(--text-muted); }
 .font-mono  { font-family: var(--font-mono); }
 
+/* ── ANIMATED FEATURE CARDS ── */
+/* Accent color map via data-accent attribute */
+.anim-card[data-accent="green"]  { --ac: 74,222,128;  --ac-hex: #4ade80; }
+.anim-card[data-accent="cyan"]   { --ac: 34,211,238;  --ac-hex: #22d3ee; }
+.anim-card[data-accent="purple"] { --ac: 167,139,250; --ac-hex: #a78bfa; }
+.anim-card[data-accent="amber"]  { --ac: 251,191,36;  --ac-hex: #fbbf24; }
+.anim-card[data-accent="pink"]   { --ac: 244,114,182; --ac-hex: #f472b6; }
+
+.anim-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--ac, 255,255,255), 0.1);
+  background: var(--bg-glass);
+  overflow: hidden;
+  cursor: default;
+  transform-style: preserve-3d;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  will-change: transform;
+  /* tilt applied via JS */
+}
+.anim-card:hover {
+  border-color: rgba(var(--ac, 255,255,255), 0.3);
+  box-shadow:
+    0 0 0 1px rgba(var(--ac, 255,255,255), 0.06),
+    0 8px 32px rgba(0,0,0,0.5),
+    0 0 24px rgba(var(--ac, 74,222,128), 0.12);
+}
+
+/* Radial glow that follows mouse */
+.anim-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 220px at var(--mx, 50%) var(--my, 50%),
+    rgba(var(--ac, 74,222,128), 0.12) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 0;
+}
+.anim-card:hover .anim-card-glow { opacity: 1; }
+
+/* Diagonal shimmer sweep on hover */
+.anim-card-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(var(--ac, 255,255,255), 0.06) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-position: 150% 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: background-position 0s;
+}
+.anim-card:hover .anim-card-shimmer {
+  background-position: -50% 0;
+  transition: background-position 0.55s ease;
+}
+
+.anim-card-inner {
+  position: relative;
+  z-index: 1;
+  padding: 28px;
+}
+
+.anim-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 11px;
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+  background: rgba(var(--ac, 74,222,128), 0.1);
+  border: 1px solid rgba(var(--ac, 74,222,128), 0.18);
+  box-shadow: 0 0 14px rgba(var(--ac, 74,222,128), 0.15);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.anim-card:hover .anim-card-icon {
+  box-shadow: 0 0 24px rgba(var(--ac, 74,222,128), 0.35);
+  transform: scale(1.08) rotate(-2deg);
+}
+
+.anim-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  transition: color 0.25s;
+}
+.anim-card:hover .anim-card-title { color: var(--ac-hex, var(--accent-green)); }
+
+.anim-card-body {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* Entrance animation for cards */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.anim-card.visible {
+  animation: card-enter 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+.anim-card.visible.d1 { animation-delay: 0.05s; }
+.anim-card.visible.d2 { animation-delay: 0.12s; }
+.anim-card.visible.d3 { animation-delay: 0.19s; }
+
+/* Light theme */
+[data-theme="light"] .anim-card {
+  background: rgba(255,255,255,0.8);
+  border-color: rgba(var(--ac, 0,0,0), 0.1);
+}
+[data-theme="light"] .anim-card:hover {
+  border-color: rgba(var(--ac, 0,0,0), 0.25);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 0 16px rgba(var(--ac, 0,0,0), 0.08);
+}
+
 /* ── REDUCED MOTION ── */
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
