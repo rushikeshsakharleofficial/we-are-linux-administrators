@@ -1,8 +1,8 @@
-# Release 1.17.20
+# Release 1.17.21
 
 ## Package
 
-- NPM package version: `1.17.20`
+- NPM package version: `1.17.21`
 - Skill count: `107`
 - Package name: `linux-admin`
 
@@ -27,8 +27,8 @@
 
 ## Updated
 
-- `package.json` aligned to version `1.17.20` and 107 expert skills
-- `.claude-plugin/plugin.json` aligned to version `1.17.20` and 107 task-specific skills
+- `package.json` aligned to version `1.17.21` and 107 expert skills
+- `.claude-plugin/plugin.json` aligned to version `1.17.21` and 107 task-specific skills
 - Website runtime copy and skills grid updated for `/linux-admin:rdp-expert`
 - Website release popup manifest updated for the RDP expert release
 - `README.md` updated with RDP expert section and 107-skill count
