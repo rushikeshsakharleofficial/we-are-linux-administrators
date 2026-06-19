@@ -3,8 +3,8 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.17.18';
-  const SKILL_COUNT = '106';
+  const PROJECT_VERSION = '1.17.20';
+  const SKILL_COUNT = '107';
 
   function setMeta(selector, value) {
     const el = document.querySelector(selector);
@@ -34,32 +34,38 @@
   }
 
   function syncProjectCopy() {
-    setMeta('meta[name="description"]', 'linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 106 skills covering boot, networking, storage, load balancing, security validation, and more.');
-    setMeta('meta[property="og:description"]', 'Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, safety gates, and 106 skills.');
+    setMeta('meta[name="description"]', 'linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 107 skills covering boot, networking, storage, RDP, load balancing, security validation, and more.');
+    setMeta('meta[property="og:description"]', 'Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, safety gates, and 107 skills.');
 
-    document.querySelectorAll('[data-count="98"], [data-count="99"]').forEach(el => {
+    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="106"]').forEach(el => {
       el.dataset.count = SKILL_COUNT;
-      if (/^(98|99)\+?$/.test(el.textContent.trim())) {
+      if (/^(98|99|106)\+?$/.test(el.textContent.trim())) {
         el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
       }
     });
 
     replaceText(document.body, [
-      [/98 specialized skills/g, '106 specialized skills'],
-      [/99 specialized skills/g, '106 specialized skills'],
-      [/98 task-specific skills/g, '106 task-specific skills'],
-      [/99 task-specific skills/g, '106 task-specific skills'],
-      [/98 Expert Skills/g, '106 Expert Skills'],
-      [/99 Expert Skills/g, '106 Expert Skills'],
-      [/98 skills/g, '106 skills'],
-      [/99 skills/g, '106 skills'],
-      [/98 Skills/g, '106 Skills'],
-      [/99 Skills/g, '106 Skills'],
-      [/Browse all 35 skills/g, 'Browse all 106 skills'],
-      [/Browse all 99 skills/g, 'Browse all 106 skills'],
-      [/Browse all 40\+/g, 'Browse all 106'],
-      [/40\+ linux-admin skills/g, '106 linux-admin skills'],
-      [/46 skills/g, '106 skills'],
+      [/98 specialized skills/g, '107 specialized skills'],
+      [/99 specialized skills/g, '107 specialized skills'],
+      [/106 specialized skills/g, '107 specialized skills'],
+      [/98 task-specific skills/g, '107 task-specific skills'],
+      [/99 task-specific skills/g, '107 task-specific skills'],
+      [/106 task-specific skills/g, '107 task-specific skills'],
+      [/98 Expert Skills/g, '107 Expert Skills'],
+      [/99 Expert Skills/g, '107 Expert Skills'],
+      [/106 Expert Skills/g, '107 Expert Skills'],
+      [/98 skills/g, '107 skills'],
+      [/99 skills/g, '107 skills'],
+      [/106 skills/g, '107 skills'],
+      [/98 Skills/g, '107 Skills'],
+      [/99 Skills/g, '107 Skills'],
+      [/106 Skills/g, '107 Skills'],
+      [/Browse all 35 skills/g, 'Browse all 107 skills'],
+      [/Browse all 99 skills/g, 'Browse all 107 skills'],
+      [/Browse all 106 skills/g, 'Browse all 107 skills'],
+      [/Browse all 40\+/g, 'Browse all 107'],
+      [/40\+ linux-admin skills/g, '107 linux-admin skills'],
+      [/46 skills/g, '107 skills'],
       [/Animated feature pages/g, 'Feature deep dives'],
       [/Each skill has a dedicated deep-dive page with interactive canvas animations and investigation walkthroughs\./g, 'Selected skills have dedicated deep-dive pages with practical investigation walkthroughs.'],
       [/Animated radar sonar — triage routing in real time/g, 'Triage routing walkthrough'],
@@ -80,7 +86,7 @@
     }
 
     document.querySelectorAll('.stat-num').forEach(el => {
-      if (['98', '99'].includes(el.textContent.trim())) el.textContent = SKILL_COUNT;
+      if (['98', '99', '106'].includes(el.textContent.trim())) el.textContent = SKILL_COUNT;
     });
   }
 
@@ -177,6 +183,16 @@
       'Use when: managed cloud load balancer health or routing is failing.',
       '/linux-admin:cloud-lb-expert AWS ALB targets unhealthy',
       'network'
+    );
+
+    addSkillCard(
+      grid,
+      '/linux-admin:security-expert',
+      '/linux-admin:rdp-expert',
+      'Linux RDP/XRDP expert for GNOME, KDE Plasma, XFCE, MATE, Cinnamon, LXQt, Xorg/Wayland, PAM, clipboard, audio, firewall, and black-screen triage.',
+      'Use when: Linux remote desktop or XRDP sessions fail, disconnect, or render a black screen.',
+      '/linux-admin:rdp-expert xrdp black screen after login on GNOME',
+      'auth'
     );
 
     addSkillCard(
