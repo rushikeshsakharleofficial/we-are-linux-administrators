@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "version": "1.17.18",
-  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 106 expert skills",
+  "version": "1.17.20",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 107 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
     "linux-admin-install": "./bin/linux-admin-install.js"
@@ -16,6 +16,12 @@
     "devops",
     "plugin",
     "admin",
+    "rdp",
+    "xrdp",
+    "remote-desktop",
+    "gnome",
+    "kde",
+    "xfce",
     "networking",
     "storage",
     "security",
