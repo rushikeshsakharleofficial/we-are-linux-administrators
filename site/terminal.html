@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Interactive terminal portfolio">
+<title>Terminal Portfolio</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/terminal.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar-flowbite" role="navigation" aria-label="Main navigation">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="index.html" class="navbar-logo" aria-label="linux-admin home">
+        <span class="logo-slash">/</span><span class="logo-text">linux-admin</span>
+      </a>
+    </div>
+
+    <button class="navbar-toggle" id="navbar-toggle" aria-expanded="false" aria-label="Toggle menu">
+      <svg class="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <div class="navbar-menu" id="navbar-menu">
+      <ul class="navbar-nav">
+        <li><a href="index.html" class="nav-link" data-page="index.html">Home</a></li>
+        <li><a href="skills.html" class="nav-link" data-page="skills.html">Skills</a></li>
+        <li><a href="install.html" class="nav-link" data-page="install.html">Install</a></li>
+        <li><a href="terminal.html" class="nav-link active" data-page="terminal.html">Terminal</a></li>
+        <li><a href="about.html" class="nav-link" data-page="about.html">About</a></li>
+      </ul>
+
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch theme">🌙</button>
+        <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="github-btn">★ GitHub</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE CONTENT -->
+<div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-top: var(--nav-h);">
+  <section class="container" style="max-width: 90rem; width: 100%; padding: 40px 20px;">
+    <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); text-align: center;">Terminal Portfolio</h1>
+    <p style="color: var(--text-muted); text-align: center; margin-bottom: 40px;">Interactive command-line interface showcasing skills and projects</p>
+
+    <!-- Terminal -->
+    <div id="terminal" class="terminal-wrapper">
+      <div class="terminal-header">
+        <div class="terminal-buttons">
+          <div class="terminal-btn close"></div>
+          <div class="terminal-btn minimize"></div>
+          <div class="terminal-btn maximize"></div>
+        </div>
+        <div class="terminal-title">admin@portfolio:~$ | Interactive Terminal v1.0</div>
+        <div class="terminal-status">
+          <span class="status-dot">●</span> ONLINE
+        </div>
+      </div>
+
+      <div class="terminal-output" id="terminal-output">
+        <!-- Output rendered here -->
+      </div>
+
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">admin@portfolio:~$</span>
+        <input
+          type="text"
+          id="terminal-input"
+          class="terminal-input"
+          spellcheck="false"
+          autocomplete="off"
+          aria-label="Terminal command input"
+        >
+        <span class="terminal-cursor">█</span>
+      </div>
+
+      <div class="terminal-footer">
+        <div class="terminal-footer-content">
+          <span>Type <kbd>help</kbd> for available commands • Use <kbd>↑</kbd>/<kbd>↓</kbd> arrows for history</span>
+          <span>Press <kbd>Ctrl+C</kbd> to interrupt • <kbd>clear</kbd> to reset</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer style="background: var(--bg-card); border-top: 1px solid var(--border-soft); padding: 32px 20px; text-align: center; color: var(--text-muted); margin-top: 40px;">
+  <p>&copy; 2026 linux-admin. Built with ❤️</p>
+</footer>
+
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/terminal.js"></script>
+</body>
+</html>
