@@ -1,7 +1,26 @@
 (function () {
   'use strict';
 
-  var url = 'assets/data/latest-update.json';
+  if (window.__linuxAdminReleaseNoticeLoaded) return;
+  window.__linuxAdminReleaseNoticeLoaded = true;
+
+  function ownScriptUrl() {
+    var current = document.currentScript;
+    if (current && current.src) return current.src;
+    var scripts = document.querySelectorAll('script[src*="release-notice.js"]');
+    return scripts.length ? scripts[scripts.length - 1].src : '';
+  }
+
+  function manifestUrl() {
+    var src = ownScriptUrl();
+    try {
+      return src ? new URL('../data/latest-update.json', src).href : 'assets/data/latest-update.json';
+    } catch (e) {
+      return 'assets/data/latest-update.json';
+    }
+  }
+
+  var url = manifestUrl();
   var typeOk = { 'plugin-release': true, 'skill-release': true };
 
   function getSeen(id) {
