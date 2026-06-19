@@ -199,19 +199,18 @@
     if (a.dataset.page === path) a.classList.add('active');
   });
 
-  // Mobile hamburger
-  const burger = document.getElementById('nav-hamburger');
-  const mobileNav = document.getElementById('mobile-nav');
-  if (burger && mobileNav) {
-    burger.addEventListener('click', () => {
-      const open = mobileNav.classList.toggle('open');
-      burger.classList.toggle('open', open);
-      burger.setAttribute('aria-expanded', String(open));
+  // Mobile navbar toggle
+  const toggle = document.getElementById('navbar-toggle');
+  const menu = document.getElementById('navbar-menu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
     });
 
-    mobileNav.querySelectorAll('.nav-link').forEach(a => {
+    menu.querySelectorAll('.nav-link').forEach(a => {
       a.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
+        menu.classList.remove('open');
         burger.classList.remove('open');
         burger.setAttribute('aria-expanded', 'false');
       });
