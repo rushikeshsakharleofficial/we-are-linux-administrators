@@ -1,19 +1,14 @@
-# Release 1.17.18
+# Release 1.17.20
 
 ## Package
 
-- NPM package version: `1.17.18`
-- Skill count: `106`
+- NPM package version: `1.17.20`
+- Skill count: `107`
 - Package name: `linux-admin`
 
 ## Added
 
-- `security-expert` — defensive Linux security validation router using incident-driven model
-- `security-expert-audit` bin script — read-only security audit helper
-- `docs/security-expert/security-score-model.md` — scoring model for security posture
-- `docs/security-expert/strategies.md` — security strategy model
-- `templates/security-audit-report.md` — sanitized audit report template
-- `templates/security-feedback-draft.md` — GitHub feedback draft template
+- `rdp-expert` — Linux RDP/XRDP expert for GNOME, KDE Plasma, XFCE, MATE, Cinnamon, LXQt, Xorg/Wayland, PAM, Polkit, clipboard, audio, firewall, black screen, reconnect, and multi-user remote desktop troubleshooting
 - `load-balancer-expert` router and recommendation skill
 - `nginx-proxy-expert`
 - `f5-expert`
@@ -21,18 +16,24 @@
 - `keepalived-expert`
 - `dns-gslb-expert`
 - `cloud-lb-expert`
+- `security-expert` — defensive Linux security validation router using incident-driven model
+- `security-expert-audit` bin script — read-only security audit helper
+- `docs/security-expert/security-score-model.md` — scoring model for security posture
+- `docs/security-expert/strategies.md` — security strategy model
+- `templates/security-audit-report.md` — sanitized audit report template
+- `templates/security-feedback-draft.md` — GitHub feedback draft template
 - `skillfish.json` manifest for skill.fish registry
 - `.npmignore` — trims npm package to 4.8 kB (bin + README + LICENSE only)
 
 ## Updated
 
-- `package.json` `files` field — publish-ready slim package
-- Website `install.html` — six install methods (npx, npm global, skillfish, marketplace, slash, clone)
-- Website `index.html` — npm global and skillfish install blocks added
-- `README.md` — npm global and skillfish in Quick Start; security expert section added
+- `package.json` aligned to version `1.17.20` and 107 expert skills
+- `.claude-plugin/plugin.json` aligned to version `1.17.20` and 107 task-specific skills
+- Website runtime copy and skills grid updated for `/linux-admin:rdp-expert`
+- Website release popup manifest updated for the RDP expert release
+- `README.md` updated with RDP expert section and 107-skill count
 - `docs/USAGE.md` — npm global and skillfish install options
 - `site/security.html` — refreshed for security expert skill
-- Plugin metadata aligned to 106 expert skills
 
 ## Install
 
