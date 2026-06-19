@@ -41,8 +41,14 @@ function cleanCopyText(raw) {
   });
 
   // Release notice loader: plugin/skill updates only, never website-only changes.
-  const releaseNotice = document.createElement('script');
-  releaseNotice.src = 'assets/js/release-notice.js?v=20260618-theme-sync';
-  releaseNotice.defer = true;
-  document.body.appendChild(releaseNotice);
+  if (!document.querySelector('script[data-release-notice-loader="1"]')) {
+    const releaseNotice = document.createElement('script');
+    const currentScript = document.currentScript;
+    releaseNotice.dataset.releaseNoticeLoader = '1';
+    releaseNotice.src = currentScript && currentScript.src
+      ? new URL('release-notice.js?v=20260618-path-safe', currentScript.src).href
+      : 'assets/js/release-notice.js?v=20260618-path-safe';
+    releaseNotice.defer = true;
+    document.body.appendChild(releaseNotice);
+  }
 })();
