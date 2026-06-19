@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/components.css">
 <style>
   /* ── Home-specific overrides ── */
   .hero {
@@ -344,29 +345,30 @@
 
 <!-- HERO -->
 <div class="hero" id="home" role="banner">
+  <div class="hero-spotlight" aria-hidden="true"></div>
   <div class="hero-grid-bg" aria-hidden="true"></div>
   <div class="hero-glow-orb" aria-hidden="true"></div>
   <div aria-hidden="true" style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,0.04) 0%,transparent 70%);top:10%;right:5%;pointer-events:none;animation:orb-pulse 6s ease-in-out infinite;animation-delay:1.5s;"></div>
   <div aria-hidden="true" style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,0.04) 0%,transparent 70%);bottom:15%;left:2%;pointer-events:none;animation:orb-pulse 7s ease-in-out infinite;animation-delay:3s;"></div>
 
-  <div class="hero-badge">Claude Code Plugin · MIT License</div>
+  <div class="hero-badge" data-enter="1">Claude Code Plugin · MIT License</div>
 
-  <h1 class="hero-title">
+  <h1 class="hero-title" data-enter="2">
     <span class="hero-title-prefix">$ claude plugin install</span>
     <span class="hero-title-main">linux-admin</span>
   </h1>
 
-  <p class="hero-sub">
+  <p class="hero-sub" data-enter="3">
     Give Claude Code a senior Linux administrator and SRE mental model.
     Read-only-first diagnostics, distro-aware command selection, and safety gates — across 98 specialized skills.
   </p>
 
-  <div class="hero-actions">
-    <a href="install.html" class="button button-primary">→ Quick Install</a>
-    <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="button button-secondary">★ View on GitHub</a>
+  <div class="hero-actions" data-enter="4">
+    <a href="install.html" class="button button-primary btn-glow">→ Quick Install</a>
+    <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="button button-secondary btn-glow">★ View on GitHub</a>
   </div>
 
-  <div class="hero-terminal-wrap">
+  <div class="hero-terminal-wrap" data-enter="5">
     <div class="hero-terminal">
       <div class="ht-bar">
         <span class="ht-dot red"></span>
@@ -412,6 +414,95 @@
   <div class="stat-item">
     <span class="stat-num" id="stat-solved">—</span>
     <span class="stat-label">Issues Solved</span>
+  </div>
+</div>
+
+<!-- PROOF STRIP — skill name marquee -->
+<div class="proof-strip" role="marquee" aria-label="Available skills">
+  <div class="proof-marquee-wrap" aria-hidden="true">
+    <div class="proof-marquee">
+      <span class="proof-skill">/linux-admin:diagnose</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:boot</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:network</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:storage</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:kernel</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:performance</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:firewall-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:systemd-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:ssh-hardening-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:migration-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:lvm-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:containers</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:postgresql-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:nginx-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:selinux-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:security-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:load-balancer-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:memory-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:io-wait-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:kubernetes-node-expert</span>
+    </div>
+    <!-- duplicate for seamless loop -->
+    <div class="proof-marquee" aria-hidden="true">
+      <span class="proof-skill">/linux-admin:diagnose</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:boot</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:network</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:storage</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:kernel</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:performance</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:firewall-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:systemd-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:ssh-hardening-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:migration-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:lvm-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:containers</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:postgresql-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:nginx-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:selinux-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:security-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:load-balancer-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:memory-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:io-wait-expert</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-skill">/linux-admin:kubernetes-node-expert</span>
+    </div>
   </div>
 </div>
 
@@ -689,6 +780,20 @@ claude plugin install linux-admin@we-are-linux-administrators</div>
   </div>
 </section>
 
+<!-- CTA BAND -->
+<section class="cta-band" aria-label="Get started with linux-admin">
+  <div class="cta-band-mesh" aria-hidden="true"></div>
+  <div class="cta-band-inner">
+    <span class="section-eyebrow">Ready to ship</span>
+    <h2 class="cta-band-title">One plugin. Every incident.</h2>
+    <p class="cta-band-desc">Read-only-first. Evidence-based. Safety-gated. Install in 30 seconds and give Claude Code a senior Linux administrator's mental model.</p>
+    <div class="cta-band-actions">
+      <a href="install.html" class="button button-primary btn-glow">→ Install Now</a>
+      <a href="https://github.com/rushikeshsakharleofficial/we-are-linux-administrators" target="_blank" rel="noopener" class="button button-secondary btn-glow">★ Star on GitHub</a>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
@@ -768,5 +873,6 @@ claude plugin install linux-admin@we-are-linux-administrators</div>
   } catch {}
 })();
 </script>
+<script src="assets/js/components.js" defer></script>
 </body>
 </html>

@@ -9,6 +9,7 @@
 <meta property="og:type" content="website">
 <title>linux-admin — Skills | 98 Expert Linux &amp; SRE Skills</title>
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/components.css">
 </head>
 <body>
 
@@ -79,6 +80,21 @@
 <!-- SKILLS SECTION -->
 <section class="section">
   <div class="container">
+
+    <!-- Live search -->
+    <div class="skill-search-wrap">
+      <span class="skill-search-icon" aria-hidden="true">🔍</span>
+      <label for="skill-search-input" class="sr-only">Search skills</label>
+      <input
+        type="search"
+        id="skill-search-input"
+        class="skill-search"
+        placeholder="Search skills, commands, categories…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search skills"
+      >
+    </div>
 
     <!-- Filter tabs -->
     <div class="filter-tabs" id="filter-tabs" role="tablist" aria-label="Skill categories">
@@ -1094,5 +1110,6 @@
 }());
 </script>
 
+<script src="assets/js/components.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,377 @@
+/* ═══════════════════════════════════════════
+   linux-admin — Component Extensions
+   Free-pattern vanilla components:
+   btn-glow · mesh-bg · proof-strip · cta-band
+   hero-spotlight · hero-entrance · skill-search
+   scenario-card enhancement
+═══════════════════════════════════════════ */
+
+/* ── MESH BACKGROUND UTILITY ── */
+.mesh-bg {
+  position: relative;
+}
+.mesh-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%,   rgba(74,222,128,0.055) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%,  rgba(34,211,238,0.045) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%,   rgba(167,139,250,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.mesh-bg > * { position: relative; z-index: 1; }
+
+/* ── HERO SPOTLIGHT ── */
+.hero-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--spot-x, -200%) var(--spot-y, -200%),
+    rgba(74,222,128,0.065) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HERO ENTRANCE STAGGER ── */
+@keyframes comp-enter-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+[data-enter] {
+  animation: comp-enter-up 0.75s cubic-bezier(0.16,1,0.3,1) backwards;
+}
+[data-enter="1"] { animation-delay: 0.05s; }
+[data-enter="2"] { animation-delay: 0.2s; }
+[data-enter="3"] { animation-delay: 0.35s; }
+[data-enter="4"] { animation-delay: 0.5s; }
+[data-enter="5"] { animation-delay: 0.65s; }
+
+/* ── GLOW BUTTON MODIFIER ── */
+/* Add .btn-glow alongside .button.button-primary or .button-secondary */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+/* Mouse-tracking radial shine (--mx/--my set via JS mousemove) */
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255,255,255,0.18) 0%,
+    transparent 55%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.btn-glow:hover::after { opacity: 1; }
+
+/* Primary: stronger glow on hover */
+.btn-glow.button-primary:hover {
+  box-shadow:
+    0 0 32px rgba(74,222,128,0.5),
+    0 0 64px rgba(74,222,128,0.15),
+    0 6px 24px rgba(74,222,128,0.25);
+}
+
+/* Secondary: gradient border via padding-box / border-box trick */
+.btn-glow.button-secondary {
+  background:
+    linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
+    linear-gradient(135deg, rgba(74,222,128,0.35), rgba(34,211,238,0.35)) border-box;
+  border: 1px solid transparent;
+  color: var(--text-body);
+}
+.btn-glow.button-secondary:hover {
+  background:
+    linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+    linear-gradient(135deg, var(--accent-green), var(--accent-cyan)) border-box;
+  color: var(--text-primary);
+  box-shadow: 0 0 24px rgba(34,211,238,0.2), 0 6px 20px rgba(0,0,0,0.2);
+}
+[data-theme="light"] .btn-glow.button-secondary {
+  background:
+    linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
+    linear-gradient(135deg, rgba(22,163,74,0.4), rgba(8,145,178,0.4)) border-box;
+}
+[data-theme="light"] .btn-glow.button-secondary:hover {
+  background:
+    linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+    linear-gradient(135deg, var(--accent-green), var(--accent-cyan)) border-box;
+  box-shadow: 0 0 20px rgba(8,145,178,0.15);
+}
+
+/* ── PROOF STRIP — MARQUEE ── */
+.proof-strip {
+  padding: 18px 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  overflow: hidden;
+  position: relative;
+}
+/* Edge fade masks */
+.proof-strip::before,
+.proof-strip::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.proof-strip::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg-secondary), transparent);
+}
+.proof-strip::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg-secondary), transparent);
+}
+.proof-marquee-wrap {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 36s linear infinite;
+}
+.proof-marquee-wrap:hover { animation-play-state: paused; }
+.proof-marquee {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 0 8px;
+}
+.proof-skill {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.proof-skill:hover {
+  color: var(--accent-green);
+  border-color: rgba(74,222,128,0.3);
+  background: rgba(74,222,128,0.04);
+}
+.proof-sep {
+  color: var(--text-dim);
+  font-size: 0.65rem;
+  user-select: none;
+  flex-shrink: 0;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+[data-theme="light"] .proof-strip::before {
+  background: linear-gradient(90deg, var(--bg-secondary), transparent);
+}
+[data-theme="light"] .proof-strip::after {
+  background: linear-gradient(270deg, var(--bg-secondary), transparent);
+}
+[data-theme="light"] .proof-skill {
+  background: rgba(255,255,255,0.8);
+  border-color: var(--border-soft);
+}
+
+/* ── CTA BAND ── */
+.cta-band {
+  position: relative;
+  padding: 96px max(24px, 5vw);
+  text-align: center;
+  overflow: hidden;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-soft);
+}
+.cta-band-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 50% 50%,   rgba(74,222,128,0.055) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 15% 80%,   rgba(34,211,238,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 85% 20%,   rgba(167,139,250,0.035) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-band-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.cta-band-title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin: 12px 0 16px;
+}
+.cta-band-desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0 auto 36px;
+  max-width: 480px;
+}
+.cta-band-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+[data-theme="light"] .cta-band {
+  background: var(--bg-secondary);
+}
+
+/* ── SCENARIO CARD ENHANCEMENT ── */
+/* Extends existing .scenario-card in style.css */
+.scenario-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.16,1,0.3,1),
+    box-shadow 0.3s,
+    border-color 0.3s;
+}
+/* Shimmer sweep on hover */
+.scenario-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-position: 150% 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: background-position 0s;
+}
+.scenario-card:hover {
+  transform: translateY(-4px);
+}
+.scenario-card:hover::before {
+  background-position: -50% 0;
+  transition: background-position 0.5s ease;
+}
+/* Cycle accent colors — green / cyan / purple */
+.scenario-card:nth-child(3n+1):hover {
+  border-color: rgba(74,222,128,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 20px rgba(74,222,128,0.1);
+}
+.scenario-card:nth-child(3n+2):hover {
+  border-color: rgba(34,211,238,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 20px rgba(34,211,238,0.1);
+}
+.scenario-card:nth-child(3n):hover {
+  border-color: rgba(167,139,250,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 20px rgba(167,139,250,0.1);
+}
+/* Accent-tinted number badges */
+.scenario-card:nth-child(3n+1) .scenario-num {
+  background: rgba(74,222,128,0.1);
+  border-color: rgba(74,222,128,0.25);
+  color: var(--accent-green);
+}
+.scenario-card:nth-child(3n+2) .scenario-num {
+  background: rgba(34,211,238,0.1);
+  border-color: rgba(34,211,238,0.25);
+  color: var(--accent-cyan);
+}
+.scenario-card:nth-child(3n) .scenario-num {
+  background: rgba(167,139,250,0.1);
+  border-color: rgba(167,139,250,0.25);
+  color: var(--accent-purple);
+}
+/* Ensure inner content renders above ::before */
+.scenario-header,
+.scenario-body { position: relative; z-index: 1; }
+[data-theme="light"] .scenario-card::before {
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(0,0,0,0.025) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-position: 150% 0;
+}
+
+/* ── SKILL SEARCH ── */
+.skill-search-wrap {
+  margin-bottom: 20px;
+  position: relative;
+  max-width: 420px;
+}
+.skill-search-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+.skill-search {
+  width: 100%;
+  padding: 10px 16px 10px 38px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.skill-search:focus {
+  border-color: rgba(74,222,128,0.4);
+  box-shadow: 0 0 0 3px rgba(74,222,128,0.08);
+}
+.skill-search::placeholder { color: var(--text-dim); }
+[data-theme="light"] .skill-search {
+  background: #ffffff;
+  border-color: var(--border-medium);
+}
+[data-theme="light"] .skill-search:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(22,163,74,0.1);
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  [data-enter],
+  .proof-marquee-wrap,
+  .scenario-card,
+  .btn-glow::after,
+  .hero-spotlight {
+    animation: none !important;
+    transition: none !important;
+  }
+  [data-enter] { opacity: 1; transform: none; }
+  .scenario-card:hover { transform: none; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .cta-band { padding: 64px 20px; }
+  .cta-band-title { font-size: 1.75rem; }
+  .cta-band-actions { flex-direction: column; align-items: center; }
+  .cta-band-actions .button { width: 100%; justify-content: center; }
+  .skill-search-wrap { max-width: 100%; }
+  .proof-strip::before, .proof-strip::after { width: 40px; }
+}
