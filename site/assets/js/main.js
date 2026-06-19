@@ -199,26 +199,29 @@
     if (a.dataset.page === path) a.classList.add('active');
   });
 
-  // Mobile navbar toggle
-  const toggle = document.getElementById('navbar-toggle');
-  const menu = document.getElementById('navbar-menu');
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      const open = menu.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(open));
+  // Mobile hamburger
+  const burger = document.getElementById('nav-hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (burger && mobileNav) {
+    burger.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', String(open));
     });
 
-    menu.querySelectorAll('.nav-link').forEach(a => {
+    mobileNav.querySelectorAll('.nav-link').forEach(a => {
       a.addEventListener('click', () => {
-        menu.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
+        mobileNav.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
       });
     });
 
     document.addEventListener('click', e => {
-      if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-        menu.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
+      if (!burger.contains(e.target) && !mobileNav.contains(e.target)) {
+        mobileNav.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
       }
     });
   }
