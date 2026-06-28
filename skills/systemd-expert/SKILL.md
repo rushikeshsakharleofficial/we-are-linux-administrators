@@ -1,6 +1,6 @@
 ---
 name: systemd-expert
-description: Expert Linux systemd diagnostics, unit design, restart-loop debugging, journald analysis, resource controls, security audit hardening, timers, dependency ordering, and safe remediation. Use for service failures, units, timers, startup ordering, daemon reloads, cgroups, watchdogs, systemd sandboxing, service exposure reviews, and boot-time service issues.
+description: Expert Linux systemd diagnostics, unit design, restart-loop debugging, journald analysis, resource controls, security audit hardening, timers, dependency ordering, cgroup v2, pressure-watch controls, Varlink-aware diagnostics, and safe remediation. Use for service failures, units, timers, startup ordering, daemon reloads, cgroups, watchdogs, systemd sandboxing, service exposure reviews, and boot-time service issues.
 ---
 
 # systemd-expert
@@ -13,6 +13,22 @@ A systemd issue is not solved when the service says `active`; it is solved when 
 
 When the user asks for security auditing, hardening, exposed-server review, CIS-style review, production baseline, service exposure review, or incident-prevention review, always include a **systemd unit security review**. Do not only check service status.
 
+## 2026 systemd awareness
+
+Account for newer systemd releases through v261 while staying distro-aware. Do not assume every directive exists on RHEL/Debian/Ubuntu LTS hosts. Always check `systemctl --version` before recommending newer directives.
+
+Modern areas to consider:
+
+- cgroup v2 behavior and per-unit resource controls.
+- CPU, memory, IO, task, and pressure-based controls where supported.
+- `systemctl show` properties such as reload counts, restart counts, cgroup paths, and unit file state.
+- service hardening directives including filesystem, capability, syscall, address-family, and device isolation.
+- `systemd-analyze security` as advisory evidence, not a blind scoring truth.
+- Varlink/DBus surfaces when newer systemd versions expose additional manager/unit/job data.
+- networkd DHCP relay changes and newer networkd settings only after version check.
+- nspawn option drift such as deprecated/renamed switches; avoid copy-pasting old examples blindly.
+- sysupdate/sysupdated API changes; do not assume old D-Bus control paths remain valid.
+
 ## First response behavior
 
 When the user gives a systemd issue, ask for missing context only if absolutely required. Otherwise proceed with a safe diagnostic plan and commands.
@@ -24,11 +40,13 @@ Always classify the issue:
 3. **Readiness issue**: wrong `Type=`, service marked ready too early/late, notify/dbus mismatch.
 4. **Dependency/order issue**: missing `After=`, mistaken `Requires=`, network-online confusion, mount dependency.
 5. **Restart loop/rate limit**: `Restart=`, `RestartSec=`, `StartLimitBurst=`, `StartLimitIntervalSec=`.
-6. **Resource/cgroup issue**: OOM, TasksMax, MemoryHigh/Max, CPUQuota, IOWeight.
+6. **Resource/cgroup issue**: OOM, TasksMax, MemoryHigh/Max, CPUQuota, IOWeight, pressure symptoms.
 7. **Security sandbox issue**: ProtectSystem, PrivateTmp, NoNewPrivileges, CapabilityBoundingSet, SELinux/AppArmor.
 8. **Timer/socket/path activation issue**: timer missed, OnCalendar wrong, socket not passing fd, path not triggering.
 9. **Journal/logging issue**: truncated logs, wrong identifier, persistent journal missing.
 10. **Service hardening gap**: broad privileges, weak filesystem isolation, unnecessary capabilities, permissive device/network access, missing user separation, or risky restart behavior.
+11. **Version/directive mismatch**: unit uses settings unsupported by the host's systemd version.
+12. **User manager issue**: `systemctl --user`, linger, session bus, rootless container/Podman Quadlet, graphical session dependency.
 
 ## Read-only triage commands
 
@@ -37,7 +55,7 @@ Use these before any state change:
 ```bash
 systemctl --version
 systemctl status <unit> --no-pager -l
-systemctl show <unit> --no-pager -p Id,LoadState,ActiveState,SubState,Result,ExecMainStatus,ExecMainCode,MainPID,NRestarts,RestartUSec,FragmentPath,DropInPaths,UnitFileState,NeedDaemonReload
+systemctl show <unit> --no-pager -p Id,LoadState,ActiveState,SubState,Result,ExecMainStatus,ExecMainCode,MainPID,NRestarts,RestartUSec,FragmentPath,DropInPaths,UnitFileState,NeedDaemonReload,ConditionResult,AssertResult,InvocationID,ControlGroup
 systemctl cat <unit>
 systemd-analyze verify <unit-file-or-dropin-if-known>
 journalctl -u <unit> -b --no-pager -n 200 -o short-iso
@@ -58,9 +76,21 @@ journalctl -b -p warning..alert --no-pager -n 300
 For resource/cgroup:
 
 ```bash
-systemctl show <unit> -p MemoryCurrent,MemoryPeak,MemoryHigh,MemoryMax,TasksCurrent,TasksMax,CPUUsageNSec,CPUQuotaPerSecUSec,IOReadBytes,IOWriteBytes
+stat -fc %T /sys/fs/cgroup
+systemctl show <unit> -p MemoryCurrent,MemoryPeak,MemoryHigh,MemoryMax,MemorySwapMax,MemoryZSwapMax,MemoryZSwapWriteback,TasksCurrent,TasksMax,CPUUsageNSec,CPUQuotaPerSecUSec,AllowedCPUs,AllowedMemoryNodes,IOReadBytes,IOWriteBytes,ManagedOOMMemoryPressure,ManagedOOMSwap
 systemd-cgtop -b -n 1
 cat /proc/<MainPID>/limits
+cat /proc/pressure/cpu /proc/pressure/memory /proc/pressure/io 2>/dev/null
+```
+
+For user services and rootless containers:
+
+```bash
+loginctl list-users
+loginctl show-user <user> --no-pager
+sudo -iu <user> systemctl --user status <unit> --no-pager -l
+sudo -iu <user> systemctl --user cat <unit>
+sudo -iu <user> journalctl --user -u <unit> --no-pager -n 200
 ```
 
 For security audit/hardening review:
@@ -106,7 +136,7 @@ During security audits, inspect and report these items for every relevant servic
 
 ### Network and syscall restrictions
 
-- `RestrictAddressFamilies=` is considered only after confirming protocol needs.
+- `RestrictAddressFamilies=` is considered only after confirming protocol needs and systemd version support.
 - `SystemCallArchitectures=native` is considered for normal services.
 - `SystemCallFilter=` is considered only after testing workload behavior.
 - `PrivateNetwork=true` is considered only for services that do not need host networking.
@@ -115,7 +145,7 @@ During security audits, inspect and report these items for every relevant servic
 
 - `Restart=` is not too aggressive for failing services.
 - `RestartSec=`, `StartLimitBurst=`, and `StartLimitIntervalSec=` prevent noisy loops.
-- `TasksMax=`, `MemoryHigh=`, `MemoryMax=`, `CPUQuota=`, and `IOWeight=` are reviewed for blast-radius control.
+- `TasksMax=`, `MemoryHigh=`, `MemoryMax=`, `CPUQuota=`, `IOWeight=`, and pressure controls are reviewed for blast-radius control.
 - `LimitNOFILE=`, `LimitNPROC=`, `LimitMEMLOCK=`, and `LimitCORE=` are checked with `limits-expert` logic.
 
 ### Secrets and environment exposure
@@ -132,6 +162,7 @@ Use this section during security audits:
 ```text
 Systemd security review
 - Unit:
+- systemd version:
 - Current exposure summary:
 - Root/user model:
 - Filesystem write scope:
@@ -139,6 +170,7 @@ Systemd security review
 - Network/syscall scope:
 - Resource blast-radius controls:
 - Secrets/env concerns:
+- Version/directive compatibility:
 - Recommended drop-in changes:
 - Compatibility risks:
 - Validation:
@@ -156,121 +188,6 @@ Systemd security review
 7. Check rate limiting before repeatedly restarting.
 8. Check limits/cgroup/sandbox only after basic exec/path/user/env issues are excluded.
 9. For security audits, review hardening directives even when the service is healthy.
-10. Propose minimal fix, preferably a drop-in under `/etc/systemd/system/<unit>.d/*.conf` instead of editing vendor unit.
-11. Include validation and rollback.
-
-## Unit design rules
-
-Prefer:
-
-- `Type=exec` for long-running simple daemons when you want failure if the executable or user cannot be started.
-- `Type=notify` only when the daemon actually sends `READY=1` via sd_notify.
-- `Type=forking` only for legacy daemons that really fork and cannot run foreground; use `PIDFile=` when possible.
-- `Restart=on-failure` for long-running services, not blind `always` unless the service is intentionally persistent and failures are expected.
-- `RestartSec=5s` or higher for noisy services; shorter only with evidence and rate limits.
-- `Wants=` instead of `Requires=` unless the dependent unit must stop/fail together.
-- `After=network-online.target` only if the service truly needs fully configured network, and pair with the correct wait service.
-- Drop-ins for local overrides; do not modify package-managed unit files unless packaging the service yourself.
-
-Avoid:
-
-- Long-running commands in `ExecStartPre=`; systemd kills remaining pre-start processes before `ExecStart=`.
-- `Type=simple` for services that must report readiness before dependents start.
-- `Restart=always` without `RestartSec` and start-limit protection.
-- `ExecStart=/bin/bash -c '...'` unless shell behavior is absolutely required.
-- Massive `LimitNOFILE=infinity` without checking app behavior and kernel/user-session ceilings.
-- Disabling sandboxing because of one denial without understanding the exact blocked path/capability.
-- Pasting a full hardening block into production without confirming the application's paths, capabilities, devices, and networking.
-
-## Safe change template
-
-Every proposed change must include:
-
-```text
-Evidence:
-- command output summary
-- log line or unit setting proving the issue
-
-Change:
-- exact drop-in path and content
-- why each directive is needed
-- why alternatives were rejected
-
-Risk:
-- restart impact
-- lockout risk
-- data-loss risk
-- dependency impact
-- compatibility impact
-
-Apply:
-- create or edit the drop-in file
-- sudo systemctl daemon-reload
-- sudo systemd-analyze verify <unit>
-- sudo systemctl restart <unit>
-
-Validate:
-- systemctl status <unit> --no-pager -l
-- journalctl -u <unit> -b -n 100 --no-pager
-- application-specific health check
-
-Rollback:
-- restore or remove the drop-in file
-- sudo systemctl daemon-reload
-- sudo systemctl restart <unit>
-```
-
-## Restart-loop playbook
-
-1. Check `Result`, `ExecMainStatus`, `NRestarts`.
-2. Read journal from first failure, not only latest restart.
-3. If exit code is app-defined, find app docs/config.
-4. If status `203/EXEC`, check binary path, shebang, permissions, mount noexec.
-5. If status `217/USER`, check `User=` exists and NSS/LDAP/SSSD is available.
-6. If `start-limit-hit`, stop repeatedly restarting. Inspect and reset only after fixing root cause.
-7. Propose `Restart=on-failure` + sane `RestartSec` only after the app is stable.
-
-## Hardening method
-
-Harden incrementally and test after each layer:
-
-- `NoNewPrivileges=true`
-- `PrivateTmp=true`
-- `ProtectSystem=full` or `strict` if compatible
-- `ProtectHome=true/read-only` if compatible
-- `ReadWritePaths=` for exact writable paths
-- `CapabilityBoundingSet=` only for required capabilities
-- `RestrictAddressFamilies=` only when known
-- `SystemCallFilter=` only after testing workload behavior
-- `ProtectKernelTunables=true` when the service does not need kernel tuning
-- `ProtectKernelModules=true` when the service does not manage modules
-- `ProtectControlGroups=true` when the service does not manage cgroups
-- `MemoryDenyWriteExecute=true` when compatible with the runtime
-- `LockPersonality=true` when compatible
-
-Never paste a generic hardening block into production without validating the application's filesystem, network, device, and capability needs.
-
-## Output format
-
-Use this exact structure unless user asks otherwise:
-
-```text
-Likely class:
-Evidence to collect:
-Read-only commands:
-Interpretation guide:
-Security/hardening review:
-Minimal fix options:
-Recommended change:
-Why this value/setting:
-Risk and rollback:
-Validation:
-```
-
-Reference docs inside plugin:
-
-- `docs/systemd-expert/diagnostic-method.md`
-- `docs/systemd-expert/unit-design.md`
-- `docs/systemd-expert/resource-control.md`
-- `docs/systemd-expert/service-hardening.md`
-- `docs/systemd-expert/restart-failure-playbook.md`
+10. For modern directives, verify support on the host before recommending them.
+11. Propose minimal fix, preferably a drop-in under `/etc/systemd/system/<unit>.d/*.conf` instead of editing vendor unit.
+12. Include validation and rollback.
