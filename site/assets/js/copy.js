@@ -40,15 +40,21 @@ function cleanCopyText(raw) {
     });
   });
 
-  // Release notice loader: plugin/skill updates only, never website-only changes.
-  if (!document.querySelector('script[data-release-notice-loader="1"]')) {
-    const releaseNotice = document.createElement('script');
+  function loadSiteScript(attr, scriptPath) {
+    if (document.querySelector('script[' + attr + '="1"]')) return;
+    const script = document.createElement('script');
     const currentScript = document.currentScript;
-    releaseNotice.dataset.releaseNoticeLoader = '1';
-    releaseNotice.src = currentScript && currentScript.src
-      ? new URL('release-notice.js?v=20260618-path-safe', currentScript.src).href
-      : 'assets/js/release-notice.js?v=20260618-path-safe';
-    releaseNotice.defer = true;
-    document.body.appendChild(releaseNotice);
+    script.setAttribute(attr, '1');
+    script.src = currentScript && currentScript.src
+      ? new URL(scriptPath, currentScript.src).href
+      : 'assets/js/' + scriptPath;
+    script.defer = true;
+    document.body.appendChild(script);
   }
+
+  // Homepage premium KPI cards.
+  loadSiteScript('data-kpi-3d-loader', 'kpi-3d.js?v=20260628-kpi-3d');
+
+  // Release notice loader: plugin/skill updates only, never website-only changes.
+  loadSiteScript('data-release-notice-loader', 'release-notice.js?v=20260618-path-safe');
 })();
