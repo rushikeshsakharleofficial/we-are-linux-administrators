@@ -8,10 +8,11 @@ set -euo pipefail
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$repo_root"
 
-if [ ! -x hooks/validate-linux-admin.sh ]; then
-  echo "ERROR: hooks/validate-linux-admin.sh is missing or not executable." >&2
-  echo "Run: chmod +x hooks/validate-linux-admin.sh" >&2
-  exit 1
-fi
-
-hooks/validate-linux-admin.sh "$repo_root"
+for hook in hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh; do
+  if [ ! -x "$hook" ]; then
+    echo "ERROR: $hook is missing or not executable." >&2
+    echo "Run: chmod +x hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh" >&2
+    exit 1
+  fi
+  "$hook" "$repo_root"
+done
