@@ -7,6 +7,7 @@ This project uses hooks for read-only validation and release-quality checks. Hoo
 | Hook | Purpose |
 |---|---|
 | `hooks/validate-linux-admin.sh` | Validates skill count/version consistency, skill front matter, optimization-guardian routing, website count, release popup version, shell syntax, and conservative credential-pattern checks. |
+| `hooks/validate-universal-contract.sh` | Validates the Universal Skill Execution Contract document, router references, required output fields, and direct per-skill contract coverage gaps. |
 | `.githooks/pre-commit` | Optional local Git hook. Runs the validator before local commits when `core.hooksPath` is configured. |
 | `.github/workflows/validate.yml` | CI validation. Runs existing tests plus the validator on push, pull request, and manual dispatch. |
 
@@ -14,13 +15,14 @@ This project uses hooks for read-only validation and release-quality checks. Hoo
 
 ```bash
 git config core.hooksPath .githooks
-chmod +x .githooks/pre-commit hooks/validate-linux-admin.sh
+chmod +x .githooks/pre-commit hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
 ```
 
 Run manually:
 
 ```bash
 hooks/validate-linux-admin.sh "$(pwd)"
+hooks/validate-universal-contract.sh "$(pwd)"
 ```
 
 ## Validator checks
@@ -33,7 +35,9 @@ hooks/validate-linux-admin.sh "$(pwd)"
 - version alignment between plugin metadata, package, README, and release notes
 - required skill front matter basics
 - `diagnose` route to `optimization-guardian-expert`
-- optimization guardian baseline guardrail text
+- `diagnose` reference to the Universal Skill Execution Contract
+- universal 8-rule contract document coverage
+- direct per-skill contract coverage gaps
 - website runtime skill count when present
 - release popup version consistency warning
 - conservative credential-pattern checks
