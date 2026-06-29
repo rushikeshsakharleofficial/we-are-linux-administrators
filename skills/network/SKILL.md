@@ -17,7 +17,7 @@ Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
 
 ## When to use
 
-Use this for no connectivity, one-way connectivity, DNS failure, route missing, interface down, packet filtering, port not reachable, local service listening but unreachable, Netplan/NetworkManager/wicked/systemd-networkd issues.
+Use for no connectivity, one-way connectivity, DNS failure, route missing, interface down, packet filtering, port not reachable, local service listening but unreachable, Netplan/NetworkManager/wicked/systemd-networkd issues.
 
 ## Mental model
 
@@ -72,6 +72,10 @@ ufw status verbose 2>/dev/null || true
 | Service listens on `127.0.0.1` only | bind address problem | app config, not firewall |
 | Service listens on `0.0.0.0` but remote fails | firewall, route, cloud SG/NACL, upstream | inspect counters and external path |
 | nft/firewalld counters increment on drop | local firewall blocks | narrow rule addition with rollback |
+| RHEL/Rocky/Alma 10 host has no `ifup`/`ifdown` or ignores `/etc/sysconfig/network-scripts/ifcfg-*` | legacy network scripts removed in Enterprise Linux 10 family | use NetworkManager (`nmcli`, `nmtui`) or `nmstate`; inspect `/etc/NetworkManager/system-connections/` |
+| Enterprise Linux 10 DHCP server migration request references `dhcpd`/ISC DHCP | ISC DHCP server is EOL/replaced downstream | plan Kea DHCP migration; do not recreate old `dhcpd.conf` blindly |
+| Enterprise Linux 10 network teaming config is requested | NIC teaming removed | replace team with bonding; validate driver/LACP/switch side before cutover |
+| systemd-networkd DHCP relay config uses old `[DHCPServer]` relay keys | systemd 261 deprecates relay keys in favor of `DHCPRelay=` and `[DHCPRelay]` | document current behavior; avoid new configs using deprecated relay keys |
 
 ## Distro-aware config checks
 
@@ -90,6 +94,22 @@ NetworkManager:
 nmcli con show
 nmcli dev show <interface>
 nmcli con show <connection-name>
+ls -l /etc/NetworkManager/system-connections/ 2>/dev/null || true
+```
+
+Enterprise Linux 10 / RHEL-like 10 note:
+
+- Do not create or edit `/etc/sysconfig/network-scripts/ifcfg-*` on Rocky Linux 10 / RHEL-like 10 as a remediation path.
+- Do not suggest `ifup`, `ifdown`, `ifup-local`, or legacy network-scripts hooks on Rocky Linux 10 / RHEL-like 10.
+- Prefer NetworkManager profiles, `nmcli`, `nmtui`, and `nmstate`.
+- For server aggregation, prefer bonding over removed NIC teaming.
+- For DHCP service rebuilds, prefer Kea DHCP over ISC DHCP.
+
+```bash
+cat /etc/os-release
+nmcli -f NAME,UUID,TYPE,DEVICE,AUTOCONNECT con show
+nmcli -f GENERAL,IP4,IP6 dev show <interface>
+ls -l /etc/NetworkManager/system-connections/
 ```
 
 systemd-networkd:
@@ -99,6 +119,8 @@ networkctl status <interface>
 ls -l /etc/systemd/network /run/systemd/network /usr/lib/systemd/network 2>/dev/null
 sed -n '1,200p' /etc/systemd/network/*.network 2>/dev/null
 ```
+
+When writing new DHCP relay guidance for modern `systemd-networkd`, prefer the current `[Network]` `DHCPRelay=` model and `[DHCPRelay]` section rather than deprecated `[DHCPServer]` relay settings.
 
 SUSE wicked:
 
