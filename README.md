@@ -2,18 +2,18 @@
 
 # 🐧 linux-admin
 
-### Open-source Linux administration skills for safer troubleshooting, production operations, and agent-assisted infrastructure work.
+### Open-source Linux administration skills for safer troubleshooting, production operations, Claude Code, Codex, and agent-assisted infrastructure work.
 
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=0B1020&color=A78BFA)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=0B1020&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.53-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
+[![Version](https://img.shields.io/badge/version-1.17.54-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
 [![Skills](https://img.shields.io/badge/skills-114-22D3EE?style=for-the-badge&labelColor=0B1020)](skills)
 
 ![Linux](https://img.shields.io/badge/Linux-Admin-22D3EE?style=flat-square&logo=linux&logoColor=white)
 ![SRE](https://img.shields.io/badge/SRE-Workflow-A78BFA?style=flat-square)
+![Codex](https://img.shields.io/badge/Codex-AGENTS.md-4ADE80?style=flat-square)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-Desktop-E95420?style=flat-square&logo=ubuntu&logoColor=white)
 ![Fedora](https://img.shields.io/badge/Fedora-Desktop-51A2DA?style=flat-square&logo=fedora&logoColor=white)
-![Patch](https://img.shields.io/badge/Patch-Aware-4ADE80?style=flat-square)
 ![Rollback](https://img.shields.io/badge/Rollback-First-F472B6?style=flat-square)
 
 </div>
@@ -22,7 +22,7 @@
 
 ## ✨ Overview
 
-`linux-admin` is an open-source Linux administration skills repository and Claude Code plugin. It gives coding/ops agents a senior Linux administrator and SRE-style operating model for practical troubleshooting, safe command planning, and repeatable infrastructure workflows.
+`linux-admin` is an open-source Linux administration skills repository for Claude Code, Codex, and other agent-based coding/ops tools. It gives agents a senior Linux administrator and SRE-style operating model for practical troubleshooting, safe command planning, and repeatable infrastructure workflows.
 
 | Principle | Meaning |
 |---|---|
@@ -32,8 +32,9 @@
 | 💾 Backup/disaster checks | Preserve critical state before impact |
 | 🏗️ Architecture-fit review | Avoid over-engineering and under-engineering |
 | 🔐 Vendor patch verification | Check current OS security sources before patch guidance |
+| 🤖 Agent-context ready | Uses `AGENTS.md`, `CLAUDE.md`, and scoped docs for Codex/Claude-style agents |
 
-**Version:** `1.17.53`  
+**Version:** `1.17.54`  
 **Skill count:** `114`
 
 ---
@@ -43,9 +44,10 @@
 ```console
 $ linux-admin status
 🐧 Project      : linux-admin
-📦 Version      : 1.17.53
+📦 Version      : 1.17.54
 🧩 Skills       : 114
 🛡️ Safety       : read-only-first + rollback-aware
+🤖 Agents       : Claude Code + Codex + AGENTS.md workflows
 🖥️ Desktop      : Ubuntu Desktop + Fedora Desktop
 🔐 Patch model  : vendor security source verification
 ```
@@ -99,6 +101,42 @@ claude plugin install linux-admin@we-are-linux-administrators
 
 </details>
 
+<details open>
+<summary><b>Use with Codex app, Codex CLI, or Codex IDE extension</b></summary>
+
+Codex uses repository-level instructions from `AGENTS.md`. This repo includes `AGENTS.md` plus supporting docs so Codex can use the same Linux admin safety model.
+
+Clone the repo:
+
+```bash
+git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
+cd we-are-linux-administrators
+```
+
+Install Codex CLI on macOS/Linux using OpenAI's official installer:
+
+```bash
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+```
+
+Run Codex from the repository root:
+
+```bash
+codex
+```
+
+Prompt Codex like this:
+
+```text
+Read AGENTS.md first. Then use the linux-admin skill structure to help with Linux admin troubleshooting, docs updates, skill updates, or validation.
+```
+
+For a new fork or derived repo, run `/init` in Codex to scaffold or refresh repository instructions, then preserve the safety rules from this repo's `AGENTS.md`.
+
+Detailed guide: [`docs/CODEX_USAGE.md`](docs/CODEX_USAGE.md)
+
+</details>
+
 <details>
 <summary><b>Install with skillfish</b></summary>
 
@@ -127,6 +165,8 @@ npm install -g linux-admin@latest
 
 ## ⚡ Quick usage
 
+Claude Code slash-command style:
+
 ```bash
 /linux-admin:diagnose nginx service failing after reboot
 /linux-admin:network DNS resolves but curl times out
@@ -135,6 +175,18 @@ npm install -g linux-admin@latest
 /linux-admin:optimization-guardian-expert tune nginx for high traffic safely
 /linux-admin:ubuntu-desktop-expert gnome extensions broke after upgrade
 /linux-admin:fedora-desktop-expert kinoite update broke plasma widgets
+```
+
+Codex prompt style:
+
+```text
+Read AGENTS.md and docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Use the diagnose skill workflow to create a read-only-first troubleshooting plan for nginx failing after reboot.
+```
+
+```text
+Read AGENTS.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
+Update the Fedora Desktop skill chunks only if official Fedora sources show current security or lifecycle changes.
 ```
 
 ---
@@ -149,7 +201,8 @@ npm install -g linux-admin@latest
 | 🔐 Security | SELinux, AppArmor, auditd, patching, validation |
 | 📊 Monitoring | Nagios Core, Observium CE, logs, incident timelines |
 | 🖥️ Desktop | Ubuntu Desktop, Fedora Desktop, GNOME, KDE, Xfce, Wayland/Xorg |
-| 🤖 Agent context | CLAUDE.md, AGENTS.md, patch refresh policy, universal contract |
+| 🤖 Agent context | `AGENTS.md`, `CLAUDE.md`, patch refresh policy, universal contract |
+| 🧰 Codex workflows | Codex app, CLI, IDE extension, Web, GitHub integration, repo instructions |
 
 ---
 
@@ -172,11 +225,40 @@ Full skill index: [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md)
 
 ---
 
+## 🧑‍💻 Codex support
+
+This repo is Codex-friendly by design.
+
+| Codex surface | How this repo supports it |
+|---|---|
+| Codex app | Open the repo, let Codex read `AGENTS.md`, and ask it to use the Linux admin workflow |
+| Codex CLI | Run from the repo root so `AGENTS.md` and docs are available in context |
+| Codex IDE extension | Use natural-language prompts that reference `AGENTS.md` and the target skill/chunk |
+| Codex Web | Connect the GitHub repo, assign scoped tasks, and require validation/check output |
+| GitHub integration | Use scoped issue/PR tasks and require changed-file summaries |
+| Codex `/init` | Use it only to scaffold or refresh project instructions; preserve this repo's safety rules |
+
+Recommended Codex task format:
+
+```text
+Read AGENTS.md first.
+Task: <exact change or troubleshooting goal>
+Scope: <files/directories allowed>
+Safety: follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
+Patch policy: follow docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific changes
+Validation: run or document the relevant hooks/checks
+Output: summarize changed files, evidence, validation, and rollback notes
+```
+
+---
+
 ## 🏗️ Architecture
 
 ```mermaid
 flowchart TD
-    User[User request] --> Router[/linux-admin:diagnose]
+    User[User request] --> Surface[Claude Code / Codex / Agent CLI]
+    Surface --> Context[AGENTS.md + CLAUDE.md + Repo Docs]
+    Context --> Router[/linux-admin:diagnose]
     Router --> Contract[Universal Skill Execution Contract]
     Contract --> Guard[Optimization and Safety Guardrails]
     Guard --> Skill[Task-specific Expert Skill]
@@ -191,13 +273,13 @@ flowchart TD
 | Layer | Purpose |
 |---|---|
 | Plugin metadata | Package identity, version, marketplace metadata |
+| Agent context | `AGENTS.md`, `CLAUDE.md`, and security patch policy for first-run behavior |
 | Router skill | Routes broad Linux issues to specialists |
 | Universal contract | Shared safety and output contract |
 | Specialist skills | Focused Linux domain expertise |
 | Chunked references | Smaller files for easier updates |
 | Hooks and CI | Validate structure and safety rules |
 | Site assets | GitHub Pages, release popup, presentation |
-| Agent context | First-run guidance for Claude Code/Codex-style tools |
 
 ---
 
@@ -216,6 +298,7 @@ we-are-linux-administrators/
 ├── bin/
 │   └── linux-admin-install.js
 ├── docs/
+│   ├── CODEX_USAGE.md
 │   ├── EXPERT_MODULE_INDEX.md
 │   ├── HOOKS.md
 │   ├── SECURITY_PATCH_REFRESH_POLICY.md
@@ -332,8 +415,9 @@ Community reports are useful signals, but official/vendor sources remain the aut
 Agent-based workflows should load these files at the start of a repository session:
 
 ```text
-CLAUDE.md
 AGENTS.md
+CLAUDE.md
+docs/CODEX_USAGE.md
 docs/SECURITY_PATCH_REFRESH_POLICY.md
 docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
 docs/EXPERT_MODULE_INDEX.md
@@ -360,6 +444,7 @@ GitHub Actions validation is configured under `.github/workflows/validate.yml`.
 
 - Add more chunked skills for monitoring, DNS, mail, storage, Kubernetes, and security.
 - Add distro-specific security patch chunks for Debian, RHEL/Rocky/Alma, openSUSE/SUSE, and Arch.
+- Add more Codex task templates for issue triage, docs refresh, release checks, and skill validation.
 - Improve the website skill explorer and release popup.
 - Add more real-world troubleshooting examples.
 - Add safer validation around desktop/session/display-manager workflows.
@@ -381,6 +466,7 @@ Good first tasks:
 - Add chunk files for skills that are becoming too large.
 - Improve `docs/EXPERT_MODULE_INDEX.md` descriptions.
 - Add website cards for new expert skills.
+- Add more Codex prompt templates to `docs/CODEX_USAGE.md`.
 
 Higher-impact tasks:
 
