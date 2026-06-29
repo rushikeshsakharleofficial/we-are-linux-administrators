@@ -3,6 +3,10 @@ name: Validate plugin
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   validate:
@@ -24,3 +28,7 @@ jobs:
           python tests/test_command_permission_experts.py
           python tests/test_firewall_fail2ban_experts.py
           python tests/test_expert_safety_guard.py
+      - name: Run linux-admin hook validation
+        run: |
+          chmod +x hooks/validate-linux-admin.sh
+          hooks/validate-linux-admin.sh "$GITHUB_WORKSPACE"
