@@ -1,15 +1,15 @@
 {
-  "id": "2026-06-19-rdp-expert-release-1.17.21",
+  "id": "2026-06-29-linux-proxy-expert-release-1.17.28",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.21",
-  "date": "2026-06-19",
-  "title": "New Linux RDP expert skill is live",
-  "summary": "Update your linux-admin plugin to get the new /linux-admin:rdp-expert skill for XRDP and Linux remote desktop troubleshooting across GNOME, KDE, XFCE, MATE, Cinnamon, LXQt, Xorg, and Wayland environments.",
+  "version": "1.17.28",
+  "date": "2026-06-29",
+  "title": "New Linux proxy expert skill is live",
+  "summary": "Update your linux-admin plugin to get the new /linux-admin:linux-proxy-expert skill for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS proxying, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind troubleshooting.",
   "highlights": [
-    "New /linux-admin:rdp-expert for Linux RDP/XRDP troubleshooting.",
-    "Covers GNOME, KDE Plasma, XFCE, MATE, Cinnamon, LXQt, Xorg/Wayland, PAM, Polkit, clipboard, audio, firewall, and black-screen issues.",
-    "Plugin package metadata is aligned to 1.17.21 with 107 expert skills."
+    "New /linux-admin:linux-proxy-expert for Linux proxy server and proxy-client troubleshooting.",
+    "Covers Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS CONNECT, package managers, systemd services, Docker/Podman, ACL/auth, TLS CA trust, firewall/NAT, and IPv4/IPv6 binding.",
+    "Plugin package metadata is aligned to 1.17.28 with 108 expert skills."
   ],
   "commands": {
     "claudeCode": [
