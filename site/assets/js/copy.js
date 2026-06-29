@@ -55,8 +55,8 @@ function cleanCopyText(raw) {
   // Homepage premium KPI cards.
   loadSiteScript('data-kpi-3d-loader', 'kpi-3d.js?v=20260628-kpi-3d');
 
-  // Nagios Core and Observium CE website count/card updates.
-  loadSiteScript('data-monitoring-ce-loader', 'monitoring-ce.js?v=20260629-monitoring-ce');
+  // Monitoring CE and optimization guardian website count/card updates.
+  loadSiteScript('data-monitoring-ce-loader', 'monitoring-ce.js?v=20260629-monitoring-opt-111');
 
   // Release notice loader: plugin/skill updates only, never website-only changes.
   loadSiteScript('data-release-notice-loader', 'release-notice.js?v=20260618-path-safe');
