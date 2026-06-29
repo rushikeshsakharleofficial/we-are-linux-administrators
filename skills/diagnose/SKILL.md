@@ -1,6 +1,6 @@
 ---
 name: "diagnose"
-description: "Diagnose any Linux administration issue using read-only-first, evidence-based troubleshooting. Use for general Linux failures, unknown symptoms, incident triage, root-cause analysis, or when unsure which specialized Linux skill applies. Updated for modern Linux kernels, systemd, OpenSSH, nftables/firewalld, Docker/Podman, Kubernetes, RDP/XRDP, optimization guarding, and cgroup v2 environments."
+description: "Diagnose any Linux administration issue using read-only-first, evidence-based troubleshooting. Use for general Linux failures, unknown symptoms, incident triage, root-cause analysis, or when unsure which specialized Linux skill applies. Enforces the Universal Skill Execution Contract across all skills."
 argument-hint: "[linux issue / symptom / logs / context]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
@@ -9,7 +9,7 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this plugin skill for: $ARGUMENTS
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+Important: begin read-only; require explicit confirmation before state-changing actions; include validation and rollback.
 
 Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
 
@@ -19,36 +19,26 @@ Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
 
 Act as a senior Linux administrator / SRE. Diagnose Linux issues through evidence, not guesswork. Produce safe, distro-aware, command-accurate, rollback-aware solutions for boot, services, networking, DNS, firewall, performance, optimization guarding, storage, permissions, SELinux/AppArmor, package, kernel, container, authentication, RDP/XRDP, logging, automation, load balancer, and Kubernetes node problems.
 
+## Universal Skill Execution Contract
+
+Every route, specialist skill, implementation plan, and final answer must follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
+
+Mandatory 8-rule contract:
+
+1. Security checks and facts before apply.
+2. Rollback plan.
+3. Auto-update wrong skill instructions when evidence proves they are wrong, and create/update GitHub issues only when matching the user's concern and safe/appropriate.
+4. Architecture fit check for over-implementation and under-implementation with better tool/feature recommendation and deep reason.
+5. Architecture audit in final output.
+6. Backup and disaster plan for each tool/workflow.
+7. Auto-rollback or guarded rollback plan for failed changes, especially network failure or SSH connection loss scenarios.
+8. Token-optimized execution with bounded outputs.
+
 ## Mandatory optimization routing
 
 If the user asks to optimize, tune, boost, speed up, increase throughput, reduce latency, change sysctl, increase limits, tune workers, tune queues, tune buffers, tune kernel/network/storage/database/web/PHP-FPM/Redis/Postfix/containers/Kubernetes settings, or apply performance recommendations, load `/linux-admin:optimization-guardian-expert` first.
 
 Do not provide final tuning values until the guardian checklist has baseline evidence, bottleneck proof, rollback, and validation metrics.
-
-## 2026 platform awareness
-
-Do not rely on older Linux assumptions. Before routing or fixing, account for:
-
-- Kernel families: vendor kernels, current mainline/stable, and longterm kernels such as 6.18, 6.12, 6.6, 6.1, 5.15, and 5.10.
-- systemd releases through v261: newer Varlink surfaces, cgroup/pressure controls, service hardening directives, daemon reload counters, and future deprecations.
-- OpenSSH 10.x: major version-string compatibility risk, SHA1 SSHFP deprecation direction, ControlPersist/PAM/account edge cases, and lockout-safe rollout.
-- nftables/firewalld: nft backend, zones, policies, policy sets, maps, verdict maps, metering, and flowtables.
-- Docker/Podman: rootless daemon model, subordinate UID/GID mappings, cgroup v2, nftables interaction, Podman Quadlet/systemd units.
-- Kubernetes: currently supported minor branches and version-skew rules before upgrade or node remediation.
-- Linux desktop/RDP: GNOME/KDE/XFCE/MATE/Cinnamon/LXQt, Xorg vs Wayland, xrdp/xorgxrdp, PAM/Polkit, audio and clipboard.
-
-## Non-negotiable rules
-
-1. **Read-only first.** Start with commands that inspect state and logs. Do not modify services, packages, firewalls, bootloaders, filesystems, users, permissions, desktop sessions, or security policy unless the user explicitly allows state-changing actions.
-2. **Detect environment before acting.** Identify distro family/version, kernel, init system, package manager, virtualization/cloud/container context, cgroup version, firewall controller, security module, privilege level, and access risk.
-3. **Tie conclusions to evidence.** Every likely cause must point to command output, logs, config, metric, or user-provided evidence.
-4. **Separate diagnosis from remediation.** First explain what is known, what is unknown, and what to check next. Only then propose fixes.
-5. **Ask only safety-critical clarifications.** Do not block on generic questions. Ask only when the answer changes command choice or prevents lockout/data loss.
-6. **No dangerous shortcuts.** Do not recommend global `setenforce 0`, flushing firewall rules, disabling firewalld/nftables, deleting large trees, repairing mounted filesystems, rebuilding bootloader/initramfs, rolling back packages, forcing desktop session changes globally, or rebooting as first-line fixes.
-7. **Prefer reversible changes.** Use dry-run/simulation options where available. Make backups before editing. Use drop-ins instead of editing vendor files. Validate syntax before restart.
-8. **Preserve access.** For remote systems, avoid network/firewall/SSH/RDP changes unless out-of-band access exists or the user confirms the risk.
-9. **Validate and rollback.** Every remediation must include validation commands and rollback steps.
-10. **Record reusable knowledge.** Capture issue class, facts, commands, outputs, hypotheses, final cause, fix, prevention, and useful grep/ripgrep/search patterns.
 
 ## Entry workflow
 
@@ -56,16 +46,15 @@ Use this sequence for every Linux issue:
 
 ```text
 1. Classify issue class.
-2. If optimization/tuning is involved, load optimization-guardian-expert first.
-3. Load the relevant task file from tasks/ or route to a specialist skill.
-4. Load core/02-safety-policy.md and core/03-diagnostic-method.md when needed.
-5. Detect environment using core/01-distro-detection.md plus modern platform checks.
-6. Generate a read-only diagnostic command set.
+2. Load and apply the Universal Skill Execution Contract.
+3. If optimization/tuning is involved, load optimization-guardian-expert first.
+4. Load the relevant task file from tasks/ or route to a specialist skill.
+5. Detect environment using distro/version, kernel, init, package manager, security module, firewall controller, virtualization/cloud/container context, and access risk.
+6. Generate a read-only diagnostic command set with bounded output.
 7. Explain expected signals and branch decisions.
 8. Rank hypotheses by evidence strength.
-9. Propose remediation only after diagnosis.
-10. Include rollback and validation.
-11. Produce an incident note using templates/incident-report.md if the user needs a report.
+9. Propose remediation only after diagnosis, including backup, rollback, and validation.
+10. Finish with architecture audit and token-saving note when implementation is involved.
 ```
 
 ## Modern environment detection
@@ -78,7 +67,7 @@ printf '== kernel ==\n'; uname -a
 printf '== init ==\n'; ps -p 1 -o comm=; systemctl --version 2>/dev/null | head -n 1 || true
 printf '== cgroup ==\n'; stat -fc %T /sys/fs/cgroup 2>/dev/null; cat /proc/cgroups 2>/dev/null | sed -n '1,20p'
 printf '== security ==\n'; getenforce 2>/dev/null || true; aa-status 2>/dev/null | sed -n '1,30p' || true
-printf '== firewall ==\n'; firewall-cmd --state 2>/dev/null || true; nft list ruleset 2>/dev/null | sed -n '1,80p' || iptables-save 2>/dev/null | sed -n '1,80p' || true
+printf '== firewall ==\n'; firewall-cmd --state 2>/dev/null || true; nft list ruleset 2>/dev/null | sed -n '1,80p' || true
 printf '== virtualization ==\n'; systemd-detect-virt 2>/dev/null || true
 ```
 
@@ -118,57 +107,47 @@ Use this format unless the user requested a different output:
 <one-line classification>
 
 ## Safety level
-Read-only / low-risk / disruptive / destructive. State why.
+Read-only / low-risk / disruptive. State why.
 
-## What I need to confirm first
-<zero or one safety-critical question, only if needed>
+## Security/facts check
+<known facts, missing facts, remote-access risk, blast radius>
+
+## Architecture fit
+<right-sized / over-implemented / under-implemented, with better-fit tool/feature if needed>
 
 ## Run these first
 ```bash
-<read-only commands>
+<bounded read-only commands>
 ```
 
 ## How to interpret results
 - Signal A means ...
 - Signal B means ...
 
-## Likely causes
-1. <cause> — evidence needed: <evidence>
-2. <cause> — evidence needed: <evidence>
+## Backup/disaster plan
+<tool-specific backup, restore, and disaster note>
 
 ## Safe remediation path
 <only if enough evidence, otherwise give next diagnostic step>
+
+## Rollback / guarded rollback
+<rollback steps if changes are proposed>
 
 ## Validation
 ```bash
 <validation commands>
 ```
 
-## Rollback
-<rollback steps if changes are proposed>
+## Final architecture audit
+<short architecture audit for implementation work>
+
+## Token-saving note
+<bounded-output and next-snippet guidance>
 ```
-
-## Confidence bands
-
-| Confidence | Behavior |
-|---|---|
-| `< 40%` | Stay read-only; state uncertainty; ask one critical clarification if needed. |
-| `40–75%` | Continue subsystem diagnostics; avoid changes; rank hypotheses. |
-| `75–90%` | Propose likely fix with confirmation gate and rollback. |
-| `> 90%` | Provide concise diagnosis and guarded remediation. |
 
 ## Mandatory safety gates
 
-Require explicit user confirmation before:
-
-- `systemctl restart` on critical services.
-- Any firewall, SSH, RDP, routing, or network renderer change on a remote host.
-- Package install/remove/upgrade/downgrade/rollback.
-- Editing bootloader, initramfs, fstab, crypttab, kernel command line.
-- Filesystem repair, partition/LVM/RAID operations.
-- `chown -R`, `chmod -R`, recursive deletes, log truncation.
-- SELinux/AppArmor policy generation or mode changes.
-- Reboot, shutdown, kexec, SysRq, panic trigger.
+Require explicit user confirmation before service-impacting actions, network/firewall/SSH/RDP/routing changes on remote systems, package changes, boot/storage/security-policy changes, broad recursive file changes, or host power-state changes.
 
 ## Agent behavior notes
 
@@ -179,6 +158,6 @@ Require explicit user confirmation before:
 
 ## Plugin references
 
-Load supporting files from `${CLAUDE_SKILL_DIR}/../../docs/` only when needed. For the 2026 refresh model, see `${CLAUDE_SKILL_DIR}/../../docs/skill-improvement/2026-06-linux-admin-skill-refresh.md`.
+Load supporting files from `${CLAUDE_SKILL_DIR}/../../docs/` only when needed. For the universal contract, see `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. For the 2026 refresh model, see `${CLAUDE_SKILL_DIR}/../../docs/skill-improvement/2026-06-linux-admin-skill-refresh.md`.
 
 User request: `$ARGUMENTS`
