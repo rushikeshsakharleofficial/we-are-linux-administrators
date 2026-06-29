@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "version": "1.17.41",
+  "version": "1.17.51",
   "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin — 113 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
