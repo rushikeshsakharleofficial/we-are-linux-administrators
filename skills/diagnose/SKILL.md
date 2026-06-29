@@ -1,6 +1,6 @@
 ---
 name: "diagnose"
-description: "Diagnose any Linux administration issue using read-only-first, evidence-based troubleshooting. Use for general Linux failures, unknown symptoms, incident triage, root-cause analysis, or when unsure which specialized Linux skill applies. Updated for modern Linux kernels, systemd, OpenSSH, nftables/firewalld, Docker/Podman, Kubernetes, RDP/XRDP, and cgroup v2 environments."
+description: "Diagnose any Linux administration issue using read-only-first, evidence-based troubleshooting. Use for general Linux failures, unknown symptoms, incident triage, root-cause analysis, or when unsure which specialized Linux skill applies. Updated for modern Linux kernels, systemd, OpenSSH, nftables/firewalld, Docker/Podman, Kubernetes, RDP/XRDP, optimization guarding, and cgroup v2 environments."
 argument-hint: "[linux issue / symptom / logs / context]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
@@ -17,7 +17,13 @@ Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
 
 ## Mission
 
-Act as a senior Linux administrator / SRE. Diagnose Linux issues through evidence, not guesswork. Produce safe, distro-aware, command-accurate, rollback-aware solutions for boot, services, networking, DNS, firewall, performance, storage, permissions, SELinux/AppArmor, package, kernel, container, authentication, RDP/XRDP, logging, automation, load balancer, and Kubernetes node problems.
+Act as a senior Linux administrator / SRE. Diagnose Linux issues through evidence, not guesswork. Produce safe, distro-aware, command-accurate, rollback-aware solutions for boot, services, networking, DNS, firewall, performance, optimization guarding, storage, permissions, SELinux/AppArmor, package, kernel, container, authentication, RDP/XRDP, logging, automation, load balancer, and Kubernetes node problems.
+
+## Mandatory optimization routing
+
+If the user asks to optimize, tune, boost, speed up, increase throughput, reduce latency, change sysctl, increase limits, tune workers, tune queues, tune buffers, tune kernel/network/storage/database/web/PHP-FPM/Redis/Postfix/containers/Kubernetes settings, or apply performance recommendations, load `/linux-admin:optimization-guardian-expert` first.
+
+Do not provide final tuning values until the guardian checklist has baseline evidence, bottleneck proof, rollback, and validation metrics.
 
 ## 2026 platform awareness
 
@@ -50,15 +56,16 @@ Use this sequence for every Linux issue:
 
 ```text
 1. Classify issue class.
-2. Load the relevant task file from tasks/ or route to a specialist skill.
-3. Load core/02-safety-policy.md and core/03-diagnostic-method.md when needed.
-4. Detect environment using core/01-distro-detection.md plus modern platform checks.
-5. Generate a read-only diagnostic command set.
-6. Explain expected signals and branch decisions.
-7. Rank hypotheses by evidence strength.
-8. Propose remediation only after diagnosis.
-9. Include rollback and validation.
-10. Produce an incident note using templates/incident-report.md if the user needs a report.
+2. If optimization/tuning is involved, load optimization-guardian-expert first.
+3. Load the relevant task file from tasks/ or route to a specialist skill.
+4. Load core/02-safety-policy.md and core/03-diagnostic-method.md when needed.
+5. Detect environment using core/01-distro-detection.md plus modern platform checks.
+6. Generate a read-only diagnostic command set.
+7. Explain expected signals and branch decisions.
+8. Rank hypotheses by evidence strength.
+9. Propose remediation only after diagnosis.
+10. Include rollback and validation.
+11. Produce an incident note using templates/incident-report.md if the user needs a report.
 ```
 
 ## Modern environment detection
@@ -79,6 +86,7 @@ printf '== virtualization ==\n'; systemd-detect-virt 2>/dev/null || true
 
 | User symptom | Load these files / route to skill |
 |---|---|
+| Optimization, tuning, boost, speed up, sysctl changes, kernel/network/database/web tuning, workers, buffers, queues, limits, capacity changes | `/linux-admin:optimization-guardian-expert` first, then route to the relevant specialist |
 | Boot failure, emergency mode, initramfs, fstab, GRUB, root disk missing | `tasks/boot-failures.md`, `/linux-admin:boot`, `/linux-admin:kernel-expert` |
 | Service failed, restart loop, unit dependency, daemon crash, timers, sockets, cgroups | `tasks/systemd-services.md`, `/linux-admin:service`, `/linux-admin:systemd-expert` |
 | No connectivity, DNS fail, firewall, routing, interface issue | `tasks/networking-dns-firewall.md`, `/linux-admin:network`, `/linux-admin:networking-expert`, `/linux-admin:firewall-expert` |
@@ -94,6 +102,8 @@ printf '== virtualization ==\n'; systemd-detect-virt 2>/dev/null || true
 | Kubernetes node health, kubelet, CNI, version skew, node pressure | `/linux-admin:kubernetes-node-expert`, `/linux-admin:containers`, `/linux-admin:networking-expert` |
 | SSH/login/user/group/sudo/PAM/LDAP/SSSD issues | `tasks/users-auth-sudo-ssh.md`, `/linux-admin:auth`, `/linux-admin:ssh-hardening-expert`, `/linux-admin:pam-expert`, `/linux-admin:sssd-ldap-expert` |
 | RDP/XRDP, GNOME/KDE/XFCE black screen, remote desktop, Wayland/Xorg | `/linux-admin:rdp-expert` |
+| Nagios Core checks, plugins, NRPE/NCPA/passive checks, notifications, object configs | `/linux-admin:nagios-core-expert` |
+| Observium CE SNMP, device discovery, poller, RRD, graphs, cron, MySQL/PHP | `/linux-admin:observium-ce-expert` |
 | Log analysis, journald, rsyslog, monitoring, alert investigation | `tasks/logging-monitoring.md`, `/linux-admin:logs`, `/linux-admin:rsyslog-expert`, `/linux-admin:incident-timeline-expert` |
 | Load balancer, HAProxy, NGINX proxy, F5, LVS/IPVS, keepalived, GSLB, cloud LB | `/linux-admin:load-balancer-expert` then specialist |
 | Security audit, hardening, scoring, exposed server review | `/linux-admin:security-expert`, `/linux-admin:os-security-expert` |
