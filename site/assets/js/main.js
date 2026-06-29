@@ -3,8 +3,8 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.17.20';
-  const SKILL_COUNT = '107';
+  const PROJECT_VERSION = '1.17.28';
+  const SKILL_COUNT = '108';
 
   function setMeta(selector, value) {
     const el = document.querySelector(selector);
@@ -34,38 +34,44 @@
   }
 
   function syncProjectCopy() {
-    setMeta('meta[name="description"]', 'linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 107 skills covering boot, networking, storage, RDP, load balancing, security validation, and more.');
-    setMeta('meta[property="og:description"]', 'Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, safety gates, and 107 skills.');
+    setMeta('meta[name="description"]', 'linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 108 skills covering boot, networking, storage, Linux proxying, RDP, load balancing, security validation, and more.');
+    setMeta('meta[property="og:description"]', 'Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, safety gates, and 108 skills.');
 
-    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="106"]').forEach(el => {
+    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="106"], [data-count="107"]').forEach(el => {
       el.dataset.count = SKILL_COUNT;
-      if (/^(98|99|106)\+?$/.test(el.textContent.trim())) {
+      if (/^(98|99|106|107)\+?$/.test(el.textContent.trim())) {
         el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
       }
     });
 
     replaceText(document.body, [
-      [/98 specialized skills/g, '107 specialized skills'],
-      [/99 specialized skills/g, '107 specialized skills'],
-      [/106 specialized skills/g, '107 specialized skills'],
-      [/98 task-specific skills/g, '107 task-specific skills'],
-      [/99 task-specific skills/g, '107 task-specific skills'],
-      [/106 task-specific skills/g, '107 task-specific skills'],
-      [/98 Expert Skills/g, '107 Expert Skills'],
-      [/99 Expert Skills/g, '107 Expert Skills'],
-      [/106 Expert Skills/g, '107 Expert Skills'],
-      [/98 skills/g, '107 skills'],
-      [/99 skills/g, '107 skills'],
-      [/106 skills/g, '107 skills'],
-      [/98 Skills/g, '107 Skills'],
-      [/99 Skills/g, '107 Skills'],
-      [/106 Skills/g, '107 Skills'],
-      [/Browse all 35 skills/g, 'Browse all 107 skills'],
-      [/Browse all 99 skills/g, 'Browse all 107 skills'],
-      [/Browse all 106 skills/g, 'Browse all 107 skills'],
-      [/Browse all 40\+/g, 'Browse all 107'],
-      [/40\+ linux-admin skills/g, '107 linux-admin skills'],
-      [/46 skills/g, '107 skills'],
+      [/98 specialized skills/g, '108 specialized skills'],
+      [/99 specialized skills/g, '108 specialized skills'],
+      [/106 specialized skills/g, '108 specialized skills'],
+      [/107 specialized skills/g, '108 specialized skills'],
+      [/98 task-specific skills/g, '108 task-specific skills'],
+      [/99 task-specific skills/g, '108 task-specific skills'],
+      [/106 task-specific skills/g, '108 task-specific skills'],
+      [/107 task-specific skills/g, '108 task-specific skills'],
+      [/98 Expert Skills/g, '108 Expert Skills'],
+      [/99 Expert Skills/g, '108 Expert Skills'],
+      [/106 Expert Skills/g, '108 Expert Skills'],
+      [/107 Expert Skills/g, '108 Expert Skills'],
+      [/98 skills/g, '108 skills'],
+      [/99 skills/g, '108 skills'],
+      [/106 skills/g, '108 skills'],
+      [/107 skills/g, '108 skills'],
+      [/98 Skills/g, '108 Skills'],
+      [/99 Skills/g, '108 Skills'],
+      [/106 Skills/g, '108 Skills'],
+      [/107 Skills/g, '108 Skills'],
+      [/Browse all 35 skills/g, 'Browse all 108 skills'],
+      [/Browse all 99 skills/g, 'Browse all 108 skills'],
+      [/Browse all 106 skills/g, 'Browse all 108 skills'],
+      [/Browse all 107 skills/g, 'Browse all 108 skills'],
+      [/Browse all 40\+/g, 'Browse all 108'],
+      [/40\+ linux-admin skills/g, '108 linux-admin skills'],
+      [/46 skills/g, '108 skills'],
       [/Animated feature pages/g, 'Feature deep dives'],
       [/Each skill has a dedicated deep-dive page with interactive canvas animations and investigation walkthroughs\./g, 'Selected skills have dedicated deep-dive pages with practical investigation walkthroughs.'],
       [/Animated radar sonar — triage routing in real time/g, 'Triage routing walkthrough'],
@@ -86,7 +92,7 @@
     }
 
     document.querySelectorAll('.stat-num').forEach(el => {
-      if (['98', '99', '106'].includes(el.textContent.trim())) el.textContent = SKILL_COUNT;
+      if (['98', '99', '106', '107'].includes(el.textContent.trim())) el.textContent = SKILL_COUNT;
     });
   }
 
@@ -114,6 +120,16 @@
   function ensureDynamicSkillCards() {
     const grid = document.getElementById('skills-grid');
     if (!grid) return;
+
+    addSkillCard(
+      grid,
+      '/linux-admin:networking-expert',
+      '/linux-admin:linux-proxy-expert',
+      'Linux proxy specialist for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS CONNECT, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind issues.',
+      'Use when: Linux hosts act as forward proxies, SOCKS proxies, or clients behind corporate/internal proxy layers.',
+      '/linux-admin:linux-proxy-expert squid 403 after adding ACL',
+      'network'
+    );
 
     addSkillCard(
       grid,
