@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "version": "1.17.55",
+  "version": "1.17.56",
   "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, and agent-based ops tools — 114 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
@@ -12,6 +12,7 @@
   "keywords": [
     "claude-code",
     "codex",
+    "codex-plugin",
     "openai-codex",
     "agents-md",
     "linux",
