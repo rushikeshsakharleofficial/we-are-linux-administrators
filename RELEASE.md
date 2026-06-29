@@ -1,14 +1,15 @@
-# Release 1.17.33
+# Release 1.17.39
 
 ## Package
 
-- NPM package version: `1.17.33`
-- Plugin metadata version: `1.17.33`
-- Skill count: `111`
+- NPM package version: `1.17.39`
+- Plugin metadata version: `1.17.39`
+- Skill count: `112`
 - Package name: `linux-admin`
 
 ## Added
 
+- `universal-contract-guardian-expert` — shared guardrail skill for creating, updating, auditing, and executing skills or implementation plans under the Universal Skill Execution Contract.
 - `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — repository-wide 8-rule execution contract for security/facts checks, rollback, self-correction, architecture fit, final architecture audit, backup/disaster planning, guarded rollback, and token-optimized bounded execution.
 - `hooks/validate-universal-contract.sh` — validation hook that checks the contract document, router references, required output fields, and direct per-skill contract coverage gaps.
 - `optimization-guardian-expert` — mandatory over-optimization guardrail for tuning, optimization, sysctl changes, kernel/network/storage/database/web/PHP-FPM/Redis/Postfix/container/Kubernetes tuning, limits, workers, queues, buffers, throughput, latency, and capacity changes.
@@ -18,9 +19,9 @@
 
 ## Updated
 
-- `.claude-plugin/plugin.json` — aligned to `1.17.33` and 111 skills with optimization, monitoring, Nagios, Observium, and proxy keywords.
-- `package.json` — aligned to version `1.17.33` and 111 expert skills.
-- `README.md` — added Universal Skill Execution Contract section plus Optimization Guardian and Monitoring Community Edition sections.
+- `.claude-plugin/plugin.json` — aligned to `1.17.39` and 112 skills with universal contract, optimization, monitoring, Nagios, Observium, and proxy keywords.
+- `package.json` — aligned to version `1.17.39` and 112 expert skills.
+- `README.md` — added Universal Skill Execution Contract and guardian skill documentation.
 - `skills/diagnose/SKILL.md` — now references the Universal Skill Execution Contract, includes the 8 mandatory rules, and keeps mandatory route to `/linux-admin:optimization-guardian-expert` for optimization/tuning requests.
 - `site/assets/js/monitoring-ce.js` — added website count/card updates for Nagios Core, Observium CE, and Optimization Guardian.
 - `site/assets/js/copy.js` — cache-busted the monitoring/optimization website update loader.
@@ -28,17 +29,10 @@
 
 ## Reviewed
 
-- Existing skill set for Universal Skill Execution Contract enforcement. Router-level enforcement and a validation hook were added immediately; direct per-skill expansion remains tracked as follow-up because bulk-editing all skills in one run would be large and riskier.
+- Existing skill set for Universal Skill Execution Contract enforcement. Router-level enforcement, a guardian skill, and a validation hook were added immediately; direct per-skill expansion remains tracked as follow-up because bulk-editing all skills in one run is large and riskier.
 - Existing skill set for duplicate proxy coverage. No dedicated Linux forward/SOCKS/client proxy skill was found, so a separate `linux-proxy-expert` skill was added instead of overloading `nginx-proxy-expert` or load-balancer specialists.
 - Existing skill set for monitoring coverage. No dedicated Nagios Core or Observium CE skills were found, so separate community-edition focused skills were added.
 - Optimization request flow needed a guardrail skill because optimization/tuning requests can cause production instability when done without baseline evidence, bottleneck proof, rollback, and monitoring.
-
-## Current-source findings used in this refresh
-
-- OpenSSH 10.3 was checked for current SSH/auth skill impact: user certificate empty-principal behavior, ProxyJump command-line validation, and PAM/account edge cases reinforce the need for facts-first and lockout-safe SSH rollout.
-- Kubernetes current release/version-skew policy was checked for Kubernetes node skill routing: upgrade guidance must remain version-skew aware and avoid stale minor-version assumptions.
-- AlmaLinux release notes were checked for distro-awareness: AlmaLinux 10.2 and 9.8 are current documented releases as of 2026-05-26, so skills must detect OS minor/kernel facts before package/kernel guidance.
-- firewalld documentation/blog was checked for current firewall/container strategy: policy sets and StrictForwardPorts reinforce the need to avoid blanket firewall/container assumptions and include guarded rollback.
 
 ## Install
 
