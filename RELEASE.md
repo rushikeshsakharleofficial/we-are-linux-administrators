@@ -1,9 +1,9 @@
-# Release 1.17.54
+# Release 1.17.55
 
 ## Package
 
-- NPM package version: `1.17.54`
-- Plugin metadata version: `1.17.54`
+- NPM package version: `1.17.55`
+- Plugin metadata version: `1.17.55`
 - Skill count: `114`
 - Package name: `linux-admin`
 
@@ -15,9 +15,10 @@
 ## Updated
 
 - `AGENTS.md` — expanded as the primary Codex instruction file with scoped-task format, validation expectations, and OS patch policy reminders.
-- `.claude-plugin/plugin.json` — aligned to `1.17.54` and updated to describe Claude Code, Codex, and agent-based ops tool support.
-- `package.json` — aligned to version `1.17.54` with Codex/AGENTS.md keywords.
+- `.claude-plugin/plugin.json` — aligned to `1.17.55` and updated to describe Claude Code, Codex, and agent-based ops tool support.
+- `package.json` — aligned to version `1.17.55` with Codex/AGENTS.md keywords.
 - `README.md` — no longer presents the repo as Claude-specific only; Codex is documented as a first-class workflow.
+- `site/assets/data/latest-update.json` — updated release popup for Codex support.
 
 ## Existing highlights
 
