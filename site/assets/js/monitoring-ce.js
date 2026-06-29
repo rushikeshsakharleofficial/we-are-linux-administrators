@@ -5,7 +5,7 @@
   if (window.__linuxAdminMonitoringCeLoaded) return;
   window.__linuxAdminMonitoringCeLoaded = true;
 
-  const SKILL_COUNT = '111';
+  const SKILL_COUNT = '112';
 
   function replaceText(root) {
     if (!root) return;
@@ -19,29 +19,35 @@
     let node;
     while ((node = walker.nextNode())) {
       node.nodeValue = node.nodeValue
-        .replace(/108 specialized skills/g, '111 specialized skills')
-        .replace(/110 specialized skills/g, '111 specialized skills')
-        .replace(/108 task-specific skills/g, '111 task-specific skills')
-        .replace(/110 task-specific skills/g, '111 task-specific skills')
-        .replace(/108 Expert Skills/g, '111 Expert Skills')
-        .replace(/110 Expert Skills/g, '111 Expert Skills')
-        .replace(/108 skills/g, '111 skills')
-        .replace(/110 skills/g, '111 skills')
-        .replace(/108 Skills/g, '111 Skills')
-        .replace(/110 Skills/g, '111 Skills')
-        .replace(/Browse all 108 skills/g, 'Browse all 111 skills')
-        .replace(/Browse all 110 skills/g, 'Browse all 111 skills');
+        .replace(/108 specialized skills/g, '112 specialized skills')
+        .replace(/110 specialized skills/g, '112 specialized skills')
+        .replace(/111 specialized skills/g, '112 specialized skills')
+        .replace(/108 task-specific skills/g, '112 task-specific skills')
+        .replace(/110 task-specific skills/g, '112 task-specific skills')
+        .replace(/111 task-specific skills/g, '112 task-specific skills')
+        .replace(/108 Expert Skills/g, '112 Expert Skills')
+        .replace(/110 Expert Skills/g, '112 Expert Skills')
+        .replace(/111 Expert Skills/g, '112 Expert Skills')
+        .replace(/108 skills/g, '112 skills')
+        .replace(/110 skills/g, '112 skills')
+        .replace(/111 skills/g, '112 skills')
+        .replace(/108 Skills/g, '112 Skills')
+        .replace(/110 Skills/g, '112 Skills')
+        .replace(/111 Skills/g, '112 Skills')
+        .replace(/Browse all 108 skills/g, 'Browse all 112 skills')
+        .replace(/Browse all 110 skills/g, 'Browse all 112 skills')
+        .replace(/Browse all 111 skills/g, 'Browse all 112 skills');
     }
   }
 
   function updateCounts() {
-    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="106"], [data-count="107"], [data-count="108"], [data-count="110"]').forEach(el => {
+    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="106"], [data-count="107"], [data-count="108"], [data-count="110"], [data-count="111"]').forEach(el => {
       el.dataset.count = SKILL_COUNT;
-      if (/^(98|99|106|107|108|110)\+?$/.test(el.textContent.trim())) {
+      if (/^(98|99|106|107|108|110|111)\+?$/.test(el.textContent.trim())) {
         el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
       }
     });
-    document.querySelectorAll('[data-kpi-value="108"], [data-kpi-value="110"]').forEach(el => {
+    document.querySelectorAll('[data-kpi-value="108"], [data-kpi-value="110"], [data-kpi-value="111"]').forEach(el => {
       el.dataset.kpiValue = SKILL_COUNT;
       el.textContent = SKILL_COUNT;
     });
@@ -75,8 +81,17 @@
     addSkillCard(
       grid,
       '/linux-admin:linux-proxy-expert',
+      '/linux-admin:universal-contract-guardian-expert',
+      'Universal 8-rule guardrail for all skills and implementation plans: security facts, rollback, skill correction flow, architecture fit, final audit, backup planning, guarded recovery, and bounded output.',
+      'Use when: creating, updating, auditing, or executing any skill or implementation plan.',
+      '/linux-admin:universal-contract-guardian-expert audit this implementation plan',
+      'security'
+    );
+    addSkillCard(
+      grid,
+      '/linux-admin:universal-contract-guardian-expert',
       '/linux-admin:optimization-guardian-expert',
-      'Over-optimization guardrail that must be used before tuning sysctl, kernel, network, database, web, worker, queue, buffer, cgroup, or capacity settings. Requires baseline, bottleneck proof, rollback, and validation metrics.',
+      'Over-optimization guardrail for tuning sysctl, kernel, network, database, web, worker, queue, buffer, cgroup, or capacity settings.',
       'Use when: any request says optimize, tune, boost, speed up, increase limits, or change performance knobs.',
       '/linux-admin:optimization-guardian-expert optimize sysctl for high traffic proxy server',
       'performance'
