@@ -1,9 +1,9 @@
-# Release 1.17.41
+# Release 1.17.51
 
 ## Package
 
-- NPM package version: `1.17.41`
-- Plugin metadata version: `1.17.41`
+- NPM package version: `1.17.51`
+- Plugin metadata version: `1.17.51`
 - Skill count: `113`
 - Package name: `linux-admin`
 
@@ -21,13 +21,10 @@
 
 ## Updated
 
-- `.claude-plugin/plugin.json` — aligned to `1.17.41` and 113 skills with Ubuntu Desktop keywords.
-- `package.json` — aligned to version `1.17.41` and 113 expert skills.
-- `README.md` — added Ubuntu Desktop expert documentation.
-- `skills/diagnose/SKILL.md` — routes general Linux desktop issues to the desktop specialist flow when applicable.
-- `site/assets/js/monitoring-ce.js` — updates website count/card runtime metadata for current skill count.
-- `site/assets/js/copy.js` — cache-busts the website update loader when needed.
-- `site/assets/data/latest-update.json` — release popup updated for the Ubuntu Desktop expert release.
+- `.claude-plugin/plugin.json` — aligned to `1.17.51` and 113 skills with Ubuntu Desktop keywords.
+- `package.json` — aligned to version `1.17.51` and 113 expert skills.
+- `README.md` — added Ubuntu Desktop expert documentation and aligned version metadata.
+- `site/assets/js/monitoring-ce.js`, `site/assets/js/copy.js`, and `site/assets/data/latest-update.json` still need a follow-up website metadata refresh if the next validation flags them.
 
 ## Reviewed
 
@@ -37,8 +34,9 @@
 
 ## Follow-up
 
-- Add `fedora-desktop-expert` with the same chunked category model. The connector blocked new Fedora file creation during this run, so it is tracked as a separate safe follow-up.
+- Add `fedora-desktop-expert` with the same chunked category model. The connector blocked new Fedora file creation during this run, so it remains a safe follow-up.
 - Add repo-level `CLAUDE.md`, `AGENTS.md`, and `docs/SECURITY_PATCH_REFRESH_POLICY.md` context files for Claude/Codex first-run memory behavior. The hourly Linux Skill Watch automation has already been updated to load them when present.
+- Add explicit diagnose-router routing for `/linux-admin:ubuntu-desktop-expert`; a direct router file update was blocked during this run.
 
 ## Install
 
