@@ -105,7 +105,7 @@
     addStyles();
 
     const items = [
-      { icon: '⚡', chip: 'skills', value: 107, suffix: '+', label: 'Expert Linux skills', desc: 'Routers and deep specialists for SRE, Linux admin, security, RDP, networking, and platform triage.' },
+      { icon: '⚡', chip: 'skills', value: 108, suffix: '+', label: 'Expert Linux skills', desc: 'Routers and deep specialists for SRE, Linux admin, security, proxying, RDP, networking, and platform triage.' },
       { icon: '🛡️', chip: 'safety', value: 3, label: 'Command risk classes', desc: 'Read-only first, disruptive confirmation gates, and destructive-command hard blocks.' },
       { icon: '🔁', chip: 'watch', value: 24, suffix: 'h', label: 'Daily skill refresh loop', desc: 'Tracks distro, kernel, systemd, OpenSSH, package-manager, and networking changes.' },
       { icon: '🚀', chip: 'agent', value: 4, suffix: '+', label: 'Agent-ready platforms', desc: 'Claude Code, Codex, Gemini, Skillfish, and future Linux admin agent workflows.' }
