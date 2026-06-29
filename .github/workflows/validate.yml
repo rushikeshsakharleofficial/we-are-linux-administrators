@@ -30,5 +30,6 @@ jobs:
           python tests/test_expert_safety_guard.py
       - name: Run linux-admin hook validation
         run: |
-          chmod +x hooks/validate-linux-admin.sh
+          chmod +x hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
           hooks/validate-linux-admin.sh "$GITHUB_WORKSPACE"
+          hooks/validate-universal-contract.sh "$GITHUB_WORKSPACE"
