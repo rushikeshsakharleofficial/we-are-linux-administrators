@@ -11,6 +11,7 @@
 
 - `skills/network/SKILL.md` — added Enterprise Linux 10 networking guidance: NetworkManager replaces legacy `network-scripts`, `ifup` and `ifdown` should not be used on Rocky/RHEL-like 10, Kea DHCP replaces old ISC DHCP server workflows, NIC teaming should be migrated to bonding, and modern `systemd-networkd` DHCP relay guidance should avoid deprecated relay keys.
 - `skills/packages/SKILL.md` — added `dnf5` and Alpine `apk` detection and diagnostics, documented Enterprise Linux 10 DNF modularity deprecation, added `rpmsort` guidance for RPM version ordering, and clarified DNF filelist metadata behavior.
+- `skills/ssh-hardening-expert/SKILL.md` — added OpenSSH 10.3+ hardening notes for SSH certificate empty-principal behavior, `authorized_keys` principal validation, `ProxyJump` command-line input safety, allow/deny precedence, and `ForceCommand` forwarding review.
 
 ## Reviewed
 
