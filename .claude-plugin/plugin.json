@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
   "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, and agent-based ops tools. Covers 114 task-specific skills for boot, networking, storage, universal skill contract enforcement, optimization guarding, Linux proxying, Ubuntu Desktop, Fedora Desktop, GNOME, KDE Plasma, Xfce, desktop environments, Nagios Core, Observium Community Edition, RDP and Linux remote desktop, load balancing, web proxies, enterprise ADCs, Linux L4 balancing, DNS traffic steering, cloud load balancers, kernel, auth, logging, databases, web servers, backup/restore, incident response, defensive security validation, security scoring, patching, SELinux, AppArmor, capacity planning, and production safety.",
-  "version": "1.17.55",
+  "version": "1.17.56",
   "author": {
     "name": "Rushikesh Sakharle",
     "email": "rishiananya123@gmail.com"
