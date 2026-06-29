@@ -1,15 +1,16 @@
 {
-  "id": "2026-06-29-universal-contract-guardian-release-1.17.39",
+  "id": "2026-06-29-fedora-desktop-expert-release-1.17.53",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.39",
+  "version": "1.17.53",
   "date": "2026-06-29",
-  "title": "Universal Skill Execution Contract is live",
-  "summary": "Update your linux-admin plugin to get /linux-admin:universal-contract-guardian-expert and the repository-wide 8-rule execution contract for safer skills, architecture fit checks, backup planning, rollback planning, and token-optimized bounded output.",
+  "title": "Fedora Desktop Expert is live",
+  "summary": "Update your linux-admin plugin to get /linux-admin:fedora-desktop-expert plus chunked Fedora Desktop coverage for Workstation, KDE Plasma Edition, Spins, Atomic Desktops, Labs, Wayland/Xorg, kernels, hardware, UI extensions, SELinux, dnf/rpm-ostree updates, and security patch refresh workflows.",
   "highlights": [
-    "New /linux-admin:universal-contract-guardian-expert for skill execution governance.",
-    "New docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md defines the 8 mandatory rules for all current and future skills.",
-    "Plugin package metadata is aligned to 1.17.39 with 112 expert skills."
+    "New /linux-admin:fedora-desktop-expert for Fedora desktop and official variant troubleshooting.",
+    "Chunked Fedora reference files make future category updates smaller and safer.",
+    "Repo-level CLAUDE.md, AGENTS.md, and SECURITY_PATCH_REFRESH_POLICY.md provide first-run context for Claude/Codex agents.",
+    "Plugin package metadata is aligned to 1.17.53 with 114 expert skills."
   ],
   "commands": {
     "claudeCode": [
