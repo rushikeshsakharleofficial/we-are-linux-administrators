@@ -1,14 +1,16 @@
-# Release 1.17.39
+# Release 1.17.41
 
 ## Package
 
-- NPM package version: `1.17.39`
-- Plugin metadata version: `1.17.39`
-- Skill count: `112`
+- NPM package version: `1.17.41`
+- Plugin metadata version: `1.17.41`
+- Skill count: `113`
 - Package name: `linux-admin`
 
 ## Added
 
+- `ubuntu-desktop-expert` — Ubuntu Desktop specialist for GNOME, KDE Plasma/Kubuntu, Xfce/Xubuntu, MATE, Cinnamon, LXQt/Lubuntu, Budgie, UKUI/Kylin, Unity, Ubuntu Studio desktop workflows, Wayland/Xorg, display managers, kernels, HWE/OEM kernels, graphics drivers, PipeWire/audio, Bluetooth, Wi-Fi, printing, power, UI customization, extensions/plugins, desktop security, updates, release upgrades, and guarded troubleshooting.
+- Chunked Ubuntu Desktop reference files under `skills/ubuntu-desktop-expert/chunks/` so future updates can target one category at a time instead of rewriting the main skill.
 - `universal-contract-guardian-expert` — shared guardrail skill for creating, updating, auditing, and executing skills or implementation plans under the Universal Skill Execution Contract.
 - `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — repository-wide 8-rule execution contract for security/facts checks, rollback, self-correction, architecture fit, final architecture audit, backup/disaster planning, guarded rollback, and token-optimized bounded execution.
 - `hooks/validate-universal-contract.sh` — validation hook that checks the contract document, router references, required output fields, and direct per-skill contract coverage gaps.
@@ -19,20 +21,24 @@
 
 ## Updated
 
-- `.claude-plugin/plugin.json` — aligned to `1.17.39` and 112 skills with universal contract, optimization, monitoring, Nagios, Observium, and proxy keywords.
-- `package.json` — aligned to version `1.17.39` and 112 expert skills.
-- `README.md` — added Universal Skill Execution Contract and guardian skill documentation.
-- `skills/diagnose/SKILL.md` — now references the Universal Skill Execution Contract, includes the 8 mandatory rules, and keeps mandatory route to `/linux-admin:optimization-guardian-expert` for optimization/tuning requests.
-- `site/assets/js/monitoring-ce.js` — added website count/card updates for Nagios Core, Observium CE, and Optimization Guardian.
-- `site/assets/js/copy.js` — cache-busted the monitoring/optimization website update loader.
-- `site/assets/data/latest-update.json` — updated release popup for Optimization Guardian.
+- `.claude-plugin/plugin.json` — aligned to `1.17.41` and 113 skills with Ubuntu Desktop keywords.
+- `package.json` — aligned to version `1.17.41` and 113 expert skills.
+- `README.md` — added Ubuntu Desktop expert documentation.
+- `skills/diagnose/SKILL.md` — routes general Linux desktop issues to the desktop specialist flow when applicable.
+- `site/assets/js/monitoring-ce.js` — updates website count/card runtime metadata for current skill count.
+- `site/assets/js/copy.js` — cache-busts the website update loader when needed.
+- `site/assets/data/latest-update.json` — release popup updated for the Ubuntu Desktop expert release.
 
 ## Reviewed
 
-- Existing skill set for Universal Skill Execution Contract enforcement. Router-level enforcement, a guardian skill, and a validation hook were added immediately; direct per-skill expansion remains tracked as follow-up because bulk-editing all skills in one run is large and riskier.
-- Existing skill set for duplicate proxy coverage. No dedicated Linux forward/SOCKS/client proxy skill was found, so a separate `linux-proxy-expert` skill was added instead of overloading `nginx-proxy-expert` or load-balancer specialists.
-- Existing skill set for monitoring coverage. No dedicated Nagios Core or Observium CE skills were found, so separate community-edition focused skills were added.
-- Optimization request flow needed a guardrail skill because optimization/tuning requests can cause production instability when done without baseline evidence, bottleneck proof, rollback, and monitoring.
+- Ubuntu official release-cycle and security sources for LTS/interim release behavior, Ubuntu Pro/ESM, and current security-maintenance policy.
+- Fedora official spins page for planned follow-up Fedora Desktop expert coverage.
+- Existing skill set for desktop coverage. RDP/XRDP coverage existed, but there was no dedicated Ubuntu Desktop skill for local UI/session/kernel/driver/security/update workflows, so `ubuntu-desktop-expert` was added.
+
+## Follow-up
+
+- Add `fedora-desktop-expert` with the same chunked category model. The connector blocked new Fedora file creation during this run, so it is tracked as a separate safe follow-up.
+- Add repo-level `CLAUDE.md`, `AGENTS.md`, and `docs/SECURITY_PATCH_REFRESH_POLICY.md` context files for Claude/Codex first-run memory behavior. The hourly Linux Skill Watch automation has already been updated to load them when present.
 
 ## Install
 
