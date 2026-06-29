@@ -25,6 +25,25 @@ The project covers boot, networking, storage, optimization guarding, Linux proxy
 
 ---
 
+## Universal Skill Execution Contract
+
+All current and future skills must follow [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md).
+
+Required behavior across every skill:
+
+1. Security checks and facts before apply.
+2. Rollback plan.
+3. Self-correction when a skill instruction is proven wrong, with GitHub issues only when safe and relevant.
+4. Architecture fit check for over-implementation and under-implementation.
+5. Architecture audit in final output.
+6. Backup and disaster plan for every tool/workflow.
+7. Auto-rollback or guarded rollback for risky remote changes.
+8. Token-optimized execution with bounded outputs.
+
+Validation support is in `hooks/validate-universal-contract.sh`.
+
+---
+
 ## Quick Start
 
 **npx (fastest):**
@@ -117,147 +136,3 @@ It prevents unsafe over-optimization by requiring baseline metrics, one-bottlene
 /linux-admin:nagios-core-expert service checks stuck pending after config change
 /linux-admin:observium-ce-expert graphs flat after adding SNMP device
 ```
-
----
-
-## Linux proxy expert
-
-`/linux-admin:linux-proxy-expert` handles Linux forward proxy, SOCKS proxy, package-manager proxy, systemd service proxy, Docker/Podman proxy, ACL/auth, TLS CA trust, firewall/NAT, and IPv4/IPv6 binding issues.
-
-```bash
-/linux-admin:linux-proxy-expert squid 403 after adding ACL
-/linux-admin:linux-proxy-expert dante socks5 timeout from IPv6 clients
-/linux-admin:linux-proxy-expert docker build failing behind corporate proxy
-/linux-admin:linux-proxy-expert apt works but dnf proxy fails
-```
-
----
-
-## RDP expert
-
-`/linux-admin:rdp-expert` handles Linux RDP/XRDP environments across GNOME, KDE Plasma, XFCE, MATE, Cinnamon, LXQt, Xorg, Wayland, PAM, Polkit, firewall, clipboard, drive redirection, audio, black screen, reconnect, and multi-user remote desktop issues.
-
-```bash
-/linux-admin:rdp-expert xrdp black screen after login on GNOME
-/linux-admin:rdp-expert KDE Plasma RDP disconnects immediately
-/linux-admin:rdp-expert XFCE clipboard and audio not working over XRDP
-```
-
----
-
-## Security expert
-
-`/linux-admin:security-expert` is the defensive Linux security validation router. It uses an incident-driven model to review attack surface, SSH/auth, firewall, patch posture, privilege boundaries, sysctl hardening, limits, systemd sandboxing, SELinux/AppArmor, logging, backup recovery, mail security, and container risk.
-
-It is designed for owned or explicitly authorized systems only.
-
-```bash
-/linux-admin:security-expert audit this web server
-/linux-admin:security-expert score this mail server security posture
-/linux-admin:security-expert generate fix plan for failed SSH and sysctl checks
-```
-
-The security expert can prepare sanitized GitHub feedback drafts, but it must not submit issues, pull requests, comments, reports, or server data without explicit user approval.
-
----
-
-## Load balancer skill family
-
-| Skill | Use |
-|---|---|
-| `/linux-admin:load-balancer-expert` | Main router and recommender. Classifies the request and suggests the best-fit load balancer before routing to a specialist. |
-| `/linux-admin:haproxy-expert` | HAProxy frontend/backend, ACL, health check, TLS, stickiness, and safe reload work. |
-| `/linux-admin:nginx-proxy-expert` | NGINX reverse proxy and load balancing: upstreams, 502/503/504, TLS/SNI, headers, WebSocket/gRPC. |
-| `/linux-admin:f5-expert` | F5 BIG-IP style virtual servers, pools, monitors, profiles, SNAT, persistence, and HA failover. |
-| `/linux-admin:lvs-ipvs-expert` | Linux LVS/IPVS, ipvsadm, ldirectord, NAT/DR/TUN modes, schedulers, persistence, ARP/DSR. |
-| `/linux-admin:keepalived-expert` | keepalived VRRP, VIP ownership, health scripts, failover, split-brain, and IPVS integration. |
-| `/linux-admin:dns-gslb-expert` | DNS/GSLB, weighted/geo/latency routing, TTL behavior, multi-region failover, MX balancing. |
-| `/linux-admin:cloud-lb-expert` | AWS/Azure/GCP managed load balancers, target health, listeners, TLS, source IP, logs, and safe cloud cutovers. |
-
-The main router recommends one primary option and one backup option using protocol, layer, deployment type, traffic volume, HA target, TLS strategy, source IP needs, persistence, budget, team skill, observability, and security requirements.
-
----
-
-## Other expert skill groups
-
-### Networking, proxy, monitoring & firewall
-
-`networking-expert`, `linux-proxy-expert`, `nagios-core-expert`, `observium-ce-expert`, `firewall-expert`, `fail2ban-expert`, `natting-expert`, `tcp-expert`, `udp-expert`, `iproute-expert`, `routing-expert`, `vlan-bonding-expert`, `proxy-expert`, `nfs-expert`, `tcpdump-expert`
-
-### Storage & filesystems
-
-`lvm-expert`, `filesystem-expert`, `disk-mounting-expert`, `quota-expert`, `raid-expert`, `iscsi-expert`, `multipath-expert`, `smart-disk-expert`, `backup-restore-expert`, `logrotate-expert`
-
-### Kernel, performance & optimization
-
-`optimization-guardian-expert`, `kernel-expert`, `sysctl-expert`, `memory-expert`, `swap-expert`, `cpu-expert`, `io-wait-expert`, `load-average-expert`, `process-expert`, `capacity-planning-expert`
-
-### Databases, middleware & web
-
-`mysql-expert`, `postgresql-expert`, `redis-expert`, `nginx-expert`, `apache-expert`, `haproxy-expert`, `php-fpm-expert`, `samba-expert`
-
-### Auth, desktop & security
-
-`rdp-expert`, `security-expert`, `os-security-expert`, `ssh-hardening-expert`, `auditd-expert`, `selinux-expert`, `apparmor-expert`, `pam-expert`, `sssd-ldap-expert`, `user-permissions-expert`, `file-permissions-expert`, `acl-permissions-expert`, `sudoers-expert`, `vulnerability-scan-expert`
-
-### Automation & operations
-
-`ansible-expert`, `patching-expert`, `cron-scheduler-expert`, `systemd-expert`, `limits-expert`, `migration-expert`, `incident-response-expert`, `runbook-expert`, `bash-script-expert`, `shell-script-expert`, `command-expert`
-
----
-
-## Security and privacy
-
-The project does **not** automatically collect server data, create GitHub issues, open pull requests, post comments, or submit reports from a user's machine.
-
-Security feedback is explicit opt-in only. If a user finds a missing check or plugin weakness, the skill can prepare a sanitized GitHub issue draft, but submission requires user review and approval first.
-
-See:
-
-- [`PRIVACY.md`](PRIVACY.md)
-- [Security finding feedback template](.github/ISSUE_TEMPLATE/security-finding-feedback.yml)
-
----
-
-## Triage scripts
-
-`bin/` is added to Claude Code's Bash PATH when the plugin is active:
-
-```bash
-linux-triage
-linux-log-classifier
-security-expert-audit
-sysctl-expert-audit
-systemd-expert-audit
-limits-expert-audit
-networking-expert-audit
-firewall-expert-audit
-fail2ban-expert-audit
-command-expert-audit
-user-permissions-expert-audit
-file-permissions-expert-audit
-acl-permissions-expert-audit
-```
-
----
-
-## Documentation
-
-| Resource | Description |
-|---|---|
-| [`docs/USAGE.md`](docs/USAGE.md) | Usage guide |
-| [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md) | Expert module index |
-| [`docs/load-balancer-expert/load-balancer-research.md`](docs/load-balancer-expert/load-balancer-research.md) | Load balancer research and recommendation notes |
-| [`docs/security-expert/linux-security-research.md`](docs/security-expert/linux-security-research.md) | Incident-driven Linux security research notes |
-| [`docs/security-expert/linux-security-checklist.md`](docs/security-expert/linux-security-checklist.md) | Security audit checklist and output contract |
-| [`docs/security-expert/strategies.md`](docs/security-expert/strategies.md) | Security expert strategy and routing model |
-| [`docs/security-expert/security-score-model.md`](docs/security-expert/security-score-model.md) | Linux security score model |
-| [`templates/security-audit-report.md`](templates/security-audit-report.md) | Security audit report template |
-| [`codex/AGENTS.md`](codex/AGENTS.md) | Codex/OpenAI adapter |
-| [`gemini/GEMINI.md`](gemini/GEMINI.md) | Gemini adapter |
-
----
-
-## License
-
-MIT — see [LICENSE](LICENSE).
