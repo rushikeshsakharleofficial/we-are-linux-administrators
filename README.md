@@ -7,8 +7,8 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.21-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-107-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
+[![Version](https://img.shields.io/badge/version-1.17.28-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Skills](https://img.shields.io/badge/skills-108-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
 
@@ -18,10 +18,10 @@
 
 `linux-admin` is a Claude Code plugin that gives Claude Code a senior Linux administrator and SRE operating model: read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates for risky shell commands.
 
-Current plugin metadata version: **1.17.21**  
-Current skill count: **107 task-specific skills**
+Current plugin metadata version: **1.17.28**  
+Current skill count: **108 task-specific skills**
 
-The project covers boot, networking, storage, Linux RDP/XRDP remote desktop, GNOME/KDE/XFCE desktop sessions, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
+The project covers boot, networking, storage, Linux proxying, Linux RDP/XRDP remote desktop, GNOME/KDE/XFCE desktop sessions, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
 
 ---
 
@@ -65,7 +65,7 @@ claude plugin install linux-admin@we-are-linux-administrators
 
 ## NPM release
 
-`package.json` is aligned to version **1.17.21** and **107 expert skills**.
+`package.json` is aligned to version **1.17.28** and **108 expert skills**.
 
 Publishing is handled by `.github/workflows/npm-publish.yml` when a GitHub Release is published or when the workflow is manually dispatched. The repository must have an `NPM_TOKEN` secret with npm publish permission.
 
@@ -90,6 +90,19 @@ See [`RELEASE.md`](RELEASE.md) for the current release notes.
 | `/linux-admin:auth` | SSH, sudo, PAM, LDAP, SSSD, user access |
 | `/linux-admin:logs` | journald, rsyslog, monitoring, incident timeline |
 | `/linux-admin:automation` | Scripts, Ansible, fleet triage |
+
+---
+
+## Linux proxy expert
+
+`/linux-admin:linux-proxy-expert` handles Linux forward proxy, SOCKS proxy, package-manager proxy, systemd service proxy, Docker/Podman proxy, ACL/auth, TLS CA trust, firewall/NAT, and IPv4/IPv6 binding issues.
+
+```bash
+/linux-admin:linux-proxy-expert squid 403 after adding ACL
+/linux-admin:linux-proxy-expert dante socks5 timeout from IPv6 clients
+/linux-admin:linux-proxy-expert docker build failing behind corporate proxy
+/linux-admin:linux-proxy-expert apt works but dnf proxy fails
+```
 
 ---
 
@@ -142,7 +155,7 @@ The main router recommends one primary option and one backup option using protoc
 
 ### Networking & firewall
 
-`networking-expert`, `firewall-expert`, `fail2ban-expert`, `natting-expert`, `tcp-expert`, `udp-expert`, `iproute-expert`, `routing-expert`, `vlan-bonding-expert`, `proxy-expert`, `nfs-expert`, `tcpdump-expert`
+`networking-expert`, `linux-proxy-expert`, `firewall-expert`, `fail2ban-expert`, `natting-expert`, `tcp-expert`, `udp-expert`, `iproute-expert`, `routing-expert`, `vlan-bonding-expert`, `proxy-expert`, `nfs-expert`, `tcpdump-expert`
 
 ### Storage & filesystems
 
