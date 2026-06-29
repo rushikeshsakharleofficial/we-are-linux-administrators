@@ -1,15 +1,15 @@
 {
-  "id": "2026-06-29-optimization-guardian-release-1.17.33",
+  "id": "2026-06-29-universal-contract-guardian-release-1.17.39",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.33",
+  "version": "1.17.39",
   "date": "2026-06-29",
-  "title": "New Optimization Guardian skill is live",
-  "summary": "Update your linux-admin plugin to get /linux-admin:optimization-guardian-expert, a mandatory guardrail for optimization and tuning requests that requires baseline evidence, bottleneck proof, rollback, validation metrics, and monitoring before performance changes.",
+  "title": "Universal Skill Execution Contract is live",
+  "summary": "Update your linux-admin plugin to get /linux-admin:universal-contract-guardian-expert and the repository-wide 8-rule execution contract for safer skills, architecture fit checks, backup planning, rollback planning, and token-optimized bounded output.",
   "highlights": [
-    "New /linux-admin:optimization-guardian-expert for over-optimization prevention.",
-    "The diagnose router now routes optimization, tuning, sysctl, kernel/network/database/web tuning, limits, workers, queues, buffers, and capacity changes through the guardian first.",
-    "Plugin package metadata is aligned to 1.17.33 with 111 expert skills."
+    "New /linux-admin:universal-contract-guardian-expert for skill execution governance.",
+    "New docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md defines the 8 mandatory rules for all current and future skills.",
+    "Plugin package metadata is aligned to 1.17.39 with 112 expert skills."
   ],
   "commands": {
     "claudeCode": [
