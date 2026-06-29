@@ -7,8 +7,8 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.28-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-108-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
+[![Version](https://img.shields.io/badge/version-1.17.33-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Skills](https://img.shields.io/badge/skills-111-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
 
@@ -18,10 +18,10 @@
 
 `linux-admin` is a Claude Code plugin that gives Claude Code a senior Linux administrator and SRE operating model: read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates for risky shell commands.
 
-Current plugin metadata version: **1.17.28**  
-Current skill count: **108 task-specific skills**
+Current plugin metadata version: **1.17.33**  
+Current skill count: **111 task-specific skills**
 
-The project covers boot, networking, storage, Linux proxying, Linux RDP/XRDP remote desktop, GNOME/KDE/XFCE desktop sessions, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
+The project covers boot, networking, storage, optimization guarding, Linux proxying, Nagios Core, Observium Community Edition, Linux RDP/XRDP remote desktop, GNOME/KDE/XFCE desktop sessions, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
 
 ---
 
@@ -65,7 +65,7 @@ claude plugin install linux-admin@we-are-linux-administrators
 
 ## NPM release
 
-`package.json` is aligned to version **1.17.28** and **108 expert skills**.
+`package.json` is aligned to version **1.17.33** and **111 expert skills**.
 
 Publishing is handled by `.github/workflows/npm-publish.yml` when a GitHub Release is published or when the workflow is manually dispatched. The repository must have an `NPM_TOKEN` secret with npm publish permission.
 
@@ -90,6 +90,33 @@ See [`RELEASE.md`](RELEASE.md) for the current release notes.
 | `/linux-admin:auth` | SSH, sudo, PAM, LDAP, SSSD, user access |
 | `/linux-admin:logs` | journald, rsyslog, monitoring, incident timeline |
 | `/linux-admin:automation` | Scripts, Ansible, fleet triage |
+
+---
+
+## Optimization guardian
+
+`/linux-admin:optimization-guardian-expert` must be used whenever a request involves optimization, tuning, performance boosting, sysctl/kernel/network/database/web tuning, limits, workers, queues, buffers, or capacity changes.
+
+It prevents unsafe over-optimization by requiring baseline metrics, one-bottleneck-at-a-time logic, rollback, validation metrics, and monitoring before any tuning change.
+
+```bash
+/linux-admin:optimization-guardian-expert tune nginx for 50k concurrent users
+/linux-admin:optimization-guardian-expert optimize sysctl for high traffic proxy server
+/linux-admin:optimization-guardian-expert increase php-fpm workers without OOM risk
+```
+
+---
+
+## Monitoring community edition experts
+
+`/linux-admin:nagios-core-expert` handles Nagios Core community edition host/service objects, plugins, NRPE/NCPA/passive checks, notifications, CGI auth, external commands, performance data, retention, and safe config verification.
+
+`/linux-admin:observium-ce-expert` handles Observium Community Edition SNMP onboarding, `add_device.php`, poller-wrapper, discovery, RRD/rrdcached, cron, MySQL/PHP, web UI, device graphs, and CE-safe troubleshooting.
+
+```bash
+/linux-admin:nagios-core-expert service checks stuck pending after config change
+/linux-admin:observium-ce-expert graphs flat after adding SNMP device
+```
 
 ---
 
@@ -153,17 +180,17 @@ The main router recommends one primary option and one backup option using protoc
 
 ## Other expert skill groups
 
-### Networking & firewall
+### Networking, proxy, monitoring & firewall
 
-`networking-expert`, `linux-proxy-expert`, `firewall-expert`, `fail2ban-expert`, `natting-expert`, `tcp-expert`, `udp-expert`, `iproute-expert`, `routing-expert`, `vlan-bonding-expert`, `proxy-expert`, `nfs-expert`, `tcpdump-expert`
+`networking-expert`, `linux-proxy-expert`, `nagios-core-expert`, `observium-ce-expert`, `firewall-expert`, `fail2ban-expert`, `natting-expert`, `tcp-expert`, `udp-expert`, `iproute-expert`, `routing-expert`, `vlan-bonding-expert`, `proxy-expert`, `nfs-expert`, `tcpdump-expert`
 
 ### Storage & filesystems
 
 `lvm-expert`, `filesystem-expert`, `disk-mounting-expert`, `quota-expert`, `raid-expert`, `iscsi-expert`, `multipath-expert`, `smart-disk-expert`, `backup-restore-expert`, `logrotate-expert`
 
-### Kernel & performance
+### Kernel, performance & optimization
 
-`kernel-expert`, `sysctl-expert`, `memory-expert`, `swap-expert`, `cpu-expert`, `io-wait-expert`, `load-average-expert`, `process-expert`, `capacity-planning-expert`
+`optimization-guardian-expert`, `kernel-expert`, `sysctl-expert`, `memory-expert`, `swap-expert`, `cpu-expert`, `io-wait-expert`, `load-average-expert`, `process-expert`, `capacity-planning-expert`
 
 ### Databases, middleware & web
 
