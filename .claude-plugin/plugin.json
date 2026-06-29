@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 110 task-specific skills for boot, networking, storage, Linux proxying, Nagios Core, Observium Community Edition, RDP and Linux remote desktop, load balancing, web proxies, enterprise ADCs, Linux L4 balancing, DNS traffic steering, cloud load balancers, kernel, auth, logging, databases, web servers, backup/restore, incident response, defensive security validation, security scoring, patching, SELinux, AppArmor, capacity planning, and production safety.",
+  "description": "Senior Linux administrator and SRE workflow as a Claude Code plugin. Covers 111 task-specific skills for boot, networking, storage, optimization guarding, Linux proxying, Nagios Core, Observium Community Edition, RDP and Linux remote desktop, load balancing, web proxies, enterprise ADCs, Linux L4 balancing, DNS traffic steering, cloud load balancers, kernel, auth, logging, databases, web servers, backup/restore, incident response, defensive security validation, security scoring, patching, SELinux, AppArmor, capacity planning, and production safety.",
   "version": "1.17.33",
   "author": {
     "name": "Rushikesh Sakharle",
@@ -12,6 +12,11 @@
     "sre",
     "linux-admin",
     "troubleshooting",
+    "optimization",
+    "performance-tuning",
+    "over-optimization",
+    "sysctl",
+    "capacity-planning",
     "monitoring",
     "nagios",
     "nagios-core",
