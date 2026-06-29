@@ -6,16 +6,16 @@
     "url": "https://github.com/rushikeshsakharleofficial"
   },
   "metadata": {
-    "description": "Linux administrator and SRE skills for Claude Code — diagnostics, networking, storage, security, kernel, containers, and more.",
-    "version": "1.17.57"
+    "description": "Linux administrator and SRE skills for Claude Code, Codex, and agent-based ops tools — diagnostics, networking, storage, security, kernel, containers, and more.",
+    "version": "1.17.56"
   },
   "plugins": [
     {
       "name": "linux-admin",
       "source": "./",
       "skills": "./skills/",
-      "description": "Senior Linux admin and SRE workflow. 106 expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, automation, and more.",
-      "version": "1.17.57",
+      "description": "Senior Linux admin and SRE workflow. 114 expert skills covering boot, networking, storage, permissions, kernel, containers, auth, logging, automation, Codex/Claude workflows, and more.",
+      "version": "1.17.56",
       "author": {
         "name": "Rushikesh Sakharle",
         "email": "rishiananya123@gmail.com"
@@ -31,7 +31,9 @@
         "networking",
         "storage",
         "security",
-        "kernel"
+        "kernel",
+        "codex",
+        "claude-code"
       ],
       "keywords": [
         "linux",
@@ -53,7 +55,12 @@
         "auth",
         "boot",
         "acl",
-        "quota"
+        "quota",
+        "codex",
+        "codex-plugin",
+        "openai-codex",
+        "agents-md",
+        "claude-code"
       ]
     }
   ]
