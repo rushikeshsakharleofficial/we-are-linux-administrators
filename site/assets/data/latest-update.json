@@ -1,15 +1,15 @@
 {
-  "id": "2026-06-29-linux-proxy-expert-release-1.17.28",
+  "id": "2026-06-29-monitoring-ce-skills-release-1.17.31",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.28",
+  "version": "1.17.31",
   "date": "2026-06-29",
-  "title": "New Linux proxy expert skill is live",
-  "summary": "Update your linux-admin plugin to get the new /linux-admin:linux-proxy-expert skill for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS proxying, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind troubleshooting.",
+  "title": "New Nagios Core and Observium CE skills are live",
+  "summary": "Update your linux-admin plugin to get /linux-admin:nagios-core-expert and /linux-admin:observium-ce-expert for community edition monitoring stacks, plugins, SNMP, pollers, discovery, RRD, alerting, and safe config troubleshooting.",
   "highlights": [
-    "New /linux-admin:linux-proxy-expert for Linux proxy server and proxy-client troubleshooting.",
-    "Covers Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS CONNECT, package managers, systemd services, Docker/Podman, ACL/auth, TLS CA trust, firewall/NAT, and IPv4/IPv6 binding.",
-    "Plugin package metadata is aligned to 1.17.28 with 108 expert skills."
+    "New /linux-admin:nagios-core-expert for Nagios Core community edition object configs, plugins, NRPE/NCPA/passive checks, notifications, CGI, and safe config verification.",
+    "New /linux-admin:observium-ce-expert for Observium Community Edition SNMP onboarding, add_device.php, poller-wrapper, discovery, RRD/rrdcached, cron, database, and web/PHP issues.",
+    "Plugin package metadata is aligned to 1.17.31 with 110 expert skills."
   ],
   "commands": {
     "claudeCode": [
