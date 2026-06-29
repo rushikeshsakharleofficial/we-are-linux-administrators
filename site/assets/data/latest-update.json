@@ -1,16 +1,16 @@
 {
-  "id": "2026-06-29-fedora-desktop-expert-release-1.17.53",
+  "id": "2026-06-29-codex-support-release-1.17.54",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.53",
+  "version": "1.17.54",
   "date": "2026-06-29",
-  "title": "Fedora Desktop Expert is live",
-  "summary": "Update your linux-admin plugin to get /linux-admin:fedora-desktop-expert plus chunked Fedora Desktop coverage for Workstation, KDE Plasma Edition, Spins, Atomic Desktops, Labs, Wayland/Xorg, kernels, hardware, UI extensions, SELinux, dnf/rpm-ostree updates, and security patch refresh workflows.",
+  "title": "Codex support is documented",
+  "summary": "linux-admin now documents Codex as a first-class workflow with AGENTS.md, docs/CODEX_USAGE.md, Codex CLI installation, Codex app/IDE/Web guidance, and scoped task templates.",
   "highlights": [
-    "New /linux-admin:fedora-desktop-expert for Fedora desktop and official variant troubleshooting.",
-    "Chunked Fedora reference files make future category updates smaller and safer.",
-    "Repo-level CLAUDE.md, AGENTS.md, and SECURITY_PATCH_REFRESH_POLICY.md provide first-run context for Claude/Codex agents.",
-    "Plugin package metadata is aligned to 1.17.53 with 114 expert skills."
+    "README now presents linux-admin for Claude Code, Codex, and agent-based ops tools.",
+    "New docs/CODEX_USAGE.md explains Codex app, CLI, IDE extension, Web/GitHub task, and /init usage.",
+    "AGENTS.md is expanded as the primary Codex instruction file.",
+    "Plugin package metadata is aligned to 1.17.54 with 114 expert skills."
   ],
   "commands": {
     "claudeCode": [
@@ -19,8 +19,9 @@
       "/reload-plugins"
     ],
     "codex": [
-      "git pull origin main",
-      "npm install -g linux-admin@latest"
+      "curl -fsSL https://chatgpt.com/codex/install.sh | sh",
+      "git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git",
+      "cd we-are-linux-administrators && codex"
     ]
   }
 }
