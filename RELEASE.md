@@ -1,26 +1,40 @@
-# Release 1.17.24
+# Release 1.17.28
 
 ## Package
 
-- NPM package version: `1.17.21`
-- Plugin metadata version: `1.17.24`
-- Skill count: `107`
+- NPM package version: `1.17.28`
+- Plugin metadata version: `1.17.28`
+- Skill count: `108`
 - Package name: `linux-admin`
+
+## Added
+
+- `linux-proxy-expert` — Linux proxy specialist for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS CONNECT, package-manager proxy config, systemd service proxy environment, Docker/Podman proxy settings, ACL/auth, TLS CA trust, firewall/NAT, transparent proxy safety boundaries, and IPv4/IPv6 binding issues.
 
 ## Updated
 
-- `skills/network/SKILL.md` — added Enterprise Linux 10 networking guidance: NetworkManager replaces legacy `network-scripts`, `ifup` and `ifdown` should not be used on Rocky/RHEL-like 10, Kea DHCP replaces old ISC DHCP server workflows, NIC teaming should be migrated to bonding, and modern `systemd-networkd` DHCP relay guidance should avoid deprecated relay keys.
-- `skills/packages/SKILL.md` — added `dnf5` and Alpine `apk` detection and diagnostics, documented Enterprise Linux 10 DNF modularity deprecation, added `rpmsort` guidance for RPM version ordering, and clarified DNF filelist metadata behavior.
-- `skills/ssh-hardening-expert/SKILL.md` — added OpenSSH 10.3+ hardening notes for SSH certificate empty-principal behavior, `authorized_keys` principal validation, `ProxyJump` command-line input safety, allow/deny precedence, and `ForceCommand` forwarding review.
+- `.claude-plugin/plugin.json` — registered Linux proxy keywords and aligned to 108 skills.
+- `package.json` — aligned to version `1.17.28` and 108 expert skills.
+- `README.md` — added Linux proxy expert section and updated count/version.
+- `site/assets/js/main.js` — updated website runtime count and added `/linux-admin:linux-proxy-expert` dynamic skill card.
+- `site/assets/js/kpi-3d.js` — updated homepage KPI count to 108.
+- `site/assets/data/latest-update.json` — updated release popup for Linux proxy expert.
 
 ## Reviewed
 
-- Rocky Linux 10 release notes for architecture, networking, DNF, RPM, security, virtualization, desktop/RDP, and storage changes.
-- AlmaLinux 10.0 release notes for x86-64-v2 deviation, OpenSSH 9.9, frame pointers, SPICE, KVM on IBM POWER, and extended hardware support.
-- Arch Linux official news feed for manual-intervention notices.
-- systemd 261 release notes for incompatible changes and DHCP relay deprecations.
-- OpenSSH release notes, Kubernetes releases, and firewalld release sources for possible skill-impacting changes.
+- Existing skill set for duplicate proxy coverage. No dedicated Linux forward/SOCKS/client proxy skill was found, so a separate `linux-proxy-expert` skill was added instead of overloading `nginx-proxy-expert` or load-balancer specialists.
 
-## Deferred
+## Install
 
-- `package.json` still shows `1.17.21` while plugin metadata shows `1.17.24`. This should be aligned in a separate metadata-only cleanup if npm package version parity with plugin metadata is required.
+```bash
+# npx (fastest)
+npx github:rushikeshsakharleofficial/we-are-linux-administrators
+
+# npm global
+npm install -g linux-admin
+linux-admin
+
+# marketplace
+claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+claude plugin install linux-admin@we-are-linux-administrators
+```
