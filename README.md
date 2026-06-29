@@ -6,12 +6,12 @@
 
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=0B1020&color=A78BFA)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=0B1020&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.55-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
+[![Version](https://img.shields.io/badge/version-1.17.56-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
 [![Skills](https://img.shields.io/badge/skills-114-22D3EE?style=for-the-badge&labelColor=0B1020)](skills)
 
 ![Linux](https://img.shields.io/badge/Linux-Admin-22D3EE?style=flat-square&logo=linux&logoColor=white)
 ![SRE](https://img.shields.io/badge/SRE-Workflow-A78BFA?style=flat-square)
-![Codex](https://img.shields.io/badge/Codex-AGENTS.md-4ADE80?style=flat-square)
+![Codex](https://img.shields.io/badge/Codex-Plugin%20Ready-4ADE80?style=flat-square)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-Desktop-E95420?style=flat-square&logo=ubuntu&logoColor=white)
 ![Fedora](https://img.shields.io/badge/Fedora-Desktop-51A2DA?style=flat-square&logo=fedora&logoColor=white)
 ![Rollback](https://img.shields.io/badge/Rollback-First-F472B6?style=flat-square)
@@ -34,7 +34,7 @@
 | 🔐 Vendor patch verification | Check current OS security sources before patch guidance |
 | 🤖 Agent-context ready | Uses `AGENTS.md`, `CLAUDE.md`, and scoped docs for Codex/Claude-style agents |
 
-**Version:** `1.17.55`  
+**Version:** `1.17.56`  
 **Skill count:** `114`
 
 ---
@@ -44,22 +44,12 @@
 ```console
 $ linux-admin status
 🐧 Project      : linux-admin
-📦 Version      : 1.17.55
+📦 Version      : 1.17.56
 🧩 Skills       : 114
 🛡️ Safety       : read-only-first + rollback-aware
 🤖 Agents       : Claude Code + Codex + AGENTS.md workflows
 🖥️ Desktop      : Ubuntu Desktop + Fedora Desktop
 🔐 Patch model  : vendor security source verification
-```
-
-```console
-$ /linux-admin:diagnose nginx service failing after reboot
-→ classify issue
-→ load universal safety contract
-→ collect bounded evidence
-→ identify controlling layer
-→ propose smallest safe fix
-→ include rollback + validation
 ```
 
 ---
@@ -102,36 +92,84 @@ claude plugin install linux-admin@we-are-linux-administrators
 </details>
 
 <details open>
-<summary><b>Use with Codex app, Codex CLI, or Codex IDE extension</b></summary>
+<summary><b>Install/use linux-admin with Codex</b></summary>
 
-Codex uses repository-level instructions from `AGENTS.md`. This repo includes `AGENTS.md` plus supporting docs so Codex can use the same Linux admin safety model.
+Codex has two useful paths for this repo:
 
-Clone the repo:
+### Path A — Use as a Codex project instruction pack now
+
+This works immediately because Codex reads `AGENTS.md` from the repository.
 
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
 cd we-are-linux-administrators
-```
-
-Install Codex CLI on macOS/Linux using OpenAI's official installer:
-
-```bash
 curl -fsSL https://chatgpt.com/codex/install.sh | sh
-```
-
-Run Codex from the repository root:
-
-```bash
 codex
 ```
 
-Prompt Codex like this:
+Then prompt Codex:
 
 ```text
-Read AGENTS.md first. Then use the linux-admin skill structure to help with Linux admin troubleshooting, docs updates, skill updates, or validation.
+Read AGENTS.md first.
+Use this repository as the linux-admin skill pack.
+Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
 ```
 
-For a new fork or derived repo, run `/init` in Codex to scaffold or refresh repository instructions, then preserve the safety rules from this repo's `AGENTS.md`.
+### Path B — Install from Codex plugin directory when published/shared
+
+Use this when `linux-admin` is available in your Codex plugin marketplace or shared workspace plugin source.
+
+In Codex CLI:
+
+```text
+codex
+/plugins
+```
+
+Then:
+
+```text
+Search: linux-admin
+Open plugin details
+Install plugin
+Start a new thread
+Ask Codex to use linux-admin
+```
+
+In Codex app:
+
+```text
+Open Plugins → search linux-admin → Add to Codex → start a new thread
+```
+
+After install, use it naturally:
+
+```text
+Use linux-admin to diagnose an Ubuntu Desktop GNOME login loop with read-only-first commands and rollback notes.
+```
+
+Or invoke it explicitly if your Codex UI supports plugin mentions:
+
+```text
+@linux-admin diagnose Fedora Kinoite update failure and suggest safe validation steps.
+```
+
+### Path C — Vendor into another repo for Codex
+
+Use this when you want Codex to apply linux-admin rules inside a different infrastructure repo:
+
+```bash
+git submodule add https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git tools/linux-admin-skills
+cp tools/linux-admin-skills/AGENTS.md ./AGENTS.md
+```
+
+Then edit your root `AGENTS.md` to include:
+
+```text
+Use tools/linux-admin-skills as the Linux admin skill reference.
+Follow tools/linux-admin-skills/docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Follow tools/linux-admin-skills/docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific guidance.
+```
 
 Detailed guide: [`docs/CODEX_USAGE.md`](docs/CODEX_USAGE.md)
 
@@ -142,21 +180,6 @@ Detailed guide: [`docs/CODEX_USAGE.md`](docs/CODEX_USAGE.md)
 
 ```bash
 npx skillfish@latest add rushikeshsakharleofficial/we-are-linux-administrators
-```
-
-</details>
-
-<details>
-<summary><b>Clone locally for development</b></summary>
-
-```bash
-git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
-cd we-are-linux-administrators
-npm install
-
-# update later
-git pull origin main
-npm install -g linux-admin@latest
 ```
 
 </details>
@@ -202,7 +225,7 @@ Update the Fedora Desktop skill chunks only if official Fedora sources show curr
 | 📊 Monitoring | Nagios Core, Observium CE, logs, incident timelines |
 | 🖥️ Desktop | Ubuntu Desktop, Fedora Desktop, GNOME, KDE, Xfce, Wayland/Xorg |
 | 🤖 Agent context | `AGENTS.md`, `CLAUDE.md`, patch refresh policy, universal contract |
-| 🧰 Codex workflows | Codex app, CLI, IDE extension, Web, GitHub integration, repo instructions |
+| 🧰 Codex workflows | Codex app, CLI, IDE extension, Web, GitHub integration, repo instructions, plugin directory |
 
 ---
 
@@ -227,16 +250,14 @@ Full skill index: [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md)
 
 ## 🧑‍💻 Codex support
 
-This repo is Codex-friendly by design.
-
 | Codex surface | How this repo supports it |
 |---|---|
-| Codex app | Open the repo, let Codex read `AGENTS.md`, and ask it to use the Linux admin workflow |
-| Codex CLI | Run from the repo root so `AGENTS.md` and docs are available in context |
-| Codex IDE extension | Use natural-language prompts that reference `AGENTS.md` and the target skill/chunk |
-| Codex Web | Connect the GitHub repo, assign scoped tasks, and require validation/check output |
-| GitHub integration | Use scoped issue/PR tasks and require changed-file summaries |
-| Codex `/init` | Use it only to scaffold or refresh project instructions; preserve this repo's safety rules |
+| Codex app | Open the repo or install from plugin directory when available |
+| Codex CLI | Run from repo root, or use `/plugins` when plugin marketplace entry is available |
+| Codex IDE extension | Use natural-language prompts that reference `AGENTS.md` and target skill/chunk |
+| Codex Web | Connect GitHub repo, assign scoped tasks, require validation/check output |
+| Codex plugin directory | Browse `/plugins`, search `linux-admin`, install, then invoke by prompt or `@linux-admin` where supported |
+| Codex `/init` | Use only to scaffold/refresh instructions; preserve this repo's safety rules |
 
 Recommended Codex task format:
 
@@ -270,17 +291,6 @@ flowchart TD
     Rollback --> Final[Bounded Final Answer]
 ```
 
-| Layer | Purpose |
-|---|---|
-| Plugin metadata | Package identity, version, marketplace metadata |
-| Agent context | `AGENTS.md`, `CLAUDE.md`, and security patch policy for first-run behavior |
-| Router skill | Routes broad Linux issues to specialists |
-| Universal contract | Shared safety and output contract |
-| Specialist skills | Focused Linux domain expertise |
-| Chunked references | Smaller files for easier updates |
-| Hooks and CI | Validate structure and safety rules |
-| Site assets | GitHub Pages, release popup, presentation |
-
 ---
 
 ## 🌳 Repository hierarchy
@@ -293,14 +303,11 @@ we-are-linux-administrators/
 ├── .github/workflows/
 │   ├── npm-publish.yml
 │   └── validate.yml
-├── .githooks/
-│   └── pre-commit
-├── bin/
-│   └── linux-admin-install.js
+├── .githooks/pre-commit
+├── bin/linux-admin-install.js
 ├── docs/
 │   ├── CODEX_USAGE.md
 │   ├── EXPERT_MODULE_INDEX.md
-│   ├── HOOKS.md
 │   ├── SECURITY_PATCH_REFRESH_POLICY.md
 │   ├── UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
 │   └── skill-improvement/
@@ -308,19 +315,10 @@ we-are-linux-administrators/
 │   ├── validate-linux-admin.sh
 │   └── validate-universal-contract.sh
 ├── site/
-│   ├── assets/data/latest-update.json
-│   ├── assets/js/
-│   └── index.html
 ├── skills/
 │   ├── diagnose/SKILL.md
-│   ├── universal-contract-guardian-expert/SKILL.md
-│   ├── optimization-guardian-expert/SKILL.md
-│   ├── ubuntu-desktop-expert/
-│   │   ├── SKILL.md
-│   │   └── chunks/
-│   ├── fedora-desktop-expert/
-│   │   ├── SKILL.md
-│   │   └── chunks/
+│   ├── ubuntu-desktop-expert/SKILL.md
+│   ├── fedora-desktop-expert/SKILL.md
 │   └── <other-linux-admin-skills>/SKILL.md
 ├── AGENTS.md
 ├── CLAUDE.md
@@ -347,34 +345,6 @@ skills/<large-domain-expert>/
     ├── security-updates.md
     └── safety-validation.md
 ```
-
-This keeps the main `SKILL.md` small and lets maintainers update only the relevant category.
-
----
-
-## 🖥️ Desktop experts
-
-<details open>
-<summary><b>🟠 Ubuntu Desktop Expert</b></summary>
-
-`/linux-admin:ubuntu-desktop-expert` covers Ubuntu Desktop and flavors, GNOME, KDE Plasma/Kubuntu, Xfce/Xubuntu, MATE, Cinnamon, LXQt/Lubuntu, Budgie, UKUI/Kylin, Unity, Ubuntu Studio, Wayland/Xorg, GDM, SDDM, LightDM, HWE/OEM/GA kernels, firmware, graphics drivers, PipeWire, UI extensions, Ubuntu Pro, ESM, Livepatch, AppArmor, and release upgrades.
-
-```bash
-/linux-admin:ubuntu-desktop-expert gnome extensions broke after upgrade
-```
-
-</details>
-
-<details open>
-<summary><b>🔵 Fedora Desktop Expert</b></summary>
-
-`/linux-admin:fedora-desktop-expert` covers Fedora Workstation GNOME, KDE Plasma Edition, Spins, Atomic Desktops, Labs, Wayland/Xorg, kernels, Mesa, firmware, PipeWire/WirePlumber, SELinux, dnf updates, rpm-ostree update/rebase flows, Flatpak, and security advisories.
-
-```bash
-/linux-admin:fedora-desktop-expert kinoite update broke plasma widgets
-```
-
-</details>
 
 ---
 
@@ -410,79 +380,31 @@ Community reports are useful signals, but official/vendor sources remain the aut
 
 ---
 
-## 🧠 First-run agent context
-
-Agent-based workflows should load these files at the start of a repository session:
-
-```text
-AGENTS.md
-CLAUDE.md
-docs/CODEX_USAGE.md
-docs/SECURITY_PATCH_REFRESH_POLICY.md
-docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
-docs/EXPERT_MODULE_INDEX.md
-RELEASE.md
-```
-
----
-
 ## ✅ Validation and hooks
 
 ```bash
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-commit hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
-
 hooks/validate-linux-admin.sh "$(pwd)"
 hooks/validate-universal-contract.sh "$(pwd)"
 ```
-
-GitHub Actions validation is configured under `.github/workflows/validate.yml`.
 
 ---
 
 ## 🗺️ Feature plan
 
+- Publish/share `linux-admin` through a Codex plugin marketplace source when packaging is finalized.
 - Add more chunked skills for monitoring, DNS, mail, storage, Kubernetes, and security.
 - Add distro-specific security patch chunks for Debian, RHEL/Rocky/Alma, openSUSE/SUSE, and Arch.
 - Add more Codex task templates for issue triage, docs refresh, release checks, and skill validation.
 - Improve the website skill explorer and release popup.
 - Add more real-world troubleshooting examples.
-- Add safer validation around desktop/session/display-manager workflows.
-- Expand monitoring coverage for Zabbix, Prometheus, Grafana, Nagios Core, and Observium CE.
-- Add migration-focused runbooks for BIND/named, Postfix, Cyrus IMAP, and web stacks.
-- Add tests for skill metadata, routing coverage, and required safety sections.
-
----
-
-## 🧾 To-do tasks
-
-Good first tasks:
-
-- Improve README examples for any skill you use often.
-- Add missing official source links to skill chunks.
-- Fix typos or stale commands in `SKILL.md` files.
-- Add validation examples for a specific Linux distro/version.
-- Add rollback notes for common high-impact operations.
-- Add chunk files for skills that are becoming too large.
-- Improve `docs/EXPERT_MODULE_INDEX.md` descriptions.
-- Add website cards for new expert skills.
-- Add more Codex prompt templates to `docs/CODEX_USAGE.md`.
-
-Higher-impact tasks:
-
-- Add CI checks for required skill frontmatter.
-- Add CI checks for Universal Skill Execution Contract references.
-- Add release automation for package/plugin metadata alignment.
-- Add security patch source refresh tests for OS-specific skills.
-- Add structured examples for production incident workflows.
 
 ---
 
 ## 🤝 Contribution policy
 
-Contributions are welcome.
-
-Anyone can contribute if the PR is valid, scoped, and improves the project safely.
+Contributions are welcome. Anyone can contribute if the PR is valid, scoped, and improves the project safely.
 
 A valid PR should:
 
@@ -491,31 +413,14 @@ A valid PR should:
 - include official/vendor references when changing version-specific guidance
 - treat community posts as signals, not final authority
 - include rollback and validation guidance for high-impact workflows
-- avoid unsupported shortcuts
 - follow the Universal Skill Execution Contract
-- avoid cosmetic-only churn unless it improves readability or usability
 - update `RELEASE.md`, `package.json`, plugin metadata, docs, or website files when the change affects them
-
-Recommended PR flow:
-
-```bash
-git checkout -b feature/<short-topic>
-git diff --check
-hooks/validate-linux-admin.sh "$(pwd)"
-hooks/validate-universal-contract.sh "$(pwd)"
-git commit -m "Add <short useful description>"
-git push origin feature/<short-topic>
-```
-
-Then open a PR with what changed, why it is useful, evidence/source links, validation performed, and rollback/safety notes when applicable.
 
 ---
 
 ## 📜 License
 
-This project is released under the **MIT License**.
-
-You can use, copy, modify, merge, publish, distribute, sublicense, and sell copies of the software, subject to the license terms. See [`LICENSE`](LICENSE).
+This project is released under the **MIT License**. See [`LICENSE`](LICENSE).
 
 ---
 
