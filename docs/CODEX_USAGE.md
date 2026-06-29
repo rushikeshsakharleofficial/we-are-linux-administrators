@@ -1,12 +1,17 @@
 # Codex usage guide
 
-This repository supports Codex app, Codex CLI, Codex IDE extension, Codex Web, and GitHub-connected Codex workflows through `AGENTS.md` plus the shared Linux admin documentation.
+This repository supports Codex app, Codex CLI, Codex IDE extension, Codex Web, and GitHub-connected Codex workflows through `AGENTS.md`, plugin-directory workflows, and shared Linux admin documentation.
 
-## Why this repo works with Codex
+## How linux-admin works with Codex
 
-Codex can use repository-level instructions from `AGENTS.md`. This repo includes:
+Codex has two relevant integration models:
 
-- `AGENTS.md` — default instructions for coding agents.
+1. **Project instruction pack** — clone this repo or vendor it into another repo. Codex reads `AGENTS.md` and supporting docs.
+2. **Codex plugin directory** — when `linux-admin` is published or shared as a Codex plugin source, install it from the Codex app or Codex CLI `/plugins` browser.
+
+This repo includes:
+
+- `AGENTS.md` — default instructions for Codex and other coding agents.
 - `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — shared safety and output contract.
 - `docs/SECURITY_PATCH_REFRESH_POLICY.md` — OS-specific patch and vulnerability-source policy.
 - `docs/EXPERT_MODULE_INDEX.md` — skill index.
@@ -15,20 +20,96 @@ Codex can use repository-level instructions from `AGENTS.md`. This repo includes
 
 ## Install Codex CLI
 
-OpenAI's official Codex CLI docs provide a standalone installer for macOS and Linux:
+Install Codex CLI on macOS/Linux:
 
 ```bash
 curl -fsSL https://chatgpt.com/codex/install.sh | sh
 ```
 
-Run Codex from the repository root:
+Run Codex from a repository root:
 
 ```bash
-cd we-are-linux-administrators
 codex
 ```
 
 The first run prompts you to sign in with your ChatGPT account or API key.
+
+## Install/use linux-admin in Codex
+
+### Option A — Use as a Codex project instruction pack now
+
+This works immediately because Codex reads `AGENTS.md` from the repository root.
+
+```bash
+git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
+cd we-are-linux-administrators
+codex
+```
+
+Starter prompt:
+
+```text
+Read AGENTS.md first.
+Use this repository as the linux-admin skill pack.
+Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
+Summarize the available Linux admin skills before making changes.
+```
+
+### Option B — Install from Codex plugin directory when published/shared
+
+Use this when `linux-admin` is available in your Codex plugin marketplace or workspace plugin source.
+
+In Codex CLI:
+
+```text
+codex
+/plugins
+```
+
+Then:
+
+```text
+Search: linux-admin
+Open plugin details
+Install plugin
+Start a new thread
+Ask Codex to use linux-admin
+```
+
+In Codex app:
+
+```text
+Open Plugins → search linux-admin → Add to Codex → start a new thread
+```
+
+After install:
+
+```text
+Use linux-admin to diagnose an Ubuntu Desktop GNOME login loop with read-only-first commands and rollback notes.
+```
+
+Or, where supported:
+
+```text
+@linux-admin diagnose Fedora Kinoite update failure and suggest safe validation steps.
+```
+
+### Option C — Vendor linux-admin into another repo
+
+Use this when you want Codex to apply linux-admin rules inside a separate infrastructure repo.
+
+```bash
+git submodule add https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git tools/linux-admin-skills
+cp tools/linux-admin-skills/AGENTS.md ./AGENTS.md
+```
+
+Add this to the target repo's root `AGENTS.md`:
+
+```text
+Use tools/linux-admin-skills as the Linux admin skill reference.
+Follow tools/linux-admin-skills/docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Follow tools/linux-admin-skills/docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific guidance.
+```
 
 ## Use with Codex app
 
@@ -123,16 +204,6 @@ Create a new skill for <domain>.
 Use a small SKILL.md and chunked references if the domain is broad.
 Add routing/docs/package metadata only if needed.
 Run or document validation hooks.
-```
-
-### README/docs change
-
-```text
-Read AGENTS.md first.
-Improve README.md for clarity and installation accuracy.
-Do not change skill behavior.
-Keep links and commands verifiable.
-Summarize what changed.
 ```
 
 ### OS patch refresh
