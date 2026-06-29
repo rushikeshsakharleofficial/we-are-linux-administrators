@@ -1,24 +1,26 @@
-# Release 1.17.55
+# Release 1.17.56
 
 ## Package
 
-- NPM package version: `1.17.55`
-- Plugin metadata version: `1.17.55`
+- NPM package version: `1.17.56`
+- Plugin metadata version: `1.17.56`
 - Skill count: `114`
 - Package name: `linux-admin`
 
 ## Added
 
-- `docs/CODEX_USAGE.md` — Codex app, Codex CLI, Codex IDE extension, Codex Web/GitHub task, `/init`, and AGENTS.md workflow guide.
-- First-class Codex sections in `README.md`, including Codex installation, Codex task prompts, Codex architecture flow, and Codex usage examples.
+- README now includes explicit **Install/use linux-admin with Codex** instructions.
+- README documents three Codex paths:
+  - use as a project instruction pack with `AGENTS.md`
+  - install from Codex app/CLI plugin directory when `linux-admin` is published/shared as a Codex plugin source
+  - vendor/submodule into another repo for Codex workflows
+- `docs/CODEX_USAGE.md` now includes the same Codex plugin installation paths and examples.
 
 ## Updated
 
-- `AGENTS.md` — expanded as the primary Codex instruction file with scoped-task format, validation expectations, and OS patch policy reminders.
-- `.claude-plugin/plugin.json` — aligned to `1.17.55` and updated to describe Claude Code, Codex, and agent-based ops tool support.
-- `package.json` — aligned to version `1.17.55` with Codex/AGENTS.md keywords.
-- `README.md` — no longer presents the repo as Claude-specific only; Codex is documented as a first-class workflow.
-- `site/assets/data/latest-update.json` — updated release popup for Codex support.
+- `package.json` — aligned to `1.17.56` and added `codex-plugin` keyword.
+- `.claude-plugin/plugin.json` — aligned to `1.17.56`.
+- README Codex section now explains `/plugins`, `Add to Codex`, `Install plugin`, and `@linux-admin` usage where supported.
 
 ## Existing highlights
 
@@ -40,4 +42,5 @@ linux-admin
 ```bash
 curl -fsSL https://chatgpt.com/codex/install.sh | sh
 codex
+/plugins
 ```
