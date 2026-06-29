@@ -1,8 +1,8 @@
 {
-  "id": "2026-06-29-codex-support-release-1.17.54",
+  "id": "2026-06-29-codex-support-release-1.17.55",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.54",
+  "version": "1.17.55",
   "date": "2026-06-29",
   "title": "Codex support is documented",
   "summary": "linux-admin now documents Codex as a first-class workflow with AGENTS.md, docs/CODEX_USAGE.md, Codex CLI installation, Codex app/IDE/Web guidance, and scoped task templates.",
@@ -10,7 +10,7 @@
     "README now presents linux-admin for Claude Code, Codex, and agent-based ops tools.",
     "New docs/CODEX_USAGE.md explains Codex app, CLI, IDE extension, Web/GitHub task, and /init usage.",
     "AGENTS.md is expanded as the primary Codex instruction file.",
-    "Plugin package metadata is aligned to 1.17.54 with 114 expert skills."
+    "Plugin package metadata is aligned to 1.17.55 with 114 expert skills."
   ],
   "commands": {
     "claudeCode": [
