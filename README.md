@@ -7,8 +7,8 @@
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=A78BFA)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=000000&color=22D3EE)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/stargazers)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=000000&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.33-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-111-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
+[![Version](https://img.shields.io/badge/version-1.17.39-F472B6?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/blob/main/.claude-plugin/plugin.json)
+[![Skills](https://img.shields.io/badge/skills-112-A78BFA?style=for-the-badge&labelColor=000000)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/tree/main/skills)
 
 </div>
 
@@ -18,10 +18,10 @@
 
 `linux-admin` is a Claude Code plugin that gives Claude Code a senior Linux administrator and SRE operating model: read-only-first diagnostics, distro-aware command selection, evidence-based root-cause analysis, and safety gates for risky shell commands.
 
-Current plugin metadata version: **1.17.33**  
-Current skill count: **111 task-specific skills**
+Current plugin metadata version: **1.17.39**  
+Current skill count: **112 task-specific skills**
 
-The project covers boot, networking, storage, optimization guarding, Linux proxying, Nagios Core, Observium Community Edition, Linux RDP/XRDP remote desktop, GNOME/KDE/XFCE desktop sessions, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
+The project covers boot, networking, storage, universal skill contract enforcement, optimization guarding, Linux proxying, Nagios Core, Observium Community Edition, Linux RDP/XRDP remote desktop, GNOME/KDE/XFCE desktop sessions, load balancing, HAProxy, NGINX proxying, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud load balancers, kernel, auth, PAM, SSSD/LDAP, logging, auditd, rsyslog, MySQL, PostgreSQL, Redis, Nginx, Apache, HAProxy, PHP-FPM, Samba, backup/restore, incident response, security validation, patching, SELinux, AppArmor, capacity planning, and production safety.
 
 ---
 
@@ -37,10 +37,10 @@ Required behavior across every skill:
 4. Architecture fit check for over-implementation and under-implementation.
 5. Architecture audit in final output.
 6. Backup and disaster plan for every tool/workflow.
-7. Auto-rollback or guarded rollback for risky remote changes.
+7. Guarded rollback for risky remote changes.
 8. Token-optimized execution with bounded outputs.
 
-Validation support is in `hooks/validate-universal-contract.sh`.
+`/linux-admin:universal-contract-guardian-expert` enforces this contract when creating, updating, auditing, or executing skills and implementation plans.
 
 ---
 
@@ -84,7 +84,7 @@ claude plugin install linux-admin@we-are-linux-administrators
 
 ## NPM release
 
-`package.json` is aligned to version **1.17.33** and **111 expert skills**.
+`package.json` is aligned to version **1.17.39** and **112 expert skills**.
 
 Publishing is handled by `.github/workflows/npm-publish.yml` when a GitHub Release is published or when the workflow is manually dispatched. The repository must have an `NPM_TOKEN` secret with npm publish permission.
 
@@ -97,6 +97,7 @@ See [`RELEASE.md`](RELEASE.md) for the current release notes.
 | Skill | Use |
 |---|---|
 | `/linux-admin:diagnose` | Main router for general Linux issue triage |
+| `/linux-admin:universal-contract-guardian-expert` | Enforces the 8-rule skill execution contract across all skills and implementation plans |
 | `/linux-admin:boot` | Boot failures, emergency mode, initramfs, fstab, GRUB |
 | `/linux-admin:service` | systemd services, restart loops, daemon crashes |
 | `/linux-admin:network` | IP, routing, DNS, firewall, sockets |
