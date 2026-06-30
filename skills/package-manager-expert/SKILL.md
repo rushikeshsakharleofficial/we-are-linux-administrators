@@ -221,6 +221,54 @@ yum history undo ID
 yum history redo ID
 ```
 
+## SUSE/zypper command map
+
+```bash
+zypper refresh
+zypper update
+zypper install PKG
+zypper remove PKG
+zypper search PKG
+zypper info PKG
+zypper verify
+zypper packages --orphaned
+zypper repos -u
+zypper patch                  # apply patches (recommended over raw update)
+zypper patch --dry-run
+rpm -V PKG
+```
+
+## Arch/pacman command map
+
+```bash
+pacman -Syu                   # sync and full upgrade
+pacman -S PKG                 # install
+pacman -R PKG                 # remove
+pacman -Rs PKG                # remove with unused deps
+pacman -Dk                    # check database consistency
+pacman -Qkk PKG               # verify package files
+pacman -Qi PKG                # package info
+pacman -Ql PKG                # list files
+pacman -Qo /path/to/file      # file ownership
+grep -Ev '^\s*#|^\s*$' /etc/pacman.conf
+# Read Arch news before upgrades: https://archlinux.org/news/
+```
+
+## Alpine/apk command map
+
+```bash
+apk update
+apk upgrade
+apk add PKG
+apk del PKG
+apk info -vv PKG
+apk policy PKG
+apk audit                     # check file integrity
+apk fix                       # reinstall/repair
+grep -Ev '^\s*#|^\s*$' /etc/apk/repositories
+ls -l /var/lib/apk /var/cache/apk 2>/dev/null || true
+```
+
 ## Professional troubleshooting playbooks
 
 ### Broken APT/dpkg transaction

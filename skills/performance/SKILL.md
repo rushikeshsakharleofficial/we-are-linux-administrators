@@ -119,3 +119,28 @@ journalctl -k -g 'oom|Out of memory' --since '10 minutes ago' --no-pager
 - Add application-level metrics.
 - Keep baseline profiles using PCP, Prometheus node_exporter, or similar.
 - Track deployment time vs regression time.
+
+## Load average interpretation
+
+Load average ≠ CPU percentage. Compare to CPU count (`nproc`).
+
+- Load < CPU count: not saturated.
+- Load ≈ CPU count: saturated.
+- Load >> CPU count: severely saturated — split runnable vs blocked tasks.
+
+Blocked (`D`-state) tasks inflate load without CPU usage — indicates I/O or lock contention, not CPU pressure. Never kill top processes without identifying role. Never add CPUs without checking I/O pressure first.
+
+Evidence: `uptime`, `nproc`, `ps aux --sort=-%cpu | head -20`, `vmstat 1 5`, `cat /proc/pressure/*`.
+
+## I/O wait triage
+
+High iowait means CPU is idle waiting on storage — not a CPU problem.
+
+1. Identify affected device and mount: `iostat -xz 1 5`, `df -h`, `lsblk`.
+2. Review latency and utilization: `iostat -d -x 1 5`.
+3. Map top I/O processes: `iotop -b -n3` or `pidstat -d 1 5`.
+4. Check filesystem free space and inode exhaustion: `df -h`, `df -i`.
+5. Correlate with application symptoms and recent storage changes.
+6. Check for failing disks or SAN path issues before tuning.
+
+**Anti-patterns:** restarting apps before checking storage latency, running heavy diagnostics on a saturated disk, assuming iowait means disk is broken.

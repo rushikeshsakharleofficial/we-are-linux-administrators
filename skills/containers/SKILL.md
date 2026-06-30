@@ -120,3 +120,33 @@ curl -v http://127.0.0.1:<port>/ 2>&1 | head -60
 - Explicit resource limits.
 - Log rotation.
 - Volume backup policy.
+
+## Docker daemon depth
+
+```bash
+docker system df
+docker network ls
+docker volume ls
+docker image ls --digests
+docker events --since 1h 2>/dev/null | tail -50 || true
+```
+
+Anti-patterns: pruning everything during an incident, deleting volumes without backup review, restarting all containers blindly, ignoring host disk and cgroup limits.
+
+## Podman depth (rootless/rootful/quadlet)
+
+Rootless Podman differs from Docker: no daemon, uses user namespaces, cgroups v2, and SELinux labels on volumes.
+
+```bash
+podman system info
+podman pod list
+podman volume inspect <vol>
+ls ~/.config/containers/systemd/ 2>/dev/null || true   # quadlet files
+systemctl --user list-units 'podman*' 2>/dev/null || true
+```
+
+- Quadlet: edit source `.container`/`.pod` files, not the generated unit. Regenerate with `systemctl --user daemon-reload`.
+- SELinux volume labels: use `:z` (shared) or `:Z` (private) mount options.
+- Rootless storage: `~/.local/share/containers/`; check `podman system migrate` after uid/gid changes.
+
+Anti-patterns: mixing Docker socket assumptions with rootless Podman, pruning storage blindly, ignoring SELinux volume labels, editing generated units instead of source quadlet files.

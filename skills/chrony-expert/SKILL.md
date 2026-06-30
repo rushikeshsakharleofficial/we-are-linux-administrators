@@ -50,6 +50,24 @@ Treat time sync as infrastructure: authentication, source quality, drift, steppi
 Do not run manual time jumps on production DBs, Kerberos/LDAP, TLS-heavy systems, clusters, or monitoring servers without impact review. Do not open NTP server mode broadly without ACLs.
 
 
+## NTP triage (multi-daemon)
+
+When the active time service is unknown, identify it first — do not mix active daemons:
+
+```bash
+timedatectl status
+systemctl is-active chronyd chrony systemd-timesyncd ntpd ntp 2>/dev/null || true
+```
+
+Classify problem as one of: timezone display issue, inactive sync service, unreachable source, bad source quality, large offset, VM clock skew, multiple daemon conflict, or client/server policy mismatch.
+
+- **Timezone vs clock**: separate timezone display (`timedatectl set-timezone`) from actual sync failure.
+- **systemd-timesyncd**: lightweight fallback, no server mode, no advanced source selection — replace with chrony if needed.
+- **ntpd (legacy)**: EOL upstream; prefer chrony. If ntpd is running, route config questions through chrony migration path.
+- **VM skew**: guest clock may drift under load; check hypervisor clock tools (VMware Tools, qemu-guest-agent) before tuning chrony.
+
+Route to `date-timectl-expert` for timezone-only or RTC-only issues.
+
 ## Output format
 
 1. Detected stack and controlling layer

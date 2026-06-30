@@ -56,6 +56,37 @@ Ask for: environment, target host/service, proposed action, change type, backup/
 **Safety review:** safety class, risks, safe alternative, preflight, rollback, validation, operator checklist.
 **Post-validation:** validation checklist, pass/fail evidence, regression signals, accept/rollback recommendation, monitoring notes.
 
+## Risk scoring
+
+Before any change, classify:
+
+- **Impact**: blast radius (one service / one host / cluster / all users)
+- **Likelihood**: how likely to go wrong (new change, proven runbook, tested in staging)
+- **Reversibility**: instant rollback / minutes / hours / data loss risk
+
+Identify: data-loss risk, lockout risk (SSH/console), shared dependency breaks.
+Define: approval threshold, stop conditions, residual risk owner.
+
+**Anti-patterns:** treating all changes as equal risk, ignoring rollback difficulty, no owner for risk acceptance.
+
+## Change plan structure
+
+1. Define scope and desired outcome.
+2. List pre-check evidence commands.
+3. Step-by-step implementation with pause points.
+4. Rollback trigger condition and reverse steps.
+5. Owner, communication notes, escalation contact.
+
+## Maintenance window design
+
+1. Define scope and expected downtime.
+2. Map dependencies and notify owners.
+3. Schedule rollback time slot (not just implementation time).
+4. Define go/no-go criteria and communication template.
+5. Capture post-window results.
+
+**Anti-patterns:** scheduling without rollback time, no stakeholder communication, no post-change validation.
+
 ## Token-saving tip
 
 Ask for the exact proposed action, target scope, rollback path, service status, 20 log lines, and one metric comparison — nothing more until needed.
