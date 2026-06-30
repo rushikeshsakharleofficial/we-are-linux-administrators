@@ -1,6 +1,6 @@
 # bash-script-expert
 
-Use this skill to create, review, debug, harden, merge, and explain Bash scripts for Linux administration.
+Use this skill to create, review, debug, harden, merge, and explain Bash scripts for Linux administration — or to write/review POSIX-portable `/bin/sh` scripts when portability to dash, ash, or vendor shells is required.
 
 ## Purpose
 
@@ -8,19 +8,15 @@ Write practical Bash scripts that look like a careful Linux administrator wrote 
 
 ## Scope
 
-- script creation
-- script review
-- script debugging
-- argument parsing
-- logging
-- dry-run design
+- script creation and review
+- script debugging and merging
+- argument parsing, logging, dry-run design
 - rollback-aware changes
-- safe loops and conditions
-- quoting and arrays
-- cron-safe scripting
-- systemd-safe scripting
-- script merging
+- safe loops, conditions, quoting, and arrays
+- cron-safe and systemd-safe scripting
 - ShellCheck-style review
+- POSIX portability review (`/bin/sh`, dash, ash, init script compatibility)
+- migration from Bash-only syntax to portable shell
 
 ## Rules
 
@@ -61,6 +57,25 @@ When creating or reviewing a script, return:
 5. safety notes
 6. test commands
 7. rollback notes if needed
+
+## Portability mode
+
+If `/bin/sh`, dash, ash, or vendor shell compatibility is required:
+- Ask whether portability is required before writing.
+- Avoid Bash-only features: arrays, `[[ ]]`, process substitution, `$'...'`, `declare`, `local` (in some shells), Bash-only expansions.
+- Prefer `case` blocks over complex conditions.
+- Test with the target shell, not only Bash.
+
+### Portability checklist
+- correct shebang (`#!/bin/sh` vs `#!/usr/bin/env bash`)
+- no Bash-only syntax when portability required
+- safe quoting throughout
+- simple conditions and loops
+- no fragile filename handling (glob/spaces)
+- clear exit codes
+- clear stderr/stdout separation
+- no interactive assumptions
+- suitable for cron or minimal environments
 
 ## Escalation
 
