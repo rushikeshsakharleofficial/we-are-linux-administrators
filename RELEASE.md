@@ -1,9 +1,9 @@
-# Release 1.17.63
+# Release 1.17.71
 
 ## Package
 
-- NPM package version: `1.17.63`
-- Plugin metadata version: `1.17.63`
+- NPM package version: `1.17.71`
+- Plugin metadata version: `1.17.71`
 - Skill count: `101`
 - Package name: `linux-admin`
 
@@ -19,11 +19,11 @@
 ## Updated
 
 - `docs/EXPERT_MODULE_INDEX.md` — updated from 95 to 101 skills and added the six new expert modules.
-- `README.md` — aligned version and skill count to `1.17.63` / `101`.
-- `package.json` — aligned to `1.17.63` and 101-skill description.
+- `README.md` — aligned version and skill count to `1.17.71` / `101`.
+- `package.json` — aligned to `1.17.71` and 101-skill description.
 - `.claude-plugin/plugin.json` — aligned description and version to the current 101-skill repository state.
-- `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.63` and 101 skills.
-- `site/assets/data/latest-update.json` — aligned website release popup to `1.17.63` and 101 skills.
+- `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.71` and 101 skills.
+- `site/assets/data/latest-update.json` — aligned website release popup to `1.17.71` and 101 skills.
 - `AGENTS.md` and `CLAUDE.md` — updated documented skill count to `101`.
 
 ## Safety notes
