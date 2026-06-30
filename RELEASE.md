@@ -1,33 +1,35 @@
-# Release 1.17.56
+# Release 1.17.62
 
 ## Package
 
-- NPM package version: `1.17.56`
-- Plugin metadata version: `1.17.56`
-- Skill count: `114`
+- NPM package version: `1.17.62`
+- Plugin metadata version: `1.17.62`
+- Skill count: `95`
 - Package name: `linux-admin`
 
-## Added
+## Fixed
 
-- README now includes explicit **Install/use linux-admin with Codex** instructions.
-- README documents three Codex paths:
-  - use as a project instruction pack with `AGENTS.md`
-  - install from Codex app/CLI plugin directory when `linux-admin` is published/shared as a Codex plugin source
-  - vendor/submodule into another repo for Codex workflows
-- `docs/CODEX_USAGE.md` now includes the same Codex plugin installation paths and examples.
+- Regenerated `docs/EXPERT_MODULE_INDEX.md` from the current on-disk skill set.
+- Aligned README badges, terminal preview, package metadata, plugin metadata, and website update metadata around `1.17.62` and `95` skills.
+- Added missing `bin/*-audit` wrappers that execute their matching `scripts/*-audit.py` files.
+- Fixed validation tests so the unified plugin, sysctl expert, and networking expert checks match the current repository layout.
 
 ## Updated
 
-- `package.json` — aligned to `1.17.56` and added `codex-plugin` keyword.
-- `.claude-plugin/plugin.json` — aligned to `1.17.56`.
-- README Codex section now explains `/plugins`, `Add to Codex`, `Install plugin`, and `@linux-admin` usage where supported.
+- `README.md` — aligned version and skill count to `1.17.62` / `95`.
+- `package.json` — aligned to `1.17.62` and 95-skill description.
+- `.claude-plugin/plugin.json` — aligned description and version to the current 95-skill repository state.
+- `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.62` and 95 skills.
+- `site/assets/data/latest-update.json` — aligned website release popup to `1.17.62` and 95 skills.
+- `AGENTS.md` and `CLAUDE.md` — restored portable, self-contained agent entry points instead of relying on local `.agent` files.
 
 ## Existing highlights
 
 - `ubuntu-desktop-expert` — Ubuntu Desktop specialist with chunked Ubuntu Desktop reference files.
 - `fedora-desktop-expert` — Fedora Desktop specialist with chunked Fedora Desktop reference files.
 - `docs/SECURITY_PATCH_REFRESH_POLICY.md` — repo-level first-run context for OS-specific security patch refresh behavior.
-- `CLAUDE.md` and `AGENTS.md` — repo-level agent context.
+- `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — shared safety and rollback-aware execution contract.
+- `CLAUDE.md` and `AGENTS.md` — repo-level agent context for Claude Code, Codex, OpenCode, and similar tools.
 
 ## Install
 
