@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-exec "${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$0")/.." && pwd)}"/scripts/chrony-expert-audit.py "$@"

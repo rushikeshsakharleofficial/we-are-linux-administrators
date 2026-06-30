@@ -1,7 +1,7 @@
 ---
 name: "network"
-description: "Troubleshoot Linux networking, IP addressing, routing, DNS, firewalld/nftables/iptables/ufw, sockets, listeners, and connectivity problems."
-argument-hint: "[network symptom / host / port]"
+description: "Troubleshoot Linux networking: IP addressing, routing, policy routing, DNS, firewalld/nftables/iptables/ufw, conntrack, MTU, sockets, VLAN/bond/bridge, NetworkManager, systemd-networkd, netplan, ethtool, tc, TCP/sysctl tuning, and connectivity problems."
+argument-hint: "[network symptom / host / port / iface / route / dns / firewall / mtu]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
@@ -185,3 +185,33 @@ Escalate if:
 - Asymmetric routing or BGP/cloud routing is involved.
 - Firewall change can cut SSH and no console exists.
 - Cloud security groups/NACL/LB are outside host visibility.
+
+## Advanced evidence (ethtool, conntrack, qdisc)
+
+```bash
+ip -s link
+ethtool <iface> 2>/dev/null || true
+ethtool -S <iface> 2>/dev/null || true
+conntrack -S 2>/dev/null || true
+tc -s qdisc show dev <iface>
+ip route get <DEST>
+ss -tan state syn-recv,time-wait,established '( sport = :<port> or dport = :<port> )'
+```
+
+## Runtime vs persistent changes
+
+- `ip addr add`, `ip route add`, `ip rule add` are runtime-only; reboot/network restart removes them.
+- Persistent method depends on host: NetworkManager, systemd-networkd, netplan, ifcfg, cloud-init, Kubernetes CNI.
+- Never apply network changes remotely without rollback: `netplan try`, out-of-band console, timed revert, or parallel SSH session.
+
+## Anti-overoptimization
+
+Do not blindly:
+- increase all TCP buffers to huge values
+- disable offloads globally
+- flush firewall rules
+- change MTU without path testing
+- force `rp_filter=0` without asymmetric routing evidence
+- raise conntrack max without memory sizing
+- set `tcp_tw_reuse`, `tcp_fin_timeout`, or backlog values from blog posts
+- add permanent routes without documenting owner and rollback

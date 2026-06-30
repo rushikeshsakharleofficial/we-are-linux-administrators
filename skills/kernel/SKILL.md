@@ -1,7 +1,7 @@
 ---
 name: "kernel"
-description: "Troubleshoot Linux kernel panic, soft lockup, hard lockup, hung tasks, call traces, kdump, driver failures, and reboot crash evidence."
-argument-hint: "[panic/lockup symptom]"
+description: "Troubleshoot Linux kernel panic, soft lockup, hard lockup, hung tasks, call traces, kdump, driver failures, reboot crash evidence, kernel versioning, boot parameters, modules, taints, initramfs, grub, live patching, sysrq, and safe kernel update/rollback planning."
+argument-hint: "[panic/lockup/module/boot/taint/update symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
@@ -98,3 +98,24 @@ Escalate to vendor/kernel/hardware when:
 - MCE/ECC/firmware errors are present.
 - Storage HBA/NVMe resets occur.
 - Multiple hosts panic after same kernel update.
+
+## Kernel versioning, modules, and update/rollback
+
+Use `kernel-expert-audit` for automated evidence gathering.
+
+```bash
+uname -a
+cat /proc/version
+cat /proc/sys/kernel/tainted 2>/dev/null || true
+lsmod 2>/dev/null | head -80 || true
+dkms status 2>/dev/null || true
+ls -lh /boot 2>/dev/null | tail -80 || true
+```
+
+- **Modules/DKMS**: `lsmod`, `modinfo`, DKMS status, Secure Boot signing.
+- **Taint**: read `/proc/sys/kernel/tainted`; explain proprietary/out-of-tree/forced module implications.
+- **Boot args**: `/proc/cmdline`; know whether change belongs in GRUB/kernelopts/cloud-init.
+- **Update/rollback**: keep known-good kernel, check `/boot` space, initramfs generation, bootloader entries, console access.
+- **Routing to other experts**: sysctl tuning → `sysctl-expert`; kernel package updates → `package-manager-expert`; systemd-boot/grub issues → `systemd-expert`.
+
+Do not rebuild initramfs, change GRUB, unload storage/network modules, or alter boot-critical kernel parameters without rollback and console access.
