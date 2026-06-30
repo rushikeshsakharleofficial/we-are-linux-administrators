@@ -69,9 +69,10 @@ $ linux-admin status
 /linux-admin:storage <your problem>
 ```
 
-**Codex CLI — plugin marketplace (one command):**
+**Codex CLI — plugin marketplace:**
 ```bash
-codex plugin add rushikeshsakharleofficial/we-are-linux-administrators
+codex plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+codex plugin add linux-admin@we-are-linux-administrators
 ```
 
 ---
