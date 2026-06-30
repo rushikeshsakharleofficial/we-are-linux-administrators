@@ -56,19 +56,22 @@ $ linux-admin status
 
 ## 🚀 Installation
 
-**One-liner — Claude Code:**
-```bash
-claude mcp add linux-admin -- npx -y github:rushikeshsakharleofficial/we-are-linux-administrators
+**Claude Code — plugin marketplace (one command):**
+```
+/plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
+/plugin install linux-admin
 ```
 
-**One-liner — Codex CLI (plugin marketplace):**
-```bash
-codex plugin add rushikeshsakharleofficial/we-are-linux-administrators
-```
-
-**Slash command (after install):**
+**Claude Code — slash command (after install):**
 ```
 /linux-admin:diagnose <your problem>
+/linux-admin:network <your problem>
+/linux-admin:storage <your problem>
+```
+
+**Codex CLI — plugin marketplace (one command):**
+```bash
+codex plugin add rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
 ---
