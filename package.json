@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "version": "1.17.71",
+  "version": "1.17.72",
   "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, and agent-based ops tools — 101 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
