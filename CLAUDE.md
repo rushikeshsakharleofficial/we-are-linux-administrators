@@ -8,7 +8,7 @@ This is the Claude Code entry point for the `linux-admin` repository.
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin name: `linux-admin`
 - Current documented release family: `1.17.x`
-- Current documented skill count: `95`
+- Current documented skill count: `101`
 - GitHub Pages site: `https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/`
 
 ## First files to read
