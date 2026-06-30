@@ -56,6 +56,23 @@ $ linux-admin status
 
 ## 🚀 Installation
 
+**One-liner — Claude Code:**
+```bash
+claude mcp add linux-admin -- npx -y github:rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**One-liner — Codex / any agent with AGENTS.md support:**
+```bash
+npx -y github:rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+**Slash command (after install):**
+```
+/linux-admin:diagnose <your problem>
+```
+
+---
+
 <details open>
 <summary><b>Run directly with npx</b></summary>
 
