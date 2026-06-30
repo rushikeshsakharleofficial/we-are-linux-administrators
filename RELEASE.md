@@ -21,7 +21,7 @@
 - `.claude-plugin/plugin.json` — aligned description and version to the current 95-skill repository state.
 - `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.62` and 95 skills.
 - `site/assets/data/latest-update.json` — aligned website release popup to `1.17.62` and 95 skills.
-- `AGENTS.md` and `CLAUDE.md` — restored portable, self-contained agent entry points instead of relying on local `.agent` files.
+- `AGENTS.md` — restored a portable, self-contained agent entry point instead of relying on local `.agent` files.
 
 ## Existing highlights
 
@@ -29,7 +29,6 @@
 - `fedora-desktop-expert` — Fedora Desktop specialist with chunked Fedora Desktop reference files.
 - `docs/SECURITY_PATCH_REFRESH_POLICY.md` — repo-level first-run context for OS-specific security patch refresh behavior.
 - `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — shared safety and rollback-aware execution contract.
-- `CLAUDE.md` and `AGENTS.md` — repo-level agent context for Claude Code, Codex, OpenCode, and similar tools.
 
 ## Install
 
