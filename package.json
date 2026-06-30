@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "version": "1.17.62",
-  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, and agent-based ops tools — 95 expert skills",
+  "version": "1.17.63",
+  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, and agent-based ops tools — 101 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
     "linux-admin-install": "./bin/linux-admin-install.js"
@@ -35,7 +35,9 @@
     "networking",
     "storage",
     "monitoring",
-    "load-balancing"
+    "load-balancing",
+    "model-routing",
+    "agent-dispatch"
   ],
   "author": {
     "name": "Rushikesh Sakharle",
