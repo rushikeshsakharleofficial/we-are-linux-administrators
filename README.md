@@ -279,7 +279,7 @@ Output: summarize changed files, evidence, validation, and rollback notes
 flowchart TD
     User[User request] --> Surface[Claude Code / Codex / Agent CLI]
     Surface --> Context[AGENTS.md + CLAUDE.md + Repo Docs]
-    Context --> Router[/linux-admin:diagnose]
+    Context --> Router["/linux-admin:diagnose"]
     Router --> Contract[Universal Skill Execution Contract]
     Contract --> Guard[Optimization and Safety Guardrails]
     Guard --> Skill[Task-specific Expert Skill]
