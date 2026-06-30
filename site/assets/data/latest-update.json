@@ -1,16 +1,16 @@
 {
-  "id": "2026-06-29-codex-plugin-install-docs-1.17.56",
+  "id": "2026-06-30-metadata-alignment-1.17.62",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.56",
-  "date": "2026-06-29",
-  "title": "Codex plugin install docs added",
-  "summary": "linux-admin now documents how to use or install the skill pack with Codex through AGENTS.md, the Codex app/CLI plugin directory when published/shared, or vendoring into another repository.",
+  "version": "1.17.62",
+  "date": "2026-06-30",
+  "title": "linux-admin metadata aligned to 95 skills",
+  "summary": "linux-admin metadata, release notes, and website update text now match the current 1.17.62 repository state with 95 expert skills.",
   "highlights": [
-    "README now has an explicit Install/use linux-admin with Codex section.",
-    "Codex CLI /plugins and Codex app Add to Codex workflows are documented.",
-    "docs/CODEX_USAGE.md now includes project-pack, plugin-directory, and submodule/vendor installation paths.",
-    "Plugin package metadata is aligned to 1.17.56 with 114 expert skills."
+    "README, package metadata, plugin metadata, release notes, and website popup now agree on version 1.17.62.",
+    "The current expert module index documents 95 skills.",
+    "Codex, Claude Code, OpenCode, and agent-assisted Linux administration workflows remain documented through AGENTS.md, CLAUDE.md, and docs/CODEX_USAGE.md.",
+    "The update avoids claiming a public Codex marketplace install unless the plugin is published or shared in a user's plugin source."
   ],
   "commands": {
     "claudeCode": [
