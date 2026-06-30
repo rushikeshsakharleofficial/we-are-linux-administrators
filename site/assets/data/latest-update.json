@@ -1,16 +1,16 @@
 {
-  "id": "2026-06-30-metadata-alignment-1.17.62",
+  "id": "2026-06-30-101-skills-1.17.71",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.62",
+  "version": "1.17.71",
   "date": "2026-06-30",
-  "title": "linux-admin metadata aligned to 95 skills",
-  "summary": "linux-admin metadata, release notes, and website update text now match the current 1.17.62 repository state with 95 expert skills.",
+  "title": "linux-admin expanded to 101 skills",
+  "summary": "linux-admin now documents 101 expert skills, including minimal architecture, Linux source guarding, server memory, web stack security, chief engineer dispatch, and agent/model routing.",
   "highlights": [
-    "README, package metadata, plugin metadata, release notes, and website popup now agree on version 1.17.62.",
-    "The current expert module index documents 95 skills.",
-    "Codex, Claude Code, OpenCode, and agent-assisted Linux administration workflows remain documented through AGENTS.md, CLAUDE.md, and docs/CODEX_USAGE.md.",
-    "The update avoids claiming a public Codex marketplace install unless the plugin is published or shared in a user's plugin source."
+    "Added six new skills for architecture, source-change safety, server context memory, web stack security, Linux chief-engineer dispatch, and multi-model agent routing.",
+    "README, package metadata, plugin metadata, release notes, and website popup now agree on version 1.17.71 and 101 skills.",
+    "The server memory skill stores login flow and vault references only, not plaintext secrets.",
+    "Codex, Claude Code, OpenCode, and agent-assisted Linux administration workflows remain documented through AGENTS.md, CLAUDE.md, and docs/CODEX_USAGE.md."
   ],
   "commands": {
     "claudeCode": [
