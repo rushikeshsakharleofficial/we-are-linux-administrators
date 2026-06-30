@@ -1,8 +1,9 @@
 # Expert Module Index
 
-95 skills.
+101 skills.
 
 - **acl-permissions-expert** — Expert Linux POSIX ACL diagnostics and design using getfacl/setfacl, effective masks, default ACL inheritance, named users/groups, ACL backup/restore, and ACL-vs-mode conflict prevention.
+- **agent-model-dispatcher-expert** — Agent and model routing expert for Linux administration workflows across Codex, Claude Code, OpenCode, Gemini, Bedrock, Manus, Kimi, DeepSeek, GLM, local tools, and low-to-high model escalation.
 - **ansible-expert**
 - **apache-expert**
 - **apparmor-expert**
@@ -41,7 +42,9 @@
 - **kernel** — Troubleshoot Linux kernel panic, soft lockup, hard lockup, hung tasks, call traces, kdump, driver failures, reboot crash evidence, kernel versioning, boot parameters, modules, taints, initramfs, grub, live patching, sysrq, and safe kernel update/rollback planning.
 - **kubernetes-node-expert**
 - **limits-expert** — Expert Linux limits and resource-ceiling diagnostics for ulimit, PAM limits.conf, systemd Limit*, prlimit, nofile/nproc/memlock, file descriptor exhaustion, process/thread ceilings, security audit limit review, and safe service/user limit tuning.
+- **linux-admin-chief-engineer** — Chief Linux engineer prompt and skill-dispatch expert for broad requests, automatic skill selection, token-bounded evidence collection, and senior SRE-grade workflow shaping.
 - **linux-proxy-expert** — Linux proxy expert for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS forward proxies, reverse proxy boundaries, transparent/intercepting proxy behavior, system proxy variables, package-manager proxy config, Docker/systemd proxy settings, corporate proxy CA chains, ACLs, authentication, logging, firewall/NAT routing, IPv4/IPv6 binding, and safe proxy troubleshooting.
+- **linux-source-guardian-expert** — Linux source and critical OS change guardian for re-verifying AI-suggested Linux changes, blocking unsafe kernel/source edits, and requiring supported configuration paths, evidence, rollback, and expert review.
 - **load-balancer-expert** — Vendor-neutral load balancer router and recommendation skill for Linux admins. Classifies DNS/GSLB, L3/L4 VIP, L4 TCP/UDP, L7 HTTP reverse proxy, ADC, cloud load balancer, Kubernetes ingress, and HA/failover designs, recommends the best-fit load balancer for the request, then routes to HAProxy, NGINX proxy, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud LB, firewall, networking, TLS, and observability experts.
 - **logrotate-expert**
 - **logs** — Investigate Linux logs, journald, rsyslog, monitoring agent failures, alert triage, incident timeline building, and log correlation.
@@ -49,6 +52,7 @@
 - **lvs-ipvs-expert** — Linux Virtual Server and IPVS expert for kernel L4 load balancing, ipvsadm, ldirectord, NAT/DR/TUN modes, schedulers, persistence, real-server health, ARP/DSR behavior, and high-throughput VIP troubleshooting.
 - **memory-expert**
 - **migration-expert** — Expert Linux migration planning and multi-agent dispatch skill for OS upgrades, full server clones, repo/package syncs, database migrations, patch windows, firewall/rate-limit audits, SFTP/user-data migrations, cutovers, validation, rollback, and shared-memory orchestration.
+- **minimal-architecture-expert** — Minimal-architecture performance expert for the lowest-complexity production design that still handles traffic, load distribution, user flows, compliance constraints, failure scenarios, rollback, and operational growth.
 - **multipath-expert**
 - **mysql-expert**
 - **nagios-core-expert** — Nagios Core community edition expert for hosts/services, object definitions, templates, contacts, commands, plugins, active/passive checks, NRPE/NCPA/NSCA/NRDP, CGI auth, external commands, notifications, flapping, dependencies, performance data, retention, config verification, and safe reload troubleshooting.
@@ -79,6 +83,7 @@
 - **samba-expert**
 - **security-expert** — Defensive Linux security validation expert for authorized servers. Uses an incident-driven model to review exposure, identity, privilege, kernel/sysctl, systemd sandboxing, limits, logging, patch posture, supply-chain risk, and ransomware recovery readiness. Plans safe dummy simulations, classifies failed controls, and routes fixes to the right expert skill.
 - **selinux-expert**
+- **server-memory-expert** — Lightweight text-file server memory expert for fast login-context recall using server identity, aliases, access flow, jump-host paths, operator notes, and vault references without storing plaintext secrets.
 - **service** — Troubleshoot systemd service failures, restart loops, failed units, daemon crashes, port bind errors, unit dependencies, and service config validation.
 - **shell-rc-expert** — Review and fix Bash and Zsh user startup configuration safely — startup order, aliases, functions, PATH, prompt/plugin loading, interactive vs login behavior, slow terminal startup, and safe rollback.
 - **smart-disk-expert**
@@ -97,3 +102,4 @@
 - **user-permissions-expert** — Expert Linux identity and access management for local users, groups, sudo, PAM/session limits interaction, account lifecycle, SSH login rights, locked accounts, service accounts, and least-privilege design.
 - **vlan-bonding-expert**
 - **vulnerability-scan-expert**
+- **web-stack-security-expert** — Unified Apache, NGINX, OpenLiteSpeed, reverse proxy, TLS, cache, WAF, bot-control, and adaptive rate-limit policy expert for secure Linux web stacks serving web pages, APIs, admin panels, uploads, and mixed traffic.
