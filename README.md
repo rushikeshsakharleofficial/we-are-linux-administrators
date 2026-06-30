@@ -61,9 +61,9 @@ $ linux-admin status
 claude mcp add linux-admin -- npx -y github:rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
-**One-liner — Codex / any agent with AGENTS.md support:**
+**One-liner — Codex CLI (plugin marketplace):**
 ```bash
-npx -y github:rushikeshsakharleofficial/we-are-linux-administrators
+codex plugin add rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
 **Slash command (after install):**
