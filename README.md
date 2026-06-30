@@ -6,7 +6,7 @@
 
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=0B1020&color=A78BFA)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=0B1020&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.71-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
+[![Version](https://img.shields.io/badge/version-1.17.72-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
 [![Skills](https://img.shields.io/badge/skills-101-22D3EE?style=for-the-badge&labelColor=0B1020)](skills)
 
 ![Linux](https://img.shields.io/badge/Linux-Admin-22D3EE?style=flat-square&logo=linux&logoColor=white)
@@ -34,7 +34,7 @@
 | 🔐 Vendor patch verification | Check current OS security sources before patch guidance |
 | 🤖 Agent-context ready | Uses `AGENTS.md`, `CLAUDE.md`, and scoped docs for Codex/Claude-style agents |
 
-**Version:** `1.17.71`  
+**Version:** `1.17.72`  
 **Skill count:** `101`
 
 ---
@@ -44,7 +44,7 @@
 ```console
 $ linux-admin status
 🐧 Project      : linux-admin
-📦 Version      : 1.17.71
+📦 Version      : 1.17.72
 🧩 Skills       : 101
 🛡️ Safety       : read-only-first + rollback-aware
 🤖 Agents       : Claude Code + Codex + AGENTS.md workflows
@@ -69,10 +69,18 @@ $ linux-admin status
 /linux-admin:storage <your problem>
 ```
 
-**Codex CLI — plugin marketplace:**
+**Codex — use as a project instruction pack now:**
 ```bash
-codex plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
-codex plugin add linux-admin@we-are-linux-administrators
+git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
+cd we-are-linux-administrators
+codex
+```
+
+**Codex plugin directory — when published/shared:**
+```text
+codex
+/plugins
+Search: linux-admin
 ```
 
 ---
