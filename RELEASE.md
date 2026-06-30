@@ -1,27 +1,36 @@
-# Release 1.17.62
+# Release 1.17.63
 
 ## Package
 
-- NPM package version: `1.17.62`
-- Plugin metadata version: `1.17.62`
-- Skill count: `95`
+- NPM package version: `1.17.63`
+- Plugin metadata version: `1.17.63`
+- Skill count: `101`
 - Package name: `linux-admin`
 
-## Fixed
+## Added
 
-- Regenerated `docs/EXPERT_MODULE_INDEX.md` from the current on-disk skill set.
-- Aligned README badges, terminal preview, package metadata, plugin metadata, and website update metadata around `1.17.62` and `95` skills.
-- Added missing `bin/*-audit` wrappers that execute their matching `scripts/*-audit.py` files.
-- Fixed validation tests so the unified plugin, sysctl expert, and networking expert checks match the current repository layout.
+- `minimal-architecture-expert` — designs the smallest safe production architecture for traffic, load distribution, user flows, compliance constraints, failure scenarios, and rollback.
+- `linux-source-guardian-expert` — re-verifies AI-suggested Linux changes and blocks unsafe kernel/source-code edits unless proper expert review, lab validation, and recovery planning exist.
+- `server-memory-expert` — adds lightweight text-file server context memory for host identity, aliases, access flow, jump-host paths, and vault references without storing plaintext secrets.
+- `web-stack-security-expert` — unifies Apache, NGINX, OpenLiteSpeed, proxy, TLS, cache, WAF, and adaptive rate-limit policy guidance.
+- `linux-admin-chief-engineer` — acts as the top-level Linux engineer dispatcher for broad tasks, skill selection, token-bounded evidence collection, and safe next actions.
+- `agent-model-dispatcher-expert` — routes tasks across Codex, Claude Code, OpenCode, Gemini, Bedrock, Manus, Kimi, DeepSeek, GLM, local tools, and low-to-high model tiers.
 
 ## Updated
 
-- `README.md` — aligned version and skill count to `1.17.62` / `95`.
-- `package.json` — aligned to `1.17.62` and 95-skill description.
-- `.claude-plugin/plugin.json` — aligned description and version to the current 95-skill repository state.
-- `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.62` and 95 skills.
-- `site/assets/data/latest-update.json` — aligned website release popup to `1.17.62` and 95 skills.
-- `AGENTS.md` — restored a portable, self-contained agent entry point instead of relying on local `.agent` files.
+- `docs/EXPERT_MODULE_INDEX.md` — updated from 95 to 101 skills and added the six new expert modules.
+- `README.md` — aligned version and skill count to `1.17.63` / `101`.
+- `package.json` — aligned to `1.17.63` and 101-skill description.
+- `.claude-plugin/plugin.json` — aligned description and version to the current 101-skill repository state.
+- `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.63` and 101 skills.
+- `site/assets/data/latest-update.json` — aligned website release popup to `1.17.63` and 101 skills.
+- `AGENTS.md` and `CLAUDE.md` — updated documented skill count to `101`.
+
+## Safety notes
+
+- The new server memory skill explicitly forbids storing plaintext passwords, SSH private keys, API tokens, MFA secrets, cookies, private certificates, and customer secrets.
+- The Linux source guardian skill redirects normal operations toward supported configuration, package, policy, and vendor-patch paths before any source-level change.
+- The model dispatcher skill requires redaction before routing logs, configs, or tasks to external model providers.
 
 ## Existing highlights
 
