@@ -6,8 +6,8 @@
 
 [![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=0B1020&color=A78BFA)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=0B1020&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.56-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-114-22D3EE?style=for-the-badge&labelColor=0B1020)](skills)
+[![Version](https://img.shields.io/badge/version-1.17.62-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
+[![Skills](https://img.shields.io/badge/skills-95-22D3EE?style=for-the-badge&labelColor=0B1020)](skills)
 
 ![Linux](https://img.shields.io/badge/Linux-Admin-22D3EE?style=flat-square&logo=linux&logoColor=white)
 ![SRE](https://img.shields.io/badge/SRE-Workflow-A78BFA?style=flat-square)
@@ -34,8 +34,8 @@
 | 🔐 Vendor patch verification | Check current OS security sources before patch guidance |
 | 🤖 Agent-context ready | Uses `AGENTS.md`, `CLAUDE.md`, and scoped docs for Codex/Claude-style agents |
 
-**Version:** `1.17.56`  
-**Skill count:** `114`
+**Version:** `1.17.62`  
+**Skill count:** `95`
 
 ---
 
@@ -44,8 +44,8 @@
 ```console
 $ linux-admin status
 🐧 Project      : linux-admin
-📦 Version      : 1.17.56
-🧩 Skills       : 114
+📦 Version      : 1.17.62
+🧩 Skills       : 95
 🛡️ Safety       : read-only-first + rollback-aware
 🤖 Agents       : Claude Code + Codex + AGENTS.md workflows
 🖥️ Desktop      : Ubuntu Desktop + Fedora Desktop

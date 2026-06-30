@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_files_exist():
     required = [
-        'skills/networking-expert/SKILL.md',
+        'skills/network/SKILL.md',
         'docs/networking-expert/diagnostic-method.md',
         'docs/networking-expert/routing-dns-firewall.md',
         'scripts/networking-expert-audit.py',

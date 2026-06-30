@@ -14,9 +14,10 @@ def hook_decision(cmd: str):
     )
     return json.loads(p.stdout).get('hookSpecificOutput', {})
 
-assert (ROOT / 'skills' / 'sysctl-expert' / 'SKILL.md').exists()
-assert (ROOT / 'docs' / 'sysctl-expert' / 'parameter-catalog.md').exists()
-assert (ROOT / 'bin' / 'sysctl-expert-audit').exists()
+def test_files_exist():
+    assert (ROOT / 'skills' / 'sysctl-expert' / 'SKILL.md').exists()
+    assert (ROOT / 'docs' / 'sysctl-expert' / 'parameter-catalog.md').exists()
+    assert (ROOT / 'bin' / 'sysctl-expert-audit').exists()
 
 for command in ['sysctl -w vm.swappiness=10', 'sysctl --system', 'echo 1 > /proc/sys/net/ipv4/ip_forward']:
     dec = hook_decision(command)

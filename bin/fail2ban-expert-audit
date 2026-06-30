@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec "$(dirname "$(readlink -f "$0")")/../scripts/fail2ban-expert-audit.py" "$@"

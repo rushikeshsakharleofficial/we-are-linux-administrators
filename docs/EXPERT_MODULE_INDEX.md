@@ -1,0 +1,99 @@
+# Expert Module Index
+
+95 skills.
+
+- **acl-permissions-expert** — Expert Linux POSIX ACL diagnostics and design using getfacl/setfacl, effective masks, default ACL inheritance, named users/groups, ACL backup/restore, and ACL-vs-mode conflict prevention.
+- **ansible-expert**
+- **apache-expert**
+- **apparmor-expert**
+- **auditd-expert**
+- **auth** — Troubleshoot Linux users, SSH, sudo, PAM, LDAP, SSSD, account lockout, key permissions, group membership, and login failures.
+- **automation** — Create safe Linux administration automation, read-only triage scripts, Ansible playbooks, cron/systemd timers, fleet reports, and dry-run guarded remediation.
+- **backup-restore-expert**
+- **bash-script-expert**
+- **boot** — Troubleshoot Linux boot failures, emergency mode, initramfs, fstab, crypttab, GRUB, root device discovery, and systemd boot target failures.
+- **capacity-planning-expert**
+- **cf-expert** — Expert Cloudflare operations with MCP/API guidance for DNS records, proxying, SSL/TLS, WAF/rulesets, cache, redirects, rate limits, Zero Trust/tunnels awareness, audit, rollout, and rollback.
+- **change-safety-expert** — Linux production change safety — preflight readiness, blast-radius review, destructive-command guardrails, post-change validation, and rollback decision. Covers go/no-go gates, change containment, and accept/rollback evidence.
+- **chrony-expert**
+- **cloud-lb-expert** — Cloud load balancer expert for AWS ALB/NLB/GWLB, Azure Load Balancer/Application Gateway/Front Door/Traffic Manager, GCP load balancing patterns, target health, security groups/firewalls, TLS listeners, proxy protocol, source IP, logs, and safe cloud cutovers.
+- **command-expert** — Expert Linux command selection, shell pipeline debugging, safe command construction, dry-run strategy, text processing with grep/sed/awk/find/xargs, quoting, idempotency, and destructive-command risk review.
+- **containers** — Troubleshoot Docker and Podman containers, restart loops, logs, inspect output, rootless Podman, bind mounts, ports, cgroups, and runtime storage errors.
+- **cpu-expert**
+- **cron-scheduler-expert**
+- **date-timectl-expert**
+- **diagnose** — Diagnose any Linux administration issue using read-only-first, evidence-based troubleshooting. Use for general Linux failures, unknown symptoms, incident triage, root-cause analysis, or when unsure which specialized Linux skill applies. Enforces the Universal Skill Execution Contract across all skills.
+- **disk-mounting-expert**
+- **dns-gslb-expert** — DNS and Global Server Load Balancing expert for weighted DNS, geo/latency routing, health-check failover, TTL behavior, resolver caching, multi-region traffic steering, MX balancing, and safe DNS cutovers.
+- **dnsmasq-expert** — Expert dnsmasq administration for lightweight DNS forwarding/cache, DHCP, DHCPv6/RA, PXE/TFTP, local host records, split DNS, upstream resolvers, DNSSEC, rebind protection, and safe validation.
+- **f5-expert** — F5 BIG-IP load balancer expert for LTM/GTM-style troubleshooting, virtual servers, pools, pool members, monitors, SNAT, profiles, iRules, persistence, TLS, and HA failover. Defensive, read-only-first, change-window aware.
+- **fail2ban-expert** — Expert Fail2Ban diagnostics and safe jail/filter/action design for SSH, web, mail, FTP, custom logs, journald backends, regex testing, dynamic bans, recidive strategy, firewall backend alignment, and lockout-safe remediation.
+- **fedora-desktop-expert** — Fedora Desktop specialist for Fedora Workstation GNOME, Fedora KDE Plasma Edition, Fedora Spins, Atomic Desktops, Labs, Wayland/Xorg, display managers, kernels, graphics, audio, networking, printing, power, UI customization, extensions/plugins, SELinux, updates, release upgrades, and safe desktop troubleshooting.
+- **file-permissions-expert** — Expert POSIX file ownership and mode diagnostics including chmod/chown/chgrp/stat/namei/umask, setuid/setgid/sticky bits, directory traversal, safe recursive changes, and least-privilege remediation.
+- **filesystem-expert**
+- **firewall-expert** — Expert Linux software firewall diagnostics and safe rule design for firewalld, nftables, iptables/ip6tables, UFW, ipset, ebtables/arptables, Docker/Kubernetes host firewall interactions, logging, NAT, forwarding, and lockout-safe remediation.
+- **grep-expert**
+- **haproxy-expert**
+- **incident-response-expert**
+- **iproute-expert**
+- **iscsi-expert**
+- **keepalived-expert** — keepalived and VRRP expert for VIP failover, health scripts, priority/preempt behavior, unicast/multicast VRRP, split-brain prevention, IPVS integration, ARP behavior, and safe HA validation.
+- **kernel** — Troubleshoot Linux kernel panic, soft lockup, hard lockup, hung tasks, call traces, kdump, driver failures, reboot crash evidence, kernel versioning, boot parameters, modules, taints, initramfs, grub, live patching, sysrq, and safe kernel update/rollback planning.
+- **kubernetes-node-expert**
+- **limits-expert** — Expert Linux limits and resource-ceiling diagnostics for ulimit, PAM limits.conf, systemd Limit*, prlimit, nofile/nproc/memlock, file descriptor exhaustion, process/thread ceilings, security audit limit review, and safe service/user limit tuning.
+- **linux-proxy-expert** — Linux proxy expert for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS forward proxies, reverse proxy boundaries, transparent/intercepting proxy behavior, system proxy variables, package-manager proxy config, Docker/systemd proxy settings, corporate proxy CA chains, ACLs, authentication, logging, firewall/NAT routing, IPv4/IPv6 binding, and safe proxy troubleshooting.
+- **load-balancer-expert** — Vendor-neutral load balancer router and recommendation skill for Linux admins. Classifies DNS/GSLB, L3/L4 VIP, L4 TCP/UDP, L7 HTTP reverse proxy, ADC, cloud load balancer, Kubernetes ingress, and HA/failover designs, recommends the best-fit load balancer for the request, then routes to HAProxy, NGINX proxy, F5, LVS/IPVS, keepalived, DNS/GSLB, cloud LB, firewall, networking, TLS, and observability experts.
+- **logrotate-expert**
+- **logs** — Investigate Linux logs, journald, rsyslog, monitoring agent failures, alert triage, incident timeline building, and log correlation.
+- **lvm-expert**
+- **lvs-ipvs-expert** — Linux Virtual Server and IPVS expert for kernel L4 load balancing, ipvsadm, ldirectord, NAT/DR/TUN modes, schedulers, persistence, real-server health, ARP/DSR behavior, and high-throughput VIP troubleshooting.
+- **memory-expert**
+- **migration-expert** — Expert Linux migration planning and multi-agent dispatch skill for OS upgrades, full server clones, repo/package syncs, database migrations, patch windows, firewall/rate-limit audits, SFTP/user-data migrations, cutovers, validation, rollback, and shared-memory orchestration.
+- **multipath-expert**
+- **mysql-expert**
+- **nagios-core-expert** — Nagios Core community edition expert for hosts/services, object definitions, templates, contacts, commands, plugins, active/passive checks, NRPE/NCPA/NSCA/NRDP, CGI auth, external commands, notifications, flapping, dependencies, performance data, retention, config verification, and safe reload troubleshooting.
+- **named-expert** — Expert BIND/named DNS administration for authoritative and recursive DNS, named.conf, zones, serials, AXFR/IXFR, views, ACLs, DNSSEC, rndc, logging, validation, migration, and outage-safe changes.
+- **natting-expert**
+- **network** — Troubleshoot Linux networking: IP addressing, routing, policy routing, DNS, firewalld/nftables/iptables/ufw, conntrack, MTU, sockets, VLAN/bond/bridge, NetworkManager, systemd-networkd, netplan, ethtool, tc, TCP/sysctl tuning, and connectivity problems.
+- **nfs-expert**
+- **nginx-expert** — NGINX expert for virtual hosts, reverse proxy, load balancing, upstream 502/503/504 triage, TLS/SNI, WebSocket/gRPC, FastCGI, health checks, keepalive, buffering, safe reloads, and rollback.
+- **observium-ce-expert** — Observium Community Edition expert for SNMP device onboarding, add_device.php, poller-wrapper, discovery-wrapper, RRD/RRDCached, MySQL/MariaDB, Apache/Nginx/PHP, cron, permissions, alerts, syslog integration, UNIX agent, MIB/device support, upgrades, and safe troubleshooting.
+- **optimization-guardian-expert** — Over-optimization guardian for Linux/SRE tuning. Always load this skill whenever the user asks to optimize, tune, boost, speed up, harden performance, increase limits, change sysctl, tune kernel/network/storage/database/web/PHP-FPM/Redis/Postfix/containers/Kubernetes, reduce latency, increase throughput, or apply performance recommendations. Prevents unsafe cargo-cult tuning, requires baseline evidence, capacity context, rollback, monitoring, and validates whether optimization is actually needed.
+- **os-security-expert** — Expert Linux OS security posture assessment and hardening for SSH, sudo, PAM, users, packages, firewall, SELinux/AppArmor, auditd, sysctl kernel security, logging, file integrity, crypto policy, and safe remediation.
+- **package-manager-expert**
+- **pam-expert**
+- **patching-expert**
+- **performance** — Troubleshoot Linux high CPU, high load, memory pressure, OOM killer, swap thrashing, latency, cgroups, and general host slowness.
+- **permissions** — Troubleshoot Linux permission denied, ownership, modes, ACLs, directory traversal, mount options, SELinux AVCs, AppArmor denials, and systemd sandboxing.
+- **php-fpm-expert**
+- **postgresql-expert**
+- **process-expert**
+- **quota-expert**
+- **raid-expert**
+- **rdp-expert** — Linux RDP and XRDP expert for GNOME, KDE Plasma, XFCE, MATE, Cinnamon, LXQt, Xorg/Wayland session issues, Rocky Linux 10 GNOME Remote Desktop/RDP changes, xrdp/xorgxrdp, PAM/auth, Polkit, clipboard, drive redirection, audio, firewall, black screen, reconnect, and multi-user remote desktop troubleshooting.
+- **redis-expert**
+- **root-cause-expert**
+- **routing-expert**
+- **rsyslog-expert**
+- **runbook-expert**
+- **samba-expert**
+- **security-expert** — Defensive Linux security validation expert for authorized servers. Uses an incident-driven model to review exposure, identity, privilege, kernel/sysctl, systemd sandboxing, limits, logging, patch posture, supply-chain risk, and ransomware recovery readiness. Plans safe dummy simulations, classifies failed controls, and routes fixes to the right expert skill.
+- **selinux-expert**
+- **service** — Troubleshoot systemd service failures, restart loops, failed units, daemon crashes, port bind errors, unit dependencies, and service config validation.
+- **shell-rc-expert** — Review and fix Bash and Zsh user startup configuration safely — startup order, aliases, functions, PATH, prompt/plugin loading, interactive vs login behavior, slow terminal startup, and safe rollback.
+- **smart-disk-expert**
+- **ssh-hardening-expert**
+- **sssd-ldap-expert**
+- **storage** — Troubleshoot Linux storage issues: disk full, inode full, deleted open files, filesystem errors, LVM, RAID, SMART, mount failures, and I/O latency.
+- **sudoers-expert**
+- **swap-expert**
+- **sysctl-expert** — Safely audit, explain, and tune Linux sysctl kernel parameters using evidence-based profiles, workload fit, rollback plans, security-hardening checks, and anti-overoptimization guardrails. Use for /proc/sys, sysctl.conf, sysctl.d, network buffers, VM memory, kernel hardening, file descriptor, routing, container/VPN/server tuning, and Linux security audit sysctl review questions.
+- **systemd-expert** — Expert Linux systemd diagnostics, unit design, restart-loop debugging, journald analysis, resource controls, security audit hardening, timers, dependency ordering, cgroup v2, pressure-watch controls, Varlink-aware diagnostics, and safe remediation. Use for service failures, units, timers, startup ordering, daemon reloads, cgroups, watchdogs, systemd sandboxing, service exposure reviews, and boot-time service issues.
+- **tcp-expert**
+- **tcpdump-expert**
+- **ubuntu-desktop-expert** — Ubuntu Desktop specialist for GNOME, KDE Plasma/Kubuntu, Xfce/Xubuntu, MATE, Cinnamon, LXQt/Lubuntu, Budgie, UKUI/Kylin, Unity, Ubuntu Studio desktop workflows, Wayland/Xorg, display managers, kernels, HWE/OEM kernels, graphics drivers, PipeWire/audio, Bluetooth, Wi-Fi, printing, power, UI customization, extensions/plugins, desktop security, updates, release upgrades, and safe rollback-aware desktop troubleshooting.
+- **udp-expert**
+- **universal-contract-guardian-expert** — Universal contract guardian for linux-admin skills. Use when creating, updating, auditing, or executing any skill or implementation plan. Enforces security facts before changes, rollback, skill correction workflow, architecture fit, final architecture audit, backup/disaster plan, guarded recovery planning, and token-optimized bounded output.
+- **user-permissions-expert** — Expert Linux identity and access management for local users, groups, sudo, PAM/session limits interaction, account lifecycle, SSH login rights, locked accounts, service accounts, and least-privilege design.
+- **vlan-bonding-expert**
+- **vulnerability-scan-expert**
