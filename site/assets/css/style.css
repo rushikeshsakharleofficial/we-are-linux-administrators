@@ -119,7 +119,7 @@ body::after {
   position: fixed; inset: 0;
   background: repeating-linear-gradient(
     0deg, transparent, transparent 3px,
-    rgba(0,255,128,0.007) 3px, rgba(0,255,128,0.007) 4px
+    rgba(29,185,84,0.007) 3px, rgba(29,185,84,0.007) 4px
   );
   pointer-events: none; z-index: 0; mix-blend-mode: overlay;
 }
@@ -159,7 +159,7 @@ body::after {
   -webkit-backdrop-filter: blur(20px);
   transition: background var(--transition);
 }
-[data-theme="light"] .navbar { background: rgba(248,250,252,0.92); }
+
 .navbar-inner { display: flex; align-items: center; gap: 0; width: 100%; max-width: var(--container-width); margin: 0 auto; }
 @keyframes logo-enter { from { opacity:0; transform:translateX(-6px); } to { opacity:1; transform:translateX(0); } }
 @keyframes slash-glow { 0%,100% { text-shadow:none; } 50% { text-shadow:0 0 10px rgba(29,185,84,0.8),0 0 22px rgba(29,185,84,0.4); } }
@@ -182,15 +182,20 @@ body::after {
 .nav-link.active { color: var(--accent-green); }
 .nav-actions { display: flex; align-items: center; gap: 8px; margin-left: 16px; }
 
-/* Theme toggle */
-.theme-toggle {
-  width: 36px; height: 36px; border-radius: var(--radius-sm);
-  background: var(--bg-card); border: 1px solid var(--border-soft);
-  color: var(--text-muted); font-size: 1rem;
-  display: flex; align-items: center; justify-content: center;
-  transition: all var(--transition);
+/* Focus styles — Spotify spec: white 2px outline on dark surfaces */
+:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
 }
-.theme-toggle:hover { color: var(--accent-green); border-color: rgba(29,185,84,0.3); background: rgba(29,185,84,0.06); }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 0;
+}
 
 /* Nav CTA */
 .nav-cta {
@@ -221,7 +226,7 @@ body::after {
   padding: 16px max(20px,4vw); z-index: 999;
   flex-direction: column; gap: 4px;
 }
-[data-theme="light"] .mobile-nav { background: rgba(248,250,252,0.98); }
+
 .mobile-nav.open { display: flex; }
 .mobile-nav .nav-link { font-size: 0.9rem; padding: 10px 12px; }
 
