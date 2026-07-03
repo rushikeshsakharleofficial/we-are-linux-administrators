@@ -219,4 +219,7 @@ Do not apply broad package/kernel advice without lifecycle and rollback notes.
 
 ```bash
 bash hooks/validate-linux-admin.sh .
+bash hooks/validate-universal-contract.sh .
 ```
+
+If hooks cannot be run in the Codex environment, Codex should say that clearly and explain what was inspected instead.
