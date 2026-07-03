@@ -218,8 +218,5 @@ Do not apply broad package/kernel advice without lifecycle and rollback notes.
 ## Validation commands
 
 ```bash
-hooks/validate-linux-admin.sh "$(pwd)"
-hooks/validate-universal-contract.sh "$(pwd)"
+bash hooks/validate-linux-admin.sh .
 ```
-
-If hooks cannot be run in the Codex environment, Codex should say that clearly and explain what was inspected instead.
