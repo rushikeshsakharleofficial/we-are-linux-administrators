@@ -146,7 +146,7 @@ Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md and docs/SECURITY_PATCH_REFRES
 
 ### Path B — Install from Codex plugin directory when published/shared
 
-Use this when `linux-admin` is available in your Codex plugin marketplace or shared workspace plugin source.
+Use this when `linux-admin` is available in your Codex Plugin directory or shared workspace plugin source.
 
 In Codex CLI:
 
