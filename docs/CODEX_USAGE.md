@@ -57,7 +57,7 @@ Summarize the available Linux admin skills before making changes.
 
 ### Option B — Install from Codex plugin directory when published/shared
 
-Use this when `linux-admin` is available in your Codex plugin marketplace or workspace plugin source.
+Use this when `linux-admin` is available in your Codex Plugin directory or workspace plugin source.
 
 In Codex CLI:
 
