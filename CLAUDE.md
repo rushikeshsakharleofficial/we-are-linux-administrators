@@ -36,7 +36,7 @@ Before changing skills, docs, package metadata, plugin metadata, or site release
 - Verify current files before writing.
 - Preserve the current skill count unless actually adding/removing skills and verifying the count.
 - If user-facing metadata changes, keep `README.md`, `RELEASE.md`, `package.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and `site/assets/data/latest-update.json` aligned where applicable.
-- Do not claim the Codex plugin is publicly installable from a marketplace unless verified. Use wording such as "when published/shared" for Codex plugin-directory workflows.
+- Do not claim the Codex plugin is publicly installable from the Codex Plugin directory unless verified. Use wording such as "when published/shared" for Codex plugin-directory workflows.
 - Do not rely on local-only `.agent/` state files for repository instructions; this repository must remain portable for cloned, vendored, Claude Code, Codex, OpenCode, and GitHub-connected workflows.
 
 ## Safety contract
