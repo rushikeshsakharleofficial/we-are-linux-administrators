@@ -24,14 +24,14 @@
 - `.claude-plugin/plugin.json` — aligned description and version to the current 101-skill repository state.
 - `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.73` and 101 skills.
 - `site/assets/data/latest-update.json` — aligned website release popup to `1.17.73` and 101 skills.
-- `AGENTS.md` and `CLAUDE.md` — retain the rule that Codex marketplace availability must not be claimed unless verified.
+- `AGENTS.md` and `CLAUDE.md` — retain the rule that Codex Plugin directory availability must not be claimed unless verified.
 
 ## Safety notes
 
 - The new server memory skill explicitly forbids storing plaintext passwords, SSH private keys, API tokens, MFA secrets, cookies, private certificates, and customer secrets.
 - The Linux source guardian skill redirects normal operations toward supported configuration, package, policy, and vendor-patch paths before any source-level change.
 - The model dispatcher skill requires redaction before routing logs, configs, or tasks to external model providers.
-- Codex install guidance now avoids overclaiming public marketplace availability and points users to the safer immediate AGENTS.md workflow.
+- Codex install guidance now avoids overclaiming public Plugin directory availability and points users to the safer immediate AGENTS.md workflow.
 
 ## Existing highlights
 
