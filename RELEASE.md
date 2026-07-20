@@ -51,7 +51,7 @@ linux-admin
 ## Codex CLI
 
 ```bash
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+npm install -g @openai/codex
 codex
 /plugins
 ```
