@@ -132,7 +132,7 @@ This works immediately because Codex reads `AGENTS.md` from the repository.
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
 cd we-are-linux-administrators
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+npm install -g @openai/codex
 codex
 ```
 
