@@ -23,7 +23,7 @@ This repo includes:
 Install Codex CLI on macOS/Linux:
 
 ```bash
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+npm install -g @openai/codex
 ```
 
 Run Codex from a repository root:
