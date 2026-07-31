@@ -13,6 +13,10 @@ Important: begin read-only; require explicit confirmation before disruptive/dest
 
 Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
 
+## Universal Skill Execution Contract
+
+Follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and bounded output.
+
 # Task: Boot Failures, Emergency Mode, initramfs, fstab, GRUB
 
 ## When to use
