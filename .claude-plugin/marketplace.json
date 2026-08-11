@@ -60,7 +60,6 @@
         "agent-dispatch",
         "web-security",
         "codex",
-        "codex-plugin",
         "openai-codex",
         "agents-md",
         "claude-code"
