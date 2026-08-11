@@ -11,7 +11,7 @@
 
 ![Linux](https://img.shields.io/badge/Linux-Admin-22D3EE?style=flat-square&logo=linux&logoColor=white)
 ![SRE](https://img.shields.io/badge/SRE-Workflow-A78BFA?style=flat-square)
-![Codex](https://img.shields.io/badge/Codex-Plugin%20Ready-4ADE80?style=flat-square)
+![Codex](https://img.shields.io/badge/Codex-Project%20Ready-4ADE80?style=flat-square)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-Desktop-E95420?style=flat-square&logo=ubuntu&logoColor=white)
 ![Fedora](https://img.shields.io/badge/Fedora-Desktop-51A2DA?style=flat-square&logo=fedora&logoColor=white)
 ![Rollback](https://img.shields.io/badge/Rollback-First-F472B6?style=flat-square)
