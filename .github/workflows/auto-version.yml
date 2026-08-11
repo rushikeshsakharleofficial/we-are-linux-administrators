@@ -1,68 +1,51 @@
-name: Auto-bump plugin version
+name: Check release metadata consistency
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'skills/**'
-      - 'hooks/**'
-      - 'scripts/**'
-      - 'agents/**'
-      - '.claude-plugin/plugin.json'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  bump:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Bump patch version
-        id: bump
+      - name: Verify release metadata versions
+        shell: bash
         run: |
-          CURRENT=$(jq -r '.version' .claude-plugin/plugin.json)
-          MAJOR=$(echo "$CURRENT" | cut -d. -f1)
-          MINOR=$(echo "$CURRENT" | cut -d. -f2)
-          PATCH=$(echo "$CURRENT" | cut -d. -f3)
-          NEW="$MAJOR.$MINOR.$((PATCH + 1))"
-          echo "new_version=$NEW" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
 
-          # Update plugin.json
-          jq --arg v "$NEW" '.version = $v' .claude-plugin/plugin.json > /tmp/plugin.json
-          mv /tmp/plugin.json .claude-plugin/plugin.json
+          PACKAGE_VERSION=$(jq -r '.version' package.json)
+          PLUGIN_VERSION=$(jq -r '.version' .claude-plugin/plugin.json)
+          MARKETPLACE_METADATA_VERSION=$(jq -r '.metadata.version' .claude-plugin/marketplace.json)
+          MARKETPLACE_PLUGIN_VERSION=$(jq -r '.plugins[0].version' .claude-plugin/marketplace.json)
+          SITE_VERSION=$(jq -r '.version' site/assets/data/latest-update.json)
 
-          # Update marketplace.json (metadata.version + plugins[0].version)
-          jq --arg v "$NEW" '
-            .metadata.version = $v |
-            .plugins[0].version = $v
-          ' .claude-plugin/marketplace.json > /tmp/marketplace.json
-          mv /tmp/marketplace.json .claude-plugin/marketplace.json
+          README_VERSION=$(grep -m1 -oE 'Version:** `([0-9]+\.[0-9]+\.[0-9]+)`' README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          RELEASE_VERSION=$(grep -m1 -oE '^# Release [0-9]+\.[0-9]+\.[0-9]+' RELEASE.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 
-      - name: Commit version bump
-        id: commit
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/plugin.json .claude-plugin/marketplace.json
-          if git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            git commit -m "chore: bump plugin to v${{ steps.bump.outputs.new_version }} [skip ci]"
-            git push
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
+          printf '%s\n' \
+            "package.json=$PACKAGE_VERSION" \
+            ".claude-plugin/plugin.json=$PLUGIN_VERSION" \
+            ".claude-plugin/marketplace.json metadata=$MARKETPLACE_METADATA_VERSION" \
+            ".claude-plugin/marketplace.json plugin=$MARKETPLACE_PLUGIN_VERSION" \
+            "site/assets/data/latest-update.json=$SITE_VERSION" \
+            "README.md=$README_VERSION" \
+            "RELEASE.md=$RELEASE_VERSION"
 
-      - name: Create GitHub Release
-        if: steps.commit.outputs.changed == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          VERSION="${{ steps.bump.outputs.new_version }}"
-          gh release create "v${VERSION}" \
-            --title "v${VERSION}" \
-            --generate-notes \
-            --latest
+          for version in \
+            "$PLUGIN_VERSION" \
+            "$MARKETPLACE_METADATA_VERSION" \
+            "$MARKETPLACE_PLUGIN_VERSION" \
+            "$SITE_VERSION" \
+            "$README_VERSION" \
+            "$RELEASE_VERSION"; do
+            if [ "$version" != "$PACKAGE_VERSION" ]; then
+              echo "Release metadata mismatch: expected $PACKAGE_VERSION, found $version" >&2
+              exit 1
+            fi
+          done
+
+          echo "Release metadata is consistent at $PACKAGE_VERSION"
