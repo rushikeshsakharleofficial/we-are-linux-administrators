@@ -48,7 +48,7 @@ fi
 
 plugin_count=$(grep -Eo 'Covers [0-9]+ task-specific skills' .claude-plugin/plugin.json 2>/dev/null | grep -Eo '[0-9]+' | head -n1 || true)
 package_count=$(grep -Eo '[0-9]+ expert skills' package.json 2>/dev/null | grep -Eo '[0-9]+' | head -n1 || true)
-readme_count=$(grep -Eo 'Current skill count: \*\*[0-9]+' README.md 2>/dev/null | grep -Eo '[0-9]+' | head -n1 || true)
+readme_count=$(grep -Eo '\*\*Skill count:\*\*[[:space:]]*`[0-9]+`' README.md 2>/dev/null | grep -Eo '[0-9]+' | head -n1 || true)
 release_count=$(grep -Eo 'Skill count: `[0-9]+`' RELEASE.md 2>/dev/null | grep -Eo '[0-9]+' | head -n1 || true)
 
 info "detected skill count: $skill_count"
@@ -69,7 +69,7 @@ done
 
 plugin_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' .claude-plugin/plugin.json 2>/dev/null | head -n1 | sed -E 's/.*"([^"]+)"$/\1/' || true)
 package_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' package.json 2>/dev/null | head -n1 | sed -E 's/.*"([^"]+)"$/\1/' || true)
-readme_version=$(grep -Eo 'Current plugin metadata version: \*\*[^*]+' README.md 2>/dev/null | sed -E 's/.*\*\*//' | head -n1 || true)
+readme_version=$(grep -Eo '\*\*Version:\*\*[[:space:]]*`[^`]+`' README.md 2>/dev/null | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
 release_version=$(grep -Eo '^# Release [^[:space:]]+' RELEASE.md 2>/dev/null | awk '{print $3}' | head -n1 || true)
 
 for pair in \
@@ -90,7 +90,7 @@ while IFS= read -r skill_file; do
   dir_name=$(basename "$(dirname "$skill_file")")
   first_line=$(head -n1 "$skill_file" || true)
   [ "$first_line" = "---" ] || err "$skill_file missing opening front matter delimiter"
-  grep -Eq '^name:[[:space:]]*"?'"$dir_name"'"?'"'[[:space:]]*$' "$skill_file" || warn "$skill_file name does not exactly match directory $dir_name"
+  grep -Eq "^name:[[:space:]]*\"?$dir_name\"?[[:space:]]*$" "$skill_file" || warn "$skill_file name does not exactly match directory $dir_name"
   grep -Eq '^description:[[:space:]]*.{20,}' "$skill_file" || warn "$skill_file missing useful description"
   grep -Eq '^allowed-tools:[[:space:]]*' "$skill_file" || warn "$skill_file missing allowed-tools"
 done < <(find skills -mindepth 2 -maxdepth 2 -name SKILL.md -type f | sort)
