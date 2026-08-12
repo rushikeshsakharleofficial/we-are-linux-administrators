@@ -1,6 +1,15 @@
+---
+name: iscsi-expert
+description: Diagnose Linux iSCSI initiator connectivity, discovery, sessions, LUN mapping, multipath handoff, and storage rollout safely without risking data corruption.
+---
+
 # iscsi-expert
 
 Use this skill for Linux iSCSI initiator troubleshooting, session discovery, target login, LUN mapping, multipath handoff, and safe storage rollout.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky storage or network changes, validation, and token-bounded output.
 
 ## Purpose
 
