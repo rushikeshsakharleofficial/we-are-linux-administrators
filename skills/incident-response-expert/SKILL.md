@@ -1,6 +1,15 @@
+---
+name: incident-response-expert
+description: Linux incident response expert for triage, evidence preservation, impact assessment, containment planning, recovery coordination, timeline reconstruction, post-incident runbooks, and rollback-aware recovery.
+---
+
 # incident-response-expert
 
 Use this skill for Linux incident triage, evidence preservation, impact assessment, containment planning, recovery coordination, and post-incident runbooks.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and token-bounded output.
 
 ## Purpose
 
