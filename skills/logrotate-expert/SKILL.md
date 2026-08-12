@@ -1,6 +1,15 @@
+---
+name: logrotate-expert
+description: Expert Linux log rotation design and troubleshooting for retention, compression, ownership, postrotate handling, service log reopen behavior, copytruncate decisions, and disk-full prevention. Use when logs grow unexpectedly, rotation fails, rotated files have wrong permissions, or logrotate policy needs a safe review.
+---
+
 # logrotate-expert
 
 Use this skill for Linux log rotation design, debugging, retention, compression, ownership, postrotate handling, and disk-full prevention.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, and token-bounded output before recommending or applying changes.
 
 ## Purpose
 
