@@ -1,8 +1,17 @@
+---
+name: chrony-expert
+description: Diagnose and safely operate Chrony/NTP time synchronisation, including chronyd service health, source quality, drift, makestep policy, NTS, server mode, RTC behaviour, VM clock skew, and time-sync conflicts. Use for Chrony, chronyc, NTP, clock drift, or Linux time-synchronisation troubleshooting.
+---
+
 # Chrony Expert
 
 Command namespace: `/linux-admin:chrony-expert`
 
 Use this skill for Chrony/NTP time synchronization, chronyd, chronyc tracking/sources/sourcestats, makestep, drift, NTS, local server mode, time source selection, and safe time correction.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded recovery, validation, and token-bounded output.
 
 ## Operating rules
 
