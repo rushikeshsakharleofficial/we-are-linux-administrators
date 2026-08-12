@@ -1,3 +1,8 @@
+---
+name: date-timectl-expert
+description: Diagnose and safely manage Linux system time, timezones, timedatectl, systemd-timesyncd, RTC/hwclock, NTP synchronization, clock drift, and application timestamp issues.
+---
+
 # Date / Timedatectl Expert
 
 Command namespace: `/linux-admin:date-timectl-expert`
@@ -12,6 +17,10 @@ Use this skill for system clock, timezone, timedatectl, systemd-timesyncd, hwclo
 - Explain why the command/value/change is needed so the user does not over-tune or copy random internet fixes.
 - If the built-in skill is not enough, research official docs and Linux community pages before proposing changes.
 - If another expert owns the deeper risk, route there: `systemd-expert`, `sysctl-expert`, `package-manager-expert`, `storage`, `os-security-expert`, or `migration-expert`.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Start with audit helper
 
