@@ -1,8 +1,17 @@
+---
+name: filesystem-expert
+description: Diagnoses Linux filesystem capacity, inode, corruption, mount-option, growth, and repair issues across ext4, XFS, and Btrfs. Use for df/du mismatches, inode exhaustion, read-only remounts, fsck or xfs_repair planning, filesystem growth/shrink questions, and data-safe recovery workflows.
+---
+
 # Filesystem Expert
 
 Command namespace: `/linux-admin:filesystem-expert`
 
 Use this skill for ext4, XFS, Btrfs, filesystem health, df/du mismatch, inode exhaustion, fsck/xfs_repair, grow/shrink, mount options, journaling, corruption triage, and data-safe repair planning.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and token-bounded output.
 
 ## Operating rules
 
@@ -47,7 +56,6 @@ Prioritize data safety. Separate block device problems, filesystem metadata prob
 ## Refuse/stop conditions
 
 Do not run `fsck -y`, `xfs_repair` without `-n`, `mkfs`, or destructive btrfs repair commands without backup/snapshot and maintenance approval.
-
 
 ## Output format
 
