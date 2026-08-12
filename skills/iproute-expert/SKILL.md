@@ -1,6 +1,15 @@
+---
+name: iproute-expert
+description: Diagnose Linux iproute2 networking safely, including addresses, links, routes, policy rules, neighbors, namespaces, VRFs, tunnels, and rollback-aware network changes.
+---
+
 # iproute-expert
 
 Use this skill for Linux `iproute2` diagnostics: addresses, links, routes, rules, neighbors, namespaces, tunnels, and safe network state review.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky network changes, validation, and token-bounded output.
 
 ## Purpose
 
