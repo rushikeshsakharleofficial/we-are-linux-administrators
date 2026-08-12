@@ -1,6 +1,15 @@
+---
+name: multipath-expert
+description: Expert Linux multipath device mapping, path-health and ALUA troubleshooting, WWID review, failover analysis, and safe SAN storage recovery. Use for device-mapper multipath issues, failed or ghost paths, path-priority problems, duplicate-device risk, and storage-path validation before filesystem or LVM changes.
+---
+
 # multipath-expert
 
 Use this skill for Linux multipath device mapping, path health, ALUA behavior, WWID review, failover symptoms, and safe SAN storage troubleshooting.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, and token-bounded output before recommending or applying changes.
 
 ## Purpose
 
