@@ -1,6 +1,14 @@
+---
+name: "capacity-planning-expert"
+description: "Plan Linux fleet capacity using CPU, memory, storage, network, growth, saturation, headroom, and scaling evidence. Use for capacity forecasts, bottleneck planning, redundancy headroom, or vertical/horizontal scaling decisions."
+---
 # capacity-planning-expert
 
 Use this skill for Linux fleet capacity planning, CPU/memory/storage/network growth forecasts, saturation thresholds, headroom planning, and scaling recommendations.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and bounded output.
 
 ## Purpose
 
