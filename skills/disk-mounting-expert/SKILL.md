@@ -1,8 +1,17 @@
+---
+name: disk-mounting-expert
+description: Diagnose and safely manage Linux mounts, fstab, block-device identifiers, bind mounts, network filesystems, systemd mount units, boot mount failures, remounts, and unmount issues.
+---
+
 # Disk Mounting Expert
 
 Command namespace: `/linux-admin:disk-mounting-expert`
 
 Use this skill for mount, umount, fstab, findmnt, lsblk, blkid, UUID/LABEL, bind mounts, NFS/CIFS, systemd mount units, boot mount failures, remounts, and safe mount validation.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security/facts checks, rollback, architecture fit, backup/disaster planning, guarded recovery for risky changes, validation, and token-bounded output.
 
 ## Operating rules
 
