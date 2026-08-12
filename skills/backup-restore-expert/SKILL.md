@@ -1,3 +1,8 @@
+---
+name: backup-restore-expert
+description: Plans and validates Linux backups and restores, including rsync, tar, retention, filesystem recovery, ownership and security metadata preservation, restore drills, and safe pre-change backup gates. Use when backup integrity, restore readiness, migration safety, or recovery planning matters.
+---
+
 # backup-restore-expert
 
 Use this skill for Linux backup planning, restore validation, rsync/tar workflows, filesystem recovery, backup evidence review, retention planning, and safe pre-change backup gates.
@@ -5,6 +10,10 @@ Use this skill for Linux backup planning, restore validation, rsync/tar workflow
 ## Purpose
 
 Treat restore capability as the real success metric. A backup job is not healthy until a restore path, validation method, and rollback plan are known.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Use when
 
