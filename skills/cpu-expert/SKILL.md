@@ -1,6 +1,15 @@
+---
+name: cpu-expert
+description: Diagnoses Linux CPU saturation, steal time, softirq pressure, run-queue contention, scheduler symptoms, noisy processes, and safe CPU tuning decisions. Use for high CPU, load averages, CPU bottlenecks, steal time, softirq spikes, thread pressure, or CPU capacity troubleshooting.
+---
+
 # cpu-expert
 
 Use this skill for Linux CPU saturation, steal time, softirq, run queue pressure, scheduler symptoms, noisy processes, and safe CPU tuning review.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded recovery, validation, and token-bounded output.
 
 ## Purpose
 
