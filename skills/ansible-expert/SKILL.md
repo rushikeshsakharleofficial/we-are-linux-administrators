@@ -1,6 +1,15 @@
+---
+name: ansible-expert
+description: Production-safe Ansible automation design and review for playbooks, inventories, modules, package updates, bastion access, interpreter compatibility, rollout control, rollback, and disaster recovery. Use when creating, reviewing, troubleshooting, or hardening Ansible workflows for Linux fleets.
+---
+
 # ansible-expert
 
 Use this skill for production-safe Ansible automation design, playbook review, module selection, inventory architecture, CMDB inventory integration, package updates, proxy/jump-host access, Python interpreter compatibility, rollback planning, and disaster recovery playbooks.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky remote changes, validation, and token-bounded output.
 
 ## Purpose
 
