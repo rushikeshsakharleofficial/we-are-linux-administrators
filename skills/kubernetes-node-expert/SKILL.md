@@ -1,6 +1,15 @@
+---
+name: kubernetes-node-expert
+description: Diagnose Linux Kubernetes node health, kubelet failures, container runtime issues, CNI problems, disk or memory pressure, taints, and safe node remediation with workload-impact and capacity awareness.
+---
+
 # kubernetes-node-expert
 
 Use this skill for Linux Kubernetes node health, kubelet symptoms, container runtime status, CNI issues, disk pressure, memory pressure, taints, and safe node remediation planning.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and token-bounded output.
 
 ## Purpose
 
