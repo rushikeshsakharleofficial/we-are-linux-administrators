@@ -1,3 +1,8 @@
+---
+name: apparmor-expert
+description: Diagnose and safely remediate AppArmor profile denials, confinement modes, profile tuning, and service access issues. Use for AppArmor complain/enforce review, denial triage, profile reloads, and rollback-aware confinement changes.
+---
+
 # apparmor-expert
 
 Use this skill for AppArmor profile mode review, denial triage, complain/enforce rollout, profile tuning, and safe service confinement.
@@ -5,6 +10,10 @@ Use this skill for AppArmor profile mode review, denial triage, complain/enforce
 ## Purpose
 
 Resolve AppArmor denials with minimal profile changes and clear validation.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security facts before changes, architecture fit, backup/disaster planning, rollback, validation, and bounded output.
 
 ## Evidence first
 
