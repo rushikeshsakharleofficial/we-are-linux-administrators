@@ -1,3 +1,8 @@
+---
+name: auditd-expert
+description: Expert Linux auditd rule design, audit evidence collection, user/action tracing, file watch planning, compliance support, and safe audit rule rollout. Use when investigating audit events, missing audit records, sudo/user activity, file changes, compliance evidence, or audit rule design.
+---
+
 # auditd-expert
 
 Use this skill for Linux auditd rule design, audit evidence collection, user/action tracing, file watch planning, compliance support, and safe audit rule rollout.
@@ -28,6 +33,10 @@ Ask for audit service state, current rule source files, target path or syscall g
 5. add persistent rule only after validation
 6. document search key and interpretation
 7. monitor event volume
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, rollback, architecture fit, backup/disaster planning, guarded recovery, validation, and bounded output. For persistent audit rule changes, back up the active rule source first and document how to restore and reload the prior ruleset.
 
 ## Anti-patterns
 
