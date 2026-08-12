@@ -1,3 +1,8 @@
+---
+name: bash-script-expert
+description: Creates, reviews, debugs, hardens, merges, and explains Bash scripts for Linux administration, including POSIX-portable shell when required, with safe quoting, validation, dry-run design, rollback awareness, and ShellCheck-style review.
+---
+
 # bash-script-expert
 
 Use this skill to create, review, debug, harden, merge, and explain Bash scripts for Linux administration — or to write/review POSIX-portable `/bin/sh` scripts when portability to dash, ash, or vendor shells is required.
@@ -5,6 +10,10 @@ Use this skill to create, review, debug, harden, merge, and explain Bash scripts
 ## Purpose
 
 Write practical Bash scripts that look like a careful Linux administrator wrote them: clean, readable, safe, and not over-commented.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Scope
 
