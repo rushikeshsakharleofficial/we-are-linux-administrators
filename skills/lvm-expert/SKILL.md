@@ -1,6 +1,15 @@
+---
+name: lvm-expert
+description: Expert Linux LVM discovery, PV/VG/LV planning, safe logical-volume growth, snapshot and thin-pool review, filesystem-aware resizing, storage migration planning, validation, and rollback-aware recovery.
+---
+
 # lvm-expert
 
 Use this skill for Linux LVM discovery, PV/VG/LV planning, safe LV growth, snapshot planning, thin pool review, and rollback-aware storage changes.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, and token-bounded output before recommending or applying changes.
 
 ## Purpose
 
