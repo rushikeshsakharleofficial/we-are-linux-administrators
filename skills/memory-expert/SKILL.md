@@ -1,6 +1,15 @@
+---
+name: memory-expert
+description: Diagnose Linux memory pressure, OOM events, high RAM usage, page cache, slab, swap activity, cgroup or container memory limits, memory leaks, PSI, overcommit, THP, hugepages, dirty memory, and safe evidence-based memory tuning.
+---
+
 # memory-expert
 
 Use this skill for Linux memory pressure, OOM killer, high RAM usage, page cache, slab, buffers/cache, cgroup/container memory limits, memory leaks, `free`, `/proc/meminfo`, `vmstat`, PSI, overcommit, THP, hugepages, dirty memory, `drop_caches`, and safe memory tuning.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky changes, validation, and token-bounded output.
 
 ## Role
 
