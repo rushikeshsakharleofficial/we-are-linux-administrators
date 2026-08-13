@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
   "version": "1.17.73",
-  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, and agent-based ops tools — 101 expert skills",
+  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q, Zed, Junie, Aider, Cody, goose, and other agent-based ops tools — 101 expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
     "linux-admin-install": "./bin/linux-admin-install.js"
@@ -13,6 +13,17 @@
     "claude-code",
     "codex",
     "openai-codex",
+    "opencode",
+    "github-copilot",
+    "cursor",
+    "windsurf",
+    "cline",
+    "amazon-q",
+    "zed",
+    "junie",
+    "aider",
+    "sourcegraph-cody",
+    "goose",
     "agents-md",
     "linux",
     "sre",
