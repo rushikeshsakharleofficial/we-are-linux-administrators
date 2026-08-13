@@ -1,3 +1,7 @@
+---
+name: "pam-expert"
+description: "Review and troubleshoot Linux PAM authentication, account, password, and session stacks. Use for PAM service files, control flags, lockout policies, sudo/SSH integration, authentication failures, session-module problems, and safe PAM rollout or rollback planning."
+---
 # pam-expert
 
 Use this skill for Linux PAM stack review, authentication flow debugging, account/session module behavior, lockout policies, sudo/ssh integration, and safe PAM rollout.
@@ -5,6 +9,10 @@ Use this skill for Linux PAM stack review, authentication flow debugging, accoun
 ## Purpose
 
 Debug authentication and session policy without locking out users.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback, validation, and token-bounded output. For PAM changes that can affect login or privilege access, keep break-glass or out-of-band access available and define rollback before editing the active stack.
 
 ## Evidence first
 
