@@ -1,6 +1,15 @@
+---
+name: raid-expert
+description: Diagnose Linux software RAID and mdadm arrays, degraded members, rebuild risk, disk replacement, metadata state, array assembly, and safe recovery decisions. Use when investigating degraded or failed arrays, replacement planning, rebuilds, metadata conflicts, or RAID recovery.
+---
+
 # raid-expert
 
 Use this skill for Linux RAID and mdadm diagnostics, degraded arrays, rebuild planning, disk replacement, metadata review, and safe recovery decisions.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) before recommending or applying changes. Collect bounded facts first, verify backup and recovery options before rebuild or replacement work, avoid writes while array state is uncertain, plan rollback or recovery before intervention, and keep output token-bounded.
 
 ## Purpose
 
