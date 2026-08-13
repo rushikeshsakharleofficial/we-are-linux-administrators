@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md",
+    "docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md",
+    "docs/SECURITY_PATCH_REFRESH_POLICY.md",
+    "docs/AI_TOOL_SUPPORT.md"
+  ],
+  "skills": [
+    "./skills"
+  ]
+}
