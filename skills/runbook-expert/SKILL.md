@@ -1,6 +1,14 @@
+---
+name: runbook-expert
+description: Linux runbook skill for maintenance procedures, validation checklists, rollback planning, escalation, and operational documentation.
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # runbook-expert
 
-Use this skill for Linux operational runbooks, incident procedures, maintenance plans, rollback steps, validation checklists, and handoff-ready documentation.
+Use this skill for Linux operational runbooks, maintenance plans, rollback steps, validation checklists, and handoff-ready documentation.
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
 
 ## Purpose
 
