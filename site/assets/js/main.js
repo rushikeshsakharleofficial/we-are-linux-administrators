@@ -3,8 +3,8 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.17.73';
-  const SKILL_COUNT = '101';
+  const PROJECT_VERSION = '1.17.74';
+  const SKILL_COUNT = '102';
 
   function setMeta(selector, value) {
     const el = document.querySelector(selector);
@@ -34,26 +34,26 @@
   }
 
   function syncProjectCopy() {
-    setMeta('meta[name="description"]', 'linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 101 skills covering boot, networking, storage, Linux proxying, RDP, load balancing, security validation, and more.');
-    setMeta('meta[property="og:description"]', 'Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, safety gates, and 101 skills.');
+    setMeta('meta[name="description"]', 'linux-admin — Senior Linux administrator and SRE workflow as a Claude Code plugin. 102 skills covering boot, networking, storage, Linux proxying, RDP, load balancing, security validation, and more.');
+    setMeta('meta[property="og:description"]', 'Give Claude Code a senior Linux administrator mental model. Read-only-first diagnostics, safety gates, and 102 skills.');
 
-    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="106"], [data-count="107"], [data-count="108"]').forEach(el => {
+    document.querySelectorAll('[data-count="98"], [data-count="99"], [data-count="101"], [data-count="106"], [data-count="107"], [data-count="108"]').forEach(el => {
       el.dataset.count = SKILL_COUNT;
-      if (/^(98|99|106|107|108)\+?$/.test(el.textContent.trim())) {
+      if (/^(98|99|101|106|107|108)\+?$/.test(el.textContent.trim())) {
         el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
       }
     });
 
     replaceText(document.body, [
-      [/(98|99|106|107|108) specialized skills/g, '101 specialized skills'],
-      [/(98|99|106|107|108) task-specific skills/g, '101 task-specific skills'],
-      [/(98|99|106|107|108) Expert Skills/g, '101 Expert Skills'],
-      [/(98|99|106|107|108) skills/g, '101 skills'],
-      [/(98|99|106|107|108) Skills/g, '101 Skills'],
-      [/Browse all (35|99|106|107|108) skills/g, 'Browse all 101 skills'],
-      [/Browse all 40\+/g, 'Browse all 101'],
-      [/40\+ linux-admin skills/g, '101 linux-admin skills'],
-      [/46 skills/g, '101 skills'],
+      [/(98|99|101|106|107|108) specialized skills/g, '102 specialized skills'],
+      [/(98|99|101|106|107|108) task-specific skills/g, '102 task-specific skills'],
+      [/(98|99|101|106|107|108) Expert Skills/g, '102 Expert Skills'],
+      [/(98|99|101|106|107|108) skills/g, '102 skills'],
+      [/(98|99|101|106|107|108) Skills/g, '102 Skills'],
+      [/Browse all (35|99|101|106|107|108) skills/g, 'Browse all 102 skills'],
+      [/Browse all 40\+/g, 'Browse all 102'],
+      [/40\+ linux-admin skills/g, '102 linux-admin skills'],
+      [/46 skills/g, '102 skills'],
       [/Animated feature pages/g, 'Feature deep dives'],
       [/Each skill has a dedicated deep-dive page with interactive canvas animations and investigation walkthroughs\./g, 'Selected skills have dedicated deep-dive pages with practical investigation walkthroughs.'],
       [/Animated radar sonar — triage routing in real time/g, 'Triage routing walkthrough'],
@@ -70,11 +70,11 @@
 
     const skillsTitle = document.querySelector('.page-hero-title');
     if (skillsTitle && /Expert Skills/.test(skillsTitle.textContent)) {
-      skillsTitle.textContent = `${SKILL_COUNT} Expert Skills`;
+      skilsTitle.textContent = `${SKILL_COUNT} Expert Skills`;
     }
 
     document.querySelectorAll('.stat-num').forEach(el => {
-      if (['98', '99', '106', '107', '108'].includes(el.textContent.trim())) el.textContent = SKILL_COUNT;
+      if (['98', '99', '101', '106', '107', '108'].includes(el.textContent.trim())) el.textContent = SKILL_COUNT;
     });
   }
 
@@ -107,7 +107,7 @@
       grid,
       '/linux-admin:networking-expert',
       '/linux-admin:linux-proxy-expert',
-      'Linux proxy specialist for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS CONNECT, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind issues.',
+      'Linux proxy specialist for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTS CONNECT, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind issues.',
       'Use when: Linux hosts act as forward proxies, SOCKS proxies, or clients behind corporate/internal proxy layers.',
       '/linux-admin:linux-proxy-expert squid 403 after adding ACL',
       'network'
@@ -191,7 +191,7 @@
       'Use when: Linux remote desktop or XRDP sessions fail, disconnect, or render a black screen.',
       '/linux-admin:rdp-expert xrdp black screen after login on GNOME',
       'auth'
-    );
+   );
 
     addSkillCard(
       grid,
@@ -201,7 +201,7 @@
       'Use when: validating server security controls without exploit chains, stealth, or disruptive testing.',
       '/linux-admin:security-expert audit owned web server',
       'security'
-    );
+   );
   }
 
   syncProjectCopy();

@@ -8,7 +8,8 @@ This is the Claude Code entry point for the `linux-admin` repository.
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin name: `linux-admin`
 - Current documented release family: `1.17.x`
-- Current documented skill count: `101`
+- Current documented skill count: `102`
+- Master skill router: `skills/using-linux-admin/SKILL.md`
 - GitHub Pages site: `https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/`
 - AI tool compatibility: `docs/AI_TOOL_SUPPORT.md`
 
@@ -27,7 +28,8 @@ Before changing skills, docs, package metadata, plugin metadata, agent compatibi
 9. `docs/AI_TOOL_SUPPORT.md`
 10. `docs/CODEX_USAGE.md`
 11. `docs/EXPERT_MODULE_INDEX.md`
-12. Relevant `skills/*/SKILL.md` and `skills/*/chunks/*.md`
+12. `skills/using-linux-admin/SKILL.md`
+13. Relevant `skills/*/SKILL.md` and `skills/*/chunks/*.md`
 
 ## Operating rules
 
@@ -41,6 +43,7 @@ Before changing skills, docs, package metadata, plugin metadata, agent compatibi
 - Do not claim the Codex plugin is publicly installable from the Codex Plugin directory unless verified. Use wording such as "when published/shared" for Codex plugin-directory workflows.
 - Keep `docs/AI_TOOL_SUPPORT.md`, `AGENTS.md`, and the thin vendor adapters aligned when supported-agent context changes.
 - Do not rely on local-only `.agent/` state files for repository instructions; this repository must remain portable for cloned, vendored, Claude Code, Codex, OpenCode, and GitHub-connected workflows.
+- Use `skills/using-linux-admin/SKILL.md` as the routing map before loading specialist skill content when the correct skill is unclear.
 
 ## Safety contract
 
