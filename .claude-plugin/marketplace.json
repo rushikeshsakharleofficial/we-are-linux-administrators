@@ -6,16 +6,16 @@
     "url": "https://github.com/rushikeshsakharleofficial"
   },
   "metadata": {
-    "description": "Linux administrator and SRE skills for Claude Code with portable guidance for Codex and other maintained agent tools.",
-    "version": "1.18.0"
+    "description": "Linux administrator and SRE skills for Claude Code with portable guidance for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, goose, and other agent-based ops tools.",
+    "version": "1.17.73"
   },
   "plugins": [
     {
       "name": "linux-admin",
       "source": "./",
       "skills": "./skills/",
-      "description": "Senior Linux admin and SRE workflow with 80 focused expert skills and portable cross-agent repository instructions.",
-      "version": "1.18.0",
+      "description": "Senior Linux admin and SRE workflow with 101 expert skills, Claude Code plugin packaging, and portable cross-agent repository instructions.",
+      "version": "1.17.73",
       "author": {
         "name": "Rushikesh Sakharle",
         "email": "rishiananya123@gmail.com"
@@ -24,8 +24,46 @@
       "repository": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators",
       "license": "MIT",
       "category": "development",
-      "tags": ["linux", "sre", "systemd", "networking", "storage", "security", "kernel", "codex", "claude-code"],
-      "keywords": ["linux", "sre", "troubleshooting", "incident-response", "security", "firewall", "containers", "migration", "dns", "auth", "boot", "load-balancing", "agent-dispatch", "codex", "claude-code"]
+      "tags": [
+        "linux",
+        "sre",
+        "systemd",
+        "networking",
+        "storage",
+        "security",
+        "kernel",
+        "codex",
+        "claude-code"
+      ],
+      "keywords": [
+        "linux",
+        "sre",
+        "systemd",
+        "networking",
+        "storage",
+        "selinux",
+        "troubleshooting",
+        "incident-response",
+        "sysctl",
+        "kernel-tuning",
+        "performance-tuning",
+        "linux-hardening",
+        "firewall",
+        "containers",
+        "migration",
+        "dns",
+        "auth",
+        "boot",
+        "acl",
+        "quota",
+        "model-routing",
+        "agent-dispatch",
+        "web-security",
+        "codex",
+        "openai-codex",
+        "agents-md",
+        "claude-code"
+      ]
     }
   ]
 }
