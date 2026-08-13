@@ -1,6 +1,15 @@
+---
+name: process-expert
+description: Diagnose Linux process states, stuck or zombie processes, signals, open files, parent-child trees, service relationships, and safe process intervention. Use when investigating hung processes, unexpected process behaviour, kill or restart decisions, or process ownership and lifecycle issues.
+---
+
 # process-expert
 
 Use this skill for Linux process inspection, stuck processes, zombie states, signal behavior, open files, parent/child trees, and safe process intervention.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) before recommending or applying changes. Collect bounded facts first, plan rollback or recovery before intervention, prefer graceful actions over forceful ones, and keep output token-bounded.
 
 ## Purpose
 
