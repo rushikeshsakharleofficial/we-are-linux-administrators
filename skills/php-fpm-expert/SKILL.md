@@ -1,3 +1,8 @@
+---
+name: php-fpm-expert
+description: Diagnose and safely tune PHP-FPM pools, process manager modes, max children, slowlog and status endpoints, listen sockets, and NGINX FastCGI integration. Use for PHP 502/504 errors, max-children exhaustion, slow or stuck requests, pool sizing, socket permission problems, and PHP-FPM observability.
+---
+
 # php-fpm-expert
 
 Use this skill for PHP-FPM pool sizing, process manager modes, max children, slowlog, status/ping endpoints, listen socket issues, and NGINX FastCGI integration.
@@ -44,3 +49,7 @@ Return pool diagnosis, memory sizing notes, safe config plan, validation, rollba
 ## Token-saving tip
 
 Ask for one pool file, one status snapshot, and one FastCGI location block instead of the full PHP config tree.
+
+## Universal Skill Execution Contract
+
+Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security facts before changes, architecture-fit checks, backup/disaster planning, rollback, validation, and bounded output. For PHP-FPM tuning, preserve the current pool configuration before edits, change one measured variable at a time, and restore the previous pool configuration if validation fails.
