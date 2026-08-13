@@ -70,7 +70,7 @@
 
     const skillsTitle = document.querySelector('.page-hero-title');
     if (skillsTitle && /Expert Skills/.test(skillsTitle.textContent)) {
-      skilsTitle.textContent = `${SKILL_COUNT} Expert Skills`;
+      skillsTitle.textContent = `${SKILL_COUNT} Expert Skills`;
     }
 
     document.querySelectorAll('.stat-num').forEach(el => {
@@ -107,7 +107,7 @@
       grid,
       '/linux-admin:networking-expert',
       '/linux-admin:linux-proxy-expert',
-      'Linux proxy specialist for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTS CONNECT, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind issues.',
+      'Linux proxy specialist for Squid, Tinyproxy, Dante SOCKS, HTTP/HTTPS CONNECT, package-manager proxy config, systemd/Docker proxy settings, ACLs, auth, TLS CA trust, and IPv4/IPv6 bind issues.',
       'Use when: Linux hosts act as forward proxies, SOCKS proxies, or clients behind corporate/internal proxy layers.',
       '/linux-admin:linux-proxy-expert squid 403 after adding ACL',
       'network'
@@ -226,7 +226,7 @@
     mobileNav.querySelectorAll('.nav-link').forEach(a => {
       a.addEventListener('click', () => {
         mobileNav.classList.remove('open');
-        burger.classList.remove('open');
+        burger.classList.remove('open', open);
         burger.setAttribute('aria-expanded', 'false');
       });
     });
