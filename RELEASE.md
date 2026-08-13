@@ -14,7 +14,7 @@
 - `server-memory-expert` — adds lightweight text-file server context memory for host identity, aliases, access flow, jump-host paths, and vault references without storing plaintext secrets.
 - `web-stack-security-expert` — unifies Apache, NGINX, OpenLiteSpeed, proxy, TLS, cache, WAF, and adaptive rate-limit policy guidance.
 - `linux-admin-chief-engineer` — acts as the top-level Linux engineer dispatcher for broad tasks, skill selection, token-bounded evidence collection, and safe next actions.
-- `agent-model-dispatcher-expert` — routes tasks across Codex, Claude Code, OpenCode, Gemini, Bedrock, Manus, Kimi, DeepSeek, GLM, local tools, and low-to-high model tiers.
+- `agent-model-dispatcher-expert` — routes tasks across Codex, Claude Code, OpenCode, Bedrock, Manus, Kimi, DeepSeek, GLM, local tools, and low-to-high model tiers.
 
 ## Updated
 
@@ -25,6 +25,7 @@
 - `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.73` and 101 skills.
 - `site/assets/data/latest-update.json` — aligned website release popup to `1.17.73` and 101 skills.
 - `AGENTS.md` and `CLAUDE.md` — retain the rule that Codex Plugin directory availability must not be claimed unless verified.
+- Agent/model routing support is limited to the maintained agent surfaces and providers documented by the repository; obsolete Gemini-specific routing has been removed.
 
 ## Safety notes
 
