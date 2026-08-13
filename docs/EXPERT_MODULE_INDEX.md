@@ -3,7 +3,7 @@
 101 skills.
 
 - **acl-permissions-expert** — Expert Linux POSIX ACL diagnostics and design using getfacl/setfacl, effective masks, default ACL inheritance, named users/groups, ACL backup/restore, and ACL-vs-mode conflict prevention.
-- **agent-model-dispatcher-expert** — Agent and model routing expert for Linux administration workflows across Codex, Claude Code, OpenCode, Gemini, Bedrock, Manus, Kimi, DeepSeek, GLM, local tools, and low-to-high model escalation.
+- **agent-model-dispatcher-expert** — Agent and model routing expert for Linux administration workflows across Codex, Claude Code, OpenCode, Bedrock, Manus, Kimi, DeepSeek, GLM, local tools, and low-to-high model escalation.
 - **ansible-expert**
 - **apache-expert**
 - **apparmor-expert**
