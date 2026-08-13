@@ -1,6 +1,6 @@
 # AGENTS.md — linux-admin agent instructions
 
-This is the primary portable entry point for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Zed, JetBrains Junie, and other agent-based coding tools working in this repository.
+This is the primary portable entry point for maintained agent-based coding tools working in this repository, including Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, and goose.
 
 ## Project context
 
