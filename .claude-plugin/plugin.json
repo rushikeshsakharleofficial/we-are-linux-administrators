@@ -1,6 +1,6 @@
 {
   "name": "linux-admin",
-  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, OpenCode, and agent-based ops tools. Covers 101 task-specific skills for boot, networking, storage, universal skill contract enforcement, optimization guarding, minimal architecture, agent/model dispatch, Linux source-change guarding, server context memory, web stack security, Linux proxying, Ubuntu Desktop, Fedora Desktop, GNOME, KDE Plasma, Xfce, desktop environments, Nagios Core, Observium Community Edition, RDP and Linux remote desktop, load balancing, web proxies, enterprise ADCs, Linux L4 balancing, DNS traffic steering, cloud load balancers, kernel, auth, logging, databases, web servers, backup/restore, incident response, defensive security validation, security scoring, patching, SELinux, AppArmor, capacity planning, and production safety.",
+  "description": "Senior Linux administrator and SRE workflow for Claude Code, with portable repository guidance for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, goose, and other agent-based ops tools. Covers 101 task-specific skills for Linux administration, troubleshooting, security, networking, storage, monitoring, desktop, and production safety.",
   "version": "1.17.73",
   "author": {
     "name": "Rushikesh Sakharle",
