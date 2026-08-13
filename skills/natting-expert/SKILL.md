@@ -1,6 +1,15 @@
+---
+name: natting-expert
+description: Expert Linux NAT design and troubleshooting for SNAT, DNAT, masquerade, port forwarding, nftables and iptables NAT, conntrack, routing, forwarding, asymmetric paths, and safe rollback-aware NAT migration.
+---
+
 # natting-expert
 
 Use this skill for Linux NAT design and troubleshooting: SNAT, DNAT, masquerade, port forwarding, one-to-one NAT, nftables NAT chains, iptables legacy NAT, connection tracking, routing, forwarding, asymmetric paths, and safe NAT migration.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every recommendation or change. Collect security and routing facts before apply, preserve the active ruleset/config before edits, check architecture fit, prefer guarded rollback for remote network changes, validate the full packet path after changes, and keep diagnostic output bounded.
 
 ## Role
 
