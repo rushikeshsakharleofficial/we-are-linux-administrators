@@ -1,3 +1,8 @@
+---
+name: mysql-expert
+description: Diagnose and operate MySQL or MariaDB safely for performance issues, connection limits, backups and restores, replication symptoms, crash recovery boundaries, and configuration review. Use when troubleshooting database slowness, overload, backup or restore planning, replication lag or errors, or risky InnoDB recovery scenarios.
+---
+
 # mysql-expert
 
 Use this skill for MySQL/MariaDB diagnostics, logical backup planning, slow-query triage, connection limits, replication symptoms, crash recovery boundaries, and safe config review.
@@ -44,3 +49,7 @@ Return current risk, likely bottleneck, evidence request, safe plan, validation,
 ## Token-saving tip
 
 Ask for selected variables, one slow-log summary, one short error-log window, and table size summary instead of full dumps.
+
+## Universal Skill Execution Contract
+
+Follow [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security facts before changes, architecture fit, backup/disaster planning, rollback, validation, and token-bounded output.
