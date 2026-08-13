@@ -1,6 +1,15 @@
+---
+name: patching-expert
+description: Plan and review safe Linux patching, package updates, kernel updates, reboot coordination, maintenance windows, validation, and rollback. Use this skill whenever the task involves OS patching, security updates, package update risk, kernel update planning, reboot requirements, or maintenance-window rollout.
+---
+
 # patching-expert
 
 Use this skill for Linux patch planning, package update risk review, kernel update coordination, reboot planning, maintenance windows, and rollback strategy.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, architecture fit, backup/disaster planning, rollback or guarded recovery, validation, and token-bounded output.
 
 ## Purpose
 
