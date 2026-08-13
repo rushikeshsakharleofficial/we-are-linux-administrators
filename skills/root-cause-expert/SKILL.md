@@ -1,6 +1,15 @@
+---
+name: root-cause-expert
+description: Linux root-cause analysis skill for incident timelines, evidence correlation, hypothesis testing, causal chains, and separating symptoms from underlying causes. Use for recurring incidents, unclear outages, production failures, and post-incident analysis.
+---
+
 # root-cause-expert
 
 Use this skill for Linux incident root-cause analysis, evidence correlation, hypothesis testing, causal chain building, and separating symptoms from causes.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for evidence-first checks, rollback and recovery planning, architecture-fit review, backup/disaster considerations, and bounded output.
 
 ## Purpose
 
