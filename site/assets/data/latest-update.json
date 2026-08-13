@@ -8,10 +8,10 @@
   "summary": "linux-admin now documents 101 expert skills, including minimal architecture, Linux source guarding, server memory, web stack security, chief engineer dispatch, and agent/model routing.",
   "highlights": [
     "Added six new skills for architecture, source-change safety, server context memory, web stack security, Linux chief-engineer dispatch, and multi-model agent routing.",
-    "README, package metadata, plugin metadata, release notes, and website popup now agree on version 1.17.73 and 101 skills.",
-    "README now describes Codex as immediately usable through the AGENTS.md project-instruction workflow, with plugin-directory installation only when published or shared.",
+    "README, package metadata, plugin metadata, release notes, and website popup agree on version 1.17.73 and 101 skills.",
+    "README describes Codex as immediately usable through the AGENTS.md project-instruction workflow, with plugin-directory installation only when published or shared.",
     "The server memory skill stores login flow and vault references only, not plaintext secrets.",
-    "Codex, Claude Code, OpenCode, and agent-assisted Linux administration workflows remain documented through AGENTS.md, CLAUDE.md, and docs/CODEX_USAGE.md."
+    "Maintained portable agent support is documented in docs/AI_TOOL_SUPPORT.md for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, and goose."
   ],
   "commands": {
     "claudeCode": [
