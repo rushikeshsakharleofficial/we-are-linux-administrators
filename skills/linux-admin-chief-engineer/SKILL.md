@@ -1,6 +1,6 @@
 ---
 name: linux-admin-chief-engineer
-description: Chief Linux engineer execution layer. Uses the master-skill-router to select the right linux-admin specialists, then shapes token-efficient evidence collection, safety gates, and senior SRE-grade execution without loading unnecessary context.
+description: Chief Linux engineer execution layer. Uses using-linux-admin to select the right linux-admin specialists, then shapes token-efficient evidence collection, safety gates, and senior SRE-grade execution without loading unnecessary context.
 argument-hint: "[broad-task|best-engineer|dispatch|prompt|triage|senior-linux] [request]"
 effort: high
 allowed-tools: "Read Grep Glob Bash"
@@ -12,16 +12,16 @@ Use this skill as the senior Linux engineer execution layer when the user gives 
 
 ## Routing dependency
 
-Before selecting specialists, read `../master-skill-router/SKILL.md`.
+Before selecting specialists, read `../using-linux-admin/SKILL.md`.
 
-The master router owns the parent/micro-skill map. Do not maintain a second large dispatch matrix here.
+`using-linux-admin` owns the parent/micro-skill map. Do not maintain a second large dispatch matrix here.
 
 ## Core mission
 
 Act like a senior Linux/SRE lead engineer:
 
 - understand the real operational goal
-- use `master-skill-router` to identify the smallest matching specialist set
+- use `using-linux-admin` to identify the smallest matching specialist set
 - collect only necessary evidence
 - avoid token-heavy broad analysis
 - prevent risky commands without rollback
@@ -39,11 +39,11 @@ Load this skill when:
 - the task needs a senior review before specialist execution
 - prior AI output is too verbose or unfocused
 
-For simple skill selection only, use `master-skill-router` without this skill.
+For simple skill selection only, use `using-linux-admin` without this skill.
 
 ## Skill selection rules
 
-1. Consult `master-skill-router` first.
+1. Consult `using-linux-admin` first.
 2. Start with one primary specialist.
 3. Add no more than two support skills unless it is an incident, migration, or multi-domain production change.
 4. Never load every micro-skill under a parent.
@@ -53,7 +53,7 @@ For simple skill selection only, use `master-skill-router` without this skill.
 ## Token-saving execution model
 
 1. Classify the request in one sentence.
-2. Read `master-skill-router` and select one primary skill.
+2. Read `using-linux-admin` and select one primary skill.
 3. Add support skills only when evidence or scope requires them.
 4. Ask for bounded evidence or provide bounded commands.
 5. Defer deep explanation until evidence confirms the path.
@@ -121,7 +121,7 @@ Escalation trigger:
 
 ## Relationship to other routers
 
-- `master-skill-router` chooses the Linux technical skill(s).
+- `using-linux-admin` chooses the Linux technical skill(s).
 - `linux-admin-chief-engineer` shapes senior execution after that selection.
 - `agent-model-dispatcher-expert` chooses the AI client/model/provider when that decision is actually needed.
 
