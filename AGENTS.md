@@ -8,7 +8,8 @@ This is the primary portable entry point for maintained agent-based coding tools
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin name: `linux-admin`
 - Current documented release family: `1.17.x`
-- Current documented skill count: `101`
+- Current documented skill count: `102`
+- Master skill router: `skills/using-linux-admin/SKILL.md`
 - GitHub Pages site: `https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/`
 - AI tool compatibility: `docs/AI_TOOL_SUPPORT.md`
 - OpenCode adapter: `opencode.json`
@@ -30,7 +31,8 @@ Before changing skills, docs, package metadata, plugin metadata, agent adapters,
 8. `docs/AI_TOOL_SUPPORT.md`
 9. `docs/CODEX_USAGE.md`
 10. `docs/EXPERT_MODULE_INDEX.md`
-11. Relevant `skills/*/SKILL.md` and `skills/*/chunks/*.md`
+11. `skills/using-linux-admin/SKILL.md`
+12. Relevant `skills/*/SKILL.md` and `skills/*/chunks/*.md`
 
 ## Portable agent rule
 
@@ -75,8 +77,8 @@ Use this pattern regardless of the AI client:
 
 1. Read the applicable project instruction file or adapter.
 2. Read `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
-3. Select the smallest relevant `skills/<name>/SKILL.md`.
-4. Read only the chunk files needed for the task.
+3. Read `skills/using-linux-admin/SKILL.md` and choose the smallest relevant primary skill.
+4. Read only that skill and the chunk files needed for the task.
 5. Collect bounded, read-only evidence before proposing changes.
 6. Redact secrets before sending evidence to external model providers or tools.
 7. Plan backup/rollback before risky SSH, firewall, routing, storage, kernel, auth, or production changes.
