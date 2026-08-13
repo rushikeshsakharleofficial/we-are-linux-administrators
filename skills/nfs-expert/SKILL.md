@@ -1,3 +1,8 @@
+---
+name: nfs-expert
+description: Diagnose and operate Linux NFS safely for exports, mounts, permissions, UID/GID mapping, stale file handles, locking, version mismatches, and performance symptoms. Use when troubleshooting NFS server or client access, export policy, mount failures, identity mapping, or reliability issues.
+---
+
 # nfs-expert
 
 Use this skill for NFS exports, mounts, permissions, UID/GID mapping, stale handles, performance symptoms, locking, and safe server/client troubleshooting.
@@ -33,3 +38,7 @@ Return export map, client behavior, likely cause, safe fix, validation, rollback
 ## Token-saving tip
 
 Ask for one export, one mount line, and one permission sample.
+
+## Universal Skill Execution Contract
+
+Follow [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md) for security facts before changes, architecture fit, backup/disaster planning, rollback, validation, and token-bounded output.
