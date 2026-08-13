@@ -2,7 +2,7 @@
 
 `linux-admin` keeps one canonical Linux administration skill tree under `skills/` and uses the smallest compatibility layer each AI coding/agent tool actually needs.
 
-The goal is portability without maintaining thirteen divergent copies of the same 101 skills.
+The goal is portability without maintaining thirteen divergent copies of the same 102 skills.
 
 ## Maintained compatibility matrix
 
@@ -30,7 +30,7 @@ The goal is portability without maintaining thirteen divergent copies of the sam
 2. Use root `AGENTS.md` wherever the tool supports it.
 3. Keep `CLAUDE.md` and `.claude-plugin/` for Claude Code packaging.
 4. Use a thin vendor adapter only when the product has a materially different repository rule format.
-5. Never copy all 101 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, or other vendor directories just to advertise compatibility.
+5. Never copy all 102 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, or other vendor directories just to advertise compatibility.
 6. Do not claim native marketplace/plugin/skill installation unless publication and packaging are verified.
 7. Model providers and agent clients are different layers: route Bedrock, DeepSeek, Kimi, GLM, local models, and similar providers through a verified client rather than pretending the model itself reads repository rules.
 
@@ -109,6 +109,7 @@ goose supports agent workflows, recipes, skills, MCP, ACP, permission controls, 
 ```text
 Read AGENTS.md.
 Read docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Read skills/using-linux-admin/SKILL.md.
 Select the smallest relevant skills/<name>/SKILL.md.
 Read only the required chunk files.
 Collect bounded evidence first.
