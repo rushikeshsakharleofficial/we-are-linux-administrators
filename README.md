@@ -1,111 +1,38 @@
-<div align="center">
-
 # 🐧 linux-admin
 
-### Open-source Linux administration skills for safer troubleshooting, production operations, Claude Code, Codex, and agent-assisted infrastructure work.
+Open-source Linux administration skills for safer troubleshooting, production operations, Claude Code, Codex, and other agent-based coding/ops tools.
 
-[![License](https://img.shields.io/github/license/rushikeshsakharleofficial/we-are-linux-administrators?style=for-the-badge&labelColor=0B1020&color=A78BFA)](LICENSE)
-[![Build](https://img.shields.io/github/actions/workflow/status/rushikeshsakharleofficial/we-are-linux-administrators/validate.yml?style=for-the-badge&labelColor=0B1020&color=4ADE80)](https://github.com/rushikeshsakharleofficial/we-are-linux-administrators/actions)
-[![Version](https://img.shields.io/badge/version-1.17.73-F472B6?style=for-the-badge&labelColor=0B1020)](.claude-plugin/plugin.json)
-[![Skills](https://img.shields.io/badge/skills-101-22D3EE?style=for-the-badge&labelColor=0B1020)](skills)
+**Version:** `1.17.74`  
+**Skill count:** `102`  
+**Package/plugin:** `linux-admin`
 
-![Linux](https://img.shields.io/badge/Linux-Admin-22D3EE?style=flat-square&logo=linux&logoColor=white)
-![SRE](https://img.shields.io/badge/SRE-Workflow-A78BFA?style=flat-square)
-![Codex](https://img.shields.io/badge/Codex-Project%20Ready-4ADE80?style=flat-square)
-![Ubuntu](https://img.shields.io/badge/Ubuntu-Desktop-E95420?style=flat-square&logo=ubuntu&logoColor=white)
-![Fedora](https://img.shields.io/badge/Fedora-Desktop-51A2DA?style=flat-square&logo=fedora&logoColor=white)
-![Rollback](https://img.shields.io/badge/Rollback-First-F472B6?style=flat-square)
+## What it does
 
-</div>
+`linux-admin` gives AI agents a senior Linux administrator/SRE workflow: read-only evidence first, small specialist context, rollback-aware changes, and bounded output.
 
----
+The main entry point is now:
 
-## ✨ Overview
-
-`linux-admin` is an open-source Linux administration skills repository for Claude Code, Codex, and other agent-based coding/ops tools. It gives agents a senior Linux administrator and SRE-style operating model for practical troubleshooting, safe command planning, and repeatable infrastructure workflows.
-
-| Principle | Meaning |
-|---|---|
-| 🔍 Read-only-first | Start with safe evidence collection before changes |
-| 🧠 Evidence-based RCA | Rank hypotheses from real system signals |
-| 🔁 Rollback-aware | Every high-impact fix needs a recovery path |
-| 💾 Backup/disaster checks | Preserve critical state before impact |
-| 🏗️ Architecture-fit review | Avoid over-engineering and under-engineering |
-| 🔐 Vendor patch verification | Check current OS security sources before patch guidance |
-| 🤖 Agent-context ready | Uses `AGENTS.md`, `CLAUDE.md`, and scoped docs for Codex/Claude-style agents |
-
-**Version:** `1.17.73`  
-**Skill count:** `101`
-
----
-
-## 🖥️ Terminal preview
-
-```console
-$ linux-admin status
-🐧 Project      : linux-admin
-📦 Version      : 1.17.73
-🧩 Skills       : 101
-🛡️ Safety       : read-only-first + rollback-aware
-🤖 Agents       : Claude Code + Codex + AGENTS.md workflows
-🖥️ Desktop      : Ubuntu Desktop + Fedora Desktop
-🔐 Patch model  : vendor security source verification
-```
-
----
-
-## 🚀 Installation
-
-**Claude Code — plugin marketplace (one command):**
-```
-/plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
-/plugin install linux-admin
-```
-
-**Claude Code — slash command (after install):**
-```
-/linux-admin:diagnose <your problem>
-/linux-admin:network <your problem>
-/linux-admin:storage <your problem>
-```
-
-**Codex — use as a project instruction pack now:**
-```bash
-git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
-cd we-are-linux-administrators
-codex
-```
-
-**Codex plugin directory — when published/shared:**
 ```text
-codex
-/plugins
-Search: linux-admin
+/linux-admin:using-linux-admin <task>
 ```
 
----
+`using-linux-admin` is a routing-only skill. It maps the request to the smallest relevant parent or micro-skill, then the specialist skill handles the actual Linux work.
 
-<details open>
-<summary><b>Run directly with npx</b></summary>
-
-```bash
-npx github:rushikeshsakharleofficial/we-are-linux-administrators
+```text
+User request
+   ↓
+using-linux-admin
+   ↓
+smallest matching specialist skill
+   ↓
+Universal Skill Execution Contract
+   ↓
+bounded evidence → safe plan → backup/rollback → validation
 ```
 
-</details>
+## Install
 
-<details>
-<summary><b>Install globally with npm</b></summary>
-
-```bash
-npm install -g linux-admin
-linux-admin
-```
-
-</details>
-
-<details>
-<summary><b>Install from Claude Code plugin marketplace</b></summary>
+### Claude Code
 
 ```text
 /plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
@@ -113,21 +40,16 @@ linux-admin
 /reload-plugins
 ```
 
-```bash
-claude plugin marketplace add rushikeshsakharleofficial/we-are-linux-administrators
-claude plugin install linux-admin@we-are-linux-administrators
+Examples:
+
+```text
+/linux-admin:using-linux-admin disk full but df and du do not match
+/linux-admin:diagnose nginx service failing after reboot
+/linux-admin:network DNS resolves but curl times out
+/linux-admin:storage disk full but df and du do not match
 ```
 
-</details>
-
-<details open>
-<summary><b>Install/use linux-admin with Codex</b></summary>
-
-Codex has two useful paths for this repo:
-
-### Path A — Use as a Codex project instruction pack now
-
-This works immediately because Codex reads `AGENTS.md` from the repository.
+### Codex
 
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
@@ -136,280 +58,96 @@ npm install -g @openai/codex
 codex
 ```
 
-Then prompt Codex:
+Recommended first prompt:
 
 ```text
 Read AGENTS.md first.
-Use this repository as the linux-admin skill pack.
-Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
+Read skills/using-linux-admin/SKILL.md and choose the smallest relevant Linux skill.
+Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Follow docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific guidance.
 ```
 
-### Path B — Install from Codex plugin directory when published/shared
+Codex plugin-directory installation should only be treated as available when the plugin has actually been published/shared there.
 
-Use this when `linux-admin` is available in your Codex Plugin directory or shared workspace plugin source.
-
-In Codex CLI:
-
-```text
-codex
-/plugins
-```
-
-Then:
-
-```text
-Search: linux-admin
-Open plugin details
-Install plugin
-Start a new thread
-Ask Codex to use linux-admin
-```
-
-In Codex app:
-
-```text
-Open Plugins → search linux-admin → Add to Codex → start a new thread
-```
-
-After install, use it naturally:
-
-```text
-Use linux-admin to diagnose an Ubuntu Desktop GNOME login loop with read-only-first commands and rollback notes.
-```
-
-Or invoke it explicitly if your Codex UI supports plugin mentions:
-
-```text
-@linux-admin diagnose Fedora Kinoite update failure and suggest safe validation steps.
-```
-
-### Path C — Vendor into another repo for Codex
-
-Use this when you want Codex to apply linux-admin rules inside a different infrastructure repo:
+### npm / npx
 
 ```bash
-git submodule add https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git tools/linux-admin-skills
-cp tools/linux-admin-skills/AGENTS.md ./AGENTS.md
+npx github:rushikeshsakharleofficial/we-are-linux-administrators
+# or
+npm install -g linux-admin
+linux-admin
 ```
 
-Then edit your root `AGENTS.md` to include:
+## Routing model
 
-```text
-Use tools/linux-admin-skills as the Linux admin skill reference.
-Follow tools/linux-admin-skills/docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Follow tools/linux-admin-skills/docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific guidance.
-```
+Use `skills/using-linux-admin/SKILL.md` when the correct skill is unclear. It prefers one primary skill and at most two support skills unless the task is an incident, migration, or multi-domain production change.
 
-Detailed guide: [`docs/CODEX_USAGE.md`](docs/CODEX_USAGE.md)
+Common parent routes:
 
-</details>
-
-<details>
-<summary><b>Install with skillfish</b></summary>
-
-```bash
-npx skillfish@latest add rushikeshsakharleofficial/we-are-linux-administrators
-```
-
-</details>
-
----
-
-## ⚡ Quick usage
-
-Claude Code slash-command style:
-
-```bash
-/linux-admin:diagnose nginx service failing after reboot
-/linux-admin:network DNS resolves but curl times out
-/linux-admin:storage disk full but df and du do not match
-/linux-admin:kernel kernel panic after driver update
-/linux-admin:optimization-guardian-expert tune nginx for high traffic safely
-/linux-admin:ubuntu-desktop-expert gnome extensions broke after upgrade
-/linux-admin:fedora-desktop-expert kinoite update broke plasma widgets
-```
-
-Codex prompt style:
-
-```text
-Read AGENTS.md and docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Use the diagnose skill workflow to create a read-only-first troubleshooting plan for nginx failing after reboot.
-```
-
-```text
-Read AGENTS.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
-Update the Fedora Desktop skill chunks only if official Fedora sources show current security or lifecycle changes.
-```
-
----
-
-## 🧩 Coverage
-
-| Area | Coverage |
+| Request | Start with |
 |---|---|
-| 🧠 Core Linux | boot, systemd, services, logs, users, packages, kernel |
-| 🌐 Network | DNS, routing, firewall, NAT, TCP/UDP, proxying, load balancing |
-| 💾 Storage | filesystems, LVM, RAID, SMART, backup/restore |
-| 🔐 Security | SELinux, AppArmor, auditd, patching, validation |
-| 📊 Monitoring | Nagios Core, Observium CE, logs, incident timelines |
-| 🖥️ Desktop | Ubuntu Desktop, Fedora Desktop, GNOME, KDE, Xfce, Wayland/Xorg |
-| 🤖 Agent context | `AGENTS.md`, `CLAUDE.md`, patch refresh policy, universal contract |
-| 🧰 Codex workflows | Codex app, CLI, IDE extension, Web, GitHub integration, repo instructions, plugin directory |
+| Unknown Linux problem | `diagnose` |
+| Service failure | `service` |
+| Boot failure | `boot` |
+| Kernel panic/lockup | `kernel` |
+| High load/OOM/slowness | `performance` |
+| Disk/mount/I/O problem | `storage` |
+| Permission denied | `permissions` |
+| SSH/login/sudo identity issue | `auth` |
+| Connectivity issue | `network` |
+| Security audit | `security-expert` |
+| Load-balancer choice | `load-balancer-expert` |
+| Migration/cutover | `migration-expert` |
+| Tuning/optimisation | `optimization-guardian-expert` first |
+| Broad senior execution | `linux-admin-chief-engineer` after routing |
 
----
-
-## 🧭 Core skills
-
-| Skill | Purpose |
-|---|---|
-| `/linux-admin:diagnose` | Main router for general Linux issue triage |
-| `/linux-admin:universal-contract-guardian-expert` | Enforces the 8-rule skill execution contract |
-| `/linux-admin:optimization-guardian-expert` | Required for optimization/tuning requests |
-| `/linux-admin:ubuntu-desktop-expert` | Ubuntu Desktop, flavors, UI/session/kernel/driver/security workflows |
-| `/linux-admin:fedora-desktop-expert` | Fedora Workstation, KDE, Spins, Atomic Desktops, Labs workflows |
-| `/linux-admin:nagios-core-expert` | Nagios Core community edition monitoring workflows |
-| `/linux-admin:observium-ce-expert` | Observium CE SNMP/discovery/poller workflows |
-| `/linux-admin:linux-proxy-expert` | Squid, Tinyproxy, Dante SOCKS, HTTP CONNECT |
-| `/linux-admin:load-balancer-expert` | HAProxy, NGINX proxy, F5, LVS/IPVS, keepalived, GSLB |
-| `/linux-admin:security-expert` | Defensive Linux security validation and safe remediation routing |
-
+Full routing map: [`skills/using-linux-admin/SKILL.md`](skills/using-linux-admin/SKILL.md)  
 Full skill index: [`docs/EXPERT_MODULE_INDEX.md`](docs/EXPERT_MODULE_INDEX.md)
 
----
+## Coverage
 
-## 🧑‍💻 Codex support
+- Core Linux: boot, kernel, systemd, services, processes, packages
+- Networking: routing, NAT, firewall, TCP/UDP, packet capture, proxying
+- Storage: filesystems, LVM, RAID, SMART, iSCSI, multipath, NFS, Samba, backup/restore
+- Identity: users, permissions, ACL, PAM, SSSD/LDAP, sudo, SSH
+- Web/data: NGINX, Apache, PHP-FPM, MySQL/MariaDB, PostgreSQL, Redis
+- HA/load balancing: HAProxy, F5, LVS/IPVS, keepalived, cloud LB, DNS/GSLB
+- Monitoring/logging: journald, rsyslog, logrotate, Nagios Core, Observium CE
+- Security: SELinux, AppArmor, auditd, Fail2Ban, patching, vulnerability review, sysctl
+- Desktop: Ubuntu Desktop, Fedora Desktop, RDP/XRDP
+- Automation/migration: Bash, Ansible, runbooks, migrations, production change safety
 
-| Codex surface | How this repo supports it |
-|---|---|
-| Codex app | Open the repo or install from plugin directory when available |
-| Codex CLI | Run from repo root, or use `/plugins` when plugin directory entry is available |
-| Codex IDE extension | Use natural-language prompts that reference `AGENTS.md` and target skill/chunk |
-| Codex Web | Connect GitHub repo, assign scoped tasks, require validation/check output |
-| Codex plugin directory | Browse `/plugins`, search `linux-admin`, install when published/shared, then invoke by prompt or `@linux-admin` where supported |
-| Codex `/init` | Use only to scaffold/refresh instructions; preserve this repo's safety rules |
+## Agent portability
 
-Recommended Codex task format:
+Linux procedures stay canonical under `skills/`. Root `AGENTS.md` is the preferred portable instruction entry point where supported. Vendor-specific adapters stay thin instead of copying the full skill tree.
 
-```text
-Read AGENTS.md first.
-Task: <exact change or troubleshooting goal>
-Scope: <files/directories allowed>
-Safety: follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
-Patch policy: follow docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific changes
-Validation: run or document relevant hooks/checks
-Output: summarize changed files, evidence, validation, and rollback notes
-```
-
----
-
-## 🏗️ Architecture
-
-```mermaid
-flowchart TD
-    User[User request] --> Surface[Claude Code / Codex / Agent CLI]
-    Surface --> Context[AGENTS.md + CLAUDE.md + Repo Docs]
-    Context --> Router["/linux-admin:diagnose"]
-    Router --> Contract[Universal Skill Execution Contract]
-    Contract --> Guard[Optimization and Safety Guardrails]
-    Guard --> Skill[Task-specific Expert Skill]
-    Skill --> Chunk[Focused Chunked References]
-    Chunk --> Evidence[Read-only Evidence Collection]
-    Evidence --> Plan[Safe Remediation Plan]
-    Plan --> Backup[Backup and Disaster Check]
-    Backup --> Rollback[Rollback and Validation]
-    Rollback --> Final[Bounded Final Answer]
-```
-
----
-
-## 🌳 Repository hierarchy
+Maintained surfaces are documented in [`docs/AI_TOOL_SUPPORT.md`](docs/AI_TOOL_SUPPORT.md). Current adapters include:
 
 ```text
-we-are-linux-administrators/
-├── .claude-plugin/
-│   ├── marketplace.json
-│   └── plugin.json
-├── .github/workflows/
-│   ├── npm-publish.yml
-│   └── validate.yml
-├── .githooks/pre-commit
-├── bin/linux-admin-install.js
-├── docs/
-│   ├── CODEX_USAGE.md
-│   ├── EXPERT_MODULE_INDEX.md
-│   ├── SECURITY_PATCH_REFRESH_POLICY.md
-│   ├── UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
-│   └── skill-improvement/
-├── hooks/
-│   ├── validate-linux-admin.sh
-│   └── validate-universal-contract.sh
-├── site/
-├── skills/
-│   ├── diagnose/SKILL.md
-│   ├── ubuntu-desktop-expert/SKILL.md
-│   ├── fedora-desktop-expert/SKILL.md
-│   └── <other-linux-admin-skills>/SKILL.md
-├── AGENTS.md
-├── CLAUDE.md
-├── LICENSE
-├── README.md
-├── RELEASE.md
-└── package.json
+.github/copilot-instructions.md
+.amazonq/rules/linux-admin.md
+opencode.json
+.aider.conf.yml
 ```
 
----
+Do not assume a model provider itself reads repository instructions. Bedrock-hosted models and other model providers depend on the client/agent that invokes them.
 
-## 📦 Chunked skill structure
+## Safety contract
 
-```text
-skills/<large-domain-expert>/
-├── SKILL.md
-└── chunks/
-    ├── release-lifecycle.md
-    ├── desktop-environments.md
-    ├── desktop-flavors.md
-    ├── display-stack.md
-    ├── kernel-drivers-hardware.md
-    ├── ui-extensions-apps.md
-    ├── security-updates.md
-    └── safety-validation.md
-```
+Every skill follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md):
 
----
+1. Verify facts before changes.
+2. Define rollback first.
+3. Correct stale instructions with evidence.
+4. Check architecture fit.
+5. Include an architecture audit where relevant.
+6. Plan backup/disaster recovery.
+7. Use guarded rollback for risky remote changes.
+8. Keep evidence and output bounded.
 
-## 🛡️ Safety model
+OS-specific patch, kernel, driver, desktop, lifecycle, and vulnerability guidance follows [`docs/SECURITY_PATCH_REFRESH_POLICY.md`](docs/SECURITY_PATCH_REFRESH_POLICY.md).
 
-All skills follow the Universal Skill Execution Contract:
-
-1. Security checks and facts before apply.
-2. Rollback plan.
-3. Self-correction when a skill instruction is proven wrong.
-4. Architecture fit check for over-implementation and under-implementation.
-5. Architecture audit in final output.
-6. Backup and disaster plan for every tool/workflow.
-7. Guarded rollback for high-impact remote changes.
-8. Token-optimized execution with bounded outputs.
-
----
-
-## 🔐 Security patch refresh policy
-
-OS-specific skills verify current vendor security sources before patch, kernel, desktop, browser, driver, vulnerability, or lifecycle guidance.
-
-| OS family | Preferred sources |
-|---|---|
-| Ubuntu | Ubuntu Security Notices, Ubuntu CVE tracker, Ubuntu Pro/ESM/Livepatch, Launchpad, release notes |
-| Fedora | Fedora advisories, package metadata, Fedora Docs, Fedora Magazine, common issues, rpm-ostree docs |
-| RHEL/Rocky/Alma | Vendor errata, security advisories, lifecycle docs, package metadata |
-| Debian | Debian Security Advisories, package tracker, release notes |
-| openSUSE/SUSE | SUSE/openSUSE advisories, package metadata, lifecycle docs |
-| Arch | Arch security tracker, package news, Arch Linux news |
-
-Community reports are useful signals, but official/vendor sources remain the authority.
-
----
-
-## ✅ Validation and hooks
+## Validate
 
 ```bash
 git config core.hooksPath .githooks
@@ -418,57 +156,20 @@ hooks/validate-linux-admin.sh "$(pwd)"
 hooks/validate-universal-contract.sh "$(pwd)"
 ```
 
----
-
-## 🗺️ Feature plan
-
-- Publish/share `linux-admin` through a Codex plugin source when packaging is finalized.
-- Add more chunked skills for monitoring, DNS, mail, storage, Kubernetes, and security.
-- Add distro-specific security patch chunks for Debian, RHEL/Rocky/Alma, openSUSE/SUSE, and Arch.
-- Add more Codex task templates for issue triage, docs refresh, release checks, and skill validation.
-- Improve the website skill explorer and release popup.
-- Add more real-world troubleshooting examples.
-
----
-
-## 🤝 Contribution policy
-
-Contributions are welcome. Anyone can contribute if the PR is valid, scoped, and improves the project safely.
-
-A valid PR should:
-
-- solve a real Linux admin, SRE, monitoring, security, desktop, package, kernel, networking, storage, or automation problem
-- keep changes small and reviewable
-- include official/vendor references when changing version-specific guidance
-- treat community posts as signals, not final authority
-- include rollback and validation guidance for high-impact workflows
-- follow the Universal Skill Execution Contract
-- update `RELEASE.md`, `package.json`, plugin metadata, docs, or website files when the change affects them
-
----
-
-## 📜 License
-
-This project is released under the **MIT License**. See [`LICENSE`](LICENSE).
-
----
-
-## 👨‍💻 Maintainer
-
-Maintained by **Rushikesh Sakharle**.
-
-GitHub: [rushikeshsakharleofficial](https://github.com/rushikeshsakharleofficial)
-
----
-
-<div align="center">
-
-### ⭐ Found this useful?
-
-Star the repo, open a valid PR, or suggest a new Linux admin skill.
+## Repository layout
 
 ```text
-https://github.com/rushikeshsakharleofficial/we-are-linux-administrators
+skills/using-linux-admin/SKILL.md   # master routing map
+skills/*/SKILL.md                   # specialist skills
+skills/*/chunks/*.md                # focused large-domain references
+AGENTS.md                            # portable agent instructions
+CLAUDE.md                            # Claude Code instructions
+docs/AI_TOOL_SUPPORT.md             # compatibility guide
+docs/CODEX_USAGE.md                 # Codex guide
+docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
+docs/SECURITY_PATCH_REFRESH_POLICY.md
 ```
 
-</div>
+## License
+
+MIT License. Maintained by Rushikesh Sakharle.
