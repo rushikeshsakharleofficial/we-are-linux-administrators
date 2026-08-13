@@ -1,8 +1,17 @@
+---
+name: quota-expert
+description: Expert Linux filesystem quota diagnostics and safe configuration for user, group, and project quotas across ext4 and XFS. Use this skill for quotaon/quotaoff, quotacheck, repquota, edquota, setquota, XFS project quotas, grace periods, inode/block limits, quota mount options, and quota-related capacity or write-failure troubleshooting.
+---
+
 # Quota Expert
 
 Command namespace: `/linux-admin:quota-expert`
 
 Use this skill for Linux user/group/project quotas, ext4 quota files, XFS quotas, quotaon/off, quotacheck, repquota, edquota, setquota, grace periods, inode/block limits, and multi-user capacity control.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky changes, validation, and bounded output.
 
 ## Operating rules
 
@@ -47,7 +56,6 @@ Treat quotas as filesystem-specific policy. Determine filesystem type first. ext
 ## Refuse/stop conditions
 
 Do not run quota rebuilds or quotaoff on busy production filesystems without maintenance planning. Do not set hard limits lower than current usage without explaining immediate write failures.
-
 
 ## Output format
 
