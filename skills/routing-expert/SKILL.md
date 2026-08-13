@@ -1,3 +1,8 @@
+---
+name: routing-expert
+description: Diagnose and change Linux routing safely, including default routes, policy routing, asymmetric paths, source-based routing, and rollback-aware route rollout.
+---
+
 # routing-expert
 
 Use this skill for Linux route troubleshooting, policy routing, default gateway changes, asymmetric routing, source-based routing, and safe route rollout.
@@ -5,6 +10,10 @@ Use this skill for Linux route troubleshooting, policy routing, default gateway 
 ## Purpose
 
 Fix routing by proving packet path and return path before changing production routes.
+
+## Universal Skill Execution Contract
+
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback, validation, and token-bounded output. For risky remote route changes, preserve a second session or out-of-band access and schedule rollback before applying the change when the platform supports it.
 
 ## Evidence first
 
