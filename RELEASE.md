@@ -25,7 +25,7 @@
 - `.claude-plugin/marketplace.json` — aligned marketplace metadata to `1.17.73` and 101 skills.
 - `site/assets/data/latest-update.json` — aligned website release popup to `1.17.73` and 101 skills.
 - `AGENTS.md` and `CLAUDE.md` — retain the rule that Codex Plugin directory availability must not be claimed unless verified.
-- Agent/model routing support is limited to the maintained agent surfaces and providers documented by the repository; obsolete Gemini-specific routing has been removed.
+- Agent/model routing support is limited to the maintained agent surfaces and providers documented by the repository.
 
 ## Safety notes
 
