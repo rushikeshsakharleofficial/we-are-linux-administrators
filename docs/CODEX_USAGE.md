@@ -1,20 +1,21 @@
 # Codex usage guide
 
-This repository supports Codex app, Codex CLI, Codex IDE extension, Codex Web, and GitHub-connected Codex workflows through `AGENTS.md`, plugin-directory workflows, and shared Linux admin documentation.
+This repository supports Codex app, Codex CLI, Codex IDE extension, Codex Web, and GitHub-connected Codex workflows through `AGENTS.md`, the canonical `using-linux-admin` routing map, and shared Linux admin documentation.
 
 ## How linux-admin works with Codex
 
 Codex has two relevant integration models:
 
-1. **Project instruction pack** — clone this repo or vendor it into another repo. Codex reads `AGENTS.md` and supporting docs.
+1. **Project instruction pack** — clone this repo or vendor it into another repo. Codex uses the repository instructions and supporting docs.
 2. **Codex plugin directory** — when `linux-admin` is published or shared as a Codex plugin source, install it from the Codex app or Codex CLI `/plugins` browser.
 
 This repo includes:
 
-- `AGENTS.md` — default instructions for Codex and other coding agents.
+- `AGENTS.md` — default portable repository instructions for Codex and other coding agents.
+- `skills/using-linux-admin/SKILL.md` — canonical parent/micro-skill routing map; use it before loading specialist content when the correct skill is unclear.
 - `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — shared safety and output contract.
 - `docs/SECURITY_PATCH_REFRESH_POLICY.md` — OS-specific patch and vulnerability-source policy.
-- `docs/EXPERT_MODULE_INDEX.md` — skill index.
+- `docs/EXPERT_MODULE_INDEX.md` — short entry-point and parent-domain index; it intentionally does not duplicate the full routing map.
 - `skills/*/SKILL.md` — task-specific Linux admin workflows.
 - `skills/*/chunks/*.md` — focused category references for large domains.
 
@@ -32,13 +33,13 @@ Run Codex from a repository root:
 codex
 ```
 
-The first run prompts you to sign in with your ChatGPT account or API key.
+Use the authentication flow offered by the current Codex CLI, including Sign in with ChatGPT where available.
 
 ## Install/use linux-admin in Codex
 
 ### Option A — Use as a Codex project instruction pack now
 
-This works immediately because Codex reads `AGENTS.md` from the repository root.
+Clone the repository and run Codex from its root:
 
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
@@ -50,14 +51,14 @@ Starter prompt:
 
 ```text
 Read AGENTS.md first.
-Use this repository as the linux-admin skill pack.
+Read skills/using-linux-admin/SKILL.md and choose the smallest relevant primary Linux skill.
 Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
-Summarize the available Linux admin skills before making changes.
+Load only the selected skill and required chunks; do not summarize or load the full skill tree.
 ```
 
 ### Option B — Install from Codex plugin directory when published/shared
 
-Use this when `linux-admin` is available in your Codex Plugin directory or workspace plugin source.
+Use this only when `linux-admin` is actually available in your Codex Plugin directory or workspace plugin source.
 
 In Codex CLI:
 
@@ -88,7 +89,7 @@ After install:
 Use linux-admin to diagnose an Ubuntu Desktop GNOME login loop with read-only-first commands and rollback notes.
 ```
 
-Or, where supported:
+Or, where the installed surface supports plugin mentions:
 
 ```text
 @linux-admin diagnose Fedora Kinoite update failure and suggest safe validation steps.
@@ -107,25 +108,26 @@ Add this to the target repo's root `AGENTS.md`:
 
 ```text
 Use tools/linux-admin-skills as the Linux admin skill reference.
+Read tools/linux-admin-skills/skills/using-linux-admin/SKILL.md before choosing specialist Linux skill content.
 Follow tools/linux-admin-skills/docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
 Follow tools/linux-admin-skills/docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific guidance.
 ```
 
 ## Use with Codex app
 
-1. Open Codex.
-2. Open or connect the GitHub repository.
-3. Ask Codex to read `AGENTS.md` before making changes.
-4. Keep tasks scoped to specific files or directories.
-5. Require validation and changed-file summaries.
+1. Open Codex and the repository/worktree you want to use.
+2. Read `AGENTS.md` and `skills/using-linux-admin/SKILL.md` before selecting specialist content.
+3. Keep tasks scoped to specific files or directories.
+4. Require bounded evidence, validation, and changed-file summaries.
+5. Load only the selected specialist skill and required chunks.
 
 Starter prompt:
 
 ```text
 Read AGENTS.md first.
-Then review README.md and docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Summarize how this repository expects Linux admin skill changes to be made safely.
-Do not change files yet.
+Read skills/using-linux-admin/SKILL.md and select the smallest relevant specialist set.
+Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Do not change files until the task scope is clear.
 ```
 
 ## Use with Codex CLI
@@ -139,7 +141,7 @@ codex
 Then use a scoped task:
 
 ```text
-Read AGENTS.md first.
+Read AGENTS.md and skills/using-linux-admin/SKILL.md first.
 Task: improve the Ubuntu Desktop release-lifecycle chunk with current official Ubuntu lifecycle guidance.
 Scope: skills/ubuntu-desktop-expert/chunks/release-lifecycle.md only.
 Safety: follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
@@ -152,9 +154,9 @@ Validation: document what was checked and whether hooks were run.
 Open this repository in your IDE and use a prompt like:
 
 ```text
-Read AGENTS.md and docs/EXPERT_MODULE_INDEX.md.
-Find the best skill file for Fedora Desktop update troubleshooting.
-Explain which chunk should be edited and why.
+Read AGENTS.md and skills/using-linux-admin/SKILL.md.
+Choose the smallest relevant skill for Fedora Desktop update troubleshooting.
+Explain which specialist skill/chunk should be used and why.
 Do not edit files until the scope is confirmed.
 ```
 
@@ -163,7 +165,7 @@ Do not edit files until the scope is confirmed.
 When assigning a task through Codex Web or a GitHub-connected Codex workflow, use this format:
 
 ```text
-Read AGENTS.md first.
+Read AGENTS.md and skills/using-linux-admin/SKILL.md first.
 Task: <exact change>
 Scope: <allowed files/directories>
 Safety: follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
@@ -174,10 +176,11 @@ Output: summarize changed files, evidence, validation, and rollback notes
 
 ## Use `/init`
 
-For a new fork or derived repository, run `/init` in Codex to scaffold or refresh repository instructions. Preserve the important safety rules from this repo's `AGENTS.md`:
+For a new fork or derived repository, `/init` can scaffold or refresh repository instructions. Preserve the important safety and routing rules from this repo's `AGENTS.md`:
 
 - work scoped and reversible
 - fetch current files before writing
+- route through `skills/using-linux-admin/SKILL.md`
 - follow the Universal Skill Execution Contract
 - verify official/vendor sources for version-specific or patch guidance
 - keep large domains chunked
@@ -188,7 +191,7 @@ For a new fork or derived repository, run `/init` in Codex to scaffold or refres
 ### Skill update
 
 ```text
-Read AGENTS.md first.
+Read AGENTS.md and skills/using-linux-admin/SKILL.md first.
 Update only <skill-path> based on current official vendor docs.
 Treat community sources as signals only.
 Keep the change small and reversible.
@@ -199,17 +202,18 @@ Summarize validation and rollback notes.
 ### New skill
 
 ```text
-Read AGENTS.md and docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Read AGENTS.md, skills/using-linux-admin/SKILL.md, and docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
 Create a new skill for <domain>.
 Use a small SKILL.md and chunked references if the domain is broad.
-Add routing/docs/package metadata only if needed.
+Update the canonical routing map only if the new skill changes routing.
+Add docs/package metadata only if needed.
 Run or document validation hooks.
 ```
 
 ### OS patch refresh
 
 ```text
-Read AGENTS.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
+Read AGENTS.md, skills/using-linux-admin/SKILL.md, and docs/SECURITY_PATCH_REFRESH_POLICY.md.
 Check current official security patch sources for <OS family>.
 Update only the relevant skill chunk if guidance changed.
 Do not apply broad package/kernel advice without lifecycle and rollback notes.
