@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "version": "1.17.73",
-  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q, Zed, Junie, Aider, Cody, goose, and other agent-based ops tools — 101 expert skills",
+  "version": "1.18.0",
+  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q, Zed, Junie, Aider, Cody, goose, and other agent-based ops tools — 80 focused expert skills",
   "bin": {
     "linux-admin": "./bin/linux-admin-install.js",
     "linux-admin-install": "./bin/linux-admin-install.js"
@@ -9,46 +9,7 @@
   "scripts": {
     "install-plugin": "node bin/linux-admin-install.js"
   },
-  "keywords": [
-    "claude-code",
-    "codex",
-    "openai-codex",
-    "opencode",
-    "github-copilot",
-    "cursor",
-    "windsurf",
-    "cline",
-    "amazon-q",
-    "zed",
-    "junie",
-    "aider",
-    "sourcegraph-cody",
-    "goose",
-    "agents-md",
-    "linux",
-    "sre",
-    "devops",
-    "plugin",
-    "admin",
-    "universal-contract",
-    "ubuntu-desktop",
-    "fedora-desktop",
-    "gnome",
-    "kde",
-    "xfce",
-    "wayland",
-    "xorg",
-    "security",
-    "patching",
-    "kernel",
-    "desktop-environments",
-    "networking",
-    "storage",
-    "monitoring",
-    "load-balancing",
-    "model-routing",
-    "agent-dispatch"
-  ],
+  "keywords": ["linux", "sre", "devops", "claude-code", "codex", "opencode", "github-copilot", "agents-md", "security", "networking", "storage", "monitoring", "load-balancing", "agent-dispatch"],
   "author": {
     "name": "Rushikesh Sakharle",
     "url": "https://github.com/rushikeshsakharleofficial"
@@ -59,12 +20,6 @@
     "url": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git"
   },
   "homepage": "https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/",
-  "files": [
-    "bin/linux-admin-install.js",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=18"
-  }
+  "files": ["bin/linux-admin-install.js", "README.md", "LICENSE"],
+  "engines": {"node": ">=18"}
 }
