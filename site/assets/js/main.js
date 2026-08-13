@@ -226,7 +226,7 @@
     mobileNav.querySelectorAll('.nav-link').forEach(a => {
       a.addEventListener('click', () => {
         mobileNav.classList.remove('open');
-        burger.classList.remove('open', open);
+        burger.classList.remove('open');
         burger.setAttribute('aria-expanded', 'false');
       });
     });
