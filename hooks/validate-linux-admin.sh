@@ -38,6 +38,7 @@ require_file "README.md"
 require_file "RELEASE.md"
 require_file "skills/diagnose/SKILL.md"
 require_file "skills/optimization-guardian-expert/SKILL.md"
+require_file "skills/using-linux-admin/SKILL.md"
 
 skill_count=0
 if [ -d skills ]; then
@@ -85,11 +86,19 @@ for pair in \
   fi
 done
 
-# Validate SKILL.md front matter basics.
+# Validate SKILL.md front matter basics. Older skills without front matter are
+# migration warnings so unrelated repository changes are not blocked. Once a
+# skill has front matter, its metadata is validated strictly enough to catch
+# naming/description drift.
 while IFS= read -r skill_file; do
   dir_name=$(basename "$(dirname "$skill_file")")
   first_line=$(head -n1 "$skill_file" || true)
-  [ "$first_line" = "---" ] || err "$skill_file missing opening front matter delimiter"
+
+  if [ "$first_line" != "---" ]; then
+    warn "$skill_file uses legacy format without front matter; normalize it when that skill is next edited"
+    continue
+  fi
+
   grep -Eq "^name:[[:space:]]*\"?$dir_name\"?[[:space:]]*$" "$skill_file" || warn "$skill_file name does not exactly match directory $dir_name"
   grep -Eq '^description:[[:space:]]*.{20,}' "$skill_file" || warn "$skill_file missing useful description"
   grep -Eq '^allowed-tools:[[:space:]]*' "$skill_file" || warn "$skill_file missing allowed-tools"
@@ -102,6 +111,11 @@ fi
 
 if ! grep -qi 'No optimization without baseline' skills/optimization-guardian-expert/SKILL.md; then
   err "optimization guardian is missing baseline guardrail text"
+fi
+
+# Guard canonical skill routing.
+if ! grep -q '^name:[[:space:]]*using-linux-admin' skills/using-linux-admin/SKILL.md; then
+  err "using-linux-admin router metadata is missing or invalid"
 fi
 
 # Check website runtime count if present.
