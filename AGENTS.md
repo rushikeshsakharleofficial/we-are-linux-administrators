@@ -1,6 +1,6 @@
 # AGENTS.md — linux-admin agent instructions
 
-This is the primary portable entry point for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, and other agent-based coding tools working in this repository.
+This is the primary portable entry point for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Zed, JetBrains Junie, and other agent-based coding tools working in this repository.
 
 ## Project context
 
@@ -11,6 +11,10 @@ This is the primary portable entry point for Codex, OpenCode, GitHub Copilot, Cu
 - Current documented skill count: `101`
 - GitHub Pages site: `https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/`
 - AI tool compatibility: `docs/AI_TOOL_SUPPORT.md`
+- OpenCode adapter: `opencode.json`
+- Aider adapter: `.aider.conf.yml`
+- GitHub Copilot adapter: `.github/copilot-instructions.md`
+- Amazon Q adapter: `.amazonq/rules/linux-admin.md`
 
 ## First files to read
 
@@ -32,16 +36,21 @@ Before changing skills, docs, package metadata, plugin metadata, agent adapters,
 
 - Keep `AGENTS.md` as the shared instruction source whenever the AI tool supports it.
 - Keep Linux procedures canonical under `skills/`; do not duplicate all skills into vendor-specific folders.
-- Use thin adapters such as `.github/copilot-instructions.md` or `.amazonq/rules/*.md` only where the tool benefits from its own rule format.
+- Use thin adapters only where the tool benefits from its own rule/config format.
+- Current native/thin adapters include `.github/copilot-instructions.md`, `.amazonq/rules/linux-admin.md`, `opencode.json`, and `.aider.conf.yml`.
+- Cursor, Windsurf, Zed, and current JetBrains Junie can consume root project instructions without requiring a second full copy of the Linux-admin rules.
+- For Cline, read `AGENTS.md` and then load only the relevant canonical `skills/<name>/SKILL.md` for the task.
+- For Sourcegraph Cody and goose, use explicit repository/file context until a verified repository-native package is added.
 - Do not claim native plugin, marketplace, or skill installation unless that tool officially supports the repository's packaging model and availability is verified.
-- For tool compatibility decisions, read `docs/AI_TOOL_SUPPORT.md`.
+- Treat model providers such as Bedrock-hosted models, Kimi, DeepSeek, GLM, and local models separately from the agent client that actually reads repository instructions.
+- For tool compatibility decisions, read `docs/AI_TOOL_SUPPORT.md` and verify current official docs before changing claims.
 
 ## Operating rules
 
 - Keep changes small, safe, reversible, and evidence-based.
 - Prefer minimal diffs over broad rewrites.
 - Do not change unrelated files.
-- Do not hallucinate versions, skill counts, install status, package names, file paths, publication status, or source claims.
+- Do not hallucinate versions, skill counts, install status, package names, file paths, publication status, tool support, or source claims.
 - Verify current files before writing.
 - Preserve the current skill count unless actually adding/removing skills and verifying the count.
 - If user-facing metadata changes, keep `README.md`, `RELEASE.md`, `package.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and `site/assets/data/latest-update.json` aligned where applicable.
@@ -59,6 +68,19 @@ All skill and operational guidance must follow `docs/UNIVERSAL_SKILL_EXECUTION_C
 6. Backup/disaster plan for tools and workflows.
 7. Guarded rollback/recovery for risky remote/network changes.
 8. Token-optimized bounded output.
+
+## Cross-tool execution pattern
+
+Use this pattern regardless of the AI client:
+
+1. Read the applicable project instruction file or adapter.
+2. Read `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
+3. Select the smallest relevant `skills/<name>/SKILL.md`.
+4. Read only the chunk files needed for the task.
+5. Collect bounded, read-only evidence before proposing changes.
+6. Redact secrets before sending evidence to external model providers or tools.
+7. Plan backup/rollback before risky SSH, firewall, routing, storage, kernel, auth, or production changes.
+8. Validate the result and report architecture fit.
 
 ## Source rules
 
@@ -80,3 +102,4 @@ For repository changes, report:
 - validation performed
 - rollback notes
 - whether metadata/version/skill-count alignment was affected
+- whether supported-agent context changed and automation documentation needs refresh
