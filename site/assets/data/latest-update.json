@@ -1,16 +1,17 @@
 {
-  "id": "2026-08-13-80-skills-1.18.0",
+  "id": "2026-06-30-101-skills-1.17.73",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.18.0",
-  "date": "2026-08-13",
-  "title": "linux-admin consolidated to 80 focused skills",
-  "summary": "Overlapping micro-skills were merged into canonical Linux administration domains to reduce routing ambiguity and duplicated guidance.",
+  "version": "1.17.73",
+  "date": "2026-06-30",
+  "title": "linux-admin expanded to 101 skills",
+  "summary": "linux-admin now documents 101 expert skills, including minimal architecture, Linux source guarding, server memory, web stack security, chief engineer dispatch, and agent/model routing.",
   "highlights": [
-    "Reduced the skill set from 101 to 80 without dropping a practical Linux administration domain.",
-    "Merged permission, authentication, networking, performance, logging, RCA, security, and architecture overlaps into their parent skills.",
-    "Shortened README, agent instructions, metadata, and the expert index.",
-    "Maintained agent support remains documented in docs/AI_TOOL_SUPPORT.md."
+    "Added six new skills for architecture, source-change safety, server context memory, web stack security, Linux chief-engineer dispatch, and multi-model agent routing.",
+    "README, package metadata, plugin metadata, release notes, and website popup agree on version 1.17.73 and 101 skills.",
+    "README describes Codex as immediately usable through the AGENTS.md project-instruction workflow, with plugin-directory installation only when published or shared.",
+    "The server memory skill stores login flow and vault references only, not plaintext secrets.",
+    "Maintained portable agent support is documented in docs/AI_TOOL_SUPPORT.md for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, and goose."
   ],
   "commands": {
     "claudeCode": [
@@ -18,6 +19,10 @@
       "/plugin install linux-admin@we-are-linux-administrators",
       "/reload-plugins"
     ],
-    "codex": ["codex"]
+    "codex": [
+      "npm install -g @openai/codex",
+      "codex",
+      "/plugins"
+    ]
   }
 }
