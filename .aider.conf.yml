@@ -1,5 +1,6 @@
 read:
   - AGENTS.md
+  - skills/using-linux-admin/SKILL.md
   - docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
   - docs/SECURITY_PATCH_REFRESH_POLICY.md
   - docs/AI_TOOL_SUPPORT.md
