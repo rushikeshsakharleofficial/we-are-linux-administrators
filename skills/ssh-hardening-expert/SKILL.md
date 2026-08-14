@@ -1,6 +1,18 @@
+---
+name: ssh-hardening-expert
+description: Expert OpenSSH server hardening and access-policy review with lockout-safe configuration changes, key authentication, root-login policy, forwarding controls, certificate principals, bastion/ProxyJump safety, and Match block design.
+argument-hint: "[sshd hardening|auth policy|keys|root login|bastion|ProxyJump|Match blocks]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # ssh-hardening-expert
 
 Use this skill for OpenSSH server hardening, access policy, safe sshd_config review, lockout prevention, key authentication, root-login policy, forwarding controls, SSH certificate principal policy, ProxyJump/bastion safety, and Match block design.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky remote SSH changes, validation, and token-bounded output before recommending or applying changes.
 
 ## Purpose
 
