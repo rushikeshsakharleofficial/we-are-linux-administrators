@@ -1,6 +1,9 @@
 ---
 name: ansible-expert
 description: Production-safe Ansible automation design and review for playbooks, inventories, modules, package updates, bastion access, interpreter compatibility, rollout control, rollback, and disaster recovery. Use when creating, reviewing, troubleshooting, or hardening Ansible workflows for Linux fleets.
+argument-hint: "[playbook|inventory|role|module|rollout|error] [scope]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # ansible-expert
@@ -9,7 +12,7 @@ Use this skill for production-safe Ansible automation design, playbook review, m
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky remote changes, validation, and token-bounded output.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky remote changes, validation, and token-bounded output.
 
 ## Purpose
 
@@ -97,4 +100,4 @@ Ask for one failing task, one inventory group, one host result, and one bounded 
 
 ## Escalation
 
-Use package-manager-expert, ssh-hardening-expert, sudoers-expert, backup-restore-expert, rollback-expert, change-plan-expert, preflight-check-expert, post-change-validation-expert, and CMDB inventory guidance when relevant.
+Use `package-manager-expert`, `ssh-hardening-expert`, `sudoers-expert`, `backup-restore-expert`, `change-safety-expert`, `runbook-expert`, and the relevant domain skill selected by `using-linux-admin` when deeper specialist guidance is needed.
