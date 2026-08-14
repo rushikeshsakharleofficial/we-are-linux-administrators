@@ -9,7 +9,7 @@ Use this skill for HAProxy frontend/backend design, health checks, ACLs, stickin
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture-fit checks, backup/disaster planning, guarded recovery for risky traffic changes, validation, and bounded output.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture-fit checks, backup/disaster planning, guarded recovery for risky traffic changes, validation, and bounded output.
 
 ## Purpose
 
