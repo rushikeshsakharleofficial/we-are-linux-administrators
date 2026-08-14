@@ -1,6 +1,18 @@
+---
+name: sudoers-expert
+description: Expert sudoers policy and least-privilege delegation for users, groups, service accounts, command scoping, visudo validation, auditability, and lockout-safe administrative access.
+argument-hint: "[user|group|command|sudoers rule|NOPASSWD|delegation|lockout]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # sudoers-expert
 
 Use this skill for sudoers policy, least-privilege command rules, safe visudo changes, sudo group mapping, service account delegation, and lockout prevention.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback for privilege changes, validation, and token-bounded output.
 
 ## Purpose
 
