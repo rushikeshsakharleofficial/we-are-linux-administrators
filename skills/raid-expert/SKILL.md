@@ -1,6 +1,9 @@
 ---
 name: raid-expert
 description: Diagnose Linux software RAID and mdadm arrays, degraded members, rebuild risk, disk replacement, metadata state, array assembly, and safe recovery decisions. Use when investigating degraded or failed arrays, replacement planning, rebuilds, metadata conflicts, or RAID recovery.
+argument-hint: "[array/device/degraded/rebuild/recovery symptom]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # raid-expert
