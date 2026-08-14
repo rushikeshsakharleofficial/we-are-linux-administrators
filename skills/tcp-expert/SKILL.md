@@ -1,8 +1,20 @@
+---
+name: tcp-expert
+description: TCP troubleshooting specialist for connection lifecycle, SYN/listen queues, retransmits, RTO, MSS/MTU/PMTUD, congestion control, socket states, buffers, sysctls, load balancers, and packet captures.
+argument-hint: "[tcp|syn|retransmit|time-wait|close-wait|mtu|mss|backlog|socket] [host/port]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # TCP Expert
 
 Command namespace: `/linux-admin:tcp-expert`
 
 Use this skill for TCP connection lifecycle, SYN backlog, listen queues, retransmits, RTO, MSS/MTU/PMTUD, congestion control, TIME_WAIT/CLOSE_WAIT, socket buffers, TCP sysctls, load balancer/LB behavior, and packet captures.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Operating rules
 
@@ -10,7 +22,7 @@ Use this skill for TCP connection lifecycle, SYN backlog, listen queues, retrans
 - Read-only first: sockets, counters, routes, interface stats, firewall/conntrack context, and packet captures.
 - Packet capture recommendations must be scoped and safe: specify interface, host, port, count, and duration.
 - Do not recommend sysctl tuning without observed evidence and rollback.
-- Route firewall rule changes to `firewall-expert`, general routes/interfaces to `networking-expert`, kernel sysctls to `sysctl-expert`, and app/service restarts to `systemd-expert`.
+- Route firewall rule changes to `firewall-expert`, general routes/interfaces to `network`, kernel sysctls to `sysctl-expert`, and app/service restarts to `systemd-expert`.
 - If built-in knowledge is insufficient, research official Linux docs, kernel docs, man pages, and strong network engineering community references.
 
 ## Start with audit helper
@@ -70,7 +82,6 @@ Use `tracepath`, `ping -M do -s`, tcpdump, and route/interface MTU. Avoid disabl
 ## Anti-overoptimization
 
 Do not change TCP sysctls from blog posts. Explain every value against observed queue depth, packet loss, RTT, connection rate, application accept rate, memory, and kernel defaults.
-
 
 ## Output format
 
