@@ -1,6 +1,18 @@
+---
+name: selinux-expert
+description: Diagnoses SELinux mode, AVC denials, contexts, booleans, policy interactions, and safe label restoration without defaulting to disabling SELinux.
+argument-hint: "[SELinux denial, path, process, domain, boolean, or context issue]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # selinux-expert
 
 Use this skill for SELinux mode review, AVC denial triage, context mapping, boolean review, policy-module planning, and safe label restoration.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded recovery, validation, and token-bounded output.
 
 ## Purpose
 
