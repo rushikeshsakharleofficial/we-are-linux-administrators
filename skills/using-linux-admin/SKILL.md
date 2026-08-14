@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob"
 
 Use this skill first when the correct linux-admin skill is unclear. Select the smallest matching skill, load it, and do not load unrelated skills.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selects specialists; the selected skill must preserve read-only-first evidence, security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky changes, validation, and token-bounded output.
+
 ## Rules
 
 1. Broad/unclear symptom -> choose a parent skill.
