@@ -1,6 +1,18 @@
+---
+name: swap-expert
+description: Linux swap specialist for swap files, swap partitions, zram/zswap, swap pressure, sizing, swappiness, OOM avoidance, and safe memory-pressure mitigation.
+argument-hint: "[swap|zram|zswap|swappiness|oom|memory-pressure] [host/workload]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # swap-expert
 
 Use this skill for Linux swap files, swap partitions, zram/zswap, swap pressure, swap sizing, `swapon`, `swapoff`, `mkswap`, `/etc/fstab` swap entries, swap priorities, `vm.swappiness`, OOM avoidance, and safe memory-pressure mitigation.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Role
 
