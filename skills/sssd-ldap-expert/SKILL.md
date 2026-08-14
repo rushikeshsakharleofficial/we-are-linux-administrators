@@ -1,6 +1,18 @@
+---
+name: sssd-ldap-expert
+description: Expert SSSD and LDAP identity/authentication troubleshooting for NSS, PAM, sudo rules, access filters, cache behaviour, group mapping, and directory-backed Linux login failures.
+argument-hint: "[sssd|ldap|nss|pam|sudo|identity lookup|access filter|cache issue]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # sssd-ldap-expert
 
 Use this skill for SSSD, LDAP login, NSS/PAM integration, cache issues, access filters, sudo rules, SSH login failures, and identity lookup troubleshooting.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky authentication changes, validation, and token-bounded output.
 
 ## Purpose
 
