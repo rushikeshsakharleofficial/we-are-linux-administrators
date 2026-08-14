@@ -1,6 +1,9 @@
 ---
 name: nfs-expert
 description: Diagnose and operate Linux NFS safely for exports, mounts, permissions, UID/GID mapping, stale file handles, locking, version mismatches, and performance symptoms. Use when troubleshooting NFS server or client access, export policy, mount failures, identity mapping, or reliability issues.
+argument-hint: "[server|client|export|mount|path|error]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # nfs-expert
