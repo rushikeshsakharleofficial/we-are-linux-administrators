@@ -18,7 +18,7 @@ The goal is portability without maintaining thirteen divergent copies of the sam
 | Amazon Q Developer | Native project rules | `.amazonq/rules/linux-admin.md` | Adapter points back to the canonical repo rules and skills |
 | Zed Agent | Native project instructions | `AGENTS.md` | Zed also supports skills, MCP, ACP agents and tool permissions |
 | JetBrains Junie | Native project instructions | `AGENTS.md` | Current Junie reads root `AGENTS.md`; no duplicate `.junie` rule set required |
-| Aider | Read-only convention/context files | `.aider.conf.yml`, `AGENTS.md` | Config loads the safety/instruction docs as read-only context |
+| Aider | Read-only convention/context files | `.aider.conf.yml`, `AGENTS.md`, `skills/using-linux-admin/SKILL.md` | Config preloads the portable instructions, canonical router, and safety docs as read-only context |
 | Sourcegraph Cody | Explicit repository/file context | `AGENTS.md`, `skills/` | Use repo context, `@` file context, or Cody CLI `--context-file`; do not claim automatic `AGENTS.md` loading |
 | goose | Portable agent/recipe/skills context | `AGENTS.md`, `skills/` | Use explicit repo context or a future verified recipe/skill package; no fake marketplace claim |
 | Bedrock-hosted models | Client dependent | Agent client dependent | Bedrock is a model/runtime surface, not a repository instruction convention |
@@ -78,15 +78,16 @@ Current Junie reads root `AGENTS.md`, so the portable repository instructions wo
 
 ### Aider
 
-The repository `.aider.conf.yml` loads the portable instruction and safety files as read-only context. The equivalent manual form is:
+The repository `.aider.conf.yml` preloads the portable instruction file, canonical router, and safety docs as read-only context. The equivalent manual form is:
 
 ```bash
 aider --read AGENTS.md \
+  --read skills/using-linux-admin/SKILL.md \
   --read docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md \
   --read docs/SECURITY_PATCH_REFRESH_POLICY.md
 ```
 
-Add only the task-specific `skills/<name>/SKILL.md` when deeper Linux guidance is needed.
+The `read:` option is supported by Aider for read-only context files. Add only the task-specific `skills/<name>/SKILL.md` when deeper Linux guidance is needed.
 
 ### Sourcegraph Cody
 
