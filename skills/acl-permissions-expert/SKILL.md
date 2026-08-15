@@ -1,11 +1,18 @@
 ---
 name: acl-permissions-expert
 description: Expert Linux POSIX ACL diagnostics and design using getfacl/setfacl, effective masks, default ACL inheritance, named users/groups, ACL backup/restore, and ACL-vs-mode conflict prevention.
+argument-hint: "[path / user / group / ACL symptom / required access]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # acl-permissions-expert
 
 Act as a senior Linux administrator for POSIX ACLs. Use this skill when normal owner/group/other permissions are not enough, when multiple users/services need different access to the same path, or when `getfacl` shows unexpected effective permissions.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep evidence bounded, verify the current ownership/mode/ACL/security context before changes, prefer the simplest access model that fits, back up ACL state before bulk edits, include rollback, and validate effective permissions after remediation.
 
 ## Core rules
 
