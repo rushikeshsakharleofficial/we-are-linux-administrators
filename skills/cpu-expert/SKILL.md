@@ -1,6 +1,9 @@
 ---
 name: cpu-expert
 description: Diagnoses Linux CPU saturation, steal time, softirq pressure, run-queue contention, scheduler symptoms, noisy processes, and safe CPU tuning decisions. Use for high CPU, load averages, CPU bottlenecks, steal time, softirq spikes, thread pressure, or CPU capacity troubleshooting.
+argument-hint: "[high CPU, load, steal time, softirq, run queue, or scheduler symptom]"
+effort: medium
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # cpu-expert
