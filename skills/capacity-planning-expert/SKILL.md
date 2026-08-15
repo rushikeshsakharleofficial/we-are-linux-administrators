@@ -1,6 +1,9 @@
 ---
 name: "capacity-planning-expert"
 description: "Plan Linux fleet capacity using CPU, memory, storage, network, growth, saturation, headroom, and scaling evidence. Use for capacity forecasts, bottleneck planning, redundancy headroom, or vertical/horizontal scaling decisions."
+argument-hint: "[workload / resource / growth / forecast / headroom]"
+effort: "medium"
+allowed-tools: "Read Grep Glob Bash"
 ---
 # capacity-planning-expert
 
