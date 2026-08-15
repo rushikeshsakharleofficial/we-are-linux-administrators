@@ -1,6 +1,9 @@
 ---
 name: chrony-expert
 description: Diagnose and safely operate Chrony/NTP time synchronisation, including chronyd service health, source quality, drift, makestep policy, NTS, server mode, RTC behaviour, VM clock skew, and time-sync conflicts. Use for Chrony, chronyc, NTP, clock drift, or Linux time-synchronisation troubleshooting.
+argument-hint: "[chrony / NTP / clock drift / source / sync symptom]"
+effort: "medium"
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # Chrony Expert
@@ -21,12 +24,6 @@ Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL
 - Explain why the command/value/change is needed so the user does not over-tune or copy random internet fixes.
 - If the built-in skill is not enough, research official docs and Linux community pages before proposing changes.
 - If another expert owns the deeper risk, route there: `systemd-expert`, `sysctl-expert`, `package-manager-expert`, `storage`, `os-security-expert`, or `migration-expert`.
-
-## Start with audit helper
-
-```bash
-chrony-expert-audit
-```
 
 ## Manual evidence commands
 
@@ -57,7 +54,6 @@ Treat time sync as infrastructure: authentication, source quality, drift, steppi
 ## Refuse/stop conditions
 
 Do not run manual time jumps on production DBs, Kerberos/LDAP, TLS-heavy systems, clusters, or monitoring servers without impact review. Do not open NTP server mode broadly without ACLs.
-
 
 ## NTP triage (multi-daemon)
 
