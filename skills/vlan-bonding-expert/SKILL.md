@@ -1,6 +1,18 @@
+---
+name: vlan-bonding-expert
+description: Expert Linux VLAN, bonding, LACP, MTU, link-state, and layered interface troubleshooting with remote-safe rollout and rollback guidance.
+argument-hint: "[interface / bond / VLAN / LACP / MTU symptom]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # vlan-bonding-expert
 
 Use this skill for Linux VLAN subinterfaces, bonding modes, LACP symptoms, MTU mismatches, link state issues, and safe interface rollout.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep evidence collection read-only first, verify remote-access and switch-side dependencies before changes, define guarded rollback before modifying management interfaces, and validate the full traffic path after remediation.
 
 ## Purpose
 
