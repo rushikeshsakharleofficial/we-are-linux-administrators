@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for F5 BIG-IP load balancer analysis. Focus on LTM traffic path, pool health, monitor behavior, source NAT, persistence, TLS profiles, iRules/local traffic policies, and HA failover.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence, verify BIG-IP version/HA state and the exact virtual-server path, back up or export affected configuration before change, preserve a guarded rollback path for VIP/pool/monitor/TLS/HA changes, validate config and traffic after change, and keep recommendations scoped to the smallest required object set.
+
 ## Safety boundary
 
 Default to read-only commands and config review. Do not disable pool members, force offline nodes, change traffic groups, sync config, modify monitors, replace certs, or fail over an HA pair without an approved change plan and rollback.
