@@ -1,6 +1,9 @@
 ---
 name: backup-restore-expert
 description: Plans and validates Linux backups and restores, including rsync, tar, retention, filesystem recovery, ownership and security metadata preservation, restore drills, and safe pre-change backup gates. Use when backup integrity, restore readiness, migration safety, or recovery planning matters.
+argument-hint: "[backup|restore|rsync|tar|retention|recovery] [source/destination or symptom]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # backup-restore-expert
