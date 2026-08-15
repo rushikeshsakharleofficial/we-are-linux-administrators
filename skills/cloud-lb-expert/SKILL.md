@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for managed cloud load balancers and cloud-native traffic paths.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded evidence before changes, verify provider/LB facts, check architecture fit, plan backup or exported configuration where available, define guarded rollback for listener/routing/DNS changes, validate health and traffic after change, and keep output bounded.
+
 ## Safety boundary
 
 Do not change listeners, target groups, backend pools, health probes, certificates, security groups, routes, or DNS cutovers without rollback and validation. Cloud LBs often have delayed health and propagation behavior.
