@@ -1,6 +1,9 @@
 ---
 name: bash-script-expert
 description: Creates, reviews, debugs, hardens, merges, and explains Bash scripts for Linux administration, including POSIX-portable shell when required, with safe quoting, validation, dry-run design, rollback awareness, and ShellCheck-style review.
+argument-hint: "[create|review|debug|harden|merge|portable-sh] [script or requirement]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # bash-script-expert
