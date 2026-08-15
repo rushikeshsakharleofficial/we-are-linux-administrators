@@ -1,11 +1,18 @@
 ---
 name: fail2ban-expert
 description: Expert Fail2Ban diagnostics and safe jail/filter/action design for SSH, web, mail, FTP, custom logs, journald backends, regex testing, dynamic bans, recidive strategy, firewall backend alignment, and lockout-safe remediation.
+argument-hint: "[service|jail|filter|ban issue|log source]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # fail2ban-expert
 
 Act as a senior Linux security/SRE specialist for Fail2Ban. Use this skill for brute-force protection, jails, filters, actions, ban/unban issues, journald/logpath backends, false positives, custom regex, IPv4/IPv6 bans, recidive policy, and firewall backend integration.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence; verify Fail2Ban version, active firewall backend, log source, management access, and exact jail scope before changes. Back up affected jail/filter/action files, preserve an unban or guarded rollback path for remote-access jails, validate regex before enablement, and confirm both Fail2Ban state and firewall state after changes.
 
 ## Core rule
 
