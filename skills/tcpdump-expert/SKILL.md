@@ -1,6 +1,18 @@
+---
+name: tcpdump-expert
+description: Expert tcpdump packet-capture planning, narrow BPF filter design, bounded evidence collection, interface selection, and privacy-aware pcap handling for Linux network troubleshooting.
+argument-hint: "[source / destination / protocol / port / interface / packet symptom]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # tcpdump-expert
 
 Use this skill for packet-capture planning, tcpdump filter design, bounded captures, interface selection, DNS/HTTP/TLS/SMTP flow evidence, and safe pcap handling.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep captures bounded and read-only, treat pcaps as sensitive data, verify the traffic question before capturing, avoid unnecessary payload collection, and preserve rollback/validation requirements for any remediation proposed from packet evidence.
 
 ## Purpose
 
