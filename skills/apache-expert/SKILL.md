@@ -1,6 +1,9 @@
 ---
 name: apache-expert
 description: Safe Apache HTTPD diagnostics and change planning for virtual hosts, modules, MPM behaviour, proxying, TLS, access control, logs, reloads, rollback, and bounded production troubleshooting.
+argument-hint: "[apache/httpd symptom, vhost, module, TLS, proxy, MPM]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # apache-expert
@@ -9,7 +12,7 @@ Use this skill for Apache HTTPD virtual hosts, modules, MPM behavior, proxying, 
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky remote changes, validation, and token-bounded output.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery for risky remote changes, validation, and token-bounded output.
 
 ## Purpose
 
