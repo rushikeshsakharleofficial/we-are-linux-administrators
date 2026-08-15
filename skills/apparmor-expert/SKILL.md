@@ -1,6 +1,9 @@
 ---
 name: apparmor-expert
 description: Diagnose and safely remediate AppArmor profile denials, confinement modes, profile tuning, and service access issues. Use for AppArmor complain/enforce review, denial triage, profile reloads, and rollback-aware confinement changes.
+argument-hint: "[AppArmor profile, denial, service, path, complain/enforce issue]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # apparmor-expert
