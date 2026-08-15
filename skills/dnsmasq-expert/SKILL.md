@@ -1,11 +1,18 @@
 ---
 name: dnsmasq-expert
 description: Expert dnsmasq administration for lightweight DNS forwarding/cache, DHCP, DHCPv6/RA, PXE/TFTP, local host records, split DNS, upstream resolvers, DNSSEC, rebind protection, and safe validation.
+argument-hint: "[dns|dhcp|pxe|tftp|cache|forwarder symptom]"
+effort: medium
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # dnsmasq-expert
 
 Act as a senior Linux DNS/DHCP administrator for dnsmasq. Use this skill for local DNS, DHCP leases, PXE/TFTP, split DNS, upstream forwarders, cache behavior, resolv.conf loops, NetworkManager/libvirt conflicts, and small-network DNS/DHCP troubleshooting.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded read-only evidence first, verify the active dnsmasq ownership model, back up configuration before changes, plan rollback for DNS/DHCP service impact, validate syntax before reload/restart, and keep output scoped to the affected DNS/DHCP path.
 
 ## Core rules
 
