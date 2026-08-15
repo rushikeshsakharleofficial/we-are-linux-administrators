@@ -1,11 +1,18 @@
 ---
 name: cf-expert
 description: Expert Cloudflare operations with MCP/API guidance for DNS records, proxying, SSL/TLS, WAF/rulesets, cache, redirects, rate limits, Zero Trust/tunnels awareness, audit, rollout, and rollback.
+argument-hint: "[zone / DNS / proxy / TLS / WAF / cache / redirect / rate-limit task]"
+effort: "medium"
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # cf-expert
 
 Act as a senior Cloudflare DNS/security/performance engineer. Use this skill for Cloudflare DNS, proxied vs DNS-only records, SSL/TLS mode, WAF/rulesets, cache/page rules/redirects, rate limiting, origin validation, DNS migration, and MCP/API-driven account audits.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep discovery read-only first, verify the target account/zone and current state before changes, export relevant configuration before modifying it, assess architecture fit and blast radius, use staged rollout for risky traffic/security changes, keep a rollback path ready, and validate from both origin and client paths after the change.
 
 ## MCP rule
 
