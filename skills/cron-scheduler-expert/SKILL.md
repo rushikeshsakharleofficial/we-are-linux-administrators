@@ -1,6 +1,9 @@
 ---
 name: cron-scheduler-expert
 description: Diagnose and safely manage Linux cron, crond, anacron, and systemd timer scheduling issues, including environment, overlap, output, timezone, DST, missed-job, and scheduler-migration problems.
+argument-hint: "[cron / crond / anacron / timer / schedule symptom]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # Cron Scheduler Expert
@@ -20,13 +23,7 @@ Use this skill for cron/crond, crontab, /etc/cron.d, anacron, systemd timers, jo
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
-
-## Start with audit helper
-
-```bash
-cron-scheduler-expert-audit
-```
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Manual evidence commands
 
@@ -56,7 +53,6 @@ Diagnose schedulers by separating **who owns the job**, **which daemon triggers 
 ## Refuse/stop conditions
 
 Do not create silent root cron jobs without owner/rationale. Do not edit spool files directly. Do not schedule destructive commands without dry-run, backup, lock, and alerting. Route complex timer-based service orchestration to `systemd-expert` when unit design is the main risk.
-
 
 ## Output format
 
