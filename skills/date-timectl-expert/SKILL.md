@@ -1,6 +1,9 @@
 ---
 name: date-timectl-expert
 description: Diagnose and safely manage Linux system time, timezones, timedatectl, systemd-timesyncd, RTC/hwclock, NTP synchronization, clock drift, and application timestamp issues.
+argument-hint: "[time|timezone|timedatectl|rtc|ntp|clock-drift symptom]"
+effort: medium
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # Date / Timedatectl Expert
@@ -20,13 +23,7 @@ Use this skill for system clock, timezone, timedatectl, systemd-timesyncd, hwclo
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
-
-## Start with audit helper
-
-```bash
-date-timectl-expert-audit
-```
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback or guarded rollback, validation, final architecture audit, and token-bounded output.
 
 ## Manual evidence commands
 
@@ -59,7 +56,6 @@ Separate wall clock, monotonic time, timezone display, RTC/hardware clock, NTP s
 ## Refuse/stop conditions
 
 Do not set system time manually on clustered, DB, Kerberos, certificate, monitoring, or distributed systems without maintenance approval. Prefer fixing NTP source and timezone config.
-
 
 ## Output format
 
