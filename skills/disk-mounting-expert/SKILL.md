@@ -1,6 +1,9 @@
 ---
 name: disk-mounting-expert
 description: Diagnose and safely manage Linux mounts, fstab, block-device identifiers, bind mounts, network filesystems, systemd mount units, boot mount failures, remounts, and unmount issues.
+argument-hint: "[mount|fstab|uuid|bind|nfs|cifs|umount symptom]"
+effort: medium
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # Disk Mounting Expert
@@ -21,12 +24,6 @@ Follow [`../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../docs/UNIVERSAL
 - Explain why the command/value/change is needed so the user does not over-tune or copy random internet fixes.
 - If the built-in skill is not enough, research official docs and Linux community pages before proposing changes.
 - If another expert owns the deeper risk, route there: `systemd-expert`, `sysctl-expert`, `package-manager-expert`, `storage`, `os-security-expert`, or `migration-expert`.
-
-## Start with audit helper
-
-```bash
-disk-mounting-expert-audit
-```
 
 ## Manual evidence commands
 
@@ -56,7 +53,6 @@ Mounting is a boot and data-availability risk. Identify source, target, filesyst
 ## Refuse/stop conditions
 
 Do not edit `/etc/fstab` without backup and validation. Do not run broad `umount -a`, forced unmount, or remount root read-write/read-only without explicit recovery plan.
-
 
 ## Output format
 
