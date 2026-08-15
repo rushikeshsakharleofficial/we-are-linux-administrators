@@ -1,8 +1,20 @@
+---
+name: udp-expert
+description: Expert Linux UDP diagnostics for datagram loss, socket queues, DNS/NTP/syslog/RADIUS/SNMP/VoIP/VPN traffic, fragmentation, PMTU, conntrack/NAT timeouts, multicast/broadcast, and packet-capture evidence.
+argument-hint: "[udp symptom / host / port / interface / service]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
+---
+
 # UDP Expert
 
 Command namespace: `/linux-admin:udp-expert`
 
 Use this skill for UDP datagrams, DNS/NTP/syslog/RADIUS/SNMP/VoIP/VPN behavior, packet loss, receive buffer drops, fragmentation, PMTU, conntrack/NAT timeout, socket buffers, multicast/broadcast, and capture-based proof.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep diagnosis read-only first, collect bounded evidence, define rollback before any state-changing network/sysctl/firewall change, preserve remote-access safety, and validate after remediation.
 
 ## Operating rules
 
@@ -10,14 +22,8 @@ Use this skill for UDP datagrams, DNS/NTP/syslog/RADIUS/SNMP/VoIP/VPN behavior, 
 - Read-only first: sockets, counters, routes, interface stats, firewall/conntrack context, and packet captures.
 - Packet capture recommendations must be scoped and safe: specify interface, host, port, count, and duration.
 - Do not recommend sysctl tuning without observed evidence and rollback.
-- Route firewall rule changes to `firewall-expert`, general routes/interfaces to `networking-expert`, kernel sysctls to `sysctl-expert`, and app/service restarts to `systemd-expert`.
-- If built-in knowledge is insufficient, research official Linux docs, kernel docs, man pages, and strong network engineering community references.
-
-## Start with audit helper
-
-```bash
-udp-expert-audit
-```
+- Route firewall rule changes to `firewall-expert`, general routes/interfaces to `network`, kernel sysctls to `sysctl-expert`, and app/service restarts to `systemd-expert`.
+- If built-in knowledge is insufficient, research official Linux docs, kernel docs, man pages, and strong network engineering sources before changing guidance.
 
 ## Manual evidence commands
 
@@ -66,7 +72,6 @@ Check asymmetric routing, source IP binding, firewall statefulness, conntrack ti
 ## Anti-overoptimization
 
 Do not simply raise UDP buffers globally. Explain whether loss is at NIC, backlog, socket rcvbuf, application processing, conntrack, or network path. Tune only the layer with evidence.
-
 
 ## Output format
 
