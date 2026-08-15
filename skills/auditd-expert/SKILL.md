@@ -1,6 +1,9 @@
 ---
 name: auditd-expert
 description: Expert Linux auditd rule design, audit evidence collection, user/action tracing, file watch planning, compliance support, and safe audit rule rollout. Use when investigating audit events, missing audit records, sudo/user activity, file changes, compliance evidence, or audit rule design.
+argument-hint: "[audit event, rule, path, syscall, user, key, time window]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # auditd-expert
