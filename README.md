@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.10`  
-**Skill count:** `77`  
+**Version:** `1.18.11`  
+**Skill count:** `76`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -34,6 +34,7 @@ This keeps routing compact without deleting specialist knowledge.
 "TCP connections stuck in SYN_RECV" → network → chunks/tcp.md
 "chronyd has a large offset" → time → chunks/chrony.md
 "fstab blocks boot" → storage → chunks/mounts.md
+"XFS project quota is not enforcing" → storage → chunks/quota.md
 "host is swapping heavily" → performance → chunks/swap.md
 "ACL mask removes write access" → permissions → chunks/acl.md
 "LDAP user resolves but cannot log in" → auth → chunks/sssd-ldap.md
@@ -41,11 +42,9 @@ This keeps routing compact without deleting specialist knowledge.
 "review this Bash maintenance script" → automation → chunks/bash-scripting.md
 "outage is contained; find the causal chain" → incident-response-expert → chunks/root-cause-analysis.md
 "audit this Linux host" → security-expert → chunks/security-audit.md
-"who changed this protected file?" → security-expert → chunks/auditd.md
-"Fail2Ban jail is not banning" → security-expert → chunks/fail2ban.md
 ```
 
-Network, timekeeping, first storage branches, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, post-containment RCA, and host-security audit branches now use parent/chunk routing. The former broad `os-security-expert` is consolidated into `security-expert/chunks/security-audit.md`. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, storage baseline/quota, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, post-containment RCA, and host-security audit branches use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management
 
@@ -104,7 +103,7 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Service failure | `service` |
 | Boot failure | `boot` |
 | High load/OOM/slowness | `performance` |
-| Disk/mount/I/O issue | `storage` |
+| Disk/mount/I/O/quota issue | `storage` |
 | File/path ownership/mode/ACL issue | `permissions` |
 | Local account/PAM/SSSD-LDAP/sudo issue | `auth` |
 | SSH hardening/remote-access policy | `ssh-hardening-expert` |
