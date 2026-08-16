@@ -4,16 +4,12 @@
 
   const PROJECT_VERSION = '1.17.75';
   const SKILL_COUNT = '103';
+  const REPO = 'rushikeshsakharleofficial/we-are-linux-administrators';
   const STALE_COUNTS = new Set(['46', '95', '98', '99', '101', '102', '106', '107', '108']);
   const REMOVED_SKILLS = new Set([
-    'change-plan-expert',
-    'incident-timeline-expert',
-    'maintenance-window-expert',
-    'post-change-validation-expert',
-    'preflight-check-expert',
-    'production-safety-expert',
-    'risk-assessment-expert',
-    'rollback-expert'
+    'change-plan-expert', 'incident-timeline-expert', 'maintenance-window-expert',
+    'post-change-validation-expert', 'preflight-check-expert', 'production-safety-expert',
+    'risk-assessment-expert', 'rollback-expert'
   ]);
 
   function setMeta(selector, value) {
@@ -21,11 +17,13 @@
     if (el) el.setAttribute('content', value);
   }
 
-  function replaceStaleCountText(text) {
+  function replaceText(text) {
     return text
       .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
       .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=Expert Skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\bBrowse all (?:35|40\+|46|95|98|99|101|102|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`);
+      .replace(/\bBrowse all (?:35|40\+|46|95|98|99|101|102|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
+      .replace(/npm install -g linux-admin/g, `npm install -g github:${REPO}`)
+      .replace(/npm registry/gi, 'GitHub source');
   }
 
   function removeStaleSkillCards() {
@@ -41,7 +39,6 @@
     const exists = Array.from(grid.querySelectorAll('.skill-card-name'))
       .some(el => el.textContent.trim() === '/linux-admin:incident-report-creator-expert');
     if (exists) return;
-
     const card = document.createElement('div');
     card.className = 'skill-card reveal visible';
     card.dataset.cat = 'ops-workflow';
@@ -56,7 +53,6 @@
   function syncProjectCopy() {
     setMeta('meta[name="description"]', `linux-admin — ${SKILL_COUNT} Linux administrator/SRE skills with safe routing, incident management, and portable agent workflows.`);
     setMeta('meta[property="og:description"]', `linux-admin ${PROJECT_VERSION} — ${SKILL_COUNT} Linux/SRE skills with read-only-first diagnostics and rollback-aware operations.`);
-
     if (/skills\.html$/i.test(location.pathname)) {
       document.title = `linux-admin — Skills | ${SKILL_COUNT} Expert Linux & SRE Skills`;
       setMeta('meta[property="og:title"]', `linux-admin — Skills | ${SKILL_COUNT} Expert Linux & SRE Skills`);
@@ -68,11 +64,9 @@
       const text = el.textContent.trim().replace('+', '');
       if (STALE_COUNTS.has(text)) el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
     });
-
     document.querySelectorAll('.stat-num').forEach(el => {
       if (STALE_COUNTS.has(el.textContent.trim())) el.textContent = SKILL_COUNT;
     });
-
     const title = document.querySelector('.page-hero-title');
     if (title && /Expert Skills/.test(title.textContent)) title.textContent = `${SKILL_COUNT} Expert Skills`;
 
@@ -81,13 +75,19 @@
     while ((node = walker.nextNode())) {
       const parent = node.parentElement;
       if (!parent || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) continue;
-      const next = replaceStaleCountText(node.nodeValue);
+      const next = replaceText(node.nodeValue);
       if (next !== node.nodeValue) node.nodeValue = next;
     }
 
-    document.querySelectorAll('a[href*="/releases/tag/v1.17.18"]').forEach(link => {
-      link.href = link.href.replace('/releases/tag/v1.17.18', `/releases/tag/v${PROJECT_VERSION}`);
-      if (/v1\.17\.18/.test(link.textContent)) link.textContent = `v${PROJECT_VERSION}`;
+    document.querySelectorAll('a[href*="/releases/tag/"]').forEach(link => {
+      if (/v1\.17\.18|v1\.17\.75/.test(link.textContent + link.href)) {
+        link.href = `https://github.com/${REPO}/releases/latest`;
+        link.textContent = 'latest published release';
+      }
+    });
+    document.querySelectorAll('a[href="https://www.npmjs.com/package/linux-admin"]').forEach(link => {
+      link.href = `https://github.com/${REPO}`;
+      link.textContent = 'GitHub source';
     });
   }
 
