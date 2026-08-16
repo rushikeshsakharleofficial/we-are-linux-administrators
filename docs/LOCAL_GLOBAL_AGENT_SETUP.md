@@ -38,7 +38,7 @@ linux-admin status
 | Claude Code | `CLAUDE.md`, `.claude/CLAUDE.md`; project skills under `.claude/skills/` | `~/.claude/CLAUDE.md`, `~/.claude/skills/` | Root `CLAUDE.md` imports `AGENTS.md`; global installer also copies skills to `~/.claude/skills/`. |
 | Codex | `AGENTS.md`; repository skills under `.agents/skills/` from CWD up to repo root | `$HOME/.agents/skills/`; admin `/etc/codex/skills`; config `~/.codex/config.toml` | Project uses `AGENTS.md`; global installer uses `$HOME/.agents/skills/`. |
 | OpenCode | `AGENTS.md`, `opencode.json`; project skill directories can be configured | `~/.config/opencode/AGENTS.md`; skills include `~/.agents/skills/` | `opencode.json` points at `./skills`; global installer uses `~/.agents/skills/`. |
-| GitHub Copilot CLI | `AGENTS.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md` | `$HOME/.copilot/copilot-instructions.md`, `$HOME/.copilot/instructions/**/*.instructions.md` | Keep repository adapter thin. Global personal rules should reference the installed linux-admin workflow rather than copying 95 skills into Copilot-specific folders. |
+| GitHub Copilot CLI | `AGENTS.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md` | `$HOME/.copilot/copilot-instructions.md`, `$HOME/.copilot/instructions/**/*.instructions.md` | Keep repository adapter thin. Global personal rules should reference the installed linux-admin workflow rather than copying 91 skills into Copilot-specific folders. |
 | Cursor | `AGENTS.md`; optional `.cursor/rules/*.mdc` | User Rules in Cursor settings | Use root `AGENTS.md`; add Cursor-specific rules only for real Cursor-only behaviour. |
 | Windsurf | `AGENTS.md`; optional `.windsurf/rules/*.md` | `~/.codeium/windsurf/memories/global_rules.md` | Use root `AGENTS.md`; keep global Windsurf rules as a pointer to the installed linux-admin workflow, not a duplicate skill tree. |
 | Cline | `AGENTS.md`; current native project config under `.cline/` | current user config under `~/.cline/` with compatibility discovery in Documents/Cline on supported installs | Use `AGENTS.md` plus the selected canonical skill; do not fork the skill tree into Cline rules. |
@@ -71,7 +71,7 @@ Do not hard-code `/home/<user>/...`, `C:\Users\<user>\...`, a global npm prefix,
 
 After installation, verify rather than assume:
 
-1. `linux-admin status` reports the expected version, source path and current top-level skill count (`95` for repository metadata `1.18.2`).
+1. `linux-admin status` reports the expected version, source path and current top-level skill count (`91` for repository metadata `1.18.3`).
 2. The target global directory contains `using-linux-admin/SKILL.md`.
 3. Restart/reload the target agent if its documentation requires a rescan.
 4. Ask the agent to explicitly invoke `using-linux-admin` when routing is uncertain.
