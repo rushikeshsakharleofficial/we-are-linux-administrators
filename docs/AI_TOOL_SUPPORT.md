@@ -1,6 +1,6 @@
 # AI tool support
 
-`linux-admin` keeps one canonical 91-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
+`linux-admin` keeps one canonical 89-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
 
 For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
@@ -30,7 +30,7 @@ For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_
 3. Parent skills own condition-to-chunk routing. Default to one parent + one chunk; load a second only when evidence proves a cross-layer issue.
 4. Use root `AGENTS.md` where the target supports it or read it explicitly.
 5. Keep `CLAUDE.md` and vendor adapters thin.
-6. Never duplicate all 91 skills into vendor-specific folders merely to advertise support.
+6. Never duplicate all 89 skills into vendor-specific folders merely to advertise support.
 7. Never commit machine-local state, history, caches, personal memory, credentials, or one maintainer's absolute paths.
 8. Do not claim native marketplace/plugin installation unless verified for this repository.
 
@@ -68,7 +68,7 @@ Plan rollback/recovery before consequential changes.
 Validate the result.
 ```
 
-Current converted examples are `network`, `time`, `storage` and `performance`: network routes TCP/UDP/packet-capture/VLAN-bonding conditions to chunks; time separates Chrony/NTP from system-clock/timezone/RTC; storage routes mounts/fstab, filesystem health/capacity and SMART/media-risk while keeping high-risk storage specialists distinct; performance routes CPU, memory/OOM, swap/zram and capacity-planning conditions to focused chunks while retaining `limits-expert` as a distinct security/resource-ceiling specialist.
+Current converted examples are `network`, `time`, `storage`, `performance`, and `permissions`: network routes TCP/UDP/packet-capture/VLAN-bonding conditions to chunks; time separates Chrony/NTP from system-clock/timezone/RTC; storage routes mounts/fstab, filesystem health/capacity and SMART/media-risk while keeping high-risk storage specialists distinct; performance routes CPU, memory/OOM, swap/zram and capacity-planning conditions to focused chunks while retaining `limits-expert`; permissions routes POSIX modes/ownership/traversal and ACL/mask/inheritance to focused chunks while keeping SELinux/AppArmor and account identity as distinct layers.
 
 ## Tool notes
 
