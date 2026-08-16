@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.11-storage-quota-consolidation",
+  "id": "2026-08-16-1.18.12-package-lifecycle-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.11",
+  "version": "1.18.12",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.11 — filesystem quotas consolidated",
-  "summary": "Top-level skill count is now 76. The former quota-expert has been retired after its ext4/XFS user, group and project quota guidance was preserved in storage/chunks/quota.md. Higher-risk LVM, RAID, SAN/network storage and backup specialists remain separate. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.12 — patching consolidated into package lifecycle",
+  "summary": "Top-level skill count is now 75. The former patching-expert has been retired after its security/OS patch rollout, kernel maintenance, reboot coordination and canary/batch guidance was preserved in package-manager-expert/chunks/patching.md. Repository/transaction recovery stays in the package-manager parent, and release upgrades remain under migration. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
