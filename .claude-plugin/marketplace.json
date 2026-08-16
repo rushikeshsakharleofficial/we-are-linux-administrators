@@ -7,15 +7,15 @@
   },
   "metadata": {
     "description": "Linux administrator and SRE skills for Claude Code with portable guidance for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, goose, and other agent-based ops tools.",
-    "version": "1.17.75"
+    "version": "1.18.0"
   },
   "plugins": [
     {
       "name": "linux-admin",
       "source": "./",
       "skills": "./skills/",
-      "description": "Senior Linux admin and SRE workflow with 103 expert skills, including table-first incident report generation for Word, Excel, PDF, and PowerPoint.",
-      "version": "1.17.75",
+      "description": "Senior Linux admin and SRE workflow with 99 focused skills, parent-domain routing, condition-specific chunks, and table-first incident report generation for Word, Excel, PDF, and PowerPoint.",
+      "version": "1.18.0",
       "author": {
         "name": "Rushikesh Sakharle",
         "email": "rishiananya123@gmail.com"
@@ -24,47 +24,8 @@
       "repository": "https://github.com/rushikeshsakharleofficial/we-are-linux-administrators",
       "license": "MIT",
       "category": "development",
-      "tags": [
-        "linux",
-        "sre",
-        "systemd",
-        "networking",
-        "storage",
-        "security",
-        "kernel",
-        "incident-management",
-        "codex",
-        "claude-code"
-      ],
-      "keywords": [
-        "linux",
-        "sre",
-        "systemd",
-        "networking",
-        "storage",
-        "selinux",
-        "troubleshooting",
-        "incident-response",
-        "incident-reporting",
-        "sysctl",
-        "performance-tuning",
-        "linux-hardening",
-        "firewall",
-        "containers",
-        "migration",
-        "dns",
-        "auth",
-        "boot",
-        "acl",
-        "quota",
-        "model-routing",
-        "agent-dispatch",
-        "skill-routing",
-        "codex",
-        "openai-codex",
-        "agents-md",
-        "claude-code"
-      ]
+      "tags": ["linux", "sre", "systemd", "networking", "storage", "security", "kernel", "incident-management", "codex", "claude-code"],
+      "keywords": ["linux", "sre", "networking", "storage", "troubleshooting", "incident-response", "incident-reporting", "performance-tuning", "linux-hardening", "firewall", "containers", "migration", "dns", "auth", "boot", "skill-routing", "chunk-routing", "codex", "agents-md", "claude-code"]
     }
   ]
 }
