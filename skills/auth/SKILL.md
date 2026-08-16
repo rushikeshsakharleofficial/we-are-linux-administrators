@@ -1,119 +1,82 @@
 ---
 name: "auth"
-description: "Troubleshoot Linux users, SSH, sudo, PAM, LDAP, SSSD, account lockout, key permissions, group membership, and login failures."
-argument-hint: "[user/auth/ssh symptom]"
+description: "Troubleshoot Linux identity, local accounts, PAM, SSSD/LDAP, sudo authorisation and login failures using bounded evidence and condition-specific chunks."
+argument-hint: "[user/auth/login/sudo/pam/sssd symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
 # auth skill
 
-Use this plugin skill for: $ARGUMENTS
+Use this parent skill for Linux account, authentication, identity-resolution and privilege-delegation problems. Start with bounded evidence, identify the failing layer, then load **one matching chunk**. Do not preload all auth chunks.
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+## Universal Skill Execution Contract
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Authentication changes can remove administrative access: keep break-glass or out-of-band recovery for PAM, SSSD, sudo and remote-login changes, define rollback before edits, and validate the original and recovery access paths afterward.
 
-# Task: Users, SSH, sudo, PAM, LDAP/SSSD
-
-## When to use
-
-Use for login failures, SSH denied, sudo access issue, account locked, group mismatch, PAM, LDAP, SSSD, home directory, shell, expired password, key auth, permission issues.
-
-## Mental model
-
-Authentication failures involve layers:
-
-1. Account exists and is enabled.
-2. Password/key accepted by SSH/PAM.
-3. PAM/account policy allows login.
-4. Shell/home directory valid.
-5. Group/sudo policy grants expected privilege.
-6. LDAP/SSSD/NSS resolves identity.
-7. SSH daemon config permits method/user/group.
-8. Filesystem permissions for keys/home are strict enough.
-
-## Read-only first commands
+## Baseline evidence
 
 ```bash
 id <user> 2>/dev/null || true
 getent passwd <user> 2>/dev/null || true
-getent shadow <user> 2>/dev/null || true
-chage -l <user> 2>/dev/null || true
+getent group <group> 2>/dev/null || true
 passwd -S <user> 2>/dev/null || true
-groups <user> 2>/dev/null || true
+chage -l <user> 2>/dev/null || true
 sudo -l -U <user> 2>/dev/null || true
-sshd -T 2>/dev/null | grep -Ei 'passwordauthentication|pubkeyauthentication|permitrootlogin|allowusers|allowgroups|denyusers|denygroups|authorizedkeysfile'
-sshd -t 2>/dev/null && echo sshd_config_ok
-journalctl -u sshd -b --no-pager -n 200 2>/dev/null || journalctl -u ssh -b --no-pager -n 200 2>/dev/null || true
-ls -ld /home/<user> /home/<user>/.ssh /home/<user>/.ssh/authorized_keys 2>/dev/null || true
-namei -om /home/<user>/.ssh/authorized_keys 2>/dev/null || true
-getfacl -p /home/<user>/.ssh/authorized_keys 2>/dev/null || true
-```
-
-LDAP/SSSD:
-
-```bash
-systemctl status sssd --no-pager 2>/dev/null || true
+systemctl is-active sssd 2>/dev/null || true
 sssctl user-checks <user> 2>/dev/null || true
-sssctl domain-list 2>/dev/null || true
-getent passwd <user>
-getent group <group>
-journalctl -u sssd -b --no-pager -n 200 2>/dev/null || true
+journalctl -b --no-pager 2>/dev/null | grep -Ei 'pam|authentication failure|sssd|sudo|account locked' | tail -120
 ```
 
-## Branch interpretation
+Use only commands relevant to the reported path; do not dump secrets or entire directory/PAM configurations.
 
-| Signal | Meaning | Next action |
-|---|---|---|
-| `getent passwd` empty | NSS/LDAP/local user missing | check local vs LDAP/SSSD path |
-| account locked/expired | account policy blocks login | unlock/extend only after authorization |
-| `sshd -t` fails | SSH config syntax broken | fix config before reload |
-| authorized_keys too open | SSH ignores key | fix exact permissions |
-| sudo -l missing expected command/group | sudoers/group policy issue | inspect sudoers safely with `visudo -c` |
-| SSSD cannot resolve | LDAP/SSSD/cache/domain issue | SSSD logs and domain status |
+## Condition -> chunk
 
-## Safe remediation patterns
+| Evidence / condition | Load |
+|---|---|
+| local account lifecycle, shell, expiry, group membership, service account, offboarding | `chunks/local-accounts.md` |
+| PAM module order/control flags, account/password/session phase, lockout policy | `chunks/pam.md` |
+| directory-backed identity, NSS/SSSD/LDAP/AD lookup, cache, access filter, group mapping | `chunks/sssd-ldap.md` |
+| identity resolves but sudo policy/delegation is wrong | `chunks/sudoers.md` |
+| SSH daemon hardening, ciphers, auth methods, root login, remote lockout risk | `ssh-hardening-expert` |
+| RDP/xrdp-specific login/session issue | `rdp-expert` |
+| file ownership/mode/ACL/traversal problem | `permissions` |
+| SELinux/AppArmor denial | matching MAC specialist |
 
-### SSH key permissions
+Default: if the layer is unclear, stay in this parent and collect the smallest missing evidence. Load a second chunk/support skill only when evidence proves the failure crosses layers.
 
-After confirmation:
+## Reasoning model
 
-```bash
-chown <user>:<group> /home/<user> /home/<user>/.ssh /home/<user>/.ssh/authorized_keys
-chmod 700 /home/<user>/.ssh
-chmod 600 /home/<user>/.ssh/authorized_keys
+```text
+Identity exists?        local files or NSS/SSSD/LDAP
+Authentication works?   PAM/password/key/directory credential
+Account allowed?        expiry/lock/PAM/access filter/shell
+Remote path allowed?    SSH/RDP policy
+Privilege allowed?      sudo/group/delegation
+Object access allowed?  permissions/ACL/SELinux/AppArmor
 ```
 
-### sudoers
-
-Never edit with raw editor without validation. Use:
-
-```bash
-visudo -c
-visudo -f /etc/sudoers.d/<file>
-visudo -c
-```
-
-### SSH config
-
-```bash
-cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.bak.$(date +%F-%H%M%S)
-sshd -t
-systemctl reload sshd   # confirmation required
-```
+Do not “fix” a lower layer by weakening another one. For example, a missing LDAP group is not a reason to grant broad local sudo, and an SSH key path permission problem is not a reason to disable SSH hardening.
 
 ## Validation
 
+Validate the exact failed path plus the recovery path:
+
 ```bash
-sshd -t
-sudo -l -U <user>
-getent passwd <user>
-journalctl -u sshd -b --since '5 minutes ago' --no-pager 2>/dev/null || true
+getent passwd <user> 2>/dev/null || true
+id <user> 2>/dev/null || true
+sudo -l -U <user> 2>/dev/null || true
 ```
 
-## Prevention
+Then run the chunk-specific validation. For SSH configuration changes, validate with `sshd -t` and use `ssh-hardening-expert`; for file/ACL changes use `permissions`.
 
-- Keep sudoers in config management.
-- Test SSH changes before reload.
-- Maintain break-glass account and console access.
-- Monitor SSSD/LDAP failures.
+## Output
+
+```text
+Identity source:
+Failing layer:
+Primary chunk/specialist:
+Evidence:
+Minimal safe change:
+Rollback/recovery:
+Validation:
+```
