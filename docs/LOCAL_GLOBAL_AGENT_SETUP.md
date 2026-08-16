@@ -35,10 +35,10 @@ Existing destination skill directories are skipped by default. Use `--force` onl
 
 ## Discovery verification
 
-1. `linux-admin status` reports repository metadata `1.18.12` and current top-level skill count `75`.
+1. `linux-admin status` reports repository metadata `1.18.13` and current top-level skill count `74`.
 2. The target global directory contains `using-linux-admin/SKILL.md`.
 3. Restart/reload the target agent when its docs require a rescan.
 4. Explicitly invoke `using-linux-admin` when routing is uncertain.
 5. Confirm routing selects one parent/specialist and only the required chunk.
 
-The compact tree includes parent/chunk routing for network, time, storage mounts/filesystem/SMART/quota, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, incident RCA, and security host-audit/auditd/Fail2Ban branches. Distinct high-risk or product-specific specialists remain separate when merging would reduce safety or routing accuracy.
+The compact tree includes parent/chunk routing for network, time, storage mounts/filesystem/SMART/quota/LVM, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, incident RCA, and security host-audit/auditd/Fail2Ban branches. Distinct high-risk or product-specific specialists remain separate when merging would reduce safety or routing accuracy.
