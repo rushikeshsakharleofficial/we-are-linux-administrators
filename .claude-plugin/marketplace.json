@@ -7,15 +7,15 @@
   },
   "metadata": {
     "description": "Linux administrator and SRE skills for Claude Code with portable guidance for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, goose, and other agent-based ops tools.",
-    "version": "1.18.0"
+    "version": "1.18.1"
   },
   "plugins": [
     {
       "name": "linux-admin",
       "source": "./",
       "skills": "./skills/",
-      "description": "Senior Linux admin and SRE workflow with 99 focused skills, parent-domain routing, condition-specific chunks, and table-first incident report generation for Word, Excel, PDF, and PowerPoint.",
-      "version": "1.18.0",
+      "description": "Senior Linux admin and SRE workflow with 98 focused skills, parent-domain routing, condition-specific chunks, and table-first incident report generation for Word, Excel, PDF, and PowerPoint.",
+      "version": "1.18.1",
       "author": {
         "name": "Rushikesh Sakharle",
         "email": "rishiananya123@gmail.com"
