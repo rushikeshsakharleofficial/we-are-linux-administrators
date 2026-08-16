@@ -32,7 +32,7 @@ Existing destination skill directories are skipped by default. Use `linux-admin 
 | Claude Code | `CLAUDE.md`, `.claude/CLAUDE.md`; project skills under `.claude/skills/` | `~/.claude/CLAUDE.md`, `~/.claude/skills/` | Root `CLAUDE.md` imports `AGENTS.md`; installer copies user skills. |
 | Codex | `AGENTS.md`; repository skills under `.agents/skills/` | `$HOME/.agents/skills/`; admin `/etc/codex/skills` | Project uses `AGENTS.md`; global installer uses `$HOME/.agents/skills/`. |
 | OpenCode | `AGENTS.md`, `opencode.json` | `~/.config/opencode/AGENTS.md`; `~/.agents/skills/` supported | `opencode.json` points at `./skills`; installer uses `~/.agents/skills/`. |
-| GitHub Copilot CLI | `AGENTS.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md` | `$HOME/.copilot/copilot-instructions.md`, `$HOME/.copilot/instructions/**/*.instructions.md` | Keep repository adapter thin; do not copy 85 skills into Copilot-specific folders. |
+| GitHub Copilot CLI | `AGENTS.md`, `.github/copilot-instructions.md`, `.github/instructions/*.instructions.md` | `$HOME/.copilot/copilot-instructions.md`, `$HOME/.copilot/instructions/**/*.instructions.md` | Keep repository adapter thin; do not copy 83 skills into Copilot-specific folders. |
 | Cursor | `AGENTS.md`; optional `.cursor/rules/*.mdc` | User Rules in settings | Use root `AGENTS.md`; add Cursor-specific rules only for real Cursor-only behaviour. |
 | Windsurf | `AGENTS.md`; optional `.windsurf/rules/*.md` | `~/.codeium/windsurf/memories/global_rules.md` | Keep global rules as a pointer, not a duplicate tree. |
 | Cline | `AGENTS.md`; project config under `.cline/` | current user config under `~/.cline/` where supported | Use `AGENTS.md` plus selected canonical skill. |
@@ -53,10 +53,10 @@ Do not hard-code `/home/<user>/...`, `C:\Users\<user>\...`, a global npm prefix,
 
 ## Discovery verification
 
-1. `linux-admin status` reports the expected version, source path and current top-level skill count (`85` for repository metadata `1.18.5`).
+1. `linux-admin status` reports the expected version, source path and current top-level skill count (`83` for repository metadata `1.18.6`).
 2. The target global directory contains `using-linux-admin/SKILL.md`.
 3. Restart/reload the target agent when its docs require a rescan.
 4. Explicitly invoke `using-linux-admin` when routing is uncertain.
 5. Confirm it routes to one parent/specialist and only the required chunk rather than loading the whole tree.
 
-The compact parent/chunk structure now includes auth routing for local accounts, PAM, SSSD/LDAP and sudoers; SSH hardening remains a separate top-level specialist.
+The compact parent/chunk structure includes auth routing for local accounts, PAM, SSSD/LDAP and sudoers, plus logging routing for rsyslog and logrotate. SSH hardening and product-specific monitoring remain separate top-level specialists where their risk/behaviour differs.
