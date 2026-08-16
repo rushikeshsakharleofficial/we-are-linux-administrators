@@ -26,7 +26,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 
 ## Parent -> micro map
 
-- **General:** `diagnose` -> `linux-admin-chief-engineer`, `command-expert`, `bash-script-expert`, `automation`, `ansible-expert`, `runbook-expert`, `root-cause-expert`, `incident-response-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
+- **General:** `diagnose` -> `linux-admin-chief-engineer`, `command-expert`, `bash-script-expert`, `automation`, `ansible-expert`, `runbook-expert`, `root-cause-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
 - **Boot/services:** `boot` -> `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
 - **Performance:** `performance` -> `cpu-expert`, `memory-expert`, `swap-expert`, `limits-expert`, `capacity-planning-expert`, `optimization-guardian-expert`, `minimal-architecture-expert`
 - **Storage:** `storage` -> `disk-mounting-expert`, `filesystem-expert`, `lvm-expert`, `raid-expert`, `smart-disk-expert`, `iscsi-expert`, `multipath-expert`, `nfs-expert`, `samba-expert`, `quota-expert`, `backup-restore-expert`
@@ -63,6 +63,8 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Database problem | matching DB skill |
 | Docker/Podman | `containers` |
 | Kubernetes node | `kubernetes-node-expert` |
+| Active incident / outage response | `incident-response-expert` |
+| Incident report in Word/Excel/PDF/PowerPoint | `incident-report-creator-expert` |
 | Security audit/hardening | `security-expert` |
 | Production change | domain skill + `change-safety-expert` |
 | Tune/boost/optimize | `optimization-guardian-expert` then domain skill |
@@ -78,6 +80,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - Unknown disk issue -> `storage`; proven filesystem/LVM/RAID layer -> matching micro-skill.
 - Generic daemon failure -> `service`; unit/dependency/timer/cgroup semantics -> `systemd-expert`.
 - Broad security validation -> `security-expert`; host hardening implementation -> `os-security-expert`.
+- Active incident handling -> `incident-response-expert`; formal post-incident artifact generation -> `incident-report-creator-expert`.
 
 ## Output
 
