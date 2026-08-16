@@ -29,7 +29,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - **General:** `diagnose` -> `linux-admin-chief-engineer`, `command-expert`, `bash-script-expert`, `automation`, `ansible-expert`, `runbook-expert`, `root-cause-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
 - **Boot/services:** `boot` -> `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
 - **Performance:** `performance` -> CPU/memory/swap/limits/capacity branches; consolidation into parent chunks is in progress
-- **Storage:** `storage` -> mounting/filesystem/LVM/RAID/SMART/iSCSI/multipath/NFS/Samba/quota/backup branches; consolidation into parent chunks is in progress
+- **Storage:** `storage` -> condition-specific chunks for mounts/fstab, filesystem health/capacity, and SMART/media risk; distinct LVM/RAID/iSCSI/multipath/NFS/Samba/quota/backup specialists load only when baseline evidence points there
 - **Permissions:** `permissions` -> POSIX permissions/ACL/users/SELinux/AppArmor branches
 - **Auth:** `auth` -> PAM/SSSD-LDAP/sudo/SSH/RDP branches
 - **Network:** `network` -> condition-specific chunks for TCP, UDP, packet capture, VLAN/bonding/LACP; distinct routing/NAT/firewall/proxy/DNS specialists are loaded only when baseline evidence points there
@@ -55,6 +55,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Kernel panic/lockup | `kernel` |
 | High load/OOM/slow host | `performance` |
 | Disk/mount/I/O problem | `storage` |
+| Mount/fstab/filesystem/SMART issue | `storage`, then matching chunk |
 | Permission denied | `permissions` |
 | SSH/login/sudo identity issue | `auth` |
 | Cannot reach host/port | `network` |
@@ -81,7 +82,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - Unknown reachability -> `network`; known packet-filter rule -> `firewall-expert`.
 - Time sync/source/offset/stratum issue -> `time` then Chrony chunk; timezone/RTC/local clock issue -> `time` then system-clock chunk.
 - Unknown slowness -> `performance`; let that parent identify the proven resource layer.
-- Unknown disk issue -> `storage`; let that parent identify filesystem/LVM/RAID/etc.
+- Unknown disk issue -> `storage`; mount/fstab -> mounts chunk, filesystem metadata/capacity -> filesystem-health chunk, SMART/media risk -> SMART chunk; proven LVM/RAID/SAN/network-storage layer -> matching specialist.
 - Generic daemon failure -> `service`; unit/dependency/timer/cgroup semantics -> `systemd-expert`.
 - Broad security validation -> `security-expert`; host hardening implementation -> `os-security-expert`.
 - Active incident handling -> `incident-response-expert`; formal post-incident artifact generation -> `incident-report-creator-expert`.
