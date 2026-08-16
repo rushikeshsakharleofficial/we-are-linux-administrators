@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.9-security-routing",
+  "id": "2026-08-16-1.18.10-security-audit-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.9",
+  "version": "1.18.10",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.9 — security routing gets compact",
-  "summary": "Top-level skill count is now 78. Broad host security audits, auditd evidence/rules and Fail2Ban diagnostics are condition-specific chunks under security-expert. Distinct SSH/auth/MAC/firewall/kernel/sysctl/patch/vulnerability specialists remain separate. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.10 — OS security audit consolidated",
+  "summary": "Top-level skill count is now 77. The redundant os-security-expert has been retired after its useful broad hardening, integrity, crypto-policy and effective SSH/sudo checks were preserved in security-expert/chunks/security-audit.md. Distinct high-risk security controls remain separate. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
