@@ -22,7 +22,7 @@ Also establish target portal, initiator IQN, expected target IQN/LUN, CHAP/auth 
 
 - No discovery/login: prove TCP reachability and target ACL/auth facts before changing initiator records.
 - Session exists but LUN is absent: compare target presentation, session details and stable by-path/by-id mappings before rescans.
-- LUN appears on multiple paths: do not mount/use raw path devices; load `multipath.md` if multipath is intended.
+- LUN appears on multiple paths: do not mount/use raw path devices; use `multipath-expert` if device-mapper multipath is intended.
 - Existing filesystem/LVM sits on the LUN: map the full chain before logout, rescan, resize or replacement.
 - New LUN: never write a filesystem/signature until WWID/LUN identity and ownership are proven.
 
