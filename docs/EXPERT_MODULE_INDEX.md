@@ -1,10 +1,10 @@
 # Expert Module Index
 
-89 top-level skills.
+85 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
-Do not maintain a second full routing matrix here. `using-linux-admin` selects the parent/specialist; each parent owns its own condition-to-chunk decision table.
+Do not maintain a second full routing matrix here. `using-linux-admin` selects the parent/specialist; each parent owns its condition-to-chunk table.
 
 ## Routing model
 
@@ -15,7 +15,7 @@ using-linux-admin
       -> one matching chunk
 ```
 
-Load a second chunk only when the evidence proves a cross-layer issue. Unknown conditions stay in the parent baseline flow until the failing layer is known.
+Load a second chunk only when evidence proves a cross-layer issue. Unknown conditions stay in the parent baseline flow until the failing layer is known.
 
 ## Entry points
 
@@ -54,54 +54,43 @@ Load a second chunk only when the evidence proves a cross-layer issue. Unknown c
 ## Consolidation status
 
 ### Network
-
-| Condition | Chunk |
-|---|---|
-| TCP lifecycle/retransmit/SYN/PMTUD/socket issue | `skills/network/chunks/tcp.md` |
-| UDP loss/fragmentation/buffer/NAT-timeout issue | `skills/network/chunks/udp.md` |
-| packet-level proof/tcpdump | `skills/network/chunks/packet-capture.md` |
-| VLAN/bond/LACP/MTU/failover issue | `skills/network/chunks/vlan-bonding.md` |
+- TCP -> `skills/network/chunks/tcp.md`
+- UDP -> `skills/network/chunks/udp.md`
+- packet capture -> `skills/network/chunks/packet-capture.md`
+- VLAN/bond/LACP -> `skills/network/chunks/vlan-bonding.md`
 
 ### Timekeeping
-
-| Condition | Chunk |
-|---|---|
-| Chrony/NTP source quality, reach, stratum, offset, drift, NTS/server mode | `skills/time/chunks/chrony.md` |
-| timezone, system clock/UTC, RTC/hwclock, timedatectl, systemd-timesyncd | `skills/time/chunks/system-clock.md` |
+- Chrony/NTP -> `skills/time/chunks/chrony.md`
+- timezone/RTC/system clock -> `skills/time/chunks/system-clock.md`
 
 ### Storage
+- mounts/fstab -> `skills/storage/chunks/mounts.md`
+- filesystem health/capacity -> `skills/storage/chunks/filesystem-health.md`
+- SMART/media risk -> `skills/storage/chunks/smart.md`
 
-| Condition | Chunk |
-|---|---|
-| mount/fstab/UUID/bind/remount/boot-mount/unmount issue | `skills/storage/chunks/mounts.md` |
-| filesystem capacity/inodes/metadata/read-only/repair/grow-shrink issue | `skills/storage/chunks/filesystem-health.md` |
-| SMART/NVMe media health/wear/replacement risk | `skills/storage/chunks/smart.md` |
-
-LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct specialists while their overlap is reviewed.
+LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct pending review.
 
 ### Performance
-
-| Condition | Chunk/specialist |
-|---|---|
-| CPU/run-queue/steal/softirq/scheduler/thread pressure | `skills/performance/chunks/cpu.md` |
-| memory/OOM/reclaim/PSI/cgroup/leak/slab pressure | `skills/performance/chunks/memory.md` |
-| swap/zram/zswap/sizing/priorities/thrashing | `skills/performance/chunks/swap.md` |
-| trend/headroom/capacity forecast/scaling decision | `skills/performance/chunks/capacity-planning.md` |
-| nofile/nproc/memlock/PAM/systemd resource ceilings and security review | keep `limits-expert` distinct |
+- CPU/run queue/steal/softirq -> `skills/performance/chunks/cpu.md`
+- memory/OOM/reclaim/cgroups -> `skills/performance/chunks/memory.md`
+- swap/zram/zswap -> `skills/performance/chunks/swap.md`
+- capacity/headroom/forecast -> `skills/performance/chunks/capacity-planning.md`
+- resource ceilings/security limits -> keep `limits-expert` distinct
 
 ### Permissions
+- POSIX ownership/mode/traversal -> `skills/permissions/chunks/posix-modes.md`
+- ACL/mask/inheritance -> `skills/permissions/chunks/acl.md`
+- SELinux/AppArmor -> keep distinct specialists
 
-| Condition | Chunk/specialist |
-|---|---|
-| POSIX owner/group/mode, path traversal, umask, sticky/setgid/setuid, scoped recursive change | `skills/permissions/chunks/posix-modes.md` |
-| POSIX ACL, mask/effective rights, named users/groups, default ACL inheritance | `skills/permissions/chunks/acl.md` |
-| SELinux AVC/context/port policy | keep `selinux-expert` distinct |
-| AppArmor profile denial | keep `apparmor-expert` distinct |
-| account lifecycle/sudo/PAM/SSH identity | keep `user-permissions-expert`/`auth` distinct pending identity review |
+### Authentication and identity
+- local accounts/groups/lifecycle -> `skills/auth/chunks/local-accounts.md`
+- PAM phases/control flags/lockout -> `skills/auth/chunks/pam.md`
+- SSSD/LDAP/NSS/cache/access filters -> `skills/auth/chunks/sssd-ldap.md`
+- sudoers/least-privilege delegation -> `skills/auth/chunks/sudoers.md`
+- SSH hardening -> keep `ssh-hardening-expert` distinct
+- RDP/xrdp -> keep `rdp-expert` distinct
 
-Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, `date-timectl-expert`, `disk-mounting-expert`, `filesystem-expert`, `smart-disk-expert`, `cpu-expert`, `memory-expert`, `swap-expert`, `capacity-planning-expert`, `file-permissions-expert`, and `acl-permissions-expert` were removed only after their useful procedures were preserved in parent chunks.
-
-Other domains will be consolidated only when overlap is verified; distinct technologies remain top-level when merging would make routing less reliable.
+Former top-level specialists were removed only after useful procedures were preserved in parent chunks. Other domains will be consolidated only when overlap is verified; distinct technologies stay top-level when merging would reduce safety or routing accuracy.
 
 ## Local/global discovery
 
