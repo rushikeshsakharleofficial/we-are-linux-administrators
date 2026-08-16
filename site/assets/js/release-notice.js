@@ -21,7 +21,7 @@
   }
 
   var url = manifestUrl();
-  var typeOk = { 'plugin-release': true, 'skill-release': true };
+  var typeOk = { 'repository-update': true, 'plugin-release': true, 'skill-release': true };
 
   function getSeen(id) {
     try { return localStorage.getItem('linux-admin-release-seen-' + id); } catch (e) { return null; }
@@ -61,12 +61,13 @@
 
     var claude = data.commands && data.commands.claudeCode ? data.commands.claudeCode.join('\n') : '';
     var codex = data.commands && data.commands.codex ? data.commands.codex.join('\n') : '';
+    var commands = [claude, codex].filter(Boolean).join('\n\n');
     var node = document.createElement('aside');
     node.className = 'release-notice';
     syncTheme(node);
-    node.innerHTML = '<h3>' + clean(data.title || 'Plugin update available') + '</h3>' +
-      '<p>' + clean(data.summary || 'Update your local plugin to get the latest skills.') + '</p>' +
-      '<pre>' + clean(claude + '\n\n' + codex) + '</pre>' +
+    node.innerHTML = '<h3>' + clean(data.title || 'linux-admin update available') + '</h3>' +
+      '<p>' + clean(data.summary || 'A repository update is available.') + '</p>' +
+      (commands ? '<pre>' + clean(commands) + '</pre>' : '') +
       '<button type="button">Got it</button>';
 
     var observer = null;
