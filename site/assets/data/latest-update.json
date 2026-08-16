@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.5-auth-routing",
+  "id": "2026-08-16-1.18.6-logging-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.5",
+  "version": "1.18.6",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.5 — identity routing gets compact",
-  "summary": "Top-level skill count is now 85. Local accounts, PAM, SSSD/LDAP and sudoers procedures now live as condition-specific chunks under the auth parent. SSH hardening and RDP remain distinct because remote-access configuration has separate lockout and security risk. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.6 — logging routing gets compact",
+  "summary": "Top-level skill count is now 83. rsyslog routing/forwarding and logrotate policy now live as condition-specific chunks under the logs parent. Journald investigation remains in the parent baseline, while Nagios Core and Observium CE stay distinct product specialists. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
