@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.6`  
-**Skill count:** `83`  
+**Version:** `1.18.7`  
+**Skill count:** `82`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -40,15 +40,14 @@ This keeps routing compact without deleting specialist knowledge.
 "sudo rule is too broad" → auth → skills/auth/chunks/sudoers.md
 "rsyslog remote queue is stuck" → logs → skills/logs/chunks/rsyslog.md
 "application log never rotates" → logs → skills/logs/chunks/logrotate.md
+"outage is contained; find the causal chain" → incident-response-expert → skills/incident-response-expert/chunks/root-cause-analysis.md
 ```
 
-Network, timekeeping, first storage branches, core performance branches, POSIX/ACL permissions, core identity/auth branches, and core logging branches now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, first storage branches, core performance branches, POSIX/ACL permissions, core identity/auth branches, core logging branches, and post-containment RCA now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management reports
 
-`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into Word `.docx`, Excel `.xlsx`, PDF `.pdf`, PowerPoint `.pptx`, or all four. Unknown facts stay unknown rather than being invented.
-
-For an active outage use `incident-response-expert` first; use the report creator after evidence and facts are established.
+`incident-response-expert` owns active response and, after containment, evidence-backed root-cause analysis through its RCA chunk. `incident-report-creator-expert` remains separate because formal Word `.docx`, Excel `.xlsx`, PDF `.pdf`, and PowerPoint `.pptx` generation is a different tool/output phase. Unknown facts stay unknown rather than being invented.
 
 ## Install
 
@@ -108,6 +107,7 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | NTP/Chrony/timezone/RTC issue | `time` → matching chunk |
 | Missing/forwarded/rotating log issue | `logs` → matching chunk |
 | Active incident/outage | `incident-response-expert` |
+| Post-containment RCA | `incident-response-expert` → RCA chunk |
 | Incident management report | `incident-report-creator-expert` |
 | Security audit | `security-expert` |
 | Migration/cutover | `migration-expert` |
