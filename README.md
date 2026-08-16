@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.17.75`  
-**Skill count:** `103`  
+**Version:** `1.18.0`  
+**Skill count:** `99`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -12,17 +12,43 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 /linux-admin:using-linux-admin <task>
 ```
 
-`using-linux-admin` is the canonical routing-only skill. It selects the smallest relevant parent or micro-skill; the specialist then handles the actual work under the Universal Skill Execution Contract.
+`using-linux-admin` chooses the smallest **parent domain or distinct specialist**. Parent skills then identify the condition from bounded evidence and load only the matching chunk.
+
+```text
+/using-linux-admin
+      ↓
+parent skill
+      ↓
+condition/evidence check
+      ↓
+one matching chunk
+      ↓
+second chunk only when evidence proves a cross-layer issue
+```
+
+This keeps routing compact without throwing away specialist knowledge.
+
+### Example: networking
+
+```text
+"TCP connections stuck in SYN_RECV"
+→ network
+→ skills/network/chunks/tcp.md
+```
+
+```text
+"bond0 drops traffic after LACP failover"
+→ network
+→ skills/network/chunks/vlan-bonding.md
+```
+
+The first consolidation moved former TCP, UDP, tcpdump, and VLAN/bonding top-level skills into focused `network/chunks/`. Other domains will follow the same evidence-based pattern where overlap is verified.
 
 ## Incident management reports
 
-`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into Word `.docx`, Excel `.xlsx`, PDF `.pdf`, PowerPoint `.pptx`, or all four. It covers incident summary, impact, timeline, detection/response, RCA, corrective/preventive actions, communications, lessons learned, evidence, and outstanding risk. Unknown facts stay marked as unknown instead of being invented.
+`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into Word `.docx`, Excel `.xlsx`, PDF `.pdf`, PowerPoint `.pptx`, or all four. Unknown facts stay marked as unknown instead of being invented.
 
-```text
-/linux-admin:incident-report-creator-expert create PIR in docx xlsx pdf and pptx
-```
-
-For an active outage/incident use `incident-response-expert` first; use the report creator after incident evidence and facts are established.
+For an active outage use `incident-response-expert` first; use the report creator after incident evidence and facts are established.
 
 ## Install
 
@@ -36,7 +62,7 @@ For an active outage/incident use `incident-response-expert` first; use the repo
 
 ### Latest source / global agent skills
 
-The npm registry publication is **not currently verified**. Use the GitHub source until an npm publish succeeds:
+The npm registry publication is **not currently verified**. Use GitHub source until an npm publish succeeds:
 
 ```bash
 npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators
@@ -44,13 +70,7 @@ linux-admin status
 linux-admin install-global
 ```
 
-Or run directly without a permanent install:
-
-```bash
-npx github:rushikeshsakharleofficial/we-are-linux-administrators
-```
-
-`install-global` copies the canonical skills to `~/.agents/skills/` and Claude Code's native `~/.claude/skills/`. Existing skill directories are skipped unless you intentionally use `--force`.
+`install-global` copies canonical skills to `~/.agents/skills/` and Claude Code's `~/.claude/skills/`. Existing skill directories are skipped unless `--force` is explicit.
 
 ### Codex/project use
 
@@ -65,11 +85,12 @@ Recommended first instruction:
 
 ```text
 Read AGENTS.md.
-Read skills/using-linux-admin/SKILL.md and choose the smallest relevant specialist.
+Read skills/using-linux-admin/SKILL.md and choose the smallest relevant parent/specialist.
+Let that parent select one matching chunk from evidence.
 Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
 ```
 
-Detailed per-agent project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_GLOBAL_AGENT_SETUP.md).
+Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_GLOBAL_AGENT_SETUP.md).
 
 ## Routing examples
 
@@ -83,26 +104,25 @@ Detailed per-agent project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](do
 | Disk/mount/I/O issue | `storage` |
 | Permission denied | `permissions` |
 | SSH/login/sudo identity issue | `auth` |
-| Connectivity issue | `network` |
+| Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` → matching chunk |
 | Active incident/outage | `incident-response-expert` |
 | Incident management report | `incident-report-creator-expert` |
 | Security audit | `security-expert` |
 | Load-balancer choice | `load-balancer-expert` |
 | Migration/cutover | `migration-expert` |
 | Tuning/optimisation | `optimization-guardian-expert` first |
-| Broad senior execution | `linux-admin-chief-engineer` after routing |
 
 Full routing map: [`skills/using-linux-admin/SKILL.md`](skills/using-linux-admin/SKILL.md).
 
 ## Portability
 
-Canonical Linux procedures stay under `skills/`. Root `AGENTS.md` is the shared repository instruction source where supported; `CLAUDE.md`, `.github/copilot-instructions.md`, `.amazonq/rules/linux-admin.md`, `opencode.json`, and `.aider.conf.yml` remain thin adapters rather than copies of 103 skills.
+Canonical procedures stay under `skills/`. Root `AGENTS.md` is the shared repository instruction source where supported; `CLAUDE.md`, `.github/copilot-instructions.md`, `.amazonq/rules/linux-admin.md`, `opencode.json`, and `.aider.conf.yml` stay thin.
 
-Do not commit local agent state, absolute maintainer paths, command history, personal memory, tokens, or generated credentials. See [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_GLOBAL_AGENT_SETUP.md).
+Do not commit local agent state, absolute maintainer paths, command history, personal memory, tokens, or generated credentials.
 
 ## Safety
 
-Every skill follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md): verify facts, plan rollback, check architecture fit, protect backups/recovery paths, use guarded rollback for consequential remote changes, validate results, and keep evidence bounded.
+Every parent, specialist and chunk follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md): verify facts, plan rollback, check architecture fit, protect backups/recovery paths, use guarded rollback for consequential remote changes, validate results, and keep evidence bounded.
 
 OS-specific patch/kernel/driver/lifecycle/vulnerability guidance follows [`docs/SECURITY_PATCH_REFRESH_POLICY.md`](docs/SECURITY_PATCH_REFRESH_POLICY.md).
 
