@@ -1,19 +1,13 @@
 {
-  "id": "2026-08-16-1.18.4-permissions-routing",
+  "id": "2026-08-16-1.18.5-auth-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.4",
+  "version": "1.18.5",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.4 — permissions routing gets cleaner",
-  "summary": "Top-level skill count is now 89. POSIX ownership/modes/traversal and ACL mask/inheritance procedures now live as condition-specific chunks under the permissions parent. SELinux/AppArmor and account identity remain distinct because they have different evidence and remediation risk.",
+  "title": "linux-admin 1.18.5 — identity routing gets compact",
+  "summary": "Top-level skill count is now 85. Local accounts, PAM, SSSD/LDAP and sudoers procedures now live as condition-specific chunks under the auth parent. SSH hardening and RDP remain distinct because remote-access configuration has separate lockout and security risk. The latest published GitHub Release remains v1.17.74.",
   "commands": {
-    "claudeCode": [
-      "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
-      "linux-admin install-claude"
-    ],
-    "codex": [
-      "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
-      "linux-admin install-global"
-    ]
+    "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
+    "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
   }
 }
