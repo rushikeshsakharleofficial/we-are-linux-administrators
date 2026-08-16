@@ -4,32 +4,43 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 DISTINCT_SKILLS = [
-    'backup-restore-expert', 'logrotate-expert', 'rsyslog-expert', 'auditd-expert',
-    'selinux-expert', 'apparmor-expert', 'ssh-hardening-expert', 'lvm-expert',
-    'raid-expert', 'nfs-expert', 'samba-expert', 'iscsi-expert', 'multipath-expert',
-    'process-expert', 'load-average-expert', 'io-wait-expert', 'iproute-expert',
+    'backup-restore-expert', 'selinux-expert', 'apparmor-expert',
+    'ssh-hardening-expert', 'multipath-expert', 'process-expert',
+    'load-average-expert', 'io-wait-expert', 'iproute-expert',
     'routing-expert', 'haproxy-expert', 'nginx-expert', 'apache-expert',
     'php-fpm-expert', 'mysql-expert', 'postgresql-expert', 'redis-expert',
-    'kubernetes-node-expert', 'ansible-expert', 'patching-expert',
-    'vulnerability-scan-expert', 'incident-response-expert', 'runbook-expert',
+    'kubernetes-node-expert', 'ansible-expert', 'vulnerability-scan-expert',
+    'incident-response-expert',
 ]
 
 PARENT_CHUNKS = {
     'network': ['tcp.md', 'udp.md', 'packet-capture.md', 'vlan-bonding.md'],
     'time': ['chrony.md', 'system-clock.md'],
-    'storage': ['mounts.md', 'filesystem-health.md', 'smart.md'],
+    'storage': [
+        'mounts.md', 'filesystem-health.md', 'smart.md', 'quota.md', 'lvm.md',
+        'raid.md', 'iscsi.md', 'nfs.md', 'samba.md',
+    ],
     'performance': ['cpu.md', 'memory.md', 'swap.md', 'capacity-planning.md'],
     'permissions': ['posix-modes.md', 'acl.md'],
     'auth': ['local-accounts.md', 'pam.md', 'sssd-ldap.md', 'sudoers.md'],
+    'logs': ['rsyslog.md', 'logrotate.md'],
+    'automation': ['bash-scripting.md', 'runbooks.md'],
+    'security-expert': ['security-audit.md', 'auditd.md', 'fail2ban.md'],
+    'package-manager-expert': ['patching.md'],
+    'incident-response-expert': ['root-cause-analysis.md'],
 }
 
 REMOVED_TOP_LEVEL = [
     'tcp-expert', 'udp-expert', 'tcpdump-expert', 'vlan-bonding-expert',
     'chrony-expert', 'date-timectl-expert', 'disk-mounting-expert',
-    'filesystem-expert', 'smart-disk-expert', 'cpu-expert', 'memory-expert',
-    'swap-expert', 'capacity-planning-expert', 'file-permissions-expert',
-    'acl-permissions-expert', 'user-permissions-expert', 'pam-expert',
-    'sssd-ldap-expert', 'sudoers-expert',
+    'filesystem-expert', 'smart-disk-expert', 'quota-expert', 'lvm-expert',
+    'raid-expert', 'iscsi-expert', 'nfs-expert', 'samba-expert',
+    'cpu-expert', 'memory-expert', 'swap-expert', 'capacity-planning-expert',
+    'file-permissions-expert', 'acl-permissions-expert',
+    'user-permissions-expert', 'pam-expert', 'sssd-ldap-expert',
+    'sudoers-expert', 'rsyslog-expert', 'logrotate-expert',
+    'root-cause-expert', 'bash-script-expert', 'runbook-expert',
+    'auditd-expert', 'fail2ban-expert', 'os-security-expert', 'patching-expert',
 ]
 
 
