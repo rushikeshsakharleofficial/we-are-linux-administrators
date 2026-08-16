@@ -7,8 +7,8 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current repository metadata version: `1.18.13`
-- Current top-level skill count: `74`
+- Current repository metadata version: `1.18.14`
+- Current top-level skill count: `73`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
 - Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
@@ -24,7 +24,7 @@ Before repository changes, read the relevant README/release/package/plugin metad
 - Use `skills/using-linux-admin/SKILL.md` when the domain is unclear.
 - Select one parent/specialist first; let the parent classify bounded evidence and load one condition-specific chunk.
 - Add a second chunk/support skill only when evidence proves a cross-layer issue.
-- `storage` owns mount/fstab, filesystem-health, SMART, filesystem-quota and LVM chunks; RAID/iSCSI/multipath/NFS/Samba/backup remain distinct pending review.
+- `storage` owns mount/fstab, filesystem-health, SMART, quota, LVM and md/RAID chunks; iSCSI/multipath/NFS/Samba/backup remain distinct pending review.
 - `automation` owns Bash/POSIX scripting and operational-runbook chunks; Ansible, cron and systemd remain distinct when their own semantics are involved.
 - `auth` owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct.
 - `logs` owns rsyslog and logrotate chunks; product monitoring stays distinct.
@@ -45,17 +45,9 @@ Do not commit machine-local agent state, command history, caches, auto-memory, s
 
 All skills and operational guidance follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`: verify facts, define rollback, check architecture fit, protect recovery paths, use guarded recovery for risky remote/network/storage/auth/package changes, and keep evidence/output bounded.
 
-## Source rules
-
-Prefer official/vendor documentation, release notes, package metadata, source repositories and security advisories. Community posts are signals, not authority.
-
 ## Metadata consistency
 
 When a real user-facing change affects version or skill count, align README.md, RELEASE.md, package.json, `.claude-plugin/` metadata, this file, `docs/EXPERT_MODULE_INDEX.md`, `docs/AI_TOOL_SUPPORT.md`, `docs/LOCAL_GLOBAL_AGENT_SETUP.md`, `site/assets/data/latest-update.json`, and `site/assets/js/main.js`.
-
-## Package/global-install rule
-
-The package must ship canonical `skills/`, relevant `docs/`, `AGENTS.md`, `CLAUDE.md`, `opencode.json`, and `.aider.conf.yml`. `linux-admin install-global` must not silently overwrite existing global skills.
 
 ## Validation
 
