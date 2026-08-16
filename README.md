@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.9`  
-**Skill count:** `78`  
+**Version:** `1.18.10`  
+**Skill count:** `77`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -40,11 +40,12 @@ This keeps routing compact without deleting specialist knowledge.
 "rsyslog remote queue is stuck" → logs → chunks/rsyslog.md
 "review this Bash maintenance script" → automation → chunks/bash-scripting.md
 "outage is contained; find the causal chain" → incident-response-expert → chunks/root-cause-analysis.md
+"audit this Linux host" → security-expert → chunks/security-audit.md
 "who changed this protected file?" → security-expert → chunks/auditd.md
 "Fail2Ban jail is not banning" → security-expert → chunks/fail2ban.md
 ```
 
-Network, timekeeping, first storage branches, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, post-containment RCA, and host-security auditd/Fail2Ban branches now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, first storage branches, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, post-containment RCA, and host-security audit branches now use parent/chunk routing. The former broad `os-security-expert` is consolidated into `security-expert/chunks/security-audit.md`. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management
 
