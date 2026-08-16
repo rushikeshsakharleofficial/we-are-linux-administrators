@@ -11,9 +11,21 @@
     if (el) el.setAttribute('content', value);
   }
 
+  function replaceStaleCountText(text) {
+    return text
+      .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=Expert Skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\bBrowse all (?:35|40\+|46|95|98|99|101|102|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`);
+  }
+
   function syncProjectCopy() {
-    setMeta('meta[name="description"]', `linux-admin — 103 Linux administrator/SRE skills with safe routing, incident management, and portable agent workflows.`);
-    setMeta('meta[property="og:description"]', `linux-admin 1.17.75 — 103 Linux/SRE skills with read-only-first diagnostics and rollback-aware operations.`);
+    setMeta('meta[name="description"]', `linux-admin — ${SKILL_COUNT} Linux administrator/SRE skills with safe routing, incident management, and portable agent workflows.`);
+    setMeta('meta[property="og:description"]', `linux-admin ${PROJECT_VERSION} — ${SKILL_COUNT} Linux/SRE skills with read-only-first diagnostics and rollback-aware operations.`);
+
+    if (/skills\.html$/i.test(location.pathname)) {
+      document.title = `linux-admin — Skills | ${SKILL_COUNT} Expert Linux & SRE Skills`;
+      setMeta('meta[property="og:title"]', `linux-admin — Skills | ${SKILL_COUNT} Expert Linux & SRE Skills`);
+    }
 
     document.querySelectorAll('[data-count]').forEach(el => {
       const current = String(el.dataset.count || '').replace('+', '');
@@ -28,6 +40,20 @@
 
     const title = document.querySelector('.page-hero-title');
     if (title && /Expert Skills/.test(title.textContent)) title.textContent = `${SKILL_COUNT} Expert Skills`;
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      const parent = node.parentElement;
+      if (!parent || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) continue;
+      const next = replaceStaleCountText(node.nodeValue);
+      if (next !== node.nodeValue) node.nodeValue = next;
+    }
+
+    document.querySelectorAll('a[href*="/releases/tag/v1.17.18"]').forEach(link => {
+      link.href = link.href.replace('/releases/tag/v1.17.18', `/releases/tag/v${PROJECT_VERSION}`);
+      if (/v1\.17\.18/.test(link.textContent)) link.textContent = `v${PROJECT_VERSION}`;
+    });
   }
 
   syncProjectCopy();
@@ -109,8 +135,10 @@
 
   document.querySelectorAll('.copy-btn').forEach(button => {
     button.addEventListener('click', async () => {
-      const text = button.closest('.skill-card-cmd, .code-block, pre')?.innerText.replace(/copy$/i, '').trim();
-      if (!text || !navigator.clipboard) return;
+      const container = button.closest('.skill-card-cmd, .code-block, .terminal-body, pre');
+      if (!container || !navigator.clipboard) return;
+      const text = container.innerText.replace(/copy$/i, '').trim();
+      if (!text) return;
       await navigator.clipboard.writeText(text);
       const old = button.textContent;
       button.textContent = 'copied';
