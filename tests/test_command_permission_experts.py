@@ -3,12 +3,18 @@ from pathlib import Path
 import json, subprocess, sys
 ROOT = Path(__file__).resolve().parents[1]
 
-SKILLS = ['command-expert','user-permissions-expert','file-permissions-expert','acl-permissions-expert']
+SKILL_PATHS = [
+    'skills/command-expert/SKILL.md',
+    'skills/user-permissions-expert/SKILL.md',
+    'skills/permissions/SKILL.md',
+    'skills/permissions/chunks/posix-modes.md',
+    'skills/permissions/chunks/acl.md',
+]
 BINS = ['command-expert-audit','user-permissions-expert-audit','file-permissions-expert-audit','acl-permissions-expert-audit']
 
 def main():
-    for s in SKILLS:
-        p = ROOT/'skills'/s/'SKILL.md'
+    for rel in SKILL_PATHS:
+        p = ROOT/rel
         assert p.exists(), p
         txt = p.read_text()
         assert 'Read-only' in txt or 'read-only' in txt
@@ -23,7 +29,7 @@ def main():
     guard = (ROOT/'scripts/linux-safety-guard.py').read_text()
     for token in ['setfacl','useradd','visudo','rsync']:
         assert token in guard
-    print('command and permission experts test passed')
+    print('command and permission routing test passed')
 
 if __name__ == '__main__':
     main()
