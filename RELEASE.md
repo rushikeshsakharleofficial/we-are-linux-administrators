@@ -1,12 +1,12 @@
-# Release 1.18.6
+# Release 1.18.7
 
 ## Package
 
-- Repository/package metadata version: `1.18.6`
-- Plugin metadata version: `1.18.6`
-- Skill count: `83`
+- Repository/package metadata version: `1.18.7`
+- Plugin metadata version: `1.18.7`
+- Skill count: `82`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.6` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.7` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -31,6 +31,7 @@ A second chunk/support skill is loaded only when evidence proves a cross-layer i
 - **Permissions:** POSIX modes/ownership/traversal and ACL semantics are chunks under `permissions`; SELinux/AppArmor remain distinct.
 - **Identity/auth:** local accounts, PAM, SSSD/LDAP and sudoers are chunks under `auth`; SSH hardening and RDP remain distinct because remote-access configuration has separate lockout/security risk.
 - **Logging:** rsyslog routing/forwarding/queues/TLS and logrotate retention/reopen policy are chunks under `logs`. Journald investigation stays in the parent baseline; Nagios Core and Observium CE remain distinct product specialists.
+- **Incident management:** post-containment root-cause analysis is now `skills/incident-response-expert/chunks/root-cause-analysis.md`. Active triage/containment/recovery stays in the incident-response parent; `incident-report-creator-expert` remains separate for formal DOCX/XLSX/PDF/PPTX generation.
 
 ## Latest source install
 
