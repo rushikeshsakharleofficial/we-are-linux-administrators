@@ -7,8 +7,8 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current repository metadata version: `1.18.6`
-- Current top-level skill count: `83`
+- Current repository metadata version: `1.18.7`
+- Current top-level skill count: `82`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
 - Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
@@ -27,7 +27,7 @@ Before repository changes, read the relevant subset of README/release/package/pl
 - Add a second chunk/support skill only when evidence proves a cross-layer issue.
 - `auth` owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct because remote-access changes have separate lockout risk.
 - `logs` owns rsyslog and logrotate chunks; journald remains in the parent baseline while product-specific monitoring stays distinct.
-- `incident-response-expert` handles active incidents; `incident-report-creator-expert` creates verified table-first `.docx`, `.xlsx`, `.pdf`, and `.pptx` reports.
+- `incident-response-expert` handles active incidents and post-containment RCA through `skills/incident-response-expert/chunks/root-cause-analysis.md`; `incident-report-creator-expert` remains separate for verified table-first `.docx`, `.xlsx`, `.pdf`, and `.pptx` reports.
 - Do not duplicate the full skill tree into vendor-specific directories.
 
 ## Portable adapters
