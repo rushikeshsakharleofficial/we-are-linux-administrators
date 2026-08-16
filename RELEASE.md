@@ -1,12 +1,12 @@
-# Release 1.18.2
+# Release 1.18.3
 
 ## Package
 
-- Repository/package metadata version: `1.18.2`
-- Plugin metadata version: `1.18.2`
-- Skill count: `95`
+- Repository/package metadata version: `1.18.3`
+- Plugin metadata version: `1.18.3`
+- Skill count: `91`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.2` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.3` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -34,13 +34,18 @@ Former top-level `chrony-expert` and `date-timectl-expert` are now one `time` pa
 
 ### Storage — first batch
 
-Former top-level `disk-mounting-expert`, `filesystem-expert`, and `smart-disk-expert` are now condition-specific storage chunks:
+Former top-level `disk-mounting-expert`, `filesystem-expert`, and `smart-disk-expert` are now condition-specific storage chunks under `skills/storage/chunks/`. LVM, RAID, iSCSI, multipath, NFS, Samba, quota, and backup remain distinct specialists pending separate review.
 
-- `skills/storage/chunks/mounts.md` — mounts, fstab, bind mounts, remounts, systemd mount interpretation, boot mount failures, and safe unmount handling.
-- `skills/storage/chunks/filesystem-health.md` — capacity/inodes, df/du mismatch, ext4/XFS/Btrfs health, read-only remounts, repair planning, and grow/shrink constraints.
-- `skills/storage/chunks/smart.md` — SMART/NVMe media health, wear, temperature/interface evidence, failure risk, and replacement planning.
+### Performance
 
-LVM, RAID, iSCSI, multipath, NFS, Samba, quota, and backup remain distinct specialists until their overlap is reviewed. This avoids turning storage into a risky mega-skill.
+Former top-level `cpu-expert`, `memory-expert`, `swap-expert`, and `capacity-planning-expert` are now condition-specific chunks under `skills/performance/chunks/`:
+
+- `cpu.md` — CPU saturation, run queues, steal, softirq, scheduler/thread pressure.
+- `memory.md` — memory pressure, OOM, reclaim/PSI, cgroups, leaks and slab evidence.
+- `swap.md` — swap files/partitions, zram/zswap, active swap pressure, sizing and priorities.
+- `capacity-planning.md` — trend/headroom forecasting and vertical-vs-horizontal scaling decisions.
+
+`limits-expert` remains top-level because resource ceilings also serve security and blast-radius control; folding it into performance would weaken that role.
 
 ## Latest source install
 
