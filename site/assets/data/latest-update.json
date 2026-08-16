@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-17-1.18.16-network-storage-consolidation",
+  "id": "2026-08-17-1.18.17-vulnerability-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.16",
+  "version": "1.18.17",
   "date": "2026-08-17",
-  "title": "linux-admin 1.18.16 — NFS and Samba consolidated into storage",
-  "summary": "Top-level skill count is now 70. The former nfs-expert and samba-expert are retired after their export/share, identity-mapping, permission, safe-change and validation guidance was preserved and expanded in storage/chunks/nfs.md and storage/chunks/samba.md. Multipath and backup/restore remain separate because their path-failover and recovery semantics still justify distinct specialists. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.17 — vulnerability triage consolidated into security",
+  "summary": "Top-level skill count is now 69. The former vulnerability-scan-expert is retired after its CVE/scanner triage, false-positive and distro-backport checks, exposure analysis, compensating controls, remediation planning and validation guidance was preserved and expanded in security-expert/chunks/vulnerability-scan.md. sysctl-expert remains separate because it spans runtime kernel tuning, performance and security hardening. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
