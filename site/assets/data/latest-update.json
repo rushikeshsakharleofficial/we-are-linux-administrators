@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.7-incident-rca-routing",
+  "id": "2026-08-16-1.18.8-automation-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.7",
+  "version": "1.18.8",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.7 — incident RCA gets compact",
-  "summary": "Top-level skill count is now 82. Post-containment root-cause analysis now lives as a condition-specific chunk under incident-response-expert. Active triage/containment/recovery stays in the parent, while formal DOCX/XLSX/PDF/PPTX incident reporting remains a separate specialist. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.8 — automation gets compact",
+  "summary": "Top-level skill count is now 80. Bash/POSIX scripting and operational runbooks are condition-specific chunks under automation. Ansible, cron and systemd remain distinct when their own semantics are involved. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
