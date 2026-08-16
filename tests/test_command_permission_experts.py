@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import json, subprocess, sys
+import json, subprocess
 ROOT = Path(__file__).resolve().parents[1]
 
 SKILL_PATHS = [
     'skills/command-expert/SKILL.md',
-    'skills/user-permissions-expert/SKILL.md',
+    'skills/auth/SKILL.md',
+    'skills/auth/chunks/local-accounts.md',
     'skills/permissions/SKILL.md',
     'skills/permissions/chunks/posix-modes.md',
     'skills/permissions/chunks/acl.md',
@@ -17,8 +18,8 @@ def main():
         p = ROOT/rel
         assert p.exists(), p
         txt = p.read_text()
-        assert 'Read-only' in txt or 'read-only' in txt
-        assert 'rollback' in txt.lower() or 'restore' in txt.lower()
+        assert 'read-only' in txt.lower()
+        assert 'rollback' in txt.lower() or 'restore' in txt.lower() or 'recovery' in txt.lower()
     for b in BINS:
         p = ROOT/'bin'/b
         assert p.exists(), p
@@ -29,7 +30,7 @@ def main():
     guard = (ROOT/'scripts/linux-safety-guard.py').read_text()
     for token in ['setfacl','useradd','visudo','rsync']:
         assert token in guard
-    print('command and permission routing test passed')
+    print('command, auth and permission routing test passed')
 
 if __name__ == '__main__':
     main()
