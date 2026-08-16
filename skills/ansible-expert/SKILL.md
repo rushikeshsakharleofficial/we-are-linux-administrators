@@ -16,88 +16,51 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts bef
 
 ## Purpose
 
-Act like a senior Linux automation engineer. Prefer idempotent modules over shell commands, protect production with canary/serial rollout, and always include backup, validation, and rollback thinking.
+Prefer idempotent modules over shell commands, protect production with canary/serial rollout, and always include backup, validation and rollback thinking.
 
 ## Use when
 
 - creating or reviewing Ansible playbooks
 - replacing shell/command tasks with proper modules
-- designing inventory, group_vars, host_vars, and CMDB-backed inventory
-- tuning ansible.cfg, forks, strategy, serial, and throttle
-- updating packages safely on production Linux fleets
-- handling proxy, private subnet, bastion, or jump-host access
+- designing inventory, group_vars, host_vars and CMDB-backed inventory
+- tuning ansible.cfg, forks, strategy, serial and throttle
+- updating packages safely on production fleets
+- handling proxy, private subnet, bastion or jump-host access
 - handling Python interpreter errors across old/new OS versions
-- building disaster recovery automation such as sudoers, SSH, fstab, package, and service rollback
+- building disaster-recovery automation
 - using Ansible Galaxy roles or collections safely
 
 ## Evidence first
 
-Ask for: target OS families, server count, inventory structure, network access path, privilege method, package manager, Python availability, current playbook snippet, required change, rollback requirement, and production blast radius.
+Ask for target OS families, server count, inventory structure, network access path, privilege method, package manager, Python availability, current failing task/snippet, required change, rollback requirement and production blast radius.
 
 ## Safe workflow
 
-1. gather evidence — target OS, Python version, inventory scope, network path, privilege method
-2. choose native module before shell or command
-3. test on one host or canary group before full rollout
-4. backup critical files before changing them
-5. validate rendered config before reload or restart
-6. use serial, limit, and max_fail_percentage for blast-radius control
-7. confirm rollback path exists before execution
-8. use no_log for secrets, Vault or external store for credentials
+1. Gather bounded target/inventory/access evidence.
+2. Choose a native module before shell/command.
+3. Test one host or canary group first.
+4. Backup critical files before changes.
+5. Validate rendered config before reload/restart.
+6. Use serial/limit/max_fail_percentage for blast-radius control.
+7. Confirm rollback before execution.
+8. Keep secrets in Vault/external stores and use `no_log` where appropriate.
 
 ## Anti-patterns
 
-- using shell or command when a native module exists
-- rolling out to all hosts without serial or canary
-- skipping validate on template or config changes
-- storing secrets in plaintext vars or group_vars
-- running destructive playbooks without a rollback plan
-- pasting full inventory or entire playbook into prompt
+Avoid shell when a native module exists, all-host rollout without canary/serial, unvalidated templates, plaintext secrets, destructive playbooks without rollback, and dumping entire inventories/playbooks when one failing task is enough.
 
-## Module selection rules
+## Module and rollout guidance
 
-Prefer package modules for packages, service/systemd for services, template for config generation, copy for static files, file for permissions, lineinfile/blockinfile for small controlled edits, user/group for accounts, mount for fstab/mounts, cron for cron jobs, get_url for downloads, and wait_for for port/readiness checks.
+Prefer package/service/systemd/template/copy/file/lineinfile/blockinfile/user/group/mount/cron/get_url/wait_for modules as appropriate. Keep environment inventories and vars separated. For production changes use canary groups, `serial`, `--limit` and bounded failure thresholds.
 
-## Inventory best practices
+## Inventory and compatibility
 
-Use environment-based inventory directories, with group_vars and host_vars separated from host lists. Group by environment, role, location, cloud, ownership, lifecycle state, patch group, and access path.
+Validate missing owner/environment/lifecycle/jump metadata, retired hosts and duplicate addresses before execution. Handle `ansible_python_interpreter`, older Python availability, bastion/ProxyJump and per-group proxy settings explicitly.
 
-## CMDB inventory rules
+## Output
 
-Support CMDB-backed dynamic inventory, CMDB export inventory, and hybrid cloud plus CMDB inventory. Validate missing owner, duplicate IP, missing environment, unknown lifecycle state, retired hosts, missing maintenance window, and missing jump/proxy metadata before running playbooks.
-
-## Templates and vars
-
-Keep templates readable, place OS-specific differences in vars files, use defaults for optional variables, validate rendered files, and trigger handlers only when changes occur.
-
-## Handlers and logs
-
-Use notify and handlers for service reload/restart. Keep handler names stable, use listen topics for shared handler groups, and avoid unnecessary restarts.
-
-## ansible.cfg tuning
-
-Review inventory, roles_path, collections_paths, forks, timeout, stdout_callback, gathering, interpreter_python, pipelining, ssh_args, host_key_checking, retry behavior, and callback/log settings.
-
-## Forks and rollout control
-
-Tune forks based on control-node capacity, target-node capacity, network latency, and task type. For production package updates and service changes, prefer serial, canary groups, and small batch rollout.
-
-## Proxy and jump-host handling
-
-Design inventory variables for ansible_ssh_common_args, ProxyJump, bastion groups, private subnets, proxy-required groups, no_proxy, and temporary task-level environment.
-
-## Interpreter compatibility
-
-Handle Python missing, Python 2/3 differences, old RHEL/CentOS, Ubuntu/Debian paths, ansible_python_interpreter, and interpreter_python in ansible.cfg. Bootstrap carefully only when required.
-
-## Output format
-
-Return: assumptions, inventory model, module choices, playbook or review, backup plan, rollback plan, validation commands, safe rollout command, and token-saving evidence request.
-
-## Token-saving tip
-
-Ask for one failing task, one inventory group, one host result, and one bounded log/error output instead of a full playbook run.
+Return assumptions, inventory model, module choices, playbook/review, backup plan, rollback plan, validation commands, safe rollout command and the smallest remaining evidence request.
 
 ## Escalation
 
-Use `package-manager-expert`, `ssh-hardening-expert`, `sudoers-expert`, `backup-restore-expert`, `change-safety-expert`, `runbook-expert`, and the relevant domain skill selected by `using-linux-admin` when deeper specialist guidance is needed.
+Use `package-manager-expert`, `ssh-hardening-expert`, `auth` for sudo/account/PAM/SSSD-LDAP policy, `backup-restore-expert`, `change-safety-expert`, `automation` for runbook or shell-script support, and the relevant domain selected by `using-linux-admin`.
