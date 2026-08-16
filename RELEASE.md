@@ -1,51 +1,45 @@
-# Release 1.18.0
+# Release 1.18.1
 
 ## Package
 
-- Repository/package metadata version: `1.18.0`
-- Plugin metadata version: `1.18.0`
-- Skill count: `99`
+- Repository/package metadata version: `1.18.1`
+- Plugin metadata version: `1.18.1`
+- Top-level skill count: `98`
 - Package name: `linux-admin`
-- GitHub Release: `v1.18.0` is not yet verified as published; latest published release must be checked separately.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.1` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
-## Architecture change
+## Architecture
 
-`linux-admin` is moving from many narrowly overlapping top-level skills to a compact parent-domain model:
+`linux-admin` uses compact parent-domain routing:
 
 ```text
 using-linux-admin
   -> parent skill
-    -> condition/evidence check
+    -> bounded condition/evidence check
       -> one matching chunk
 ```
 
-A second chunk/support skill is loaded only when evidence proves the problem crosses layers. Detailed procedures stay available, but routing noise is reduced.
+A second chunk/support skill is loaded only when evidence proves a cross-layer issue.
 
-## First consolidation: network
+## Consolidated domains
 
-Four redundant top-level skills were folded into `network` chunks:
+### Network
 
-- `tcp-expert` -> `skills/network/chunks/tcp.md`
-- `udp-expert` -> `skills/network/chunks/udp.md`
-- `tcpdump-expert` -> `skills/network/chunks/packet-capture.md`
-- `vlan-bonding-expert` -> `skills/network/chunks/vlan-bonding.md`
+Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, and `vlan-bonding-expert` live under `skills/network/chunks/`.
 
-`skills/network/SKILL.md` now performs bounded baseline diagnostics and chooses the smallest relevant chunk. Distinct routing, NAT, firewall, proxy and DNS specialists remain separate until their own overlap is reviewed.
+### Timekeeping
 
-## Preserved capabilities
+Former top-level `chrony-expert` and `date-timectl-expert` are now one `time` parent with two condition-specific chunks:
 
-- TCP state/counter, SYN backlog, retransmit, PMTUD/MTU and socket-lifecycle diagnostics
-- UDP loss, receive-buffer, fragmentation, NAT/conntrack and protocol-specific reasoning
-- privacy-aware bounded tcpdump/BPF capture planning
-- VLAN/bond/LACP/MTU/failover troubleshooting with remote-safe rollback
-- Universal Skill Execution Contract coverage and bounded evidence requirements
+- `skills/time/chunks/chrony.md` — Chrony/NTP sources, reach, stratum, offset, drift, makestep, NTS, server mode and VM time interaction.
+- `skills/time/chunks/system-clock.md` — timezone, wall clock/UTC, RTC/hwclock, `timedatectl`, systemd-timesyncd and application timestamp interpretation.
 
-## Other current capabilities
+The time parent deliberately keeps these conditions separate and loads both only when evidence proves an interaction.
 
-- table-first incident report generation for Word, Excel, PDF and PowerPoint
-- global skill installation to `~/.agents/skills` and `~/.claude/skills`
-- portable agent guidance through `AGENTS.md` and thin vendor adapters
+## Consistency repair
+
+`AGENTS.md` and local/global setup documentation were corrected from stale `1.17.75 / 103` context to the current compact-tree state.
 
 ## Latest source install
 
