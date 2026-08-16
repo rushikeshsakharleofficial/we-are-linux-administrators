@@ -1,6 +1,6 @@
 # AI tool support
 
-`linux-admin` keeps one canonical 83-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of vendor-specific copies.
+`linux-admin` keeps one canonical 82-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of vendor-specific copies.
 
 For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
@@ -29,7 +29,7 @@ For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_
 3. Parent skills own condition-to-chunk routing. Default to one parent + one chunk; load a second only when evidence proves a cross-layer issue.
 4. Use root `AGENTS.md` where supported or read it explicitly.
 5. Keep `CLAUDE.md` and vendor adapters thin.
-6. Never duplicate all 83 skills into vendor-specific folders merely to advertise support.
+6. Never duplicate all 82 skills into vendor-specific folders merely to advertise support.
 7. Never commit machine-local state, history, caches, personal memory, credentials, or one maintainer's absolute paths.
 8. Do not claim native marketplace/plugin installation unless verified for this repository.
 
@@ -58,6 +58,6 @@ Plan rollback/recovery before consequential changes.
 Validate the result.
 ```
 
-Converted parent/chunk domains now include network, time, storage baseline branches, performance, permissions, auth and logging. `auth` routes local accounts, PAM, SSSD/LDAP and sudoers to focused chunks while SSH hardening remains separate. `logs` routes rsyslog and logrotate to focused chunks while journald stays in the parent baseline and product-specific monitoring remains distinct.
+Converted parent/chunk domains now include network, time, storage baseline branches, performance, permissions, auth, logging and post-containment incident RCA. `incident-response-expert` handles active response and loads its RCA chunk only after the condition/phase is established; `incident-report-creator-expert` remains separate because formal document/spreadsheet/PDF/slide generation has a different tool/output surface.
 
 Compatibility never bypasses `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
