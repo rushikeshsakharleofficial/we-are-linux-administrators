@@ -1,6 +1,6 @@
 # Expert Module Index
 
-76 top-level skills.
+75 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -24,6 +24,8 @@ Load a second chunk only when evidence proves a cross-layer issue.
 | Bash/POSIX automation | `automation` -> `chunks/bash-scripting.md` |
 | Maintenance runbook/checklist | `automation` -> `chunks/runbooks.md` |
 | Ansible workflow | `ansible-expert` |
+| Package/repository/transaction problem | `package-manager-expert` |
+| Planned OS/security patch rollout | `package-manager-expert` -> `chunks/patching.md` |
 | Active incident response/RCA | `incident-response-expert` |
 | Formal incident report | `incident-report-creator-expert` |
 | Production change safety | `change-safety-expert` |
@@ -31,7 +33,7 @@ Load a second chunk only when evidence proves a cross-layer issue.
 
 ## Parent domains
 
-Boot `boot`; services `service`; performance `performance`; storage `storage`; permissions `permissions`; auth `auth`; networking `network`; time `time`; automation `automation`; load balancing `load-balancer-expert`; security `security-expert`; containers `containers`; logging `logs`; migration `migration-expert`; incident response/RCA `incident-response-expert`.
+Boot `boot`; services `service`; performance `performance`; storage `storage`; permissions `permissions`; auth `auth`; networking `network`; time `time`; automation `automation`; package lifecycle `package-manager-expert`; load balancing `load-balancer-expert`; security `security-expert`; containers `containers`; logging `logs`; migration `migration-expert`; incident response/RCA `incident-response-expert`.
 
 ## Consolidation status
 
@@ -44,7 +46,8 @@ Boot `boot`; services `service`; performance `performance`; storage `storage`; p
 - Logging: rsyslog and logrotate chunks; product monitoring remains distinct.
 - Incident management: RCA chunk under incident response; artifact creator remains distinct.
 - Automation: Bash/POSIX scripting and operational runbooks are chunks under `automation`; Ansible, cron and systemd remain distinct where their semantics are the actual condition.
-- Security: broad host audit, auditd and Fail2Ban are chunks under `security-expert`; MAC, SSH/auth, firewall, kernel/sysctl, patching and vulnerability specialists stay distinct when their control semantics are proven.
+- Security: broad host audit, auditd and Fail2Ban are chunks under `security-expert`; MAC, SSH/auth, firewall, kernel/sysctl and vulnerability specialists stay distinct when their control semantics are proven.
+- Package lifecycle: `package-manager-expert` handles package/repository/transaction state and loads `chunks/patching.md` only for planned OS/security patching, kernel maintenance and rollout/reboot coordination; release upgrades remain under migration.
 
 Former top-level specialists are removed only after useful procedures and references are migrated.
 
