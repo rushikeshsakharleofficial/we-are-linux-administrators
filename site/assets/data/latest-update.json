@@ -1,9 +1,19 @@
 {
-  "id": "2026-08-16-1.17.75",
-  "type": "plugin-release",
+  "id": "2026-08-16-1.17.75-repository-update",
+  "type": "repository-update",
   "showPopup": true,
   "version": "1.17.75",
   "date": "2026-08-16",
-  "title": "linux-admin 1.17.75",
-  "summary": "Adds the table-first incident report creator for Word, Excel, PDF and PowerPoint, aligns the repository to 103 skills, and improves portable local/global agent discovery."
+  "title": "linux-admin repository 1.17.75",
+  "summary": "Repository metadata is 1.17.75 with 103 skills. The latest published GitHub Release remains v1.17.74, and npm registry publication is not yet verified. Use the GitHub source install for the current repository version.",
+  "commands": {
+    "claudeCode": [
+      "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
+      "linux-admin install-claude"
+    ],
+    "codex": [
+      "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
+      "linux-admin install-global"
+    ]
+  }
 }
