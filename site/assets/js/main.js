@@ -2,10 +2,10 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.18.16';
-  const SKILL_COUNT = '70';
+  const PROJECT_VERSION = '1.18.17';
+  const SKILL_COUNT = '69';
   const REPO = 'rushikeshsakharleofficial/we-are-linux-administrators';
-  const STALE_COUNTS = new Set(['46', '72', '73', '74', '75', '76', '77', '78', '80', '82', '83', '85', '89', '91', '95', '98', '99', '101', '102', '103', '106', '107', '108']);
+  const STALE_COUNTS = new Set(['46', '70', '72', '73', '74', '75', '76', '77', '78', '80', '82', '83', '85', '89', '91', '95', '98', '99', '101', '102', '103', '106', '107', '108']);
   const REMOVED_SKILLS = new Set([
     'change-plan-expert', 'incident-timeline-expert', 'maintenance-window-expert',
     'post-change-validation-expert', 'preflight-check-expert', 'production-safety-expert',
@@ -18,7 +18,7 @@
     'user-permissions-expert', 'pam-expert', 'sssd-ldap-expert', 'sudoers-expert',
     'rsyslog-expert', 'logrotate-expert', 'root-cause-expert',
     'bash-script-expert', 'runbook-expert', 'auditd-expert', 'fail2ban-expert',
-    'os-security-expert', 'patching-expert'
+    'os-security-expert', 'patching-expert', 'vulnerability-scan-expert'
   ]);
 
   function setMeta(selector, value) {
@@ -28,9 +28,9 @@
 
   function replaceText(text) {
     return text
-      .replace(/\b(?:46|72|73|74|75|76|77|78|80|82|83|85|89|91|95|98|99|101|102|103|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\b(?:46|72|73|74|75|76|77|78|80|82|83|85|89|91|95|98|99|101|102|103|106|107|108)\s+(?=Expert Skills|Focused Skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\bBrowse all (?:35|40\+|46|72|73|74|75|76|77|78|80|82|83|85|89|91|95|98|99|101|102|103|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
+      .replace(/\b(?:46|70|72|73|74|75|76|77|78|80|82|83|85|89|91|95|98|99|101|102|103|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\b(?:46|70|72|73|74|75|76|77|78|80|82|83|85|89|91|95|98|99|101|102|103|106|107|108)\s+(?=Expert Skills|Focused Skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\bBrowse all (?:35|40\+|46|70|72|73|74|75|76|77|78|80|82|83|85|89|91|95|98|99|101|102|103|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
       .replace(/npm install -g linux-admin/g, `npm install -g github:${REPO}`)
       .replace(/npm registry/gi, 'GitHub source');
   }
