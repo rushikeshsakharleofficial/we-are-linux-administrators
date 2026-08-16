@@ -1,136 +1,102 @@
 # AI tool support
 
-`linux-admin` keeps one canonical Linux administration skill tree under `skills/` and uses the smallest compatibility layer each AI coding/agent tool actually needs.
+`linux-admin` keeps one canonical 103-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
 
-The goal is portability without maintaining thirteen divergent copies of the same 102 skills.
+For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
 ## Maintained compatibility matrix
 
-| Tool | Support mode | Repository entry point | Notes |
+| Tool | Project/repository entry | User/global path or mode | linux-admin policy |
 |---|---|---|---|
-| Claude Code | Native plugin + instructions | `CLAUDE.md`, `.claude-plugin/`, `skills/` | Primary packaged plugin surface |
-| Codex | Native project instructions | `AGENTS.md` | Use repo/project-pack flow; plugin directory only when verified published/shared |
-| OpenCode | Native instructions + native skill catalog | `AGENTS.md`, `opencode.json`, `skills/` | `opencode.json` points OpenCode at the canonical skill tree |
-| GitHub Copilot | Native repository/agent instructions | `AGENTS.md`, `.github/copilot-instructions.md` | Works across supported Copilot chat/agent/code-review surfaces |
-| Cursor | Native project instructions | `AGENTS.md` | Add `.cursor/rules/` only for genuinely Cursor-specific scoped rules |
-| Windsurf | Native project instructions | `AGENTS.md` | Keep procedures canonical under `skills/`; add Windsurf-specific workflows only when needed |
-| Cline | Project instructions + canonical skills by reference | `AGENTS.md`, `skills/` | Read the relevant `skills/<name>/SKILL.md`; do not duplicate the full tree |
-| Amazon Q Developer | Native project rules | `.amazonq/rules/linux-admin.md` | Adapter points back to the canonical repo rules and skills |
-| Zed Agent | Native project instructions | `AGENTS.md` | Zed also supports skills, MCP, ACP agents and tool permissions |
-| JetBrains Junie | Native project instructions | `AGENTS.md` | Current Junie reads root `AGENTS.md`; no duplicate `.junie` rule set required |
-| Aider | Read-only convention/context files | `.aider.conf.yml`, `AGENTS.md`, `skills/using-linux-admin/SKILL.md` | Config preloads the portable instructions, canonical router, and safety docs as read-only context |
-| Sourcegraph Cody | Explicit repository/file context | `AGENTS.md`, `skills/` | Use repo context, `@` file context, or Cody CLI `--context-file`; do not claim automatic `AGENTS.md` loading |
-| goose | Portable agent/recipe/skills context | `AGENTS.md`, `skills/` | Use explicit repo context or a future verified recipe/skill package; no fake marketplace claim |
-| Bedrock-hosted models | Client dependent | Agent client dependent | Bedrock is a model/runtime surface, not a repository instruction convention |
-| Kimi / DeepSeek / GLM and other model providers | Client dependent | Agent client dependent | Treat as model choices until the actual client integration is verified |
+| Claude Code | `CLAUDE.md`, `.claude-plugin/`, `skills/` | `~/.claude/CLAUDE.md`, `~/.claude/skills/` | `CLAUDE.md` imports `AGENTS.md`; `install-global` populates native user skills. |
+| Codex | `AGENTS.md`; native repo Agent Skills under `.agents/skills/` | `$HOME/.agents/skills/`, admin `/etc/codex/skills` | Repo instructions stay in `AGENTS.md`; user-wide skills use the standard Agent Skills path. |
+| OpenCode | `AGENTS.md`, `opencode.json`, `skills/` | `~/.config/opencode/AGENTS.md`; `~/.agents/skills/` supported | Project config points at canonical `./skills`; global install uses `~/.agents/skills/`. |
+| GitHub Copilot | `AGENTS.md`, `.github/copilot-instructions.md` | `$HOME/.copilot/copilot-instructions.md` and modular user instructions for Copilot CLI | Keep repo adapter thin; do not copy the skill tree into `.github/`. |
+| Cursor | `AGENTS.md`; optional `.cursor/rules/*.mdc` | User Rules in Cursor settings | Use root `AGENTS.md`; add Cursor-only rules only when needed. |
+| Windsurf | `AGENTS.md`; optional `.windsurf/rules/*.md` | `~/.codeium/windsurf/memories/global_rules.md` | Use `AGENTS.md`; global rules should point to the installed workflow, not fork it. |
+| Cline | `AGENTS.md`; current native project config under `.cline/` | current user configuration under `~/.cline/` with compatibility discovery where supported | Read selected canonical skills by reference; no duplicated tree. |
+| Amazon Q Developer | `.amazonq/rules/linux-admin.md` | client/version dependent unless AWS docs verify a user path | Keep the project adapter concise and avoid invented global paths. |
+| Zed Agent | root `AGENTS.md` and compatible instruction files | `~/.config/zed/AGENTS.md` (Windows `%APPDATA%\Zed\AGENTS.md`) | Root `AGENTS.md` remains canonical. |
+| JetBrains Junie | root `AGENTS.md` | Junie user instruction path where supported by current JetBrains docs | Keep root `AGENTS.md`; do not maintain a duplicate Junie ruleset. |
+| Aider | `.aider.conf.yml` with `read:` context | home `~/.aider.conf.yml` | Repo config preloads AGENTS/router/safety docs; global config should use paths resolved from `linux-admin status`. |
+| Sourcegraph Cody | explicit repository/file context | client/account dependent | Use repository context or `cody chat --context-file`; do not claim automatic AGENTS loading. |
+| goose | Agent Skills / repository context | `~/.agents/skills/` | Use native-compatible Agent Skills discovery; no fake marketplace requirement. |
+| Bedrock/Kimi/DeepSeek/GLM/local model providers | client dependent | client dependent | A model provider is not itself a repository instruction loader. Verify the actual agent client. |
 
-## Canonical portability rules
+## Canonical rules
 
-1. Keep Linux procedures in `skills/<skill-name>/SKILL.md` and `skills/<skill-name>/chunks/`.
-2. Use root `AGENTS.md` wherever the tool supports it.
-3. Keep `CLAUDE.md` and `.claude-plugin/` for Claude Code packaging.
-4. Use a thin vendor adapter only when the product has a materially different repository rule format.
-5. Never copy all 102 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, or other vendor directories just to advertise compatibility.
-6. Do not claim native marketplace/plugin/skill installation unless publication and packaging are verified.
-7. Model providers and agent clients are different layers: route Bedrock, DeepSeek, Kimi, GLM, local models, and similar providers through a verified client rather than pretending the model itself reads repository rules.
+1. Keep procedures in `skills/<name>/SKILL.md` and focused chunks.
+2. Use `skills/using-linux-admin/SKILL.md` as the routing map.
+3. Use root `AGENTS.md` where the target supports it or read it explicitly.
+4. Keep `CLAUDE.md` and vendor adapters thin.
+5. Never duplicate all 103 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, `.github/`, or similar directories merely to advertise support.
+6. Never commit machine-local state, history, caches, personal memory, credentials, or one maintainer's absolute paths.
+7. Do not claim native marketplace/plugin installation unless verified for this repository.
 
-## Tool-specific usage
+## Global skill distribution
+
+The npm package must contain the actual `skills/` tree. After installation:
+
+```bash
+linux-admin status
+linux-admin install-global
+```
+
+`install-global` copies canonical skills into:
+
+```text
+~/.agents/skills/
+~/.claude/skills/
+```
+
+The first path is the common user Agent Skills location used by current Codex/OpenCode/goose support; the second is Claude Code's native user skill location. Existing skill directories are skipped unless the user explicitly requests `--force`.
+
+## Tool notes
 
 ### Claude Code
 
-Use the existing plugin flow and `CLAUDE.md`. The canonical skill tree is already exposed through `.claude-plugin/` metadata.
+Claude Code natively reads `CLAUDE.md`, so this repository uses a tiny `CLAUDE.md` that imports `AGENTS.md` rather than duplicating the full instruction set. Machine-local `.claude/state/`, auto-memory, and `CLAUDE.local.md` stay out of Git.
 
 ### Codex
 
-Run from the repository root and read `AGENTS.md` first. Keep `docs/CODEX_USAGE.md` as the detailed Codex guide.
+Codex uses `AGENTS.md` for project instructions and supports Agent Skills at repository, user, admin and system scopes. Current user skills belong under `$HOME/.agents/skills`; Codex also supports symlinked skill directories. Large skill collections may have their initial description list shortened/omitted to preserve context, so `using-linux-admin` should be invoked explicitly when routing is uncertain.
 
 ### OpenCode
 
-The repository includes `opencode.json` so OpenCode can load project instructions and discover the canonical `skills/` directory without copying it into `.opencode/skills/`.
+`opencode.json` points OpenCode to `./skills`; OpenCode also supports user Agent Skills locations. No `.opencode/skills` copy is required for this repository.
 
 ### GitHub Copilot
 
-Use root `AGENTS.md` for agent instructions and `.github/copilot-instructions.md` for repository-wide Copilot guidance. Path-specific `.github/instructions/*.instructions.md` files should be added only when a real path-specific requirement exists.
+Repository-wide guidance remains `.github/copilot-instructions.md` plus `AGENTS.md`. Copilot CLI also supports user instructions under `$HOME/.copilot/`. Avoid conflicting copies because applicable instruction files are combined.
 
-### Cursor
+### Zed
 
-Cursor supports root `AGENTS.md`. Use `.cursor/rules/*.mdc` only when scoped Cursor-only behavior is required. Avoid legacy `.cursorrules` for new work.
-
-### Windsurf
-
-Use root `AGENTS.md` as the shared project context. Windsurf-specific Skills, Rules, or Workflows may be added later for a concrete workflow, but they must point back to the canonical Linux skill content rather than fork it.
-
-### Cline
-
-Use `AGENTS.md` for project rules and explicitly read the selected `skills/<name>/SKILL.md` when handling a Linux task. Preserve permission gates for terminal/file operations.
-
-### Amazon Q Developer
-
-Use `.amazonq/rules/linux-admin.md`. Keep the adapter concise and route deep Linux procedures back to `skills/` and the universal contract.
-
-### Zed Agent
-
-Zed reads root `AGENTS.md` as project instructions. For risky Linux work, keep terminal/file tool permissions conservative and use Zed Skills only when packaging a reusable workflow adds real value.
-
-### JetBrains Junie
-
-Current Junie reads root `AGENTS.md`, so the portable repository instructions work without maintaining a second full guidelines file. Keep approval enabled for consequential terminal actions.
+Zed uses root `AGENTS.md` for project instructions and `~/.config/zed/AGENTS.md` for personal instructions. External agents launched by Zed can still use their own native instruction files; do not assume Zed's loader controls them.
 
 ### Aider
 
-The repository `.aider.conf.yml` preloads the portable instruction file, canonical router, and safety docs as read-only context. The equivalent manual form is:
-
-```bash
-aider --read AGENTS.md \
-  --read skills/using-linux-admin/SKILL.md \
-  --read docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md \
-  --read docs/SECURITY_PATCH_REFRESH_POLICY.md
-```
-
-The `read:` option is supported by Aider for read-only context files. Add only the task-specific `skills/<name>/SKILL.md` when deeper Linux guidance is needed.
+The repo `.aider.conf.yml` keeps AGENTS/router/safety documents read-only. A global Aider config should use the actual package paths reported by `linux-admin status`, never a committed `/home/<name>/...` path.
 
 ### Sourcegraph Cody
 
-Cody has rich repository context but this repo does not assume it automatically loads `AGENTS.md`. Add the relevant files explicitly in chat, or use Cody CLI context flags where available. Example:
-
-```bash
-cody chat \
-  --context-file AGENTS.md \
-  --context-file docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md \
-  --context-file skills/diagnose/SKILL.md \
-  -m "Create a read-only-first Linux troubleshooting plan"
-```
+Cody CLI currently supports `--context-file` and `--context-repo`; this repository continues to use explicit context and does not claim native AGENTS/Skill auto-loading.
 
 ### goose
 
-goose supports agent workflows, recipes, skills, MCP, ACP, permission controls, and sandboxing. Until this repository publishes a verified goose-specific package, use explicit repository context and the canonical `AGENTS.md`/`skills/` tree. Do not claim marketplace installation from this repo unless it is actually published there.
+goose supports Agent Skills from `.agents/skills` and `$HOME/.agents/skills`, so the canonical linux-admin skill format can be distributed without a goose-specific copy.
 
-## Portable execution workflow
+## Portable workflow
 
 ```text
-Read AGENTS.md.
-Read docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Load the native project/user instruction entry for the current agent.
+Read AGENTS.md when supported or explicitly available.
 Read skills/using-linux-admin/SKILL.md.
-Select the smallest relevant skills/<name>/SKILL.md.
-Read only the required chunk files.
-Collect bounded evidence first.
-Redact secrets before external-model routing.
-Plan rollback before risky changes.
+Select the smallest relevant specialist.
+Read only required skill/chunk content.
+Collect bounded evidence.
+Redact secrets.
+Plan rollback/recovery before consequential changes.
 Validate the result.
 ```
 
-## Official compatibility sources
-
-Compatibility claims should be refreshed against official product documentation before repo guidance changes. Current source families include:
-
-- OpenCode: `https://opencode.ai/docs/rules/` and `https://opencode.ai/docs/skills`
-- GitHub Copilot: `https://docs.github.com/en/copilot/reference/custom-instructions-support`
-- Cursor: `https://docs.cursor.com/context/rules-for-ai`
-- Amazon Q Developer: `https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/context-project-rules.html`
-- Zed: `https://zed.dev/docs/ai/instructions` and `https://zed.dev/docs/ai/skills`
-- JetBrains Junie: `https://www.jetbrains.com/help/ai-assistant/junie-agent.html`
-- Aider: `https://aider.chat/docs/usage/conventions.html` and `https://aider.chat/docs/config/aider_conf.html`
-- Sourcegraph Cody: `https://sourcegraph.com/docs/cody/clients/install-cli`
-- goose: `https://block.github.io/goose/`
-
-Compatibility never bypasses the Universal Skill Execution Contract. Read-only-first evidence, secret redaction, backup planning, guarded rollback, architecture-fit checks, and validation remain mandatory on every supported surface.
+Compatibility never bypasses `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
