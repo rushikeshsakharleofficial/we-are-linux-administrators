@@ -14,23 +14,15 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 
 `using-linux-admin` is the canonical routing-only skill. It selects the smallest relevant parent or micro-skill; the specialist then handles the actual work under the Universal Skill Execution Contract.
 
-## New: incident management reports
+## Incident management reports
 
-`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into:
-
-- Word `.docx`
-- Excel `.xlsx`
-- PDF `.pdf`
-- PowerPoint `.pptx`
-- or all four
-
-It covers incident summary, impact, timeline, detection/response, RCA, corrective/preventive actions, communications, lessons learned, evidence and outstanding risk. Unknown facts stay marked as unknown instead of being invented.
+`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into Word `.docx`, Excel `.xlsx`, PDF `.pdf`, PowerPoint `.pptx`, or all four. It covers incident summary, impact, timeline, detection/response, RCA, corrective/preventive actions, communications, lessons learned, evidence, and outstanding risk. Unknown facts stay marked as unknown instead of being invented.
 
 ```text
 /linux-admin:incident-report-creator-expert create PIR in docx xlsx pdf and pptx
 ```
 
-For an active outage/incident use `incident-response-expert` first; use the report creator after evidence and incident facts are established.
+For an active outage/incident use `incident-response-expert` first; use the report creator after incident evidence and facts are established.
 
 ## Install
 
@@ -42,11 +34,23 @@ For an active outage/incident use `incident-response-expert` first; use the repo
 /reload-plugins
 ```
 
-CLI equivalent:
+### Latest source / global agent skills
+
+The npm registry publication is **not currently verified**. Use the GitHub source until an npm publish succeeds:
 
 ```bash
-linux-admin install-claude
+npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators
+linux-admin status
+linux-admin install-global
 ```
+
+Or run directly without a permanent install:
+
+```bash
+npx github:rushikeshsakharleofficial/we-are-linux-administrators
+```
+
+`install-global` copies the canonical skills to `~/.agents/skills/` and Claude Code's native `~/.claude/skills/`. Existing skill directories are skipped unless you intentionally use `--force`.
 
 ### Codex/project use
 
@@ -64,16 +68,6 @@ Read AGENTS.md.
 Read skills/using-linux-admin/SKILL.md and choose the smallest relevant specialist.
 Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
 ```
-
-### npm / global agent skills
-
-```bash
-npm install -g linux-admin
-linux-admin status
-linux-admin install-global
-```
-
-The npm package now ships the canonical skill tree. `install-global` copies skills to the common user Agent Skills path `~/.agents/skills/` and Claude Code's native `~/.claude/skills/`. Existing skill directories are skipped unless you intentionally use `--force`.
 
 Detailed per-agent project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_GLOBAL_AGENT_SETUP.md).
 
