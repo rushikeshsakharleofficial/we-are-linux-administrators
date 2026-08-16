@@ -1,6 +1,9 @@
 ---
 name: firewall-expert
 description: Expert Linux software firewall diagnostics and safe rule design for firewalld, nftables, iptables/ip6tables, UFW, ipset, ebtables/arptables, Docker/Kubernetes host firewall interactions, logging, NAT, forwarding, and lockout-safe remediation.
+argument-hint: "[firewall issue, traffic flow, rule change, or lockout risk]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # firewall-expert
@@ -10,6 +13,10 @@ Act as a senior Linux firewall administrator/SRE. Use this skill for firewalld, 
 ## Core rule
 
 A firewall change is not safe until SSH/management access, current rules, default policy, active backend, persistence layer, and rollback are understood. Never flush or reset a firewall as a first fix.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Firewall work must start with bounded read-only evidence, confirm the active firewall owner/backend and management path, preserve/export the current rules before changes, use guarded rollback for remote changes, keep rules narrowly scoped, validate from the real source network, and report architecture fit without dumping the full ruleset unless needed.
 
 ## Identify the active firewall layer
 
