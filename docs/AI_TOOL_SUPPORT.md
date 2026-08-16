@@ -1,6 +1,6 @@
 # AI tool support
 
-`linux-admin` keeps one canonical 103-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
+`linux-admin` keeps one canonical 99-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
 
 For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
@@ -25,17 +25,18 @@ For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_
 
 ## Canonical rules
 
-1. Keep procedures in `skills/<name>/SKILL.md` and focused chunks.
-2. Use `skills/using-linux-admin/SKILL.md` as the routing map.
-3. Use root `AGENTS.md` where the target supports it or read it explicitly.
-4. Keep `CLAUDE.md` and vendor adapters thin.
-5. Never duplicate all 103 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, `.github/`, or similar directories merely to advertise support.
-6. Never commit machine-local state, history, caches, personal memory, credentials, or one maintainer's absolute paths.
-7. Do not claim native marketplace/plugin installation unless verified for this repository.
+1. Keep procedures in `skills/<parent>/SKILL.md` and focused `skills/<parent>/chunks/*.md` where a domain has multiple conditions.
+2. Use `skills/using-linux-admin/SKILL.md` only for top-level parent/specialist routing.
+3. Parent skills own condition-to-chunk routing. Default to one parent + one chunk; load a second only when evidence proves a cross-layer issue.
+4. Use root `AGENTS.md` where the target supports it or read it explicitly.
+5. Keep `CLAUDE.md` and vendor adapters thin.
+6. Never duplicate all 99 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, `.github/`, or similar directories merely to advertise support.
+7. Never commit machine-local state, history, caches, personal memory, credentials, or one maintainer's absolute paths.
+8. Do not claim native marketplace/plugin installation unless verified for this repository.
 
 ## Global skill distribution
 
-The npm package must contain the actual `skills/` tree. After installation:
+The package must contain the actual `skills/` tree. After installation:
 
 ```bash
 linux-admin status
@@ -49,54 +50,58 @@ linux-admin install-global
 ~/.claude/skills/
 ```
 
-The first path is the common user Agent Skills location used by current Codex/OpenCode/goose support; the second is Claude Code's native user skill location. Existing skill directories are skipped unless the user explicitly requests `--force`.
+Existing skill directories are skipped unless the user explicitly requests `--force`.
+
+## Parent/chunk execution model
+
+All supported agents should use the same bounded flow:
+
+```text
+Load native project/user instructions.
+Read AGENTS.md when supported or explicitly available.
+Read skills/using-linux-admin/SKILL.md.
+Select one parent/specialist.
+Run the parent baseline evidence check.
+Load one matching chunk if the parent identifies a known condition.
+Load a second chunk/support skill only when evidence proves a cross-layer issue.
+Plan rollback/recovery before consequential changes.
+Validate the result.
+```
+
+The network parent is the first fully converted example: TCP, UDP, tcpdump/packet-capture, and VLAN/bonding procedures now live under `skills/network/chunks/` rather than as four competing top-level skills.
 
 ## Tool notes
 
 ### Claude Code
 
-Claude Code natively reads `CLAUDE.md`, so this repository uses a tiny `CLAUDE.md` that imports `AGENTS.md` rather than duplicating the full instruction set. Machine-local `.claude/state/`, auto-memory, and `CLAUDE.local.md` stay out of Git.
+Claude Code reads `CLAUDE.md`, so this repository uses a small adapter that imports `AGENTS.md` rather than duplicating the full instruction set. Machine-local `.claude/state/`, auto-memory, and `CLAUDE.local.md` stay out of Git.
 
 ### Codex
 
-Codex uses `AGENTS.md` for project instructions and supports Agent Skills at repository, user, admin and system scopes. Current user skills belong under `$HOME/.agents/skills`; Codex also supports symlinked skill directories. Large skill collections may have their initial description list shortened/omitted to preserve context, so `using-linux-admin` should be invoked explicitly when routing is uncertain.
+Codex uses `AGENTS.md` for project instructions and supports Agent Skills at repository, user, admin and system scopes. Current user skills belong under `$HOME/.agents/skills`; large skill collections benefit from the compact parent/chunk model because only the chosen parent and required chunk need detailed context.
 
 ### OpenCode
 
-`opencode.json` points OpenCode to `./skills`; OpenCode also supports user Agent Skills locations. No `.opencode/skills` copy is required for this repository.
+`opencode.json` points OpenCode to `./skills`; OpenCode also supports user Agent Skills locations. No `.opencode/skills` copy is required.
 
 ### GitHub Copilot
 
-Repository-wide guidance remains `.github/copilot-instructions.md` plus `AGENTS.md`. Copilot CLI also supports user instructions under `$HOME/.copilot/`. Avoid conflicting copies because applicable instruction files are combined.
+Repository-wide guidance remains `.github/copilot-instructions.md` plus `AGENTS.md`. Avoid conflicting copies because applicable instruction files are combined.
 
 ### Zed
 
-Zed uses root `AGENTS.md` for project instructions and `~/.config/zed/AGENTS.md` for personal instructions. External agents launched by Zed can still use their own native instruction files; do not assume Zed's loader controls them.
+Zed uses root `AGENTS.md` for project instructions and `~/.config/zed/AGENTS.md` for personal instructions. External agents launched by Zed can still use their own native instruction files.
 
 ### Aider
 
-The repo `.aider.conf.yml` keeps AGENTS/router/safety documents read-only. A global Aider config should use the actual package paths reported by `linux-admin status`, never a committed `/home/<name>/...` path.
+The repo `.aider.conf.yml` keeps AGENTS/router/safety documents read-only. A global Aider config should use actual package paths reported by `linux-admin status`, never a committed `/home/<name>/...` path.
 
 ### Sourcegraph Cody
 
-Cody CLI currently supports `--context-file` and `--context-repo`; this repository continues to use explicit context and does not claim native AGENTS/Skill auto-loading.
+Cody stays on explicit repository/file context; this repository does not claim native AGENTS/Skill auto-loading unless verified.
 
 ### goose
 
-goose supports Agent Skills from `.agents/skills` and `$HOME/.agents/skills`, so the canonical linux-admin skill format can be distributed without a goose-specific copy.
-
-## Portable workflow
-
-```text
-Load the native project/user instruction entry for the current agent.
-Read AGENTS.md when supported or explicitly available.
-Read skills/using-linux-admin/SKILL.md.
-Select the smallest relevant specialist.
-Read only required skill/chunk content.
-Collect bounded evidence.
-Redact secrets.
-Plan rollback/recovery before consequential changes.
-Validate the result.
-```
+goose can consume Agent Skills from `.agents/skills`/`$HOME/.agents/skills`, so the canonical linux-admin skill format can be distributed without a goose-specific copy.
 
 Compatibility never bypasses `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
