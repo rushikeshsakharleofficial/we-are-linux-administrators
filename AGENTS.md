@@ -7,8 +7,8 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current repository metadata version: `1.18.5`
-- Current top-level skill count: `85`
+- Current repository metadata version: `1.18.6`
+- Current top-level skill count: `83`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
 - Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
@@ -25,7 +25,8 @@ Before repository changes, read the relevant subset of README/release/package/pl
 - Read `skills/using-linux-admin/SKILL.md` when the domain is unclear.
 - Select one parent/specialist first; let that parent classify bounded evidence and load one condition-specific chunk where available.
 - Add a second chunk/support skill only when evidence proves a cross-layer issue.
-- `auth` now owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct because remote-access changes have separate lockout risk.
+- `auth` owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct because remote-access changes have separate lockout risk.
+- `logs` owns rsyslog and logrotate chunks; journald remains in the parent baseline while product-specific monitoring stays distinct.
 - `incident-response-expert` handles active incidents; `incident-report-creator-expert` creates verified table-first `.docx`, `.xlsx`, `.pdf`, and `.pptx` reports.
 - Do not duplicate the full skill tree into vendor-specific directories.
 
