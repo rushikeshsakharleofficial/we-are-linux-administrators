@@ -36,12 +36,13 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/s
 - **Network:** `network` -> TCP, UDP, packet-capture or VLAN/bonding chunk; routing/NAT/firewall/proxy/DNS remain distinct specialists
 - **DNS:** `named-expert`; dnsmasq/GSLB remain distinct pending review
 - **Time:** `time` -> Chrony/NTP or system-clock/timezone/RTC chunk
+- **Package lifecycle:** `package-manager-expert` -> repository/transaction/package-state work in parent or planned OS/security patch rollout in `chunks/patching.md`; release upgrades stay with `migration-expert`
 - **Web/apps:** `nginx-expert`, `apache-expert`, `php-fpm-expert`, `web-stack-security-expert`, `mysql-expert`, `postgresql-expert`, `redis-expert`
 - **Load balancing:** `load-balancer-expert` -> HAProxy/F5/LVS/Keepalived/cloud-LB/DNS-GSLB branches
 - **Containers:** `containers` -> `kubernetes-node-expert`
 - **Logs/monitoring:** `logs` -> rsyslog or logrotate chunk; journald stays in parent, product monitoring remains distinct
 - **Incident management:** `incident-response-expert` -> active response or post-containment RCA chunk; report creator stays separate
-- **Security:** `security-expert` -> broad host-audit, auditd or Fail2Ban chunk; SSH/auth/MAC/firewall/kernel/sysctl/patch/vulnerability controls remain distinct specialists when their own semantics are proven
+- **Security:** `security-expert` -> broad host-audit, auditd or Fail2Ban chunk; SSH/auth/MAC/firewall/kernel/sysctl/vulnerability controls remain distinct specialists, while OS/security patch rollout routes through `package-manager-expert`
 - **Migration:** `migration-expert` + relevant domain + `change-safety-expert`
 - **Cloudflare:** `cf-expert`
 - **AI/model choice:** `agent-model-dispatcher-expert`
@@ -64,6 +65,8 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/s
 | SSH hardening | `ssh-hardening-expert` |
 | Connectivity/TCP/UDP/VLAN/packet-flow | `network` |
 | Clock/NTP/timezone/RTC | `time` |
+| Broken package/repository/dependency transaction | `package-manager-expert` |
+| Planned OS/security patching or kernel maintenance | `package-manager-expert` -> patching chunk |
 | Missing/forwarded/rotating log | `logs` |
 | Active incident | `incident-response-expert` |
 | Post-containment RCA | `incident-response-expert` -> RCA chunk |
