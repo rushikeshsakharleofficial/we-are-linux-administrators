@@ -1,12 +1,12 @@
-# Release 1.18.11
+# Release 1.18.12
 
 ## Package
 
-- Repository/package metadata version: `1.18.11`
-- Plugin metadata version: `1.18.11`
-- Skill count: `76`
+- Repository/package metadata version: `1.18.12`
+- Plugin metadata version: `1.18.12`
+- Skill count: `75`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.11` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.12` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -30,7 +30,8 @@ A second chunk/support skill is loaded only when evidence proves a cross-layer i
 - Logging: rsyslog and logrotate under `logs`; product monitoring remains distinct.
 - Incident management: post-containment RCA under `incident-response-expert`; formal report generation remains distinct.
 - Automation: Bash/POSIX scripting and operational runbooks under `automation`; Ansible, cron and systemd remain distinct where their semantics matter.
-- Security: broad host-audit workflow, auditd and Fail2Ban are chunks under `security-expert`; distinct MAC, SSH/auth, firewall, kernel/sysctl, patching and vulnerability controls stay separate where their own semantics are proven.
+- Security: broad host-audit workflow, auditd and Fail2Ban are chunks under `security-expert`; distinct MAC, SSH/auth, firewall, kernel/sysctl and vulnerability controls stay separate where their own semantics are proven.
+- Package lifecycle: package/repository/transaction recovery stays in `package-manager-expert`; planned OS/security patching, kernel maintenance, canary rollout and reboot coordination now live in `skills/package-manager-expert/chunks/patching.md`. Release upgrades remain with `migration-expert`.
 
 ## Latest source install
 
