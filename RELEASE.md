@@ -1,12 +1,12 @@
-# Release 1.18.9
+# Release 1.18.10
 
 ## Package
 
-- Repository/package metadata version: `1.18.9`
-- Plugin metadata version: `1.18.9`
-- Skill count: `78`
+- Repository/package metadata version: `1.18.10`
+- Plugin metadata version: `1.18.10`
+- Skill count: `77`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.9` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.10` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -30,7 +30,7 @@ A second chunk/support skill is loaded only when evidence proves a cross-layer i
 - Logging: rsyslog and logrotate under `logs`; product monitoring remains distinct.
 - Incident management: post-containment RCA under `incident-response-expert`; formal report generation remains distinct.
 - Automation: Bash/POSIX scripting and operational runbooks under `automation`; Ansible, cron and systemd remain distinct where their semantics matter.
-- Security: broad host-audit workflow, Linux auditd evidence/rules and Fail2Ban diagnostics are now focused chunks under `security-expert`. SELinux/AppArmor, SSH, auth, firewall, kernel/sysctl, patching and vulnerability work remain distinct when their own control semantics are proven.
+- Security: broad host-audit workflow, Linux auditd evidence/rules and Fail2Ban diagnostics are focused chunks under `security-expert`. The redundant broad `os-security-expert` has been retired after its unique crypto-policy, integrity/package-verification and effective SSH/sudo checks were preserved in `security-expert/chunks/security-audit.md`. SELinux/AppArmor, SSH/auth, firewall, kernel/sysctl, patching and vulnerability work remain distinct when their own control semantics are proven.
 
 ## Latest source install
 
