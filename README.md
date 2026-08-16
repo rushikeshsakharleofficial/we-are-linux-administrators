@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.11`  
-**Skill count:** `76`  
+**Version:** `1.18.12`  
+**Skill count:** `75`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -40,11 +40,12 @@ This keeps routing compact without deleting specialist knowledge.
 "LDAP user resolves but cannot log in" → auth → chunks/sssd-ldap.md
 "rsyslog remote queue is stuck" → logs → chunks/rsyslog.md
 "review this Bash maintenance script" → automation → chunks/bash-scripting.md
+"plan monthly security patching with a canary" → package-manager-expert → chunks/patching.md
 "outage is contained; find the causal chain" → incident-response-expert → chunks/root-cause-analysis.md
 "audit this Linux host" → security-expert → chunks/security-audit.md
 ```
 
-Network, timekeeping, storage baseline/quota, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, post-containment RCA, and host-security audit branches use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, storage baseline/quota, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, package lifecycle/patch rollout, post-containment RCA, and host-security audit branches use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management
 
@@ -109,10 +110,12 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | SSH hardening/remote-access policy | `ssh-hardening-expert` |
 | Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` |
 | NTP/Chrony/timezone/RTC issue | `time` |
+| Broken package/repository/dependency transaction | `package-manager-expert` |
+| OS/security patch rollout/kernel maintenance | `package-manager-expert` → patching chunk |
 | Missing/forwarded/rotating log issue | `logs` |
 | Active incident/outage | `incident-response-expert` |
 | Incident management report | `incident-report-creator-expert` |
-| Broad security audit/auditd/Fail2Ban | `security-expert` |
+| Broad security audit | `security-expert` |
 | Migration/cutover | `migration-expert` |
 
 Full routing map: [`skills/using-linux-admin/SKILL.md`](skills/using-linux-admin/SKILL.md).
