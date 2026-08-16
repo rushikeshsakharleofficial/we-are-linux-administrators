@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.2-storage-routing",
+  "id": "2026-08-16-1.18.3-performance-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.2",
+  "version": "1.18.3",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.2 — storage routing gets leaner",
-  "summary": "Top-level skill count is now 95. Mount/fstab, filesystem-health, and SMART/media-risk procedures were consolidated under the storage parent as separate condition-specific chunks while LVM, RAID, SAN and network-storage specialists remain distinct.",
+  "title": "linux-admin 1.18.3 — performance routing gets leaner",
+  "summary": "Top-level skill count is now 91. CPU, memory/OOM, swap/zram, and capacity-planning procedures now live as condition-specific chunks under the performance parent. limits-expert remains distinct because resource ceilings also provide security and blast-radius controls.",
   "commands": {
     "claudeCode": [
       "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
