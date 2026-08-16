@@ -1,6 +1,6 @@
 # Expert Module Index
 
-98 top-level skills.
+95 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -69,7 +69,17 @@ Load a second chunk only when the evidence proves a cross-layer issue. Unknown c
 | Chrony/NTP source quality, reach, stratum, offset, drift, NTS/server mode | `skills/time/chunks/chrony.md` |
 | timezone, system clock/UTC, RTC/hwclock, timedatectl, systemd-timesyncd | `skills/time/chunks/system-clock.md` |
 
-Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, and `date-timectl-expert` were removed only after their useful procedures were preserved in parent chunks.
+### Storage
+
+| Condition | Chunk |
+|---|---|
+| mount/fstab/UUID/bind/remount/boot-mount/unmount issue | `skills/storage/chunks/mounts.md` |
+| filesystem capacity/inodes/metadata/read-only/repair/grow-shrink issue | `skills/storage/chunks/filesystem-health.md` |
+| SMART/NVMe media health/wear/replacement risk | `skills/storage/chunks/smart.md` |
+
+LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct specialists while their overlap is reviewed.
+
+Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, `date-timectl-expert`, `disk-mounting-expert`, `filesystem-expert`, and `smart-disk-expert` were removed only after their useful procedures were preserved in parent chunks.
 
 Other domains will be consolidated only when overlap is verified; distinct technologies remain top-level when merging would make routing less reliable.
 
