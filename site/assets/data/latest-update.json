@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.12-package-lifecycle-consolidation",
+  "id": "2026-08-17-1.18.13-lvm-storage-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.12",
-  "date": "2026-08-16",
-  "title": "linux-admin 1.18.12 — patching consolidated into package lifecycle",
-  "summary": "Top-level skill count is now 75. The former patching-expert has been retired after its security/OS patch rollout, kernel maintenance, reboot coordination and canary/batch guidance was preserved in package-manager-expert/chunks/patching.md. Repository/transaction recovery stays in the package-manager parent, and release upgrades remain under migration. The latest published GitHub Release remains v1.17.74.",
+  "version": "1.18.13",
+  "date": "2026-08-17",
+  "title": "linux-admin 1.18.13 — LVM consolidated into storage",
+  "summary": "Top-level skill count is now 74. The former lvm-expert has been retired after its PV/VG/LV mapping, filesystem-aware growth, snapshot, thin-pool and rollback guidance was preserved and expanded in storage/chunks/lvm.md. RAID, iSCSI, multipath, NFS, Samba and backup remain separate because their recovery semantics still justify distinct specialists. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
