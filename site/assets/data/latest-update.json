@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.17.75-repository-update",
+  "id": "2026-08-16-1.18.0-chunk-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.17.75",
+  "version": "1.18.0",
   "date": "2026-08-16",
-  "title": "linux-admin repository 1.17.75",
-  "summary": "Repository metadata is 1.17.75 with 103 skills. The latest published GitHub Release remains v1.17.74, and npm registry publication is not yet verified. Use the GitHub source install for the current repository version.",
+  "title": "linux-admin 1.18.0 — compact parent/chunk routing",
+  "summary": "Top-level skill count is now 99. TCP, UDP, tcpdump/packet-capture, and VLAN/bonding were consolidated under the network parent as condition-specific chunks. The migration continues domain by domain without deleting specialist knowledge.",
   "commands": {
     "claudeCode": [
       "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
