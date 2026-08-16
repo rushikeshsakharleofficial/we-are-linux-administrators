@@ -1,9 +1,9 @@
 ---
 name: security-expert
-description: Defensive Linux security parent for authorised hosts. Collects bounded posture evidence, identifies the failing security-control layer, then loads one focused auditd, Fail2Ban or broad host-audit chunk or hands off to a distinct specialist.
-argument-hint: "[audit|auditd|fail2ban|hardening|validate|finding] [owned server scope]"
+description: Defensive Linux security parent for authorised hosts. Collects bounded posture evidence, identifies the failing security-control layer, then loads one focused auditd, Fail2Ban, vulnerability-triage or broad host-audit chunk or hands off to a distinct specialist.
+argument-hint: "[audit|auditd|fail2ban|vulnerability|CVE|hardening|validate|finding] [owned server scope]"
 effort: high
-updated: "2026-08-16"
+updated: "2026-08-17"
 allowed-tools: "Read Grep Glob Bash"
 ---
 
@@ -13,7 +13,7 @@ Use this parent for defensive Linux security validation on owned or explicitly a
 
 ## Universal Skill Execution Contract
 
-Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Security/facts checks come first. Do not perform stealth/evasion, credential spraying, exploit chains, persistence, malware, destructive testing or high-rate probing. Define rollback and recovery before consequential hardening, especially remote-access, firewall, audit-policy or authentication changes.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Security/facts checks come first. Do not perform stealth/evasion, credential spraying, exploit chains, persistence, malware, destructive testing or high-rate probing. Define rollback and recovery before consequential hardening, especially remote-access, firewall, audit-policy, authentication, package or kernel changes.
 
 ## Baseline evidence
 
@@ -34,30 +34,33 @@ Add only evidence needed for the stated host role and symptom. Do not preload ev
 | Broad authorised host security audit, score or multi-control review | `chunks/security-audit.md` |
 | Linux audit rules/events, `auditctl`, `ausearch`, `aureport`, audit trail missing/noisy | `chunks/auditd.md` |
 | Fail2Ban jail/filter/action/backend, repeated abusive auth, false ban/lockout risk | `chunks/fail2ban.md` |
+| Scanner finding, CVE prioritisation, backport/false-positive review, exposure/remediation triage | `chunks/vulnerability-scan.md` |
 | SSH policy or remote SSH lockout risk | `ssh-hardening-expert` |
 | Local accounts, PAM, SSSD/LDAP or sudo policy | `auth` |
 | POSIX ownership/modes/ACL | `permissions` |
 | SELinux policy/labels/denials | `selinux-expert` |
 | AppArmor profiles/denials | `apparmor-expert` |
 | Firewall/NAT/network exposure | matching network/firewall specialist |
-| Kernel hardening/exposure | `kernel-expert` or `sysctl-expert` |
+| Kernel/runtime parameter hardening or tuning | `sysctl-expert` or `kernel` as appropriate |
 | Resource ceilings | `limits-expert` |
 | systemd sandbox/capability hardening | `systemd-expert` |
-| Package/CVE/supply-chain exposure | `patching-expert`, `package-manager-expert` or `vulnerability-scan-expert` |
+| Package/repository patch rollout | `package-manager-expert` -> patching chunk |
 | Generic journal/log persistence/forwarding | `logs` |
 | Backup/ransomware recovery | `backup-restore-expert` |
 | Active compromise/outage | `incident-response-expert` |
 
-Default: stay in this parent until evidence identifies one branch. Do not load both `auditd.md` and `fail2ban.md` merely because both are security controls.
+Default: stay in this parent until evidence identifies one branch. Do not load multiple chunks merely because several controls are security-related.
 
 ## Fast discrimination
 
 - “Who changed this file?” / missing audit record / audit rule design -> `chunks/auditd.md`.
 - “Why did Fail2Ban not ban?” / false positive / custom jail/filter -> `chunks/fail2ban.md`.
+- “Scanner says CVE-X affects this host” / fixed-version/backport ambiguity -> `chunks/vulnerability-scan.md`.
 - “Audit this Linux server” with no single control identified -> `chunks/security-audit.md`.
 - Authentication identity failure -> `auth`, not a generic security audit.
 - SSH hardening that could cut remote access -> `ssh-hardening-expert` with guarded rollback.
 - SELinux/AppArmor denial -> matching MAC specialist; do not disable MAC as a shortcut.
+- Performance/kernel parameter tuning -> `sysctl-expert`; do not bury generic sysctl tuning inside vulnerability triage.
 
 ## Safety gates
 
