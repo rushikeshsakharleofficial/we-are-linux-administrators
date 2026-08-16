@@ -26,7 +26,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 
 ## Parent map
 
-- **General:** `diagnose` -> `linux-admin-chief-engineer`, `command-expert`, `bash-script-expert`, `automation`, `ansible-expert`, `runbook-expert`, `root-cause-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
+- **General:** `diagnose` -> `linux-admin-chief-engineer`, `command-expert`, `bash-script-expert`, `automation`, `ansible-expert`, `runbook-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
 - **Boot/services:** `boot` -> `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
 - **Performance:** `performance` -> condition-specific chunks for CPU/run queue/steal/softirq, memory/OOM/cgroups, swap/zram, and capacity planning; keep `limits-expert` distinct for PAM/systemd/resource-ceiling and security-limit review
 - **Storage:** `storage` -> condition-specific chunks for mounts/fstab, filesystem health/capacity, and SMART/media risk; distinct LVM/RAID/iSCSI/multipath/NFS/Samba/quota/backup specialists load only when baseline evidence points there
@@ -39,6 +39,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - **Load balancing:** `load-balancer-expert` -> HAProxy/F5/LVS/Keepalived/cloud-LB/DNS-GSLB branches
 - **Containers:** `containers` -> `kubernetes-node-expert`
 - **Logs/monitoring:** `logs` -> condition-specific chunks for rsyslog routing/forwarding and logrotate policy; journald stays in the parent baseline, while Nagios/Observium remain distinct product specialists
+- **Incident management:** `incident-response-expert` -> active-response baseline or post-containment `root-cause-analysis` chunk; `incident-report-creator-expert` remains separate for formal DOCX/XLSX/PDF/PPTX artifacts
 - **Security:** `security-expert` -> host security/MAC/audit/fail2ban/patch/vulnerability/sysctl branches
 - **Migration:** `migration-expert` -> relevant domain + `change-safety-expert`
 - **Cloudflare:** `cf-expert`
@@ -72,6 +73,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Docker/Podman | `containers` |
 | Kubernetes node | `kubernetes-node-expert` |
 | Active incident / outage response | `incident-response-expert` |
+| Post-containment root-cause analysis | `incident-response-expert`, then RCA chunk |
 | Incident report in Word/Excel/PDF/PowerPoint | `incident-report-creator-expert` |
 | Security audit/hardening | `security-expert` |
 | Production change | domain skill + `change-safety-expert` |
@@ -91,7 +93,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - Missing log with journald evidence -> `logs`; rsyslog rule/queue/forwarding evidence -> rsyslog chunk; retention/rotation/reopen evidence -> logrotate chunk. Product-specific monitoring behaviour stays in its product specialist.
 - Generic daemon failure -> `service`; unit/dependency/timer/cgroup semantics -> `systemd-expert`.
 - Broad security validation -> `security-expert`; host hardening implementation -> `os-security-expert`.
-- Active incident handling -> `incident-response-expert`; formal post-incident artifact generation -> `incident-report-creator-expert`.
+- Active incident handling -> `incident-response-expert` parent baseline; after containment, causal-chain/RCA work -> its `root-cause-analysis` chunk; formal post-incident artifact generation -> `incident-report-creator-expert`.
 
 ## Output
 
