@@ -7,8 +7,8 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current repository metadata version: `1.18.9`
-- Current top-level skill count: `78`
+- Current repository metadata version: `1.18.10`
+- Current top-level skill count: `77`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
 - Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
@@ -27,7 +27,7 @@ Before repository changes, read the relevant README/release/package/plugin metad
 - `automation` owns Bash/POSIX scripting and operational-runbook chunks; Ansible, cron and systemd remain distinct when their own semantics are involved.
 - `auth` owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct.
 - `logs` owns rsyslog and logrotate chunks; product monitoring stays distinct.
-- `security-expert` owns broad host-audit, auditd and Fail2Ban chunks; SSH/auth/MAC/firewall/kernel/sysctl/patch/vulnerability specialists remain distinct when their own control semantics are proven.
+- `security-expert` owns broad host-audit, auditd and Fail2Ban chunks; the retired `os-security-expert` broad audit is consolidated into `security-expert/chunks/security-audit.md`. SSH/auth/MAC/firewall/kernel/sysctl/patch/vulnerability specialists remain distinct when their own control semantics are proven.
 - `incident-response-expert` owns active response and post-containment RCA; formal artifact generation remains separate.
 - Do not duplicate the full skill tree into vendor-specific directories.
 
