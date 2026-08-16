@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.1-time-routing",
+  "id": "2026-08-16-1.18.2-storage-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.1",
+  "version": "1.18.2",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.1 — timekeeping joins compact routing",
-  "summary": "Top-level skill count is now 98. Chrony/NTP and date/timedatectl/timezone/RTC were consolidated under the time parent as separate condition-specific chunks, preserving their specialist procedures while reducing routing noise.",
+  "title": "linux-admin 1.18.2 — storage routing gets leaner",
+  "summary": "Top-level skill count is now 95. Mount/fstab, filesystem-health, and SMART/media-risk procedures were consolidated under the storage parent as separate condition-specific chunks while LVM, RAID, SAN and network-storage specialists remain distinct.",
   "commands": {
     "claudeCode": [
       "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
