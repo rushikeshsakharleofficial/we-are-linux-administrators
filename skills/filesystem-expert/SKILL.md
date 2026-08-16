@@ -1,6 +1,9 @@
 ---
 name: filesystem-expert
 description: Diagnoses Linux filesystem capacity, inode, corruption, mount-option, growth, and repair issues across ext4, XFS, and Btrfs. Use for df/du mismatches, inode exhaustion, read-only remounts, fsck or xfs_repair planning, filesystem growth/shrink questions, and data-safe recovery workflows.
+argument-hint: "[filesystem symptom / mount / device / ext4 / xfs / btrfs]"
+effort: high
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # Filesystem Expert
@@ -21,12 +24,6 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts che
 - Explain why the command/value/change is needed so the user does not over-tune or copy random internet fixes.
 - If the built-in skill is not enough, research official docs and Linux community pages before proposing changes.
 - If another expert owns the deeper risk, route there: `systemd-expert`, `sysctl-expert`, `package-manager-expert`, `storage`, `os-security-expert`, or `migration-expert`.
-
-## Start with audit helper
-
-```bash
-filesystem-expert-audit
-```
 
 ## Manual evidence commands
 
