@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.3`  
-**Skill count:** `91`  
+**Version:** `1.18.4`  
+**Skill count:** `89`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -55,12 +55,12 @@ This keeps routing compact without throwing away specialist knowledge.
 ```
 
 ```text
-"OOM killer repeatedly targets one container"
-→ performance
-→ skills/performance/chunks/memory.md
+"mode bits look right but ACL mask removes write access"
+→ permissions
+→ skills/permissions/chunks/acl.md
 ```
 
-Network, timekeeping, the first storage branches, and core performance branches now use parent/chunk routing. Distinct specialists stay top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, the first storage branches, core performance branches, and POSIX/ACL permission branches now use parent/chunk routing. Distinct specialists stay top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management reports
 
@@ -123,7 +123,7 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | nofile/nproc/memlock/resource-limit audit | `limits-expert` |
 | Disk/mount/I/O issue | `storage` |
 | Mount/fstab/filesystem/SMART issue | `storage` → matching chunk |
-| Permission denied | `permissions` |
+| File/path ownership/mode/ACL issue | `permissions` → matching chunk |
 | SSH/login/sudo identity issue | `auth` |
 | Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` → matching chunk |
 | NTP/Chrony/timezone/RTC issue | `time` → matching chunk |
