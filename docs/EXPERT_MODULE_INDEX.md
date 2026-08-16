@@ -1,6 +1,6 @@
 # Expert Module Index
 
-75 top-level skills.
+74 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -39,7 +39,7 @@ Boot `boot`; services `service`; performance `performance`; storage `storage`; p
 
 - Network: TCP, UDP, packet capture, VLAN/bonding chunks.
 - Time: Chrony/NTP and system-clock chunks.
-- Storage: mounts/fstab, filesystem health, SMART and quota chunks; LVM/RAID/iSCSI/multipath/NFS/Samba/backup remain distinct pending review.
+- Storage: mounts/fstab, filesystem health, SMART, quota and LVM chunks; RAID/iSCSI/multipath/NFS/Samba/backup remain distinct pending review.
 - Performance: CPU, memory/OOM, swap/zram, capacity chunks; limits remains distinct.
 - Permissions: POSIX and ACL chunks; SELinux/AppArmor remain distinct.
 - Auth: local accounts, PAM, SSSD/LDAP, sudoers chunks; SSH/RDP remain distinct.
