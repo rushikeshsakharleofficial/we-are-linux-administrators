@@ -1,6 +1,9 @@
 ---
 name: grep-expert
 description: Token-saving Linux administration search workflows with grep, ripgrep, journald-focused pipelines, reusable patterns, and compact evidence extraction. Use for bounded log/config searches, pattern discovery, and reducing noisy command output before deeper troubleshooting.
+argument-hint: "[search goal, file/log scope, or pattern]"
+effort: low
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # grep-expert
@@ -9,7 +12,7 @@ Use this skill for token-saving Linux admin search workflows with grep, ripgrep,
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill is diagnostic-first: keep searches bounded and read-only, avoid leaking secrets in collected output, and route any resulting change through the contract's facts, backup, rollback, architecture-fit, validation, and guarded-recovery requirements.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill is diagnostic-first: keep searches bounded and read-only, avoid leaking secrets in collected output, and route any resulting change through the contract's facts, backup, rollback, architecture-fit, validation, and guarded-recovery requirements.
 
 ## Token-saving mission
 
