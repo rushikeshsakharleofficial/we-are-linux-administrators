@@ -38,7 +38,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - **Web/apps:** `nginx-expert`, `apache-expert`, `php-fpm-expert`, `web-stack-security-expert`, `mysql-expert`, `postgresql-expert`, `redis-expert`
 - **Load balancing:** `load-balancer-expert` -> HAProxy/F5/LVS/Keepalived/cloud-LB/DNS-GSLB branches
 - **Containers:** `containers` -> `kubernetes-node-expert`
-- **Logs/monitoring:** `logs` -> rsyslog/logrotate/monitoring branches
+- **Logs/monitoring:** `logs` -> condition-specific chunks for rsyslog routing/forwarding and logrotate policy; journald stays in the parent baseline, while Nagios/Observium remain distinct product specialists
 - **Security:** `security-expert` -> host security/MAC/audit/fail2ban/patch/vulnerability/sysctl branches
 - **Migration:** `migration-expert` -> relevant domain + `change-safety-expert`
 - **Cloudflare:** `cf-expert`
@@ -64,6 +64,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Cannot reach host/port | `network` |
 | TCP/UDP/VLAN/bond/packet-flow issue | `network`, then matching chunk |
 | Clock drift/NTP/Chrony/timezone/RTC issue | `time`, then matching chunk |
+| Missing/forwarded/rotating log issue | `logs`, then matching chunk if proven |
 | Known firewall rule problem | `firewall-expert` |
 | BIND/named DNS problem | `named-expert` |
 | NGINX problem | `nginx-expert` |
@@ -87,6 +88,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - Time sync/source/offset/stratum issue -> `time` then Chrony chunk; timezone/RTC/local clock issue -> `time` then system-clock chunk.
 - Unknown slowness -> `performance`; CPU/run queue -> CPU chunk, memory/OOM/cgroup pressure -> memory chunk, swap/zram -> swap chunk, forecast/headroom -> capacity-planning chunk. Resource-ceiling errors/audits remain `limits-expert`.
 - Unknown disk issue -> `storage`; mount/fstab -> mounts chunk, filesystem metadata/capacity -> filesystem-health chunk, SMART/media risk -> SMART chunk; proven LVM/RAID/SAN/network-storage layer -> matching specialist.
+- Missing log with journald evidence -> `logs`; rsyslog rule/queue/forwarding evidence -> rsyslog chunk; retention/rotation/reopen evidence -> logrotate chunk. Product-specific monitoring behaviour stays in its product specialist.
 - Generic daemon failure -> `service`; unit/dependency/timer/cgroup semantics -> `systemd-expert`.
 - Broad security validation -> `security-expert`; host hardening implementation -> `os-security-expert`.
 - Active incident handling -> `incident-response-expert`; formal post-incident artifact generation -> `incident-report-creator-expert`.
