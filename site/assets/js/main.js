@@ -5,6 +5,16 @@
   const PROJECT_VERSION = '1.17.75';
   const SKILL_COUNT = '103';
   const STALE_COUNTS = new Set(['46', '95', '98', '99', '101', '102', '106', '107', '108']);
+  const REMOVED_SKILLS = new Set([
+    'change-plan-expert',
+    'incident-timeline-expert',
+    'maintenance-window-expert',
+    'post-change-validation-expert',
+    'preflight-check-expert',
+    'production-safety-expert',
+    'risk-assessment-expert',
+    'rollback-expert'
+  ]);
 
   function setMeta(selector, value) {
     const el = document.querySelector(selector);
@@ -16,6 +26,31 @@
       .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
       .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=Expert Skills\b)/gi, `${SKILL_COUNT} `)
       .replace(/\bBrowse all (?:35|40\+|46|95|98|99|101|102|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`);
+  }
+
+  function removeStaleSkillCards() {
+    document.querySelectorAll('.skill-card-name').forEach(nameEl => {
+      const match = nameEl.textContent.trim().match(/^\/linux-admin:([a-z0-9-]+)$/i);
+      if (match && REMOVED_SKILLS.has(match[1])) nameEl.closest('.skill-card')?.remove();
+    });
+  }
+
+  function ensureIncidentReportCard() {
+    const grid = document.getElementById('skills-grid');
+    if (!grid) return;
+    const exists = Array.from(grid.querySelectorAll('.skill-card-name'))
+      .some(el => el.textContent.trim() === '/linux-admin:incident-report-creator-expert');
+    if (exists) return;
+
+    const card = document.createElement('div');
+    card.className = 'skill-card reveal visible';
+    card.dataset.cat = 'ops-workflow';
+    card.innerHTML = `
+      <div class="skill-card-name">/linux-admin:incident-report-creator-expert</div>
+      <div class="skill-card-desc">Table-first incident management reports from one verified dataset, exported consistently to Word, Excel, PDF, PowerPoint, or all four.</div>
+      <div class="skill-card-when">Use when: incident facts are verified and a PIR, RCA, management report, action tracker, or presentation pack is required.</div>
+      <div class="skill-card-cmd"><span>/linux-admin:incident-report-creator-expert create PIR in docx xlsx pdf and pptx</span><button class="copy-btn" aria-label="Copy command">copy</button></div>`;
+    grid.prepend(card);
   }
 
   function syncProjectCopy() {
@@ -56,6 +91,8 @@
     });
   }
 
+  removeStaleSkillCards();
+  ensureIncidentReportCard();
   syncProjectCopy();
 
   const page = location.pathname.split('/').pop() || 'index.html';
