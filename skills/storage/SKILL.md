@@ -1,6 +1,6 @@
 ---
 name: "storage"
-description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota, LVM, md/RAID, iSCSI and multipath conditions to focused chunks; escalates network-storage and backup problems to dedicated specialists."
+description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota, LVM, md/RAID and iSCSI conditions to focused chunks; escalates multipath/SAN pathing, network-storage and backup problems to dedicated specialists."
 argument-hint: "[mount/device/filesystem/storage symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
@@ -39,7 +39,7 @@ multipath -ll 2>/dev/null | head -120 || true
 | PV/VG/LV mapping, LV growth, thin-pool/snapshot pressure or LVM-backed migration planning | `chunks/lvm.md` |
 | md/software RAID degradation, member failure, rebuild, assembly or replacement planning | `chunks/raid.md` |
 | iSCSI discovery/session/target/LUN mapping, login or device-presentation issue | `chunks/iscsi.md` |
-| device-mapper multipath, WWID/path health, ALUA, failover or duplicate-path risk | `chunks/multipath.md` |
+| device-mapper multipath, WWID/path health, ALUA, failover or duplicate-path risk | `multipath-expert` |
 | NFS protocol/export/client issue | `nfs-expert` |
 | SMB/CIFS/Samba protocol/share issue | `samba-expert` |
 | backup/restore/recovery workflow | `backup-restore-expert` |
@@ -58,7 +58,7 @@ Default: **one parent + one chunk/specialist**. Add a second branch only when ev
 - SMART/media errors: protect data first; load `chunks/smart.md`.
 - degraded RAID: load `chunks/raid.md`; verify member identity, backup state and surviving-media health before rebuild/replacement work.
 - iSCSI evidence: load `chunks/iscsi.md`; prove target/LUN identity and upper-layer use before login/logout, rescan or writes.
-- multipath evidence: load `chunks/multipath.md`; map WWID -> paths -> upper-layer use and never treat raw path devices as independent writable disks.
+- multipath evidence: use `multipath-expert`; map WWID -> paths -> upper-layer use and never treat raw path devices as independent writable disks.
 - high `await`/`%util`: identify process/device/path before tuning.
 
 ## Safe boundaries
