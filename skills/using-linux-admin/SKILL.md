@@ -1,6 +1,6 @@
 ---
 name: using-linux-admin
-description: Main linux-admin routing map. Chooses the smallest parent domain first; parent skills then select condition-specific chunks instead of loading many micro-skills.
+description: Main linux-admin routing map. Chooses one parent or distinct specialist; parents then load one condition-specific chunk.
 argument-hint: "[linux task or symptom]"
 effort: low
 allowed-tools: "Read Grep Glob"
@@ -8,80 +8,60 @@ allowed-tools: "Read Grep Glob"
 
 # Using linux-admin
 
-Use this skill first when the correct linux-admin domain is unclear. Select the smallest parent/specialist and do not load unrelated content.
+Use this router when the correct Linux domain is unclear. Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
 
-## Universal Skill Execution Contract
+## Rules
 
-Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/specialist must preserve bounded evidence, security/facts checks, architecture fit, backup/disaster planning, guarded rollback, validation and token-bounded output.
-
-## Routing rules
-
-1. Broad/unclear symptom -> choose one parent.
-2. Parent skills own condition-to-chunk routing; do not preload chunks.
-3. Default: one parent + one chunk. Add a second chunk/support skill only when evidence proves a cross-layer issue.
-4. Unknown Linux issue -> `diagnose`.
-5. Broad senior execution -> `linux-admin-chief-engineer` after routing.
-6. Risky production change -> add `change-safety-expert`.
-7. Tuning/optimization -> `optimization-guardian-expert` first.
+1. Choose one parent/specialist.
+2. Parent collects bounded evidence and loads one matching chunk.
+3. Add a second chunk/support skill only for proven cross-layer issues.
+4. Unknown issue -> `diagnose`.
+5. Risky production change -> add `change-safety-expert`.
+6. Tuning -> `optimization-guardian-expert` first.
 
 ## Parent map
 
-- **General:** `diagnose`, `linux-admin-chief-engineer`, `command-expert`, `automation`, `ansible-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
-- **Automation:** `automation` -> Bash/POSIX scripting chunk or operational-runbook chunk; keep Ansible, cron and systemd as distinct specialists when their own semantics are involved
-- **Boot/services:** `boot`, `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
-- **Performance:** `performance` -> CPU, memory/OOM, swap/zram or capacity-planning chunk; keep `limits-expert` distinct
-- **Storage:** `storage` -> mounts/fstab, filesystem-health, SMART, quota or LVM chunk; RAID/iSCSI/multipath/NFS/Samba/backup remain distinct pending review
-- **Permissions:** `permissions` -> POSIX modes/ownership/traversal or ACL chunk; SELinux/AppArmor remain distinct
-- **Auth:** `auth` -> local accounts, PAM, SSSD/LDAP or sudoers chunk; SSH hardening and RDP remain distinct
-- **Network:** `network` -> TCP, UDP, packet-capture or VLAN/bonding chunk; routing/NAT/firewall/proxy/DNS remain distinct specialists
-- **DNS:** `named-expert`; dnsmasq/GSLB remain distinct pending review
-- **Time:** `time` -> Chrony/NTP or system-clock/timezone/RTC chunk
-- **Package lifecycle:** `package-manager-expert` -> repository/transaction/package-state work in parent or planned OS/security patch rollout in `chunks/patching.md`; release upgrades stay with `migration-expert`
-- **Web/apps:** `nginx-expert`, `apache-expert`, `php-fpm-expert`, `web-stack-security-expert`, `mysql-expert`, `postgresql-expert`, `redis-expert`
-- **Load balancing:** `load-balancer-expert` -> HAProxy/F5/LVS/Keepalived/cloud-LB/DNS-GSLB branches
-- **Containers:** `containers` -> `kubernetes-node-expert`
-- **Logs/monitoring:** `logs` -> rsyslog or logrotate chunk; journald stays in parent, product monitoring remains distinct
-- **Incident management:** `incident-response-expert` -> active response or post-containment RCA chunk; report creator stays separate
-- **Security:** `security-expert` -> broad host-audit, auditd or Fail2Ban chunk; SSH/auth/MAC/firewall/kernel/sysctl/vulnerability controls remain distinct specialists, while OS/security patch rollout routes through `package-manager-expert`
-- **Migration:** `migration-expert` + relevant domain + `change-safety-expert`
-- **Cloudflare:** `cf-expert`
-- **AI/model choice:** `agent-model-dispatcher-expert`
-- **Server context memory:** `server-memory-expert`
+- General: `diagnose`, `linux-admin-chief-engineer`, `command-expert`, `automation`, `ansible-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`.
+- Boot/services: `boot`, `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`.
+- Performance: `performance` -> CPU, memory/OOM, swap/zram, capacity chunks; `limits-expert` remains distinct.
+- Storage: `storage` -> mounts/fstab, filesystem health, SMART, quota, LVM or md/RAID chunk; iSCSI, multipath, NFS, Samba and backup remain distinct.
+- Permissions: `permissions` -> POSIX or ACL chunk; SELinux/AppArmor remain distinct.
+- Auth: `auth` -> local accounts, PAM, SSSD/LDAP or sudoers chunk; SSH hardening/RDP remain distinct.
+- Network: `network` -> TCP, UDP, packet capture or VLAN/bonding chunk; routing/NAT/firewall/proxy/DNS remain distinct.
+- Time: `time` -> Chrony/NTP or system-clock/timezone/RTC chunk.
+- Package lifecycle: `package-manager-expert` -> package/repository work or patching chunk; release upgrades -> `migration-expert`.
+- Logs: `logs` -> rsyslog/logrotate chunk or journald parent flow; product monitoring remains distinct.
+- Security: `security-expert` -> broad audit, auditd or Fail2Ban chunk; distinct controls stay separate.
+- Web/apps: matching Nginx/Apache/PHP/database specialist.
+- Load balancing: `load-balancer-expert`.
+- Containers: `containers` or `kubernetes-node-expert`.
+- Migration: `migration-expert` + relevant domain + `change-safety-expert`.
 
 ## Fast picks
 
 | Request | Primary |
 |---|---|
-| Something is broken | `diagnose` |
-| Bash/POSIX script or automation helper | `automation` -> Bash chunk |
-| Maintenance runbook/checklist | `automation` -> runbook chunk |
-| Ansible playbook/inventory/rollout | `ansible-expert` |
-| Service/boot/kernel issue | matching boot/service parent |
-| High load/OOM/slow host | `performance` |
-| Disk/mount/I/O problem | `storage` |
-| User/group/project quota issue | `storage` -> quota chunk |
-| LVM/PV/VG/LV/thin-pool/snapshot issue | `storage` -> LVM chunk |
-| RAID degradation/rebuild | `raid-expert` |
-| File/path permission denied | `permissions` |
-| Local account/PAM/SSSD-LDAP/sudo | `auth` |
-| SSH hardening | `ssh-hardening-expert` |
-| Connectivity/TCP/UDP/VLAN/packet-flow | `network` |
-| Clock/NTP/timezone/RTC | `time` |
-| Broken package/repository/dependency transaction | `package-manager-expert` |
-| Planned OS/security patching or kernel maintenance | `package-manager-expert` -> patching chunk |
-| Missing/forwarded/rotating log | `logs` |
-| Active incident | `incident-response-expert` |
-| Post-containment RCA | `incident-response-expert` -> RCA chunk |
+| Unknown problem | `diagnose` |
+| High load/OOM | `performance` |
+| Disk/mount/I/O | `storage` |
+| Quota | `storage` -> quota chunk |
+| LVM | `storage` -> LVM chunk |
+| RAID degradation/rebuild | `storage` -> RAID chunk |
+| File mode/ACL | `permissions` |
+| PAM/LDAP/sudo | `auth` |
+| Connectivity/TCP/UDP | `network` |
+| NTP/timezone | `time` |
+| Package/repository issue | `package-manager-expert` |
+| OS/security patching | `package-manager-expert` -> patching chunk |
+| Logs | `logs` |
+| Active incident/RCA | `incident-response-expert` |
 | Formal incident report | `incident-report-creator-expert` |
-| Broad Linux security audit | `security-expert` -> security-audit chunk |
-| auditd rule/event problem | `security-expert` -> auditd chunk |
-| Fail2Ban jail/filter/ban problem | `security-expert` -> Fail2Ban chunk |
-| Migration/cutover | `migration-expert` |
+| Security audit | `security-expert` |
 
 ## Output
 
 ```text
 Primary parent/specialist: <skill>
 Reason: <one short sentence>
-Next: let that skill select one condition-specific chunk if applicable
+Next: let that skill select one matching chunk if applicable
 ```
