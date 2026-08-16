@@ -1,48 +1,38 @@
 ---
 name: "performance"
-description: "Troubleshoot Linux high CPU, high load, memory pressure, OOM killer, swap thrashing, latency, cgroups, and general host slowness."
-argument-hint: "[performance symptom]"
+description: "Parent performance domain for Linux CPU/load, memory/OOM, swap, latency and capacity symptoms. Collects bounded baseline evidence, identifies the failing resource layer, then loads one matching chunk."
+argument-hint: "[performance symptom / process / service / host / forecast]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
-# performance skill
 
-Use this plugin skill for: $ARGUMENTS
+# performance
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+Use this parent for high load, high CPU, host slowness, OOM/memory pressure, swap thrashing, latency regression, resource saturation, or capacity planning.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+## Universal Skill Execution Contract
 
-# Task: Performance, CPU, Memory, Load, OOM
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start read-only, prove the bottleneck before tuning or scaling, define rollback/recovery before consequential changes, and validate the original symptom after remediation.
 
-## When to use
+## Routing rule
 
-Use this for high load, high CPU, host slow, SSH lag, OOM killer, memory leak, swap thrash, performance regression, latency spikes, cgroup pressure.
+Do **not** load every performance chunk. Collect the baseline evidence below, classify the condition, then load one matching chunk. Add a second chunk or specialist only when evidence proves a cross-layer issue.
 
-## Mental model
+| Proven condition | Load |
+|---|---|
+| CPU saturation, run queue, steal, softirq, scheduler/thread pressure | `chunks/cpu.md` |
+| low memory headroom, OOM, reclaim/PSI, cgroup limit, leak/slab pressure | `chunks/memory.md` |
+| swap file/partition, zram/zswap, active swap pressure, swap sizing/priorities | `chunks/swap.md` |
+| trend/forecast/headroom/vertical-vs-horizontal scaling decision | `chunks/capacity-planning.md` |
+| `too many open files`, nproc, memlock, PAM/systemd `Limit*`, resource-ceiling security review | keep `limits-expert` as a distinct specialist |
+| high load with idle CPU and blocked `D` tasks / proven storage latency | route to `storage` or relevant storage specialist |
+| unknown slowness | remain in this baseline flow until the resource layer is proven |
 
-Classify bottleneck using USE method:
-
-- Utilization: how busy is the resource?
-- Saturation: is work queued?
-- Errors: are failures/retries occurring?
-
-Then split into:
-
-- CPU-bound.
-- Run-queue saturation.
-- Memory pressure/OOM.
-- Swap thrashing.
-- I/O wait masquerading as CPU/load.
-- Cgroup/container limit.
-- Kernel lockup or scheduler issue.
-
-## Read-only first commands
+## Bounded baseline evidence
 
 ```bash
 uptime
 nproc
-lscpu | head -40
 free -h
 swapon --show
 vmstat 1 5
@@ -52,95 +42,30 @@ ps -eo pid,ppid,user,stat,comm,%cpu,%mem,rss,vsz --sort=-%mem | head -30
 pidstat 1 5 2>/dev/null || true
 iostat -xz 1 5 2>/dev/null || true
 mpstat -P ALL 1 3 2>/dev/null || true
-journalctl -k -g 'Out of memory|oom|oom-kill|soft lockup|hard LOCKUP|blocked for more than' --no-pager 2>/dev/null || true
-systemd-cgtop --iterations=3 2>/dev/null || true
-systemctl status systemd-oomd 2>/dev/null || true
-```
-
-## Branch interpretation
-
-| Signal | Meaning | Next branch |
-|---|---|---|
-| One process/thread dominates CPU | app hot loop/query/worker issue | process logs, perf, app profiling |
-| Load high, CPU idle, many `D` tasks | I/O wait/storage or NFS issue | switch to storage workflow |
-| `vmstat si/so` nonzero sustained | swap thrashing | identify memory consumers and limits |
-| Kernel OOM log names victim | memory pressure exceeded | find cgroup/process growth |
-| `r` queue much higher than CPU count | CPU saturation | identify runnable processes/threads |
-| High steal time in VM | noisy neighbor/host contention | cloud/hypervisor escalation |
-| cgroup top shows one slice/container | service-specific resource limit | inspect unit/container limits |
-
-## Deeper commands
-
-Use only when needed:
-
-```bash
-perf stat -a sleep 10
-perf top       # interactive; use carefully
-pidstat -p <pid> -u -r -d 1 5
 cat /proc/pressure/cpu 2>/dev/null || true
 cat /proc/pressure/memory 2>/dev/null || true
 cat /proc/pressure/io 2>/dev/null || true
-cat /proc/<pid>/status
-cat /proc/<pid>/limits
+journalctl -k -g 'Out of memory|oom|oom-kill|soft lockup|hard LOCKUP|blocked for more than' -n 100 --no-pager 2>/dev/null || true
+systemd-cgtop --iterations=3 2>/dev/null || true
 ```
 
-## Safe remediation patterns
+## Baseline interpretation
 
-Do not kill processes blindly. Preferred order:
+- one process/thread dominates CPU -> CPU chunk
+- runnable queue sustained well above CPU count -> CPU chunk
+- high steal -> CPU chunk plus hypervisor/cloud escalation context
+- low `MemAvailable`, OOM/reclaim/PSI or cgroup memory events -> memory chunk
+- sustained swap-in/swap-out and latency -> swap chunk, usually with memory evidence
+- high load, idle CPU and many `D` tasks -> I/O/storage/network-storage branch, not CPU tuning
+- one cgroup dominates -> identify whether CPU, memory, task or explicit limit is responsible before routing
+- capacity question without trend data -> request summarized peak/sustained trends rather than guessing
 
-1. Identify owner service.
-2. Check if there is a known maintenance/deployment.
-3. Capture logs and current state.
-4. If service restart is required, classify impact and ask confirmation.
-5. Tune only after bottleneck is proven.
+## Safety and anti-overoptimization
 
-Examples after confirmation:
+Do not kill processes blindly, clear caches routinely, disable swap globally, change scheduler/sysctl tuning from blog recipes, or add CPU/RAM before the bottleneck is proven. Separate emergency mitigation from permanent design.
 
-```bash
-systemctl restart <unit>
-systemctl set-property <unit> MemoryMax=<size>   # if chosen intentionally
-renice <value> -p <pid>
-```
+For risky service, cgroup, sysctl or capacity changes, record the current value/config, backup or snapshot where applicable, define restore commands and validate service SLO/error rate as well as host metrics.
 
 ## Validation
 
-```bash
-uptime
-vmstat 1 5
-free -h
-pidstat 1 5
-journalctl -k -g 'oom|Out of memory' --since '10 minutes ago' --no-pager
-```
-
-## Prevention
-
-- Add memory and swap alerts.
-- Add per-service cgroup limits where appropriate.
-- Add application-level metrics.
-- Keep baseline profiles using PCP, Prometheus node_exporter, or similar.
-- Track deployment time vs regression time.
-
-## Load average interpretation
-
-Load average ≠ CPU percentage. Compare to CPU count (`nproc`).
-
-- Load < CPU count: not saturated.
-- Load ≈ CPU count: saturated.
-- Load >> CPU count: severely saturated — split runnable vs blocked tasks.
-
-Blocked (`D`-state) tasks inflate load without CPU usage — indicates I/O or lock contention, not CPU pressure. Never kill top processes without identifying role. Never add CPUs without checking I/O pressure first.
-
-Evidence: `uptime`, `nproc`, `ps aux --sort=-%cpu | head -20`, `vmstat 1 5`, `cat /proc/pressure/*`.
-
-## I/O wait triage
-
-High iowait means CPU is idle waiting on storage — not a CPU problem.
-
-1. Identify affected device and mount: `iostat -xz 1 5`, `df -h`, `lsblk`.
-2. Review latency and utilization: `iostat -d -x 1 5`.
-3. Map top I/O processes: `iotop -b -n3` or `pidstat -d 1 5`.
-4. Check filesystem free space and inode exhaustion: `df -h`, `df -i`.
-5. Correlate with application symptoms and recent storage changes.
-6. Check for failing disks or SAN path issues before tuning.
-
-**Anti-patterns:** restarting apps before checking storage latency, running heavy diagnostics on a saturated disk, assuming iowait means disk is broken.
+Re-run only the evidence relevant to the chosen branch and confirm the original user-visible symptom improved. If the metric moved but service latency/errors did not, the diagnosis is incomplete.
