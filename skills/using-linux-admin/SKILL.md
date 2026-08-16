@@ -24,7 +24,7 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 - General: `diagnose`, `linux-admin-chief-engineer`, `command-expert`, `automation`, `ansible-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`.
 - Boot/services: `boot`, `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`.
 - Performance: `performance` -> CPU, memory/OOM, swap/zram, capacity chunks; `limits-expert` remains distinct.
-- Storage: `storage` -> mounts/fstab, filesystem health, SMART, quota, LVM, md/RAID or iSCSI chunk; multipath, NFS, Samba and backup remain distinct.
+- Storage: `storage` -> mounts/fstab, filesystem health, SMART, quota, LVM, md/RAID, iSCSI, NFS or Samba/SMB chunk; multipath and backup/restore remain distinct.
 - Permissions: `permissions` -> POSIX or ACL chunk; SELinux/AppArmor remain distinct.
 - Auth: `auth` -> local accounts, PAM, SSSD/LDAP or sudoers chunk; SSH hardening/RDP remain distinct.
 - Network: `network` -> TCP, UDP, packet capture or VLAN/bonding chunk; routing/NAT/firewall/proxy/DNS remain distinct.
@@ -48,7 +48,10 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 | LVM | `storage` -> LVM chunk |
 | RAID degradation/rebuild | `storage` -> RAID chunk |
 | iSCSI session/LUN | `storage` -> iSCSI chunk |
+| NFS export/mount/UID mapping | `storage` -> NFS chunk |
+| Samba/SMB share/auth | `storage` -> Samba chunk |
 | Multipath/WWID/ALUA | `multipath-expert` |
+| Backup/restore workflow | `backup-restore-expert` |
 | File mode/ACL | `permissions` |
 | PAM/LDAP/sudo | `auth` |
 | Connectivity/TCP/UDP | `network` |
