@@ -1,12 +1,12 @@
-# Release 1.18.5
+# Release 1.18.6
 
 ## Package
 
-- Repository/package metadata version: `1.18.5`
-- Plugin metadata version: `1.18.5`
-- Skill count: `85`
+- Repository/package metadata version: `1.18.6`
+- Plugin metadata version: `1.18.6`
+- Skill count: `83`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.5` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.6` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -29,7 +29,8 @@ A second chunk/support skill is loaded only when evidence proves a cross-layer i
 - **Storage batch 1:** mounts/fstab, filesystem health and SMART/media risk are chunks under `storage`; LVM/RAID/iSCSI/multipath/NFS/Samba/quota/backup remain distinct pending review.
 - **Performance:** CPU, memory/OOM, swap/zram and capacity planning are chunks under `performance`; `limits-expert` remains distinct.
 - **Permissions:** POSIX modes/ownership/traversal and ACL semantics are chunks under `permissions`; SELinux/AppArmor remain distinct.
-- **Identity/auth:** former `user-permissions-expert`, `pam-expert`, `sssd-ldap-expert` and `sudoers-expert` are now `skills/auth/chunks/local-accounts.md`, `pam.md`, `sssd-ldap.md` and `sudoers.md`. `ssh-hardening-expert` and `rdp-expert` remain distinct because remote-access configuration has separate lockout/security risk.
+- **Identity/auth:** local accounts, PAM, SSSD/LDAP and sudoers are chunks under `auth`; SSH hardening and RDP remain distinct because remote-access configuration has separate lockout/security risk.
+- **Logging:** rsyslog routing/forwarding/queues/TLS and logrotate retention/reopen policy are chunks under `logs`. Journald investigation stays in the parent baseline; Nagios Core and Observium CE remain distinct product specialists.
 
 ## Latest source install
 
