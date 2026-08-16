@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.5`  
-**Skill count:** `85`  
+**Version:** `1.18.6`  
+**Skill count:** `83`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -38,9 +38,11 @@ This keeps routing compact without deleting specialist knowledge.
 "ACL mask removes write access" → permissions → skills/permissions/chunks/acl.md
 "LDAP user resolves but cannot log in" → auth → skills/auth/chunks/sssd-ldap.md
 "sudo rule is too broad" → auth → skills/auth/chunks/sudoers.md
+"rsyslog remote queue is stuck" → logs → skills/logs/chunks/rsyslog.md
+"application log never rotates" → logs → skills/logs/chunks/logrotate.md
 ```
 
-Network, timekeeping, first storage branches, core performance branches, POSIX/ACL permissions, and core identity/auth branches now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, first storage branches, core performance branches, POSIX/ACL permissions, core identity/auth branches, and core logging branches now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management reports
 
@@ -104,6 +106,7 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | SSH hardening/remote-access policy | `ssh-hardening-expert` |
 | Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` → matching chunk |
 | NTP/Chrony/timezone/RTC issue | `time` → matching chunk |
+| Missing/forwarded/rotating log issue | `logs` → matching chunk |
 | Active incident/outage | `incident-response-expert` |
 | Incident management report | `incident-report-creator-expert` |
 | Security audit | `security-expert` |
