@@ -22,9 +22,7 @@ function has(cmd) {
 }
 
 function skillDirs() {
-  if (!fs.existsSync(SKILLS)) {
-    throw new Error(`skills directory missing from package: ${SKILLS}`);
-  }
+  if (!fs.existsSync(SKILLS)) throw new Error(`skills directory missing from package: ${SKILLS}`);
   return fs.readdirSync(SKILLS, { withFileTypes: true })
     .filter(e => e.isDirectory() && fs.existsSync(path.join(SKILLS, e.name, 'SKILL.md')))
     .map(e => e.name)
@@ -38,10 +36,7 @@ function installTo(target, force) {
   for (const name of skillDirs()) {
     const src = path.join(SKILLS, name);
     const dst = path.join(target, name);
-    if (fs.existsSync(dst) && !force) {
-      skipped++;
-      continue;
-    }
+    if (fs.existsSync(dst) && !force) { skipped++; continue; }
     fs.cpSync(src, dst, { recursive: true, force: true });
     installed++;
   }
@@ -51,17 +46,15 @@ function installTo(target, force) {
 function installGlobal(force) {
   const home = os.homedir();
   console.log('\nInstalling linux-admin skills into user-level discovery paths:');
-  // Agent Skills common path: Codex, OpenCode and goose.
   installTo(path.join(home, '.agents', 'skills'), force);
-  // Claude Code native user skill path.
   installTo(path.join(home, '.claude', 'skills'), force);
-  console.log('\nUse --force to refresh existing linux-admin skill directories.');
-  console.log('Other agents may use their own global instruction paths; see docs/LOCAL_GLOBAL_AGENT_SETUP.md.\n');
+  console.log('\nUse --force only when you intentionally want to refresh existing skill directories.');
+  console.log('See docs/LOCAL_GLOBAL_AGENT_SETUP.md for other agent instruction paths.\n');
 }
 
 function installClaude() {
   if (!has('claude')) {
-    console.error('Claude Code not found. Install Claude Code first, or use `linux-admin install-global`.');
+    console.error('Claude Code not found. Install Claude Code first, or use `linux-admin install-global` for user-level skills.');
     process.exit(1);
   }
   console.log('Adding Claude Code marketplace source...');
@@ -83,25 +76,24 @@ function status() {
 function help() {
   console.log(`\nlinux-admin ${pkg.version}\n
 Commands:
-  linux-admin status              Show installed package and skill paths
-  linux-admin install-global      Copy skills to ~/.agents/skills and ~/.claude/skills
+  linux-admin status                  Show installed package and skill paths
+  linux-admin install-global          Copy skills to ~/.agents/skills and ~/.claude/skills
   linux-admin install-global --force  Refresh existing installed skill directories
-  linux-admin install-claude      Install the Claude Code plugin from GitHub
-  linux-admin paths               Alias for status
+  linux-admin install-claude          Install the Claude Code plugin from GitHub
+  linux-admin paths                   Alias for status
 
-Project use remains repository-native through AGENTS.md/CLAUDE.md and thin adapters.
+With no command, linux-admin preserves the original Claude installer behavior when Claude Code is available; otherwise it shows this help.
 See docs/LOCAL_GLOBAL_AGENT_SETUP.md for per-agent local/global instruction paths.\n`);
 }
 
 const args = process.argv.slice(2);
 const cmd = args[0];
-const invokedAs = path.basename(process.argv[1] || 'linux-admin');
 
 try {
   if (cmd === 'status' || cmd === 'paths') status();
   else if (cmd === 'install-global') installGlobal(args.includes('--force'));
   else if (cmd === 'install-claude') installClaude();
-  else if (!cmd && invokedAs === 'linux-admin-install') installClaude();
+  else if (!cmd && has('claude')) installClaude();
   else help();
 } catch (err) {
   console.error(`linux-admin: ${err.message}`);
