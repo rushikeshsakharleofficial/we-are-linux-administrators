@@ -22,25 +22,43 @@ Review the host through the attacker lifecycle without claiming that a checklist
 
 ## Mandatory sections
 
-For a full audit cover: scope/authorisation, host role/criticality, exposure map, public/private paths, firewall/cloud controls, SSH/auth, HTTP/TLS and mail where present, patch/CVE and repository provenance, privilege/sudo/SUID/capabilities, file access, sysctl, limits, systemd hardening, SELinux/AppArmor, logging/audit/detection, file integrity when available, backups/restore/ransomware readiness, then findings/severity/remediation/rollback/validation.
+For a full audit cover: scope/authorisation, host role/criticality, exposure map, public/private paths, firewall/cloud controls, SSH/auth, HTTP/TLS and mail where present, patch/CVE and repository provenance, privilege/sudo/SUID/capabilities, file access, sysctl, limits, systemd hardening, SELinux/AppArmor, logging/audit/detection, file integrity when available, crypto policy where relevant, backups/restore/ransomware readiness, then findings/severity/remediation/rollback/validation.
 
 ## Baseline evidence
 
 ```bash
 cat /etc/os-release
 uname -a
+id
 ss -tulpen
 ip -brief addr
 ip route
 systemctl --failed --no-pager 2>/dev/null || true
 journalctl -p warning..alert -b --no-pager -n 200
 findmnt
+sshd -T 2>/dev/null | grep -Ei 'permitrootlogin|passwordauthentication|pubkeyauthentication|allowusers|allowgroups|maxauthtries' || true
 sudo -l 2>/dev/null || true
+visudo -c 2>&1 || true
+getenforce 2>/dev/null || true
+aa-status 2>/dev/null || true
+auditctl -s 2>/dev/null || true
+sysctl kernel.dmesg_restrict kernel.kptr_restrict kernel.yama.ptrace_scope 2>/dev/null || true
 find / -xdev -perm -4000 -type f -print 2>/dev/null | head -160
 getcap -r / 2>/dev/null | head -160
 ```
 
 Collect only role-relevant evidence. Never ingest whole logs or secrets merely because they are available.
+
+## Integrity, crypto and package provenance
+
+When relevant, inspect distro-supported integrity and crypto controls instead of inventing a generic hardening baseline:
+
+- package verification/provenance using the distro package manager and trusted repositories;
+- AIDE, IMA, fapolicyd or equivalent only when deployed or justified by the host role;
+- distro crypto policy/TLS defaults and application compatibility before tightening algorithms;
+- unexpected SUID/SGID files, file capabilities and writable privileged paths.
+
+Do not deploy a new integrity stack or tighten crypto policy blindly during an audit. Record the observed control, gap, compatibility risk, owner, rollback and validation path first.
 
 ## Condition handoffs
 
