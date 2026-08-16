@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.0-chunk-routing",
+  "id": "2026-08-16-1.18.1-time-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.0",
+  "version": "1.18.1",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.0 — compact parent/chunk routing",
-  "summary": "Top-level skill count is now 99. TCP, UDP, tcpdump/packet-capture, and VLAN/bonding were consolidated under the network parent as condition-specific chunks. The migration continues domain by domain without deleting specialist knowledge.",
+  "title": "linux-admin 1.18.1 — timekeeping joins compact routing",
+  "summary": "Top-level skill count is now 98. Chrony/NTP and date/timedatectl/timezone/RTC were consolidated under the time parent as separate condition-specific chunks, preserving their specialist procedures while reducing routing noise.",
   "commands": {
     "claudeCode": [
       "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
