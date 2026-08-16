@@ -1,12 +1,12 @@
-# Release 1.18.3
+# Release 1.18.4
 
 ## Package
 
-- Repository/package metadata version: `1.18.3`
-- Plugin metadata version: `1.18.3`
-- Skill count: `91`
+- Repository/package metadata version: `1.18.4`
+- Plugin metadata version: `1.18.4`
+- Skill count: `89`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.3` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.4` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -38,14 +38,13 @@ Former top-level `disk-mounting-expert`, `filesystem-expert`, and `smart-disk-ex
 
 ### Performance
 
-Former top-level `cpu-expert`, `memory-expert`, `swap-expert`, and `capacity-planning-expert` are now condition-specific chunks under `skills/performance/chunks/`:
+Former top-level `cpu-expert`, `memory-expert`, `swap-expert`, and `capacity-planning-expert` are condition-specific chunks under `skills/performance/chunks/`. `limits-expert` remains top-level because resource ceilings also serve security and blast-radius control.
 
-- `cpu.md` — CPU saturation, run queues, steal, softirq, scheduler/thread pressure.
-- `memory.md` — memory pressure, OOM, reclaim/PSI, cgroups, leaks and slab evidence.
-- `swap.md` — swap files/partitions, zram/zswap, active swap pressure, sizing and priorities.
-- `capacity-planning.md` — trend/headroom forecasting and vertical-vs-horizontal scaling decisions.
+### Permissions — POSIX/ACL batch
 
-`limits-expert` remains top-level because resource ceilings also serve security and blast-radius control; folding it into performance would weaken that role.
+Former top-level `file-permissions-expert` and `acl-permissions-expert` are now `skills/permissions/chunks/posix-modes.md` and `skills/permissions/chunks/acl.md`. The `permissions` parent performs bounded layer checks first and routes to those chunks only when evidence points to POSIX modes/ownership or ACL semantics.
+
+`selinux-expert` and `apparmor-expert` remain distinct because mandatory-access-control policy has different evidence and remediation risk. `user-permissions-expert` also remains distinct pending the identity/auth consolidation review because account lifecycle, sudo, PAM and SSH authorization are not ordinary file permissions.
 
 ## Latest source install
 
