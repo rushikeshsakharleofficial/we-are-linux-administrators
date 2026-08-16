@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.8-automation-routing",
+  "id": "2026-08-16-1.18.9-security-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.8",
+  "version": "1.18.9",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.8 — automation gets compact",
-  "summary": "Top-level skill count is now 80. Bash/POSIX scripting and operational runbooks are condition-specific chunks under automation. Ansible, cron and systemd remain distinct when their own semantics are involved. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.9 — security routing gets compact",
+  "summary": "Top-level skill count is now 78. Broad host security audits, auditd evidence/rules and Fail2Ban diagnostics are condition-specific chunks under security-expert. Distinct SSH/auth/MAC/firewall/kernel/sysctl/patch/vulnerability specialists remain separate. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
