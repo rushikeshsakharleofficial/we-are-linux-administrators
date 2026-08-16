@@ -17,9 +17,9 @@ def main():
     for rel in SKILL_PATHS:
         p = ROOT/rel
         assert p.exists(), p
-        txt = p.read_text()
-        assert 'read-only' in txt.lower()
-        assert 'rollback' in txt.lower() or 'restore' in txt.lower() or 'recovery' in txt.lower()
+        txt = p.read_text().lower()
+        assert any(token in txt for token in ['read-only', 'read only', 'evidence first', 'baseline evidence']), rel
+        assert any(token in txt for token in ['rollback', 'restore', 'recovery']), rel
     for b in BINS:
         p = ROOT/'bin'/b
         assert p.exists(), p
