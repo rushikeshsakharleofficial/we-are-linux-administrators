@@ -7,9 +7,10 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current release: `1.17.75`
-- Current skill count: `103`
+- Current repository metadata version: `1.18.1`
+- Current top-level skill count: `98`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
+- Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
 - Compatibility guide: `docs/AI_TOOL_SUPPORT.md`
 - GitHub Pages: `https://rushikeshsakharleofficial.github.io/we-are-linux-administrators/`
@@ -35,8 +36,9 @@ Before repository changes, read the relevant subset of:
 ## Canonical routing rule
 
 - Keep Linux procedures under `skills/`.
-- Read `skills/using-linux-admin/SKILL.md` when the specialist is unclear.
-- Prefer one primary skill and at most two support skills unless incident/migration/multi-domain scope genuinely requires more.
+- Read `skills/using-linux-admin/SKILL.md` when the domain is unclear.
+- Select one parent/specialist first; let that parent classify bounded evidence and load one condition-specific chunk where available.
+- Add a second chunk/support skill only when evidence proves a cross-layer issue.
 - `incident-response-expert` handles active incident response; `incident-report-creator-expert` creates verified table-first `.docx`, `.xlsx`, `.pdf`, and `.pptx` incident reports.
 - Do not duplicate the full skill tree into vendor-specific directories.
 
@@ -90,6 +92,7 @@ package.json
 .claude-plugin/marketplace.json
 docs/EXPERT_MODULE_INDEX.md
 docs/AI_TOOL_SUPPORT.md
+docs/LOCAL_GLOBAL_AGENT_SETUP.md
 site/assets/data/latest-update.json
 site/assets/js/main.js
 ```
