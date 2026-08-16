@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "description": "Senior Linux administrator and SRE workflow for Claude Code, with portable repository guidance for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, goose, and other agent-based ops tools. Covers 75 task-specific skills organized into focused parent domains with condition-specific chunks for Linux administration, troubleshooting, incident management/reporting, security, networking, storage, monitoring, desktop, package lifecycle, and production safety.",
-  "version": "1.18.12",
+  "description": "Senior Linux administrator and SRE workflow for Claude Code, with portable repository guidance for Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q Developer, Zed Agent, JetBrains Junie, Aider, Sourcegraph Cody, goose, and other agent-based ops tools. Covers 74 task-specific skills organized into focused parent domains with condition-specific chunks for Linux administration, troubleshooting, incident management/reporting, security, networking, storage, monitoring, desktop, package lifecycle, and production safety.",
+  "version": "1.18.13",
   "author": {"name": "Rushikesh Sakharle", "email": "rishiananya123@gmail.com"},
   "license": "MIT",
   "keywords": ["linux", "sre", "linux-admin", "troubleshooting", "codex", "openai-codex", "opencode", "agents-md", "claude-code", "skill-routing", "chunk-routing", "master-router", "universal-contract", "rollback", "backup", "optimization", "performance-tuning", "monitoring", "proxy", "load-balancing", "networking", "kernel", "security", "patching", "package-management", "incident-response", "incident-management", "incident-reporting", "production-safety"],
