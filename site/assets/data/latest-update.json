@@ -1,9 +1,9 @@
 {
-  "id": "2026-08-13-1.17.74",
+  "id": "2026-08-16-1.17.75",
   "type": "plugin-release",
   "showPopup": true,
-  "version": "1.17.74",
-  "date": "2026-08-13",
-  "title": "linux-admin 1.17.74",
-  "summary": "Adds using-linux-admin as the master routing skill and aligns the repository to 102 skills."
+  "version": "1.17.75",
+  "date": "2026-08-16",
+  "title": "linux-admin 1.17.75",
+  "summary": "Adds the table-first incident report creator for Word, Excel, PDF and PowerPoint, aligns the repository to 103 skills, and improves portable local/global agent discovery."
 }
