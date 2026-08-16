@@ -10,6 +10,8 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for Linux incident triage, evidence preservation, impact assessment, containment planning, recovery coordination, and post-incident runbooks.
 
+For formal incident-management artifacts in Word, Excel, PDF, or PowerPoint, route verified evidence to `incident-report-creator-expert` after triage/recovery facts are established.
+
 ## Universal Skill Execution Contract
 
 Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and token-bounded output.
@@ -40,6 +42,7 @@ Ask for incident timeline, impacted hosts, critical service list, current sympto
 5. choose recovery path
 6. validate service health
 7. record timeline and action items
+8. when a formal report is required, pass the verified incident dataset to `incident-report-creator-expert`
 
 ## Anti-patterns
 
@@ -48,10 +51,13 @@ Ask for incident timeline, impacted hosts, critical service list, current sympto
 - collecting huge logs without a hypothesis
 - skipping communication and timeline notes
 - restoring from unverified backups
+- writing a polished report before facts, timeline, impact, and RCA status are verified
 
 ## Output format
 
 Return severity, timeline, evidence pack, containment plan, recovery plan, rollback, validation, and postmortem actions.
+
+When the user asks for `.docx`, `.xlsx`, `.pdf`, `.pptx`, a management report, PIR/RCA pack, or multi-format incident report, use `incident-report-creator-expert` as the reporting specialist.
 
 ## Timeline reconstruction
 
