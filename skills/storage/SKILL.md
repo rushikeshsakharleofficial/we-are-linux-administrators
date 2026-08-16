@@ -1,7 +1,7 @@
 ---
 name: "storage"
-description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota, LVM, md/RAID and iSCSI conditions to focused chunks; escalates multipath/SAN pathing, network-storage and backup problems to dedicated specialists."
-argument-hint: "[mount/device/filesystem/storage symptom]"
+description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota, LVM, md/RAID, iSCSI, NFS and Samba/SMB conditions to focused chunks; escalates multipath/SAN pathing and backup/recovery workflows to dedicated specialists."
+argument-hint: "[mount/device/filesystem/network-storage symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
@@ -9,7 +9,7 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this parent for unknown or broad Linux storage problems. Collect bounded evidence first, identify the failing layer, then load **one matching chunk or specialist**. Do not preload every storage procedure.
 
-Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Storage changes can destroy data or remove remote access: begin read-only, verify backup/recovery state before consequential work, define rollback/guarded recovery, and validate after changes.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Storage changes can destroy data or remove access: begin read-only, verify backup/recovery state before consequential work, define rollback/guarded recovery, and validate after changes.
 
 ## Baseline evidence
 
@@ -21,11 +21,12 @@ lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINTS,ROTA,MODEL,SERIAL,WWN
 blkid 2>/dev/null || true
 lsof +L1 2>/dev/null || true
 iostat -xz 1 3 2>/dev/null || true
-dmesg -T | grep -Ei 'I/O error|medium error|media error|blk_update|reset|EXT4-fs|XFS|BTRFS|Buffer I/O|md|nvme|scsi|iscsi|multipath|dm-' | tail -120
+dmesg -T | grep -Ei 'I/O error|medium error|media error|blk_update|reset|EXT4-fs|XFS|BTRFS|Buffer I/O|md|nvme|scsi|iscsi|multipath|dm-|nfs|cifs|smb' | tail -120
 cat /proc/mdstat 2>/dev/null || true
 pvs 2>/dev/null || true; vgs 2>/dev/null || true; lvs -a 2>/dev/null || true
 iscsiadm -m session 2>/dev/null || true
 multipath -ll 2>/dev/null | head -120 || true
+findmnt -t nfs,nfs4,cifs -o TARGET,SOURCE,FSTYPE,OPTIONS 2>/dev/null || true
 ```
 
 ## Condition -> load only this branch
@@ -39,13 +40,13 @@ multipath -ll 2>/dev/null | head -120 || true
 | PV/VG/LV mapping, LV growth, thin-pool/snapshot pressure or LVM-backed migration planning | `chunks/lvm.md` |
 | md/software RAID degradation, member failure, rebuild, assembly or replacement planning | `chunks/raid.md` |
 | iSCSI discovery/session/target/LUN mapping, login or device-presentation issue | `chunks/iscsi.md` |
+| NFS export/client mount, UID/GID mapping, root squash, stale handle, locking or NFS-version issue | `chunks/nfs.md` |
+| Samba/SMB share, `smb.conf`, authentication/AD mapping, filesystem-access or SMB client issue | `chunks/samba.md` |
 | device-mapper multipath, WWID/path health, ALUA, failover or duplicate-path risk | `multipath-expert` |
-| NFS protocol/export/client issue | `nfs-expert` |
-| SMB/CIFS/Samba protocol/share issue | `samba-expert` |
-| backup/restore/recovery workflow | `backup-restore-expert` |
+| backup/restore/recovery, RPO/RTO, retention or restore-drill workflow | `backup-restore-expert` |
 | still unclear after baseline evidence | stay in this parent; narrow the layer before loading more |
 
-Default: **one parent + one chunk/specialist**. Add a second branch only when evidence proves a cross-layer dependency, for example SMART media errors on a degraded RAID member or an iSCSI session fault beneath a multipath map.
+Default: **one parent + one chunk/specialist**. Add a second branch only when evidence proves a cross-layer dependency, for example SMART media errors on a degraded RAID member, iSCSI beneath a multipath map, NFS blocked by routing/firewall, or Samba denied by SELinux/ACL policy.
 
 ## Baseline interpretation
 
@@ -58,12 +59,14 @@ Default: **one parent + one chunk/specialist**. Add a second branch only when ev
 - SMART/media errors: protect data first; load `chunks/smart.md`.
 - degraded RAID: load `chunks/raid.md`; verify member identity, backup state and surviving-media health before rebuild/replacement work.
 - iSCSI evidence: load `chunks/iscsi.md`; prove target/LUN identity and upper-layer use before login/logout, rescan or writes.
+- NFS evidence: load `chunks/nfs.md`; separate export policy, identity mapping and backing-filesystem access before changing server/client options.
+- Samba/SMB evidence: load `chunks/samba.md`; separate share policy, auth/identity mapping, filesystem ACL/MAC and client protocol behaviour.
 - multipath evidence: use `multipath-expert`; map WWID -> paths -> upper-layer use and never treat raw path devices as independent writable disks.
 - high `await`/`%util`: identify process/device/path before tuning.
 
 ## Safe boundaries
 
-Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, force RAID assembly, run disruptive quota rebuilds, log out active iSCSI sessions, flush in-use multipath maps, or run destructive disk tests without explicit recovery planning and approval.
+Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, force RAID assembly, run disruptive quota rebuilds, log out active iSCSI sessions, flush in-use multipath maps, broaden NFS exports, make Samba shares guest-writable, disable MAC policy to bypass access checks, or run destructive disk tests without explicit recovery planning and approval.
 
 For log-space pressure, prefer application-aware cleanup and dry-runs:
 
@@ -83,4 +86,4 @@ dmesg -T | tail -80
 iostat -xz 1 3 2>/dev/null || true
 ```
 
-Escalate when evidence shows multiple-media failure, root filesystem corruption, all SAN/multipath paths unstable, ambiguous LUN/WWID ownership, full LVM thin metadata, ambiguous RAID member metadata, or a write-heavy production database volume where maintenance/recovery impact must be coordinated.
+Escalate when evidence shows multiple-media failure, root filesystem corruption, all SAN/multipath paths unstable, ambiguous LUN/WWID ownership, full LVM thin metadata, ambiguous RAID member metadata, domain-wide Samba identity mapping risk, NFS state recovery affecting many clients, or a write-heavy production database volume where maintenance/recovery impact must be coordinated.
