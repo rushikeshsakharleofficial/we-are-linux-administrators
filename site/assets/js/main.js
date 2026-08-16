@@ -2,10 +2,10 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.18.4';
-  const SKILL_COUNT = '89';
+  const PROJECT_VERSION = '1.18.5';
+  const SKILL_COUNT = '85';
   const REPO = 'rushikeshsakharleofficial/we-are-linux-administrators';
-  const STALE_COUNTS = new Set(['46', '91', '95', '98', '99', '101', '102', '103', '106', '107', '108']);
+  const STALE_COUNTS = new Set(['46', '89', '91', '95', '98', '99', '101', '102', '103', '106', '107', '108']);
   const REMOVED_SKILLS = new Set([
     'change-plan-expert', 'incident-timeline-expert', 'maintenance-window-expert',
     'post-change-validation-expert', 'preflight-check-expert', 'production-safety-expert',
@@ -14,7 +14,8 @@
     'chrony-expert', 'date-timectl-expert',
     'disk-mounting-expert', 'filesystem-expert', 'smart-disk-expert',
     'cpu-expert', 'memory-expert', 'swap-expert', 'capacity-planning-expert',
-    'file-permissions-expert', 'acl-permissions-expert'
+    'file-permissions-expert', 'acl-permissions-expert',
+    'user-permissions-expert', 'pam-expert', 'sssd-ldap-expert', 'sudoers-expert'
   ]);
 
   function setMeta(selector, value) {
@@ -24,81 +25,73 @@
 
   function replaceText(text) {
     return text
-      .replace(/\b(?:46|91|95|98|99|101|102|103|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\b(?:46|91|95|98|99|101|102|103|106|107|108)\s+(?=Expert Skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\bBrowse all (?:35|40\+|46|91|95|98|99|101|102|103|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
+      .replace(/\b(?:46|89|91|95|98|99|101|102|103|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\b(?:46|89|91|95|98|99|101|102|103|106|107|108)\s+(?=Expert Skills|Focused Skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\bBrowse all (?:35|40\+|46|89|91|95|98|99|101|102|103|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
       .replace(/npm install -g linux-admin/g, `npm install -g github:${REPO}`)
       .replace(/npm registry/gi, 'GitHub source');
   }
 
-  function removeStaleSkillCards() {
-    document.querySelectorAll('.skill-card-name').forEach(nameEl => {
-      const match = nameEl.textContent.trim().match(/^\/linux-admin:([a-z0-9-]+)$/i);
-      if (match && REMOVED_SKILLS.has(match[1])) nameEl.closest('.skill-card')?.remove();
-    });
-  }
+  document.querySelectorAll('.skill-card-name').forEach(nameEl => {
+    const match = nameEl.textContent.trim().match(/^\/linux-admin:([a-z0-9-]+)$/i);
+    if (match && REMOVED_SKILLS.has(match[1])) nameEl.closest('.skill-card')?.remove();
+  });
 
-  function ensureIncidentReportCard() {
-    const grid = document.getElementById('skills-grid');
-    if (!grid) return;
+  const grid = document.getElementById('skills-grid');
+  if (grid) {
     const exists = Array.from(grid.querySelectorAll('.skill-card-name'))
       .some(el => el.textContent.trim() === '/linux-admin:incident-report-creator-expert');
-    if (exists) return;
-    const card = document.createElement('div');
-    card.className = 'skill-card reveal visible';
-    card.dataset.cat = 'ops-workflow';
-    card.innerHTML = `
-      <div class="skill-card-name">/linux-admin:incident-report-creator-expert</div>
-      <div class="skill-card-desc">Table-first incident management reports from one verified dataset, exported consistently to Word, Excel, PDF, PowerPoint, or all four.</div>
-      <div class="skill-card-when">Use when: incident facts are verified and a PIR, RCA, management report, action tracker, or presentation pack is required.</div>
-      <div class="skill-card-cmd"><span>/linux-admin:incident-report-creator-expert create PIR in docx xlsx pdf and pptx</span><button class="copy-btn" aria-label="Copy command">copy</button></div>`;
-    grid.prepend(card);
+    if (!exists) {
+      const card = document.createElement('div');
+      card.className = 'skill-card reveal visible';
+      card.dataset.cat = 'ops-workflow';
+      card.innerHTML = `
+        <div class="skill-card-name">/linux-admin:incident-report-creator-expert</div>
+        <div class="skill-card-desc">Table-first incident management reports from one verified dataset, exported consistently to Word, Excel, PDF, PowerPoint, or all four.</div>
+        <div class="skill-card-when">Use when: incident facts are verified and a PIR, RCA, management report, action tracker, or presentation pack is required.</div>
+        <div class="skill-card-cmd"><span>/linux-admin:incident-report-creator-expert create PIR in docx xlsx pdf and pptx</span><button class="copy-btn" aria-label="Copy command">copy</button></div>`;
+      grid.prepend(card);
+    }
   }
 
-  function syncProjectCopy() {
-    setMeta('meta[name="description"]', `linux-admin — ${SKILL_COUNT} focused Linux administrator/SRE skills with parent-domain routing, condition-specific chunks, incident management, and portable agent workflows.`);
-    setMeta('meta[property="og:description"]', `linux-admin ${PROJECT_VERSION} — ${SKILL_COUNT} focused Linux/SRE skills with condition-based chunk routing and rollback-aware operations.`);
-    if (/skills\.html$/i.test(location.pathname)) {
-      document.title = `linux-admin — Skills | ${SKILL_COUNT} Focused Linux & SRE Skills`;
-      setMeta('meta[property="og:title"]', `linux-admin — Skills | ${SKILL_COUNT} Focused Linux & SRE Skills`);
-    }
-
-    document.querySelectorAll('[data-count]').forEach(el => {
-      const current = String(el.dataset.count || '').replace('+', '');
-      if (STALE_COUNTS.has(current)) el.dataset.count = SKILL_COUNT;
-      const text = el.textContent.trim().replace('+', '');
-      if (STALE_COUNTS.has(text)) el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
-    });
-    document.querySelectorAll('.stat-num').forEach(el => {
-      if (STALE_COUNTS.has(el.textContent.trim())) el.textContent = SKILL_COUNT;
-    });
-    const title = document.querySelector('.page-hero-title');
-    if (title && /Expert Skills|Focused Skills/.test(title.textContent)) title.textContent = `${SKILL_COUNT} Focused Skills`;
-
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    let node;
-    while ((node = walker.nextNode())) {
-      const parent = node.parentElement;
-      if (!parent || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) continue;
-      const next = replaceText(node.nodeValue);
-      if (next !== node.nodeValue) node.nodeValue = next;
-    }
-
-    document.querySelectorAll('a[href*="/releases/tag/"]').forEach(link => {
-      if (/v1\.17\.18|v1\.17\.75|v1\.18\.0|v1\.18\.1|v1\.18\.2|v1\.18\.3|v1\.18\.4/.test(link.textContent + link.href)) {
-        link.href = `https://github.com/${REPO}/releases/latest`;
-        link.textContent = 'latest published release';
-      }
-    });
-    document.querySelectorAll('a[href="https://www.npmjs.com/package/linux-admin"]').forEach(link => {
-      link.href = `https://github.com/${REPO}`;
-      link.textContent = 'GitHub source';
-    });
+  setMeta('meta[name="description"]', `linux-admin — ${SKILL_COUNT} focused Linux administrator/SRE skills with parent-domain routing, condition-specific chunks, incident management, and portable agent workflows.`);
+  setMeta('meta[property="og:description"]', `linux-admin ${PROJECT_VERSION} — ${SKILL_COUNT} focused Linux/SRE skills with condition-based chunk routing and rollback-aware operations.`);
+  if (/skills\.html$/i.test(location.pathname)) {
+    document.title = `linux-admin — Skills | ${SKILL_COUNT} Focused Linux & SRE Skills`;
+    setMeta('meta[property="og:title"]', `linux-admin — Skills | ${SKILL_COUNT} Focused Linux & SRE Skills`);
   }
 
-  removeStaleSkillCards();
-  ensureIncidentReportCard();
-  syncProjectCopy();
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const current = String(el.dataset.count || '').replace('+', '');
+    if (STALE_COUNTS.has(current)) el.dataset.count = SKILL_COUNT;
+    const text = el.textContent.trim().replace('+', '');
+    if (STALE_COUNTS.has(text)) el.textContent = SKILL_COUNT + (el.dataset.suffix || '');
+  });
+  document.querySelectorAll('.stat-num').forEach(el => {
+    if (STALE_COUNTS.has(el.textContent.trim())) el.textContent = SKILL_COUNT;
+  });
+  const title = document.querySelector('.page-hero-title');
+  if (title && /Expert Skills|Focused Skills/.test(title.textContent)) title.textContent = `${SKILL_COUNT} Focused Skills`;
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let node;
+  while ((node = walker.nextNode())) {
+    const parent = node.parentElement;
+    if (!parent || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) continue;
+    const next = replaceText(node.nodeValue);
+    if (next !== node.nodeValue) node.nodeValue = next;
+  }
+
+  document.querySelectorAll('a[href*="/releases/tag/"]').forEach(link => {
+    if (/v1\.17\.18|v1\.17\.75|v1\.18\.[0-5]/.test(link.textContent + link.href)) {
+      link.href = `https://github.com/${REPO}/releases/latest`;
+      link.textContent = 'latest published release';
+    }
+  });
+  document.querySelectorAll('a[href="https://www.npmjs.com/package/linux-admin"]').forEach(link => {
+    link.href = `https://github.com/${REPO}`;
+    link.textContent = 'GitHub source';
+  });
 
   const page = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link[data-page]').forEach(link => {
