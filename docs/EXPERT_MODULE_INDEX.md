@@ -1,6 +1,6 @@
 # Expert Module Index
 
-95 top-level skills.
+91 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -79,7 +79,17 @@ Load a second chunk only when the evidence proves a cross-layer issue. Unknown c
 
 LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct specialists while their overlap is reviewed.
 
-Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, `date-timectl-expert`, `disk-mounting-expert`, `filesystem-expert`, and `smart-disk-expert` were removed only after their useful procedures were preserved in parent chunks.
+### Performance
+
+| Condition | Chunk/specialist |
+|---|---|
+| CPU/run-queue/steal/softirq/scheduler/thread pressure | `skills/performance/chunks/cpu.md` |
+| memory/OOM/reclaim/PSI/cgroup/leak/slab pressure | `skills/performance/chunks/memory.md` |
+| swap/zram/zswap/sizing/priorities/thrashing | `skills/performance/chunks/swap.md` |
+| trend/headroom/capacity forecast/scaling decision | `skills/performance/chunks/capacity-planning.md` |
+| nofile/nproc/memlock/PAM/systemd resource ceilings and security review | keep `limits-expert` distinct |
+
+Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, `date-timectl-expert`, `disk-mounting-expert`, `filesystem-expert`, `smart-disk-expert`, `cpu-expert`, `memory-expert`, `swap-expert`, and `capacity-planning-expert` were removed only after their useful procedures were preserved in parent chunks.
 
 Other domains will be consolidated only when overlap is verified; distinct technologies remain top-level when merging would make routing less reliable.
 
