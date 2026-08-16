@@ -1,129 +1,59 @@
 ---
 name: "automation"
-description: "Create safe Linux administration automation, read-only triage scripts, Ansible playbooks, cron/systemd timers, fleet reports, and dry-run guarded remediation."
-argument-hint: "[automation goal]"
+description: "Design safe Linux automation and route script or runbook work to focused chunks while keeping Ansible and other product-specific automation distinct."
+argument-hint: "[automation goal / script / runbook / fleet task]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
-# automation skill
+# automation
 
-Use this plugin skill for: $ARGUMENTS
+Use this skill for repeatable Linux diagnostics, fleet collection, simple remediation automation, script/runbook design, and choosing the right automation mechanism.
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+## Universal Skill Execution Contract
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Begin read-only, bound fleet evidence, require explicit apply modes for mutations, define rollback before changes, redact secrets, and validate results.
 
-# Task: Automation, Fleet Triage, Ansible, Scripts
+## Baseline evidence
 
-## When to use
+Identify: target hosts/count, OS families, trigger, desired output, privilege needs, existing scheduler/tooling, blast radius, dry-run requirement, rollback path and whether the task is code, documentation or a product-specific automation system.
 
-Use when the user wants repeatable diagnostics, fleet report, Ansible playbook, cron/systemd timer, or script to collect evidence safely across many servers.
+## Condition -> chunk/specialist
+
+| Proven condition | Load |
+|---|---|
+| Bash/script creation, review, debugging, hardening or POSIX portability | `chunks/bash-scripting.md` |
+| Maintenance procedure, operational runbook, handoff checklist | `chunks/runbooks.md` |
+| Ansible playbook/inventory/module/role/rollout issue | `ansible-expert` |
+| One command/one-liner only | `command-expert` |
+| Cron-specific scheduling/execution | `cron-scheduler-expert` |
+| systemd unit/timer semantics | `systemd-expert` |
+| Unknown automation design | stay in this parent baseline until the mechanism is clear |
+
+Default to this parent plus one chunk/specialist. Add a second only when evidence proves the workflow crosses layers.
 
 ## Automation principles
 
 1. Read-only collection first.
-2. Distro-aware commands.
-3. Timeout every remote command.
-4. Do not fail the entire run because one tool is missing.
-5. Redact secrets.
-6. Save raw output and summary.
-7. Make state-changing mode explicit with `--apply` or `--confirm`.
-8. Prefer Ansible modules over raw shell for changes.
-9. Include rollback for every mutation.
-10. Make output machine-readable where possible: JSON/CSV plus human summary.
+2. Use distro-aware commands and timeouts.
+3. Do not fail the whole fleet because one optional tool/host fails.
+4. Redact secrets and separate raw evidence from summaries.
+5. Make state-changing mode explicit (`--apply`, `--confirm`, check mode, canary/serial rollout).
+6. Prefer idempotent/native mechanisms over fragile shell mutation.
+7. Include rollback for every mutation.
+8. Produce machine-readable output where useful (JSON/CSV plus human summary).
 
-## Safe shell script skeleton
+## Scheduler choice
 
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
+Prefer systemd timers when dependency ordering, journald logging, randomized delay, missed-run handling or status visibility matters. Use cron for simple legacy-compatible schedules. Keep cron-specific failures in `cron-scheduler-expert` and unit/timer semantics in `systemd-expert`.
 
-DRY_RUN=1
-OUT_DIR="/var/tmp/linux-triage-$(hostname)-$(date +%F-%H%M%S)"
-mkdir -p "$OUT_DIR"
+## Fleet evidence pattern
 
-run() {
-  local name="$1"; shift
-  echo "== $name ==" | tee "$OUT_DIR/$name.txt"
-  timeout 20 "$@" >> "$OUT_DIR/$name.txt" 2>&1 || true
-}
+Use bounded commands, per-host timeouts, failed-host reporting and explicit privilege. Collect only fields needed for the decision; do not dump entire logs/configurations across a fleet.
 
-run os-release cat /etc/os-release
-run kernel uname -a
-run failed-units systemctl --failed
-run boot-errors journalctl -b -p err..alert --no-pager
-run ip-addr ip -br addr
-run routes ip route
-run sockets ss -lntup
-run disks lsblk -f
-run mounts findmnt
-run df df -hT
-run memory free -h
+## Validation
 
-echo "Wrote $OUT_DIR"
-```
+Validate syntax, dry-run/check mode, one-host/canary behaviour, expected output, failure handling, rollback path and only then wider rollout.
 
-## Ansible evidence collection rules
+## Output
 
-Use:
-
-- `gather_facts: true`.
-- `changed_when: false` for diagnostics.
-- `failed_when: false` for optional tools.
-- `fetch` or `copy` for report artifacts.
-- `serial` when collecting from many servers.
-- `become: true` only where needed.
-
-## Ansible remediation rules
-
-Before changes:
-
-- `check_mode` support where possible.
-- Backup config files.
-- Validate syntax.
-- Apply small change.
-- Validate service.
-- Rollback on failure.
-
-Example pattern:
-
-```yaml
-- name: Validate sshd config before reload
-  ansible.builtin.command: sshd -t
-  changed_when: false
-
-- name: Reload sshd after validated config
-  ansible.builtin.service:
-    name: sshd
-    state: reloaded
-  when: apply_changes | default(false) | bool
-```
-
-## Cron vs systemd timer
-
-Prefer systemd timers for modern Linux if the task needs:
-
-- Dependency ordering.
-- Logs in journald.
-- Randomized delay.
-- Missed-run handling.
-- Easy status via `systemctl list-timers`.
-
-Use cron for very simple legacy compatibility.
-
-## Fleet report output fields
-
-```csv
-hostname,distro,kernel,uptime,failed_units,root_usage,var_usage,inode_root_usage,default_route,dns_status,oom_events,storage_errors,security_denials,agent_status
-```
-
-## Safety checklist for automation generated by AI
-
-- Does it default to dry-run?
-- Does it avoid destructive commands?
-- Does it have timeouts?
-- Does it handle missing commands?
-- Does it log raw evidence?
-- Does it redact secrets?
-- Does it show summary and failed hosts?
-- Does it require explicit `--apply` for changes?
+Return mechanism choice, evidence, architecture fit, selected chunk/specialist, safe implementation outline, rollback, validation and token-saving evidence request.
