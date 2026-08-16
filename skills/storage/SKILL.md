@@ -1,6 +1,6 @@
 ---
 name: "storage"
-description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota and LVM conditions to focused chunks; escalates RAID, SAN/multipath, network storage and backup problems to dedicated specialists."
+description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota, LVM and md/RAID conditions to focused chunks; escalates SAN/multipath, network storage and backup problems to dedicated specialists."
 argument-hint: "[mount/device/filesystem/storage symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
@@ -35,7 +35,7 @@ pvs 2>/dev/null || true; vgs 2>/dev/null || true; lvs -a 2>/dev/null || true
 | SMART/NVMe health, media errors, wear, temperature, suspect physical disk or replacement risk | `chunks/smart.md` |
 | user/group/project quota accounting, enforcement, grace period, XFS project quota or quota-related write failure | `chunks/quota.md` |
 | PV/VG/LV mapping, LV growth, thin-pool/snapshot pressure or LVM-backed migration planning | `chunks/lvm.md` |
-| md/software RAID degradation/rebuild | `raid-expert` |
+| md/software RAID degradation, member failure, rebuild, assembly or replacement planning | `chunks/raid.md` |
 | iSCSI session/target/LUN issue | `iscsi-expert` |
 | multipath/path failover/SAN path issue | `multipath-expert` |
 | NFS protocol/export/client issue | `nfs-expert` |
@@ -54,12 +54,12 @@ Default: **one parent + one chunk/specialist**. Add a second branch only when ev
 - quota-related write failure with free filesystem space: load `chunks/quota.md`; compare effective hard/soft block and inode limits before changing policy.
 - LVM or thin-pool evidence: load `chunks/lvm.md`; map PV -> VG -> LV -> filesystem before any resize. Treat thin metadata/data exhaustion as write-failure risk.
 - SMART/media errors: protect data first; load `chunks/smart.md`.
-- degraded RAID: collect array evidence and route to `raid-expert`; avoid speculative `mdadm` writes.
+- degraded RAID: load `chunks/raid.md`; verify member identity, backup state and surviving-media health before rebuild/replacement work.
 - high `await`/`%util`: identify process/device/path before tuning.
 
 ## Safe boundaries
 
-Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, run disruptive quota rebuilds, or run destructive disk tests without explicit recovery planning and approval.
+Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, force RAID assembly, run disruptive quota rebuilds, or run destructive disk tests without explicit recovery planning and approval.
 
 For log-space pressure, prefer application-aware cleanup and dry-runs:
 
@@ -78,4 +78,4 @@ dmesg -T | tail -80
 iostat -xz 1 3 2>/dev/null || true
 ```
 
-Escalate when evidence shows multiple-media failure, root filesystem corruption, SAN/multipath instability, full LVM thin metadata, or a write-heavy production database volume where maintenance/recovery impact must be coordinated.
+Escalate when evidence shows multiple-media failure, root filesystem corruption, SAN/multipath instability, full LVM thin metadata, ambiguous RAID member metadata, or a write-heavy production database volume where maintenance/recovery impact must be coordinated.
