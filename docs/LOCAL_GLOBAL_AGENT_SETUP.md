@@ -29,16 +29,16 @@ Existing destination skill directories are skipped by default. Use `--force` onl
 
 - Keep root/project `AGENTS.md` as the shared instruction entry where supported.
 - Keep `CLAUDE.md`, Copilot/Amazon Q rules, OpenCode and Aider adapters thin.
-- Never hard-code `/home/<user>/...`, `C:\Users\<user>\...`, npm prefixes or IDE installation paths.
-- Never commit `.agent/`, `.claude/state/`, `site/.claude/state/`, `CLAUDE.local.md`, command history, caches, auto-memory, credentials or generated tokens.
+- Never hard-code maintainer-specific home paths, npm prefixes or IDE installation paths.
+- Never commit machine-local agent state, command history, caches, auto-memory, credentials or generated tokens.
 - Do not claim a global/native path for an agent unless its current official docs support it.
 
 ## Discovery verification
 
-1. `linux-admin status` reports repository metadata `1.18.13` and current top-level skill count `74`.
+1. `linux-admin status` reports repository metadata `1.18.14` and current top-level skill count `73`.
 2. The target global directory contains `using-linux-admin/SKILL.md`.
 3. Restart/reload the target agent when its docs require a rescan.
 4. Explicitly invoke `using-linux-admin` when routing is uncertain.
 5. Confirm routing selects one parent/specialist and only the required chunk.
 
-The compact tree includes parent/chunk routing for network, time, storage mounts/filesystem/SMART/quota/LVM, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, incident RCA, and security host-audit/auditd/Fail2Ban branches. Distinct high-risk or product-specific specialists remain separate when merging would reduce safety or routing accuracy.
+The compact tree includes parent/chunk routing for network, time, storage mounts/filesystem/SMART/quota/LVM/RAID, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, incident RCA, and security host-audit/auditd/Fail2Ban branches. Distinct high-risk or product-specific specialists remain separate when merging would reduce safety or routing accuracy.
