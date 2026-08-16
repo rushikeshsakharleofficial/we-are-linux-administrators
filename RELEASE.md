@@ -2,36 +2,42 @@
 
 ## Package
 
-- NPM package version: `1.17.75`
+- Repository/package metadata version: `1.17.75`
 - Plugin metadata version: `1.17.75`
 - Skill count: `103`
 - Package name: `linux-admin`
+- GitHub Release: pending publication of `v1.17.75`; latest published GitHub Release is currently `v1.17.74`.
+- npm registry publication: not currently verified; the previous publish workflow failed authentication.
 
 ## Added
 
-- `incident-report-creator-expert` — table-first incident management report creator that builds one canonical incident dataset and exports consistent reports in Word (`.docx`), Excel (`.xlsx`), PDF (`.pdf`), PowerPoint (`.pptx`), or all four formats.
-- `docs/LOCAL_GLOBAL_AGENT_SETUP.md` — verified project/user discovery guidance for maintained agent surfaces without hard-coded maintainer paths.
-- `linux-admin install-global` — safe user-level skill install to `~/.agents/skills` and `~/.claude/skills`; existing skill directories are skipped unless `--force` is explicitly requested.
+- `incident-report-creator-expert` — table-first incident management report creator for Word (`.docx`), Excel (`.xlsx`), PDF (`.pdf`), PowerPoint (`.pptx`), or all four formats.
+- `docs/LOCAL_GLOBAL_AGENT_SETUP.md` — project/user discovery guidance without hard-coded maintainer paths.
+- `linux-admin install-global` — safe user-level skill install to `~/.agents/skills` and `~/.claude/skills`; existing skill directories are skipped unless `--force` is explicit.
 
 ## Fixed
 
-- The npm package now actually ships `skills/`, relevant docs, `AGENTS.md`, `CLAUDE.md`, `opencode.json`, and `.aider.conf.yml`; earlier packaging exposed the CLI but excluded the canonical skills.
-- Removed committed machine-local `.agent`/`.claude/state` command history and stale AGENTS/CLAUDE backup files, and added ignore rules to prevent recurrence.
-- `CLAUDE.md` is now a thin Claude-specific adapter that imports `AGENTS.md` instead of duplicating repository rules.
-- Copilot, Amazon Q, OpenCode, and Aider/project guidance converge on `using-linux-admin` as the canonical router.
-- Website runtime/release data are aligned to `1.17.75` and `103` skills; stale dynamic cards for non-existent expert names were removed with the simplified runtime.
-- Validation now checks npm packaged skill presence and rejects tracked local agent state.
+- The package now includes `skills/`, relevant docs, `AGENTS.md`, `CLAUDE.md`, `opencode.json`, and `.aider.conf.yml`; earlier packaging exposed the CLI but excluded canonical skills.
+- Removed committed machine-local `.agent`/`.claude/state` history and stale AGENTS/CLAUDE backups, with ignore rules to prevent recurrence.
+- `CLAUDE.md` is now a thin adapter importing `AGENTS.md` instead of duplicating repository rules.
+- Copilot, Amazon Q, OpenCode, and Aider guidance converge on `using-linux-admin` as the canonical router.
+- Website runtime is aligned to `1.17.75` / `103` and removes stale cards for non-existent skills.
+- Validation checks packaged skill presence and rejects tracked local agent state.
 
-## Incident reporting model
+## Latest source install
 
-The reporting skill uses shared tables for incident summary, impact, timeline, detection/response, RCA, corrective/preventive actions, communications, lessons learned, evidence, and review status. Unknown or conflicting facts are marked explicitly instead of being invented.
-
-## Install
+Until npm registry publishing is configured and verified:
 
 ```bash
-npm install -g linux-admin
+npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators
 linux-admin status
 linux-admin install-global
+```
+
+Or:
+
+```bash
+npx github:rushikeshsakharleofficial/we-are-linux-administrators
 ```
 
 Claude Code plugin install:
