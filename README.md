@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.14`  
-**Skill count:** `73`  
+**Version:** `1.18.15`  
+**Skill count:** `72`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -15,18 +15,12 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 `using-linux-admin` chooses the smallest parent domain or distinct specialist. Parent skills collect bounded evidence and load only the matching condition-specific chunk.
 
 ```text
-/using-linux-admin
-      ↓
-parent skill
-      ↓
-condition/evidence check
-      ↓
-one matching chunk
+/using-linux-admin -> parent/specialist -> evidence -> one matching chunk
 ```
 
-Examples: TCP -> `network/chunks/tcp.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
+Examples: TCP -> `network/chunks/tcp.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
 
-Distinct high-risk or product-specific specialists remain top-level where merging would weaken routing or recovery safety.
+Distinct high-risk or product-specific specialists remain top-level where merging would weaken routing or recovery safety. Multipath, NFS, Samba and backup/restore remain separate after the current storage review.
 
 ## Install
 
@@ -56,13 +50,15 @@ linux-admin install-global
 |---|---|
 | Unknown Linux problem | `diagnose` |
 | High load/OOM/slowness | `performance` |
-| Disk/mount/I/O/quota/LVM/RAID issue | `storage` |
-| RAID degradation/rebuild/assembly | `storage` -> RAID chunk |
+| Disk/mount/I/O/quota/LVM/RAID/iSCSI issue | `storage` |
+| Multipath/WWID/ALUA path issue | `multipath-expert` |
+| NFS or Samba issue | matching specialist |
+| Backup/restore workflow | `backup-restore-expert` |
 | File/path ownership/mode/ACL | `permissions` |
 | Local account/PAM/SSSD-LDAP/sudo | `auth` |
 | Connectivity/TCP/UDP/VLAN/packet flow | `network` |
 | NTP/timezone/RTC | `time` |
-| Broken package/repository/dependency transaction | `package-manager-expert` |
+| Package/repository issue | `package-manager-expert` |
 | OS/security patch rollout | `package-manager-expert` -> patching chunk |
 | Logs | `logs` |
 | Active incident/RCA | `incident-response-expert` |
