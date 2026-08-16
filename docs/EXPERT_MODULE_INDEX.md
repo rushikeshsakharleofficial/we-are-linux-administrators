@@ -1,6 +1,6 @@
 # Expert Module Index
 
-99 top-level skills.
+98 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -43,6 +43,7 @@ Load a second chunk only when the evidence proves a cross-layer issue. Unknown c
 | Permissions | `permissions` |
 | Authentication/identity | `auth` |
 | Networking | `network` |
+| Timekeeping | `time` |
 | Load balancing | `load-balancer-expert` |
 | Security | `security-expert` |
 | Containers | `containers` |
@@ -52,7 +53,7 @@ Load a second chunk only when the evidence proves a cross-layer issue. Unknown c
 
 ## Consolidation status
 
-Network is the first converted parent. Its condition-specific chunks are:
+### Network
 
 | Condition | Chunk |
 |---|---|
@@ -61,7 +62,14 @@ Network is the first converted parent. Its condition-specific chunks are:
 | packet-level proof/tcpdump | `skills/network/chunks/packet-capture.md` |
 | VLAN/bond/LACP/MTU/failover issue | `skills/network/chunks/vlan-bonding.md` |
 
-Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, and `vlan-bonding-expert` were removed after their useful procedures were moved into these chunks.
+### Timekeeping
+
+| Condition | Chunk |
+|---|---|
+| Chrony/NTP source quality, reach, stratum, offset, drift, NTS/server mode | `skills/time/chunks/chrony.md` |
+| timezone, system clock/UTC, RTC/hwclock, timedatectl, systemd-timesyncd | `skills/time/chunks/system-clock.md` |
+
+Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, and `date-timectl-expert` were removed only after their useful procedures were preserved in parent chunks.
 
 Other domains will be consolidated only when overlap is verified; distinct technologies remain top-level when merging would make routing less reliable.
 
