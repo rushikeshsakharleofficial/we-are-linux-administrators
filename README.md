@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.2`  
-**Skill count:** `95`  
+**Version:** `1.18.3`  
+**Skill count:** `91`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -49,18 +49,18 @@ This keeps routing compact without throwing away specialist knowledge.
 ```
 
 ```text
-"XFS remounted read-only after I/O errors"
-→ storage
-→ skills/storage/chunks/filesystem-health.md
+"host is swapping heavily and latency spikes"
+→ performance
+→ skills/performance/chunks/swap.md
 ```
 
 ```text
-"disk has pending sectors and kernel media errors"
-→ storage
-→ skills/storage/chunks/smart.md
+"OOM killer repeatedly targets one container"
+→ performance
+→ skills/performance/chunks/memory.md
 ```
 
-Network, timekeeping, and the first storage branches have been converted to parent/chunk routing. Other domains follow the same pattern only where overlap is verified.
+Network, timekeeping, the first storage branches, and core performance branches now use parent/chunk routing. Distinct specialists stay top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management reports
 
@@ -119,6 +119,8 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Boot failure | `boot` |
 | Kernel panic/lockup | `kernel` |
 | High load/OOM/slowness | `performance` |
+| CPU/memory/swap/capacity issue | `performance` → matching chunk |
+| nofile/nproc/memlock/resource-limit audit | `limits-expert` |
 | Disk/mount/I/O issue | `storage` |
 | Mount/fstab/filesystem/SMART issue | `storage` → matching chunk |
 | Permission denied | `permissions` |
