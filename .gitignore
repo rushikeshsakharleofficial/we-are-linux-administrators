@@ -16,6 +16,13 @@ pnpm-debug.log*
 .env
 .env.*
 
+# Local agent state / personal context
+.agent/
+.claude/state/
+site/.claude/state/
+CLAUDE.local.md
+*.bak.*
+
 # Archives
 *.zip
 *.tar.gz
