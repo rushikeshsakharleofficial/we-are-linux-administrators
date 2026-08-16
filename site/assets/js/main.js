@@ -2,14 +2,15 @@
 (function () {
   'use strict';
 
-  const PROJECT_VERSION = '1.17.75';
-  const SKILL_COUNT = '103';
+  const PROJECT_VERSION = '1.18.0';
+  const SKILL_COUNT = '99';
   const REPO = 'rushikeshsakharleofficial/we-are-linux-administrators';
-  const STALE_COUNTS = new Set(['46', '95', '98', '99', '101', '102', '106', '107', '108']);
+  const STALE_COUNTS = new Set(['46', '95', '98', '101', '102', '103', '106', '107', '108']);
   const REMOVED_SKILLS = new Set([
     'change-plan-expert', 'incident-timeline-expert', 'maintenance-window-expert',
     'post-change-validation-expert', 'preflight-check-expert', 'production-safety-expert',
-    'risk-assessment-expert', 'rollback-expert'
+    'risk-assessment-expert', 'rollback-expert',
+    'tcp-expert', 'udp-expert', 'tcpdump-expert', 'vlan-bonding-expert'
   ]);
 
   function setMeta(selector, value) {
@@ -19,9 +20,9 @@
 
   function replaceText(text) {
     return text
-      .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\b(?:46|95|98|99|101|102|106|107|108)\s+(?=Expert Skills\b)/gi, `${SKILL_COUNT} `)
-      .replace(/\bBrowse all (?:35|40\+|46|95|98|99|101|102|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
+      .replace(/\b(?:46|95|98|101|102|103|106|107|108)\s+(?=skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\b(?:46|95|98|101|102|103|106|107|108)\s+(?=Expert Skills\b)/gi, `${SKILL_COUNT} `)
+      .replace(/\bBrowse all (?:35|40\+|46|95|98|101|102|103|106|107|108)(?=\s+skills?\b)/gi, `Browse all ${SKILL_COUNT}`)
       .replace(/npm install -g linux-admin/g, `npm install -g github:${REPO}`)
       .replace(/npm registry/gi, 'GitHub source');
   }
@@ -51,11 +52,11 @@
   }
 
   function syncProjectCopy() {
-    setMeta('meta[name="description"]', `linux-admin — ${SKILL_COUNT} Linux administrator/SRE skills with safe routing, incident management, and portable agent workflows.`);
-    setMeta('meta[property="og:description"]', `linux-admin ${PROJECT_VERSION} — ${SKILL_COUNT} Linux/SRE skills with read-only-first diagnostics and rollback-aware operations.`);
+    setMeta('meta[name="description"]', `linux-admin — ${SKILL_COUNT} focused Linux administrator/SRE skills with parent-domain routing, condition-specific chunks, incident management, and portable agent workflows.`);
+    setMeta('meta[property="og:description"]', `linux-admin ${PROJECT_VERSION} — ${SKILL_COUNT} focused Linux/SRE skills with condition-based chunk routing and rollback-aware operations.`);
     if (/skills\.html$/i.test(location.pathname)) {
-      document.title = `linux-admin — Skills | ${SKILL_COUNT} Expert Linux & SRE Skills`;
-      setMeta('meta[property="og:title"]', `linux-admin — Skills | ${SKILL_COUNT} Expert Linux & SRE Skills`);
+      document.title = `linux-admin — Skills | ${SKILL_COUNT} Focused Linux & SRE Skills`;
+      setMeta('meta[property="og:title"]', `linux-admin — Skills | ${SKILL_COUNT} Focused Linux & SRE Skills`);
     }
 
     document.querySelectorAll('[data-count]').forEach(el => {
@@ -68,7 +69,7 @@
       if (STALE_COUNTS.has(el.textContent.trim())) el.textContent = SKILL_COUNT;
     });
     const title = document.querySelector('.page-hero-title');
-    if (title && /Expert Skills/.test(title.textContent)) title.textContent = `${SKILL_COUNT} Expert Skills`;
+    if (title && /Expert Skills|Focused Skills/.test(title.textContent)) title.textContent = `${SKILL_COUNT} Focused Skills`;
 
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node;
@@ -80,7 +81,7 @@
     }
 
     document.querySelectorAll('a[href*="/releases/tag/"]').forEach(link => {
-      if (/v1\.17\.18|v1\.17\.75/.test(link.textContent + link.href)) {
+      if (/v1\.17\.18|v1\.17\.75|v1\.18\.0/.test(link.textContent + link.href)) {
         link.href = `https://github.com/${REPO}/releases/latest`;
         link.textContent = 'latest published release';
       }
