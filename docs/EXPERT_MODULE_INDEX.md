@@ -1,6 +1,6 @@
 # Expert Module Index
 
-83 top-level skills.
+82 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -25,6 +25,7 @@ Load a second chunk only when evidence proves a cross-layer issue. Unknown condi
 | Unknown Linux problem | `diagnose` |
 | Broad senior execution | `linux-admin-chief-engineer` |
 | Active incident response | `incident-response-expert` |
+| Post-containment RCA | `incident-response-expert` -> `chunks/root-cause-analysis.md` |
 | Incident Word/Excel/PDF/PowerPoint report | `incident-report-creator-expert` |
 | Production change safety | `change-safety-expert` |
 | Optimisation/tuning gate | `optimization-guardian-expert` |
@@ -49,7 +50,7 @@ Load a second chunk only when evidence proves a cross-layer issue. Unknown condi
 | Containers | `containers` |
 | Logging | `logs` |
 | Migration | `migration-expert` |
-| Incident response | `incident-response-expert` |
+| Incident response/RCA | `incident-response-expert` |
 
 ## Consolidation status
 
@@ -95,6 +96,11 @@ LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct pendin
 - logrotate retention/compression/reopen/copytruncate -> `skills/logs/chunks/logrotate.md`
 - journald baseline investigation -> stays in `skills/logs/SKILL.md`
 - Nagios Core/Observium CE -> keep distinct product specialists
+
+### Incident management
+- active triage/containment/recovery -> stays in `skills/incident-response-expert/SKILL.md`
+- post-containment causal-chain/RCA work -> `skills/incident-response-expert/chunks/root-cause-analysis.md`
+- formal DOCX/XLSX/PDF/PPTX reports -> keep `incident-report-creator-expert` distinct
 
 Former top-level specialists were removed only after useful procedures were preserved in parent chunks. Other domains will be consolidated only when overlap is verified; distinct technologies stay top-level when merging would reduce safety or routing accuracy.
 
