@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.4`  
-**Skill count:** `89`  
+**Version:** `1.18.5`  
+**Skill count:** `85`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -12,7 +12,7 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 /linux-admin:using-linux-admin <task>
 ```
 
-`using-linux-admin` chooses the smallest **parent domain or distinct specialist**. Parent skills then identify the condition from bounded evidence and load only the matching chunk.
+`using-linux-admin` chooses the smallest **parent domain or distinct specialist**. Parent skills collect bounded evidence and load only the matching condition-specific chunk.
 
 ```text
 /using-linux-admin
@@ -26,47 +26,27 @@ one matching chunk
 second chunk only when evidence proves a cross-layer issue
 ```
 
-This keeps routing compact without throwing away specialist knowledge.
+This keeps routing compact without deleting specialist knowledge.
 
 ### Consolidated examples
 
 ```text
-"TCP connections stuck in SYN_RECV"
-→ network
-→ skills/network/chunks/tcp.md
+"TCP connections stuck in SYN_RECV" → network → skills/network/chunks/tcp.md
+"chronyd has a large offset" → time → skills/time/chunks/chrony.md
+"fstab blocks boot" → storage → skills/storage/chunks/mounts.md
+"host is swapping heavily" → performance → skills/performance/chunks/swap.md
+"ACL mask removes write access" → permissions → skills/permissions/chunks/acl.md
+"LDAP user resolves but cannot log in" → auth → skills/auth/chunks/sssd-ldap.md
+"sudo rule is too broad" → auth → skills/auth/chunks/sudoers.md
 ```
 
-```text
-"chronyd has a large offset and bad source reach"
-→ time
-→ skills/time/chunks/chrony.md
-```
-
-```text
-"fstab entry blocks boot after a device rename"
-→ storage
-→ skills/storage/chunks/mounts.md
-```
-
-```text
-"host is swapping heavily and latency spikes"
-→ performance
-→ skills/performance/chunks/swap.md
-```
-
-```text
-"mode bits look right but ACL mask removes write access"
-→ permissions
-→ skills/permissions/chunks/acl.md
-```
-
-Network, timekeeping, the first storage branches, core performance branches, and POSIX/ACL permission branches now use parent/chunk routing. Distinct specialists stay top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, first storage branches, core performance branches, POSIX/ACL permissions, and core identity/auth branches now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management reports
 
-`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into Word `.docx`, Excel `.xlsx`, PDF `.pdf`, PowerPoint `.pptx`, or all four. Unknown facts stay marked as unknown instead of being invented.
+`incident-report-creator-expert` creates one verified, table-first incident dataset and renders it consistently into Word `.docx`, Excel `.xlsx`, PDF `.pdf`, PowerPoint `.pptx`, or all four. Unknown facts stay unknown rather than being invented.
 
-For an active outage use `incident-response-expert` first; use the report creator after incident evidence and facts are established.
+For an active outage use `incident-response-expert` first; use the report creator after evidence and facts are established.
 
 ## Install
 
@@ -117,36 +97,26 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Unknown Linux problem | `diagnose` |
 | Service failure | `service` |
 | Boot failure | `boot` |
-| Kernel panic/lockup | `kernel` |
 | High load/OOM/slowness | `performance` |
-| CPU/memory/swap/capacity issue | `performance` → matching chunk |
-| nofile/nproc/memlock/resource-limit audit | `limits-expert` |
 | Disk/mount/I/O issue | `storage` |
-| Mount/fstab/filesystem/SMART issue | `storage` → matching chunk |
 | File/path ownership/mode/ACL issue | `permissions` → matching chunk |
-| SSH/login/sudo identity issue | `auth` |
+| Local account/PAM/SSSD-LDAP/sudo issue | `auth` → matching chunk |
+| SSH hardening/remote-access policy | `ssh-hardening-expert` |
 | Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` → matching chunk |
 | NTP/Chrony/timezone/RTC issue | `time` → matching chunk |
 | Active incident/outage | `incident-response-expert` |
 | Incident management report | `incident-report-creator-expert` |
 | Security audit | `security-expert` |
-| Load-balancer choice | `load-balancer-expert` |
 | Migration/cutover | `migration-expert` |
 | Tuning/optimisation | `optimization-guardian-expert` first |
 
 Full routing map: [`skills/using-linux-admin/SKILL.md`](skills/using-linux-admin/SKILL.md).
 
-## Portability
+## Portability and safety
 
-Canonical procedures stay under `skills/`. Root `AGENTS.md` is the shared repository instruction source where supported; `CLAUDE.md`, `.github/copilot-instructions.md`, `.amazonq/rules/linux-admin.md`, `opencode.json`, and `.aider.conf.yml` stay thin.
+Canonical procedures stay under `skills/`. `AGENTS.md` is the shared repository instruction source where supported; `CLAUDE.md` and vendor adapters stay thin. Never commit local agent state, absolute maintainer paths, command history, personal memory, tokens, or generated credentials.
 
-Do not commit local agent state, absolute maintainer paths, command history, personal memory, tokens, or generated credentials.
-
-## Safety
-
-Every parent, specialist and chunk follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md): verify facts, plan rollback, check architecture fit, protect backups/recovery paths, use guarded rollback for consequential remote changes, validate results, and keep evidence bounded.
-
-OS-specific patch/kernel/driver/lifecycle/vulnerability guidance follows [`docs/SECURITY_PATCH_REFRESH_POLICY.md`](docs/SECURITY_PATCH_REFRESH_POLICY.md).
+Every parent, specialist and chunk follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md): verify facts, plan rollback, check architecture fit, protect recovery paths, use guarded rollback for consequential remote changes, validate results, and keep evidence bounded.
 
 ## Validate
 
