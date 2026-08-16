@@ -7,8 +7,8 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current repository metadata version: `1.18.15`
-- Current top-level skill count: `72`
+- Current repository metadata version: `1.18.16`
+- Current top-level skill count: `70`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
 - Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
@@ -24,7 +24,7 @@ Before repository changes, read the relevant README/release/package/plugin metad
 - Use `skills/using-linux-admin/SKILL.md` when the domain is unclear.
 - Select one parent/specialist first; let the parent classify bounded evidence and load one condition-specific chunk.
 - Add a second chunk/support skill only when evidence proves a cross-layer issue.
-- `storage` owns mount/fstab, filesystem-health, SMART, quota, LVM, md/RAID and iSCSI chunks; multipath, NFS, Samba and backup remain distinct.
+- `storage` owns mount/fstab, filesystem-health, SMART, quota, LVM, md/RAID, iSCSI, NFS and Samba/SMB chunks; multipath and backup/restore remain distinct.
 - `automation` owns Bash/POSIX scripting and operational-runbook chunks; Ansible, cron and systemd remain distinct when their own semantics are involved.
 - `auth` owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct.
 - `logs` owns rsyslog and logrotate chunks; product monitoring stays distinct.
