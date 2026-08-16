@@ -30,7 +30,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/s
 - **Automation:** `automation` -> Bash/POSIX scripting chunk or operational-runbook chunk; keep Ansible, cron and systemd as distinct specialists when their own semantics are involved
 - **Boot/services:** `boot`, `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
 - **Performance:** `performance` -> CPU, memory/OOM, swap/zram or capacity-planning chunk; keep `limits-expert` distinct
-- **Storage:** `storage` -> mounts/fstab, filesystem-health or SMART chunk; LVM/RAID/iSCSI/multipath/NFS/Samba/quota/backup remain distinct pending review
+- **Storage:** `storage` -> mounts/fstab, filesystem-health, SMART or quota chunk; LVM/RAID/iSCSI/multipath/NFS/Samba/backup remain distinct pending review
 - **Permissions:** `permissions` -> POSIX modes/ownership/traversal or ACL chunk; SELinux/AppArmor remain distinct
 - **Auth:** `auth` -> local accounts, PAM, SSSD/LDAP or sudoers chunk; SSH hardening and RDP remain distinct
 - **Network:** `network` -> TCP, UDP, packet-capture or VLAN/bonding chunk; routing/NAT/firewall/proxy/DNS remain distinct specialists
@@ -58,6 +58,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/s
 | Service/boot/kernel issue | matching boot/service parent |
 | High load/OOM/slow host | `performance` |
 | Disk/mount/I/O problem | `storage` |
+| User/group/project quota issue | `storage` -> quota chunk |
 | File/path permission denied | `permissions` |
 | Local account/PAM/SSSD-LDAP/sudo | `auth` |
 | SSH hardening | `ssh-hardening-expert` |
