@@ -1,117 +1,70 @@
 ---
 name: "storage"
-description: "Troubleshoot Linux storage issues: disk full, inode full, deleted open files, filesystem errors, LVM, RAID, SMART, mount failures, and I/O latency."
-argument-hint: "[mount/device/storage symptom]"
+description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, and SMART/media-risk conditions to focused chunks; escalates LVM, RAID, SAN/multipath, network storage, quota, and backup problems to dedicated specialists."
+argument-hint: "[mount/device/filesystem/storage symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
 # storage skill
 
-Use this plugin skill for: $ARGUMENTS
+Use this parent for unknown or broad Linux storage problems. Collect bounded evidence first, identify the failing layer, then load **one matching chunk or specialist**. Do not preload every storage procedure.
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Storage changes can destroy data or remove remote access: begin read-only, verify backup/recovery state before consequential work, define rollback/guarded recovery, and validate after changes.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
-
-# Task: Storage, Filesystems, Disk Full, LVM, RAID, SMART
-
-## When to use
-
-Use this for disk full, inode full, deleted files holding space, I/O errors, high disk latency, LVM thin pool, RAID degraded, filesystem corruption, mount errors, SMART warnings.
-
-## Mental model
-
-Distinguish:
-
-1. Block space exhaustion.
-2. Inode exhaustion.
-3. Deleted-but-open files.
-4. Filesystem read-only/remount/errors.
-5. Device latency or failure.
-6. LVM/RAID thin/degraded state.
-7. Application writing unexpectedly.
-
-## Read-only first commands
+## Baseline evidence
 
 ```bash
 df -hT
 df -ih
 findmnt -o TARGET,SOURCE,FSTYPE,OPTIONS
-lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINT,ROTA,MODEL,SERIAL
+lsblk -o NAME,SIZE,FSTYPE,TYPE,MOUNTPOINTS,ROTA,MODEL,SERIAL
 blkid 2>/dev/null || true
-du -xhd1 / 2>/dev/null | sort -h
-du -xhd1 /var 2>/dev/null | sort -h
 lsof +L1 2>/dev/null || true
-iostat -xz 1 5 2>/dev/null || true
-dmesg -T | grep -Ei 'I/O error|blk_update|reset|EXT4-fs|XFS|BTRFS|Buffer I/O|md|nvme|scsi' | tail -100
-smartctl -a /dev/sdX 2>/dev/null || true
+iostat -xz 1 3 2>/dev/null || true
+dmesg -T | grep -Ei 'I/O error|medium error|media error|blk_update|reset|EXT4-fs|XFS|BTRFS|Buffer I/O|md|nvme|scsi' | tail -100
 cat /proc/mdstat 2>/dev/null || true
-mdadm --detail /dev/md0 2>/dev/null || true
 pvs 2>/dev/null || true; vgs 2>/dev/null || true; lvs -a 2>/dev/null || true
 ```
 
-## Branch interpretation
+## Condition -> load only this branch
 
-| Signal | Meaning | Next branch |
-|---|---|---|
-| `df -h` 100%, `df -i` normal | block full | locate largest dirs/files or deleted-open files |
-| `df -i` 100% | inode exhaustion | find many tiny files |
-| `lsof +L1` shows huge deleted files | space held by running process | restart/reopen owning service after confirmation |
-| filesystem mounted `ro` | kernel detected serious errors or admin remounted | inspect dmesg, plan maintenance |
-| SMART reallocated/pending/media errors | failing disk risk | backup/snapshot and hardware path |
-| `/proc/mdstat` degraded | RAID member failure/rebuild | collect detail, avoid destructive mdadm commands |
-| LVM thin pool near 100% | immediate write failure risk | extend pool or free snapshots after confirmation |
-| high `await`/`%util` | I/O bottleneck | identify process/device/application path |
+| Evidence/condition | Next content |
+|---|---|
+| mount, `/etc/fstab`, UUID/LABEL, bind mount, remount, boot mount or busy unmount | `chunks/mounts.md` |
+| `df`/`du` mismatch, inode exhaustion, ext4/XFS/Btrfs errors, read-only remount, repair/grow/shrink question | `chunks/filesystem-health.md` |
+| SMART/NVMe health, media errors, wear, temperature, suspect physical disk or replacement risk | `chunks/smart.md` |
+| LVM/thin-pool/snapshot/VG/LV issue | `lvm-expert` |
+| md/software RAID degradation/rebuild | `raid-expert` |
+| iSCSI session/target/LUN issue | `iscsi-expert` |
+| multipath/path failover/SAN path issue | `multipath-expert` |
+| NFS protocol/export/client issue | `nfs-expert` |
+| SMB/CIFS/Samba protocol/share issue | `samba-expert` |
+| quota accounting/enforcement issue | `quota-expert` |
+| backup/restore/recovery workflow | `backup-restore-expert` |
+| still unclear after baseline evidence | stay in this parent; narrow the layer before loading more |
 
-## Useful search commands
+Default: **one parent + one chunk/specialist**. Add a second branch only when evidence proves a cross-layer dependency, for example SMART media errors on a degraded RAID member.
 
-Large files:
+## Baseline interpretation
 
-```bash
-find /var -xdev -type f -size +500M -printf '%s %p\n' 2>/dev/null | sort -n | tail -30
-```
+- `df -h` full with normal inode use: identify data growth, deleted-open files, snapshots/reserved space before deletion.
+- `df -i` full: identify directories creating very large numbers of small files.
+- `lsof +L1` with large deleted files: the process still owns the space; prefer service-aware reopen/reload/restart after confirmation.
+- filesystem mounted read-only: treat it as protective until kernel/device evidence is understood.
+- SMART/media errors: protect data first; load `chunks/smart.md`.
+- degraded RAID: collect array evidence and route to `raid-expert`; avoid speculative `mdadm` writes.
+- LVM thin data/metadata nearing full: route to `lvm-expert`; treat as write-failure risk.
+- high `await`/`%util`: identify process/device/path before tuning.
 
-Many files by directory:
+## Safe boundaries
 
-```bash
-find /var -xdev -type f 2>/dev/null | awk -F/ '{count[$2"/"$3]++} END {for (d in count) print count[d], d}' | sort -n | tail -30
-```
+Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, or run destructive disk tests without explicit recovery planning and approval.
 
-Deleted open files:
-
-```bash
-lsof +L1
-```
-
-## Safe remediation patterns
-
-### Log cleanup
-
-Do not delete random files. Prefer app-aware cleanup:
+For log-space pressure, prefer application-aware cleanup and dry-runs:
 
 ```bash
 journalctl --disk-usage
-journalctl --vacuum-time=14d     # state-changing; confirmation required
-logrotate -d /etc/logrotate.conf # dry-run
-```
-
-### Deleted-open file release
-
-If `lsof +L1` points to a service:
-
-```bash
-systemctl reload <unit>   # if reload reopens logs
-systemctl restart <unit>  # confirmation required
-```
-
-### Filesystem repair
-
-Do not run repair on mounted filesystem unless explicitly safe for that filesystem. Plan rescue/maintenance:
-
-```bash
-umount <mountpoint>
-fsck -n /dev/<device>       # read-only check where supported
-xfs_repair -n /dev/<device> # read-only/no-modify check
+logrotate -d /etc/logrotate.conf
 ```
 
 ## Validation
@@ -124,13 +77,4 @@ dmesg -T | tail -80
 iostat -xz 1 3 2>/dev/null || true
 ```
 
-## Escalation
-
-Escalate for:
-
-- SMART errors.
-- RAID degraded with multiple missing members.
-- Thin pool full or metadata full.
-- Root filesystem corruption.
-- SAN/multipath issues.
-- Any write-heavy production database volume.
+Escalate when evidence shows multiple-media failure, root filesystem corruption, SAN/multipath instability, full LVM thin metadata, or a write-heavy production database volume where maintenance/recovery impact must be coordinated.
