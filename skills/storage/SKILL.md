@@ -1,6 +1,6 @@
 ---
 name: "storage"
-description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, and SMART/media-risk conditions to focused chunks; escalates LVM, RAID, SAN/multipath, network storage, quota, and backup problems to dedicated specialists."
+description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, and filesystem-quota conditions to focused chunks; escalates LVM, RAID, SAN/multipath, network storage, and backup problems to dedicated specialists."
 argument-hint: "[mount/device/filesystem/storage symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
@@ -33,13 +33,13 @@ pvs 2>/dev/null || true; vgs 2>/dev/null || true; lvs -a 2>/dev/null || true
 | mount, `/etc/fstab`, UUID/LABEL, bind mount, remount, boot mount or busy unmount | `chunks/mounts.md` |
 | `df`/`du` mismatch, inode exhaustion, ext4/XFS/Btrfs errors, read-only remount, repair/grow/shrink question | `chunks/filesystem-health.md` |
 | SMART/NVMe health, media errors, wear, temperature, suspect physical disk or replacement risk | `chunks/smart.md` |
+| user/group/project quota accounting, enforcement, grace period, XFS project quota or quota-related write failure | `chunks/quota.md` |
 | LVM/thin-pool/snapshot/VG/LV issue | `lvm-expert` |
 | md/software RAID degradation/rebuild | `raid-expert` |
 | iSCSI session/target/LUN issue | `iscsi-expert` |
 | multipath/path failover/SAN path issue | `multipath-expert` |
 | NFS protocol/export/client issue | `nfs-expert` |
 | SMB/CIFS/Samba protocol/share issue | `samba-expert` |
-| quota accounting/enforcement issue | `quota-expert` |
 | backup/restore/recovery workflow | `backup-restore-expert` |
 | still unclear after baseline evidence | stay in this parent; narrow the layer before loading more |
 
@@ -51,6 +51,7 @@ Default: **one parent + one chunk/specialist**. Add a second branch only when ev
 - `df -i` full: identify directories creating very large numbers of small files.
 - `lsof +L1` with large deleted files: the process still owns the space; prefer service-aware reopen/reload/restart after confirmation.
 - filesystem mounted read-only: treat it as protective until kernel/device evidence is understood.
+- quota-related write failure with free filesystem space: load `chunks/quota.md`; compare effective hard/soft block and inode limits before changing policy.
 - SMART/media errors: protect data first; load `chunks/smart.md`.
 - degraded RAID: collect array evidence and route to `raid-expert`; avoid speculative `mdadm` writes.
 - LVM thin data/metadata nearing full: route to `lvm-expert`; treat as write-failure risk.
@@ -58,7 +59,7 @@ Default: **one parent + one chunk/specialist**. Add a second branch only when ev
 
 ## Safe boundaries
 
-Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, or run destructive disk tests without explicit recovery planning and approval.
+Do not delete random files, run filesystem repair on a mounted writable filesystem, force unmount live data, recreate filesystems, remove LVM/RAID members, run disruptive quota rebuilds, or run destructive disk tests without explicit recovery planning and approval.
 
 For log-space pressure, prefer application-aware cleanup and dry-runs:
 
