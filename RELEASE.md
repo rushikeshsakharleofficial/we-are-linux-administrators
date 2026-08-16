@@ -1,12 +1,12 @@
-# Release 1.18.10
+# Release 1.18.11
 
 ## Package
 
-- Repository/package metadata version: `1.18.10`
-- Plugin metadata version: `1.18.10`
-- Skill count: `77`
+- Repository/package metadata version: `1.18.11`
+- Plugin metadata version: `1.18.11`
+- Skill count: `76`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.10` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.11` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -23,14 +23,14 @@ A second chunk/support skill is loaded only when evidence proves a cross-layer i
 
 - Network: TCP, UDP, packet capture and VLAN/bonding under `network`.
 - Timekeeping: Chrony/NTP and system-clock/timezone/RTC under `time`.
-- Storage baseline: mounts/fstab, filesystem health and SMART under `storage`; high-risk storage technologies remain distinct pending review.
+- Storage: mounts/fstab, filesystem health, SMART and filesystem quotas are chunks under `storage`; LVM, RAID, iSCSI, multipath, NFS, Samba and backup/restore remain distinct pending separate review.
 - Performance: CPU, memory/OOM, swap/zram and capacity planning under `performance`; `limits-expert` remains distinct.
 - Permissions: POSIX modes and ACL semantics under `permissions`; SELinux/AppArmor remain distinct.
 - Identity/auth: local accounts, PAM, SSSD/LDAP and sudoers under `auth`; SSH/RDP remain distinct.
 - Logging: rsyslog and logrotate under `logs`; product monitoring remains distinct.
 - Incident management: post-containment RCA under `incident-response-expert`; formal report generation remains distinct.
 - Automation: Bash/POSIX scripting and operational runbooks under `automation`; Ansible, cron and systemd remain distinct where their semantics matter.
-- Security: broad host-audit workflow, Linux auditd evidence/rules and Fail2Ban diagnostics are focused chunks under `security-expert`. The redundant broad `os-security-expert` has been retired after its unique crypto-policy, integrity/package-verification and effective SSH/sudo checks were preserved in `security-expert/chunks/security-audit.md`. SELinux/AppArmor, SSH/auth, firewall, kernel/sysctl, patching and vulnerability work remain distinct when their own control semantics are proven.
+- Security: broad host-audit workflow, auditd and Fail2Ban are chunks under `security-expert`; distinct MAC, SSH/auth, firewall, kernel/sysctl, patching and vulnerability controls stay separate where their own semantics are proven.
 
 ## Latest source install
 
