@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.0`  
-**Skill count:** `99`  
+**Version:** `1.18.1`  
+**Skill count:** `98`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -28,7 +28,7 @@ second chunk only when evidence proves a cross-layer issue
 
 This keeps routing compact without throwing away specialist knowledge.
 
-### Example: networking
+### Consolidated examples
 
 ```text
 "TCP connections stuck in SYN_RECV"
@@ -37,12 +37,18 @@ This keeps routing compact without throwing away specialist knowledge.
 ```
 
 ```text
-"bond0 drops traffic after LACP failover"
-→ network
-→ skills/network/chunks/vlan-bonding.md
+"chronyd has a large offset and bad source reach"
+→ time
+→ skills/time/chunks/chrony.md
 ```
 
-The first consolidation moved former TCP, UDP, tcpdump, and VLAN/bonding top-level skills into focused `network/chunks/`. Other domains will follow the same evidence-based pattern where overlap is verified.
+```text
+"server shows the wrong timezone but UTC is correct"
+→ time
+→ skills/time/chunks/system-clock.md
+```
+
+Network and timekeeping have been converted to parent/chunk routing. Other domains follow the same pattern only where overlap is verified.
 
 ## Incident management reports
 
@@ -105,6 +111,7 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Permission denied | `permissions` |
 | SSH/login/sudo identity issue | `auth` |
 | Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` → matching chunk |
+| NTP/Chrony/timezone/RTC issue | `time` → matching chunk |
 | Active incident/outage | `incident-response-expert` |
 | Incident management report | `incident-report-creator-expert` |
 | Security audit | `security-expert` |
