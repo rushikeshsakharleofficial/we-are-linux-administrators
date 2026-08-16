@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.16`  
-**Skill count:** `70`  
+**Version:** `1.18.17`  
+**Skill count:** `69`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -18,9 +18,9 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 /using-linux-admin -> parent/specialist -> evidence -> one matching chunk
 ```
 
-Examples: TCP -> `network/chunks/tcp.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; NFS -> `storage/chunks/nfs.md`; Samba/SMB -> `storage/chunks/samba.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
+Examples: TCP -> `network/chunks/tcp.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; NFS -> `storage/chunks/nfs.md`; Samba/SMB -> `storage/chunks/samba.md`; vulnerability/CVE triage -> `security-expert/chunks/vulnerability-scan.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
 
-Distinct high-risk or cross-domain specialists remain top-level where merging would weaken routing or recovery safety. Multipath and backup/restore remain separate after the current storage review.
+Distinct high-risk or cross-domain specialists remain top-level where merging would weaken routing or recovery safety. Multipath, backup/restore and sysctl remain separate after the current reviews.
 
 ## Install
 
@@ -59,6 +59,8 @@ linux-admin install-global
 | NTP/timezone/RTC | `time` |
 | Package/repository issue | `package-manager-expert` |
 | OS/security patch rollout | `package-manager-expert` -> patching chunk |
+| Vulnerability/CVE scanner finding | `security-expert` -> vulnerability-scan chunk |
+| Sysctl/kernel runtime tuning | `sysctl-expert` |
 | Logs | `logs` |
 | Active incident/RCA | `incident-response-expert` |
 | Formal incident report | `incident-report-creator-expert` |
