@@ -1,37 +1,109 @@
 #!/usr/bin/env node
 'use strict';
 
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const { execSync, spawnSync } = require('child_process');
 
+const ROOT = path.resolve(__dirname, '..');
+const SKILLS = path.join(ROOT, 'skills');
+const pkg = require(path.join(ROOT, 'package.json'));
 const REPO = 'rushikeshsakharleofficial/we-are-linux-administrators';
 const PLUGIN = 'linux-admin@we-are-linux-administrators';
 
 function run(cmd, args) {
   const r = spawnSync(cmd, args, { stdio: 'inherit', shell: false });
-  if (r.error || r.status !== 0) {
-    process.stderr.write(`\nFailed: ${cmd} ${args.join(' ')}\n`);
-    process.exit(r.status || 1);
+  if (r.error || r.status !== 0) process.exit(r.status || 1);
+}
+
+function has(cmd) {
+  try { execSync(`${cmd} --version`, { stdio: 'pipe' }); return true; } catch { return false; }
+}
+
+function skillDirs() {
+  if (!fs.existsSync(SKILLS)) {
+    throw new Error(`skills directory missing from package: ${SKILLS}`);
   }
+  return fs.readdirSync(SKILLS, { withFileTypes: true })
+    .filter(e => e.isDirectory() && fs.existsSync(path.join(SKILLS, e.name, 'SKILL.md')))
+    .map(e => e.name)
+    .sort();
 }
 
-function hasClaudeCode() {
-  try { execSync('claude --version', { stdio: 'pipe' }); return true; } catch { return false; }
+function installTo(target, force) {
+  fs.mkdirSync(target, { recursive: true });
+  let installed = 0;
+  let skipped = 0;
+  for (const name of skillDirs()) {
+    const src = path.join(SKILLS, name);
+    const dst = path.join(target, name);
+    if (fs.existsSync(dst) && !force) {
+      skipped++;
+      continue;
+    }
+    fs.cpSync(src, dst, { recursive: true, force: true });
+    installed++;
+  }
+  console.log(`  ${target}: ${installed} installed/refreshed, ${skipped} skipped`);
 }
 
-console.log('\n linux-admin — Claude Code plugin installer\n');
+function installGlobal(force) {
+  const home = os.homedir();
+  console.log('\nInstalling linux-admin skills into user-level discovery paths:');
+  // Agent Skills common path: Codex, OpenCode and goose.
+  installTo(path.join(home, '.agents', 'skills'), force);
+  // Claude Code native user skill path.
+  installTo(path.join(home, '.claude', 'skills'), force);
+  console.log('\nUse --force to refresh existing linux-admin skill directories.');
+  console.log('Other agents may use their own global instruction paths; see docs/LOCAL_GLOBAL_AGENT_SETUP.md.\n');
+}
 
-if (!hasClaudeCode()) {
-  console.error(' Claude Code not found. Install it first:\n   https://claude.ai/download\n');
+function installClaude() {
+  if (!has('claude')) {
+    console.error('Claude Code not found. Install Claude Code first, or use `linux-admin install-global`.');
+    process.exit(1);
+  }
+  console.log('Adding Claude Code marketplace source...');
+  run('claude', ['plugin', 'marketplace', 'add', REPO]);
+  console.log('Installing linux-admin Claude Code plugin...');
+  run('claude', ['plugin', 'install', PLUGIN]);
+  console.log('\nDone. Reload plugins in Claude Code with /reload-plugins.\n');
+}
+
+function status() {
+  const dirs = skillDirs();
+  console.log(`linux-admin ${pkg.version}`);
+  console.log(`package root: ${ROOT}`);
+  console.log(`canonical skills: ${SKILLS}`);
+  console.log(`detected skills: ${dirs.length}`);
+  console.log(`master router: ${path.join(SKILLS, 'using-linux-admin', 'SKILL.md')}`);
+}
+
+function help() {
+  console.log(`\nlinux-admin ${pkg.version}\n
+Commands:
+  linux-admin status              Show installed package and skill paths
+  linux-admin install-global      Copy skills to ~/.agents/skills and ~/.claude/skills
+  linux-admin install-global --force  Refresh existing installed skill directories
+  linux-admin install-claude      Install the Claude Code plugin from GitHub
+  linux-admin paths               Alias for status
+
+Project use remains repository-native through AGENTS.md/CLAUDE.md and thin adapters.
+See docs/LOCAL_GLOBAL_AGENT_SETUP.md for per-agent local/global instruction paths.\n`);
+}
+
+const args = process.argv.slice(2);
+const cmd = args[0];
+const invokedAs = path.basename(process.argv[1] || 'linux-admin');
+
+try {
+  if (cmd === 'status' || cmd === 'paths') status();
+  else if (cmd === 'install-global') installGlobal(args.includes('--force'));
+  else if (cmd === 'install-claude') installClaude();
+  else if (!cmd && invokedAs === 'linux-admin-install') installClaude();
+  else help();
+} catch (err) {
+  console.error(`linux-admin: ${err.message}`);
   process.exit(1);
 }
-
-console.log(' Adding marketplace source...');
-run('claude', ['plugin', 'marketplace', 'add', REPO]);
-
-console.log(' Installing linux-admin...');
-run('claude', ['plugin', 'install', PLUGIN]);
-
-console.log('\n Done! Reload plugins in Claude Code:\n');
-console.log('   /reload-plugins\n');
-console.log(' Then try:\n');
-console.log('   /linux-admin:network can ping 8.8.8.8 but DNS fails\n');
