@@ -1,6 +1,6 @@
 ---
 name: "storage"
-description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, and filesystem-quota conditions to focused chunks; escalates LVM, RAID, SAN/multipath, network storage, and backup problems to dedicated specialists."
+description: "Parent skill for Linux storage diagnosis. Routes mount/fstab, filesystem health/capacity, SMART/media-risk, quota and LVM conditions to focused chunks; escalates RAID, SAN/multipath, network storage and backup problems to dedicated specialists."
 argument-hint: "[mount/device/filesystem/storage symptom]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
@@ -34,7 +34,7 @@ pvs 2>/dev/null || true; vgs 2>/dev/null || true; lvs -a 2>/dev/null || true
 | `df`/`du` mismatch, inode exhaustion, ext4/XFS/Btrfs errors, read-only remount, repair/grow/shrink question | `chunks/filesystem-health.md` |
 | SMART/NVMe health, media errors, wear, temperature, suspect physical disk or replacement risk | `chunks/smart.md` |
 | user/group/project quota accounting, enforcement, grace period, XFS project quota or quota-related write failure | `chunks/quota.md` |
-| LVM/thin-pool/snapshot/VG/LV issue | `lvm-expert` |
+| PV/VG/LV mapping, LV growth, thin-pool/snapshot pressure or LVM-backed migration planning | `chunks/lvm.md` |
 | md/software RAID degradation/rebuild | `raid-expert` |
 | iSCSI session/target/LUN issue | `iscsi-expert` |
 | multipath/path failover/SAN path issue | `multipath-expert` |
@@ -52,9 +52,9 @@ Default: **one parent + one chunk/specialist**. Add a second branch only when ev
 - `lsof +L1` with large deleted files: the process still owns the space; prefer service-aware reopen/reload/restart after confirmation.
 - filesystem mounted read-only: treat it as protective until kernel/device evidence is understood.
 - quota-related write failure with free filesystem space: load `chunks/quota.md`; compare effective hard/soft block and inode limits before changing policy.
+- LVM or thin-pool evidence: load `chunks/lvm.md`; map PV -> VG -> LV -> filesystem before any resize. Treat thin metadata/data exhaustion as write-failure risk.
 - SMART/media errors: protect data first; load `chunks/smart.md`.
 - degraded RAID: collect array evidence and route to `raid-expert`; avoid speculative `mdadm` writes.
-- LVM thin data/metadata nearing full: route to `lvm-expert`; treat as write-failure risk.
 - high `await`/`%util`: identify process/device/path before tuning.
 
 ## Safe boundaries
