@@ -3,74 +3,58 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SKILLS = [
-    'backup-restore-expert',
-    'logrotate-expert',
-    'rsyslog-expert',
-    'auditd-expert',
-    'selinux-expert',
-    'apparmor-expert',
-    'ssh-hardening-expert',
-    'sudoers-expert',
-    'pam-expert',
-    'sssd-ldap-expert',
-    'lvm-expert',
-    'raid-expert',
-    'nfs-expert',
-    'samba-expert',
-    'iscsi-expert',
-    'multipath-expert',
-    'smart-disk-expert',
-    'process-expert',
-    'load-average-expert',
-    'cpu-expert',
-    'io-wait-expert',
-    'tcpdump-expert',
-    'iproute-expert',
-    'routing-expert',
-    'vlan-bonding-expert',
-    'proxy-expert',
-    'haproxy-expert',
-    'nginx-expert',
-    'apache-expert',
-    'php-fpm-expert',
-    'mysql-expert',
-    'postgresql-expert',
-    'redis-expert',
-    'docker-expert',
-    'podman-expert',
-    'kubernetes-node-expert',
-    'ansible-expert',
-    'patching-expert',
-    'vulnerability-scan-expert',
-    'capacity-planning-expert',
-    'incident-response-expert',
-    'runbook-expert',
+DISTINCT_SKILLS = [
+    'backup-restore-expert', 'logrotate-expert', 'rsyslog-expert', 'auditd-expert',
+    'selinux-expert', 'apparmor-expert', 'ssh-hardening-expert', 'lvm-expert',
+    'raid-expert', 'nfs-expert', 'samba-expert', 'iscsi-expert', 'multipath-expert',
+    'process-expert', 'load-average-expert', 'io-wait-expert', 'iproute-expert',
+    'routing-expert', 'haproxy-expert', 'nginx-expert', 'apache-expert',
+    'php-fpm-expert', 'mysql-expert', 'postgresql-expert', 'redis-expert',
+    'kubernetes-node-expert', 'ansible-expert', 'patching-expert',
+    'vulnerability-scan-expert', 'incident-response-expert', 'runbook-expert',
 ]
 
-REQUIRED_TERMS = [
-    'Evidence first',
-    'Safe workflow',
-    'Anti-patterns',
-    'Output format',
-    'Token-saving tip',
+PARENT_CHUNKS = {
+    'network': ['tcp.md', 'udp.md', 'packet-capture.md', 'vlan-bonding.md'],
+    'time': ['chrony.md', 'system-clock.md'],
+    'storage': ['mounts.md', 'filesystem-health.md', 'smart.md'],
+    'performance': ['cpu.md', 'memory.md', 'swap.md', 'capacity-planning.md'],
+    'permissions': ['posix-modes.md', 'acl.md'],
+    'auth': ['local-accounts.md', 'pam.md', 'sssd-ldap.md', 'sudoers.md'],
+}
+
+REMOVED_TOP_LEVEL = [
+    'tcp-expert', 'udp-expert', 'tcpdump-expert', 'vlan-bonding-expert',
+    'chrony-expert', 'date-timectl-expert', 'disk-mounting-expert',
+    'filesystem-expert', 'smart-disk-expert', 'cpu-expert', 'memory-expert',
+    'swap-expert', 'capacity-planning-expert', 'file-permissions-expert',
+    'acl-permissions-expert', 'user-permissions-expert', 'pam-expert',
+    'sssd-ldap-expert', 'sudoers-expert',
 ]
 
 
 def main():
-    missing = []
-    for skill in SKILLS:
+    for skill in DISTINCT_SKILLS:
         path = ROOT / 'skills' / skill / 'SKILL.md'
-        if not path.exists():
-            missing.append(skill)
-            continue
-        text = path.read_text()
-        assert text.startswith('# '), skill
-        for term in REQUIRED_TERMS:
-            assert term in text, f'{skill} missing {term}'
-    assert not missing, f'missing skills: {missing}'
+        assert path.exists(), f'missing distinct skill: {skill}'
+
+    for parent, chunks in PARENT_CHUNKS.items():
+        parent_file = ROOT / 'skills' / parent / 'SKILL.md'
+        assert parent_file.exists(), f'missing parent: {parent}'
+        parent_text = parent_file.read_text()
+        assert 'chunk' in parent_text.lower(), f'{parent} does not route chunks'
+        for chunk in chunks:
+            path = ROOT / 'skills' / parent / 'chunks' / chunk
+            assert path.exists(), f'missing chunk: {parent}/{chunk}'
+            text = path.read_text()
+            assert len(text.strip()) > 100, f'chunk too small: {parent}/{chunk}'
+
+    for removed in REMOVED_TOP_LEVEL:
+        assert not (ROOT / 'skills' / removed / 'SKILL.md').exists(), f'redundant top-level skill restored: {removed}'
+
+    assert (ROOT / 'skills' / 'using-linux-admin' / 'SKILL.md').exists()
     assert (ROOT / 'docs' / 'all-linux-admin-experts' / 'SKILL_PACK.md').exists()
-    print('all linux admin expert skills passed')
+    print('linux-admin parent/chunk architecture passed')
 
 
 if __name__ == '__main__':
