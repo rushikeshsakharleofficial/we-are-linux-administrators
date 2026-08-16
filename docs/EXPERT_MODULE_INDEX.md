@@ -1,6 +1,6 @@
 # Expert Module Index
 
-91 top-level skills.
+89 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -89,7 +89,17 @@ LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct specia
 | trend/headroom/capacity forecast/scaling decision | `skills/performance/chunks/capacity-planning.md` |
 | nofile/nproc/memlock/PAM/systemd resource ceilings and security review | keep `limits-expert` distinct |
 
-Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, `date-timectl-expert`, `disk-mounting-expert`, `filesystem-expert`, `smart-disk-expert`, `cpu-expert`, `memory-expert`, `swap-expert`, and `capacity-planning-expert` were removed only after their useful procedures were preserved in parent chunks.
+### Permissions
+
+| Condition | Chunk/specialist |
+|---|---|
+| POSIX owner/group/mode, path traversal, umask, sticky/setgid/setuid, scoped recursive change | `skills/permissions/chunks/posix-modes.md` |
+| POSIX ACL, mask/effective rights, named users/groups, default ACL inheritance | `skills/permissions/chunks/acl.md` |
+| SELinux AVC/context/port policy | keep `selinux-expert` distinct |
+| AppArmor profile denial | keep `apparmor-expert` distinct |
+| account lifecycle/sudo/PAM/SSH identity | keep `user-permissions-expert`/`auth` distinct pending identity review |
+
+Former top-level `tcp-expert`, `udp-expert`, `tcpdump-expert`, `vlan-bonding-expert`, `chrony-expert`, `date-timectl-expert`, `disk-mounting-expert`, `filesystem-expert`, `smart-disk-expert`, `cpu-expert`, `memory-expert`, `swap-expert`, `capacity-planning-expert`, `file-permissions-expert`, and `acl-permissions-expert` were removed only after their useful procedures were preserved in parent chunks.
 
 Other domains will be consolidated only when overlap is verified; distinct technologies remain top-level when merging would make routing less reliable.
 
