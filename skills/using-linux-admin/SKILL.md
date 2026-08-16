@@ -41,7 +41,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/s
 - **Containers:** `containers` -> `kubernetes-node-expert`
 - **Logs/monitoring:** `logs` -> rsyslog or logrotate chunk; journald stays in parent, product monitoring remains distinct
 - **Incident management:** `incident-response-expert` -> active response or post-containment RCA chunk; report creator stays separate
-- **Security:** `security-expert` -> host security/MAC/audit/fail2ban/patch/vulnerability/sysctl branches
+- **Security:** `security-expert` -> broad host-audit, auditd or Fail2Ban chunk; SSH/auth/MAC/firewall/kernel/sysctl/patch/vulnerability controls remain distinct specialists when their own semantics are proven
 - **Migration:** `migration-expert` + relevant domain + `change-safety-expert`
 - **Cloudflare:** `cf-expert`
 - **AI/model choice:** `agent-model-dispatcher-expert`
@@ -67,7 +67,9 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. The selected parent/s
 | Active incident | `incident-response-expert` |
 | Post-containment RCA | `incident-response-expert` -> RCA chunk |
 | Formal incident report | `incident-report-creator-expert` |
-| Security audit | `security-expert` |
+| Broad Linux security audit | `security-expert` -> security-audit chunk |
+| auditd rule/event problem | `security-expert` -> auditd chunk |
+| Fail2Ban jail/filter/ban problem | `security-expert` -> Fail2Ban chunk |
 | Migration/cutover | `migration-expert` |
 
 ## Output
