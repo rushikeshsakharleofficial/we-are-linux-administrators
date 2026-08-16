@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.12`  
-**Skill count:** `75`  
+**Version:** `1.18.13`  
+**Skill count:** `74`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -35,6 +35,7 @@ This keeps routing compact without deleting specialist knowledge.
 "chronyd has a large offset" → time → chunks/chrony.md
 "fstab blocks boot" → storage → chunks/mounts.md
 "XFS project quota is not enforcing" → storage → chunks/quota.md
+"LVM thin metadata is nearly full" → storage → chunks/lvm.md
 "host is swapping heavily" → performance → chunks/swap.md
 "ACL mask removes write access" → permissions → chunks/acl.md
 "LDAP user resolves but cannot log in" → auth → chunks/sssd-ldap.md
@@ -45,7 +46,7 @@ This keeps routing compact without deleting specialist knowledge.
 "audit this Linux host" → security-expert → chunks/security-audit.md
 ```
 
-Network, timekeeping, storage baseline/quota, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, package lifecycle/patch rollout, post-containment RCA, and host-security audit branches use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, storage baseline/quota/LVM, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, package lifecycle/patch rollout, post-containment RCA, and host-security audit branches use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management
 
@@ -104,7 +105,8 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Service failure | `service` |
 | Boot failure | `boot` |
 | High load/OOM/slowness | `performance` |
-| Disk/mount/I/O/quota issue | `storage` |
+| Disk/mount/I/O/quota/LVM issue | `storage` |
+| RAID degradation/rebuild | `raid-expert` |
 | File/path ownership/mode/ACL issue | `permissions` |
 | Local account/PAM/SSSD-LDAP/sudo issue | `auth` |
 | SSH hardening/remote-access policy | `ssh-hardening-expert` |
