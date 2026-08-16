@@ -1,10 +1,10 @@
 # Expert Module Index
 
-102 skills.
+103 skills.
 
-The canonical skill-selection map is [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
+Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
-This file intentionally does not duplicate the full parent/micro-skill routing table. Keeping two routing maps creates drift and makes agents load unnecessary context.
+Do not maintain a second full parent/micro-skill matrix here; duplicated routing tables drift and waste context.
 
 ## Entry points
 
@@ -13,9 +13,11 @@ This file intentionally does not duplicate the full parent/micro-skill routing t
 | Choose the correct Linux skill | `using-linux-admin` |
 | Unknown Linux problem | `diagnose` |
 | Broad senior execution | `linux-admin-chief-engineer` |
+| Active incident response | `incident-response-expert` |
+| Incident Word/Excel/PDF/PowerPoint report | `incident-report-creator-expert` |
 | Production change safety | `change-safety-expert` |
 | Optimisation/tuning gate | `optimization-guardian-expert` |
-| Universal safety contract enforcement | `universal-contract-guardian-expert` |
+| Universal safety contract | `universal-contract-guardian-expert` |
 | AI client/model selection | `agent-model-dispatcher-expert` |
 
 ## Parent domains
@@ -35,9 +37,10 @@ This file intentionally does not duplicate the full parent/micro-skill routing t
 | Containers | `containers` |
 | Logging | `logs` |
 | Migration | `migration-expert` |
+| Incident response | `incident-response-expert` |
 
-For a known technology or failure layer, `using-linux-admin` routes directly to the matching micro-skill such as `lvm-expert`, `named-expert`, `firewall-expert`, `haproxy-expert`, `selinux-expert`, `mysql-expert`, `systemd-expert`, or `tcpdump-expert`.
+For a known technology/failure layer, `using-linux-admin` routes directly to the smallest matching micro-skill.
 
-## Rule
+## Local/global discovery
 
-Do not load the whole skill tree. Read `using-linux-admin`, select one primary specialist, add no more than two support skills unless the task is an incident/migration/multi-domain production change, then load only the selected skill and required chunks.
+Agent-specific project and user paths are documented in [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md). Canonical skills remain under `skills/`; global installs are copies into supported discovery locations rather than new sources of truth.
