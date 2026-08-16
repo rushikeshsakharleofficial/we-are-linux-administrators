@@ -30,8 +30,8 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - **Boot/services:** `boot` -> `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
 - **Performance:** `performance` -> condition-specific chunks for CPU/run queue/steal/softirq, memory/OOM/cgroups, swap/zram, and capacity planning; keep `limits-expert` distinct for PAM/systemd/resource-ceiling and security-limit review
 - **Storage:** `storage` -> condition-specific chunks for mounts/fstab, filesystem health/capacity, and SMART/media risk; distinct LVM/RAID/iSCSI/multipath/NFS/Samba/quota/backup specialists load only when baseline evidence points there
-- **Permissions:** `permissions` -> POSIX permissions/ACL/users/SELinux/AppArmor branches
-- **Auth:** `auth` -> PAM/SSSD-LDAP/sudo/SSH/RDP branches
+- **Permissions:** `permissions` -> condition-specific chunks for POSIX ownership/modes/traversal or ACL/mask/inheritance; SELinux/AppArmor, account identity and systemd sandboxing remain distinct layers loaded only when evidence points there
+- **Auth:** `auth` -> PAM/SSSD-LDAP/sudo/SSH/RDP branches; local account lifecycle remains `user-permissions-expert` until identity consolidation is reviewed
 - **Network:** `network` -> condition-specific chunks for TCP, UDP, packet capture, VLAN/bonding/LACP; distinct routing/NAT/firewall/proxy/DNS specialists are loaded only when baseline evidence points there
 - **DNS:** `named-expert` for BIND/DNS; dnsmasq/GSLB remain distinct specialists until their overlap is reviewed
 - **Time:** `time` -> condition-specific chunks for Chrony/NTP synchronisation or system clock/timezone/RTC/timedatectl issues
@@ -58,7 +58,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Too many open files/nproc/memlock/resource-limit audit | `limits-expert` |
 | Disk/mount/I/O problem | `storage` |
 | Mount/fstab/filesystem/SMART issue | `storage`, then matching chunk |
-| Permission denied | `permissions` |
+| File/path permission denied | `permissions`, then matching POSIX/ACL chunk or proven security layer |
 | SSH/login/sudo identity issue | `auth` |
 | Cannot reach host/port | `network` |
 | TCP/UDP/VLAN/bond/packet-flow issue | `network`, then matching chunk |
@@ -80,7 +80,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 
 ## Ambiguity
 
-- Filesystem/object access -> `permissions`; login/identity/session/sudo auth -> `auth`.
+- Filesystem/object access -> `permissions`; wrong owner/mode/traversal -> POSIX chunk, extended ACL/mask/inheritance -> ACL chunk, MAC denial -> matching SELinux/AppArmor specialist. Login/identity/session/sudo auth -> `auth`.
 - Unknown reachability -> `network`; known packet-filter rule -> `firewall-expert`.
 - Time sync/source/offset/stratum issue -> `time` then Chrony chunk; timezone/RTC/local clock issue -> `time` then system-clock chunk.
 - Unknown slowness -> `performance`; CPU/run queue -> CPU chunk, memory/OOM/cgroup pressure -> memory chunk, swap/zram -> swap chunk, forecast/headroom -> capacity-planning chunk. Resource-ceiling errors/audits remain `limits-expert`.
