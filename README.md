@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.8`  
-**Skill count:** `80`  
+**Version:** `1.18.9`  
+**Skill count:** `78`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -39,11 +39,12 @@ This keeps routing compact without deleting specialist knowledge.
 "LDAP user resolves but cannot log in" → auth → chunks/sssd-ldap.md
 "rsyslog remote queue is stuck" → logs → chunks/rsyslog.md
 "review this Bash maintenance script" → automation → chunks/bash-scripting.md
-"create a safe maintenance runbook" → automation → chunks/runbooks.md
 "outage is contained; find the causal chain" → incident-response-expert → chunks/root-cause-analysis.md
+"who changed this protected file?" → security-expert → chunks/auditd.md
+"Fail2Ban jail is not banning" → security-expert → chunks/fail2ban.md
 ```
 
-Network, timekeeping, first storage branches, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation and post-containment RCA now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, first storage branches, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation, post-containment RCA, and host-security auditd/Fail2Ban branches now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
 ## Incident management
 
@@ -111,7 +112,7 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Missing/forwarded/rotating log issue | `logs` |
 | Active incident/outage | `incident-response-expert` |
 | Incident management report | `incident-report-creator-expert` |
-| Security audit | `security-expert` |
+| Broad security audit/auditd/Fail2Ban | `security-expert` |
 | Migration/cutover | `migration-expert` |
 
 Full routing map: [`skills/using-linux-admin/SKILL.md`](skills/using-linux-admin/SKILL.md).
