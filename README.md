@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.15`  
-**Skill count:** `72`  
+**Version:** `1.18.16`  
+**Skill count:** `70`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -18,9 +18,9 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 /using-linux-admin -> parent/specialist -> evidence -> one matching chunk
 ```
 
-Examples: TCP -> `network/chunks/tcp.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
+Examples: TCP -> `network/chunks/tcp.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; NFS -> `storage/chunks/nfs.md`; Samba/SMB -> `storage/chunks/samba.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
 
-Distinct high-risk or product-specific specialists remain top-level where merging would weaken routing or recovery safety. Multipath, NFS, Samba and backup/restore remain separate after the current storage review.
+Distinct high-risk or cross-domain specialists remain top-level where merging would weaken routing or recovery safety. Multipath and backup/restore remain separate after the current storage review.
 
 ## Install
 
@@ -50,9 +50,8 @@ linux-admin install-global
 |---|---|
 | Unknown Linux problem | `diagnose` |
 | High load/OOM/slowness | `performance` |
-| Disk/mount/I/O/quota/LVM/RAID/iSCSI issue | `storage` |
+| Disk/mount/I/O/quota/LVM/RAID/iSCSI/NFS/Samba issue | `storage` |
 | Multipath/WWID/ALUA path issue | `multipath-expert` |
-| NFS or Samba issue | matching specialist |
 | Backup/restore workflow | `backup-restore-expert` |
 | File/path ownership/mode/ACL | `permissions` |
 | Local account/PAM/SSSD-LDAP/sudo | `auth` |
