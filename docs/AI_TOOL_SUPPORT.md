@@ -1,6 +1,6 @@
 # AI tool support
 
-`linux-admin` keeps one canonical 80-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of vendor-specific copies.
+`linux-admin` keeps one canonical 78-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of vendor-specific copies.
 
 For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
@@ -11,7 +11,7 @@ For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_
 3. Parent skills own condition-to-chunk routing. Default to one parent + one chunk; load a second only when evidence proves a cross-layer issue.
 4. Use root `AGENTS.md` where supported or read it explicitly.
 5. Keep `CLAUDE.md` and vendor adapters thin.
-6. Never duplicate all 80 skills into vendor-specific folders merely to advertise support.
+6. Never duplicate all 78 skills into vendor-specific folders merely to advertise support.
 7. Never commit machine-local state, history, caches, personal memory, credentials or maintainer-specific absolute paths.
 
 ## Global skill distribution
@@ -39,7 +39,7 @@ Plan rollback before consequential changes.
 Validate the result.
 ```
 
-Converted parent/chunk domains include network, time, storage baseline branches, performance, permissions, auth, logging, automation Bash/runbook work and post-containment incident RCA. Ansible remains a distinct specialist because inventory, module, interpreter and rollout semantics are product-specific.
+Converted parent/chunk domains include network, time, storage baseline branches, performance, permissions, auth, logging, automation Bash/runbook work, post-containment incident RCA, and security host-audit/auditd/Fail2Ban work. Distinct high-risk/product-specific specialists remain separate when that improves routing accuracy.
 
 ## Maintained compatibility
 
