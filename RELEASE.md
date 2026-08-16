@@ -4,7 +4,7 @@
 
 - Repository/package metadata version: `1.18.1`
 - Plugin metadata version: `1.18.1`
-- Top-level skill count: `98`
+- Skill count: `98`
 - Package name: `linux-admin`
 - Latest published GitHub Release: `v1.17.74` as verified on 2026-08-16; `v1.18.1` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
