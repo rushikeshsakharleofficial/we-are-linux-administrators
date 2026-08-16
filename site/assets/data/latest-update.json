@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.10-security-audit-consolidation",
+  "id": "2026-08-16-1.18.11-storage-quota-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.10",
+  "version": "1.18.11",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.10 — OS security audit consolidated",
-  "summary": "Top-level skill count is now 77. The redundant os-security-expert has been retired after its useful broad hardening, integrity, crypto-policy and effective SSH/sudo checks were preserved in security-expert/chunks/security-audit.md. Distinct high-risk security controls remain separate. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.11 — filesystem quotas consolidated",
+  "summary": "Top-level skill count is now 76. The former quota-expert has been retired after its ext4/XFS user, group and project quota guidance was preserved in storage/chunks/quota.md. Higher-risk LVM, RAID, SAN/network storage and backup specialists remain separate. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
