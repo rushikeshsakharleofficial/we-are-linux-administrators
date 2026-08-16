@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-16-1.18.3-performance-routing",
+  "id": "2026-08-16-1.18.4-permissions-routing",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.3",
+  "version": "1.18.4",
   "date": "2026-08-16",
-  "title": "linux-admin 1.18.3 — performance routing gets leaner",
-  "summary": "Top-level skill count is now 91. CPU, memory/OOM, swap/zram, and capacity-planning procedures now live as condition-specific chunks under the performance parent. limits-expert remains distinct because resource ceilings also provide security and blast-radius controls.",
+  "title": "linux-admin 1.18.4 — permissions routing gets cleaner",
+  "summary": "Top-level skill count is now 89. POSIX ownership/modes/traversal and ACL mask/inheritance procedures now live as condition-specific chunks under the permissions parent. SELinux/AppArmor and account identity remain distinct because they have different evidence and remediation risk.",
   "commands": {
     "claudeCode": [
       "npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators",
