@@ -1,6 +1,6 @@
 # AI tool support
 
-`linux-admin` keeps one canonical 99-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
+`linux-admin` keeps one canonical 98-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of maintaining vendor-specific copies.
 
 For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
@@ -30,7 +30,7 @@ For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_
 3. Parent skills own condition-to-chunk routing. Default to one parent + one chunk; load a second only when evidence proves a cross-layer issue.
 4. Use root `AGENTS.md` where the target supports it or read it explicitly.
 5. Keep `CLAUDE.md` and vendor adapters thin.
-6. Never duplicate all 99 skills into `.cursor/`, `.windsurf/`, `.cline/`, `.junie/`, `.github/`, or similar directories merely to advertise support.
+6. Never duplicate all 98 skills into vendor-specific folders merely to advertise support.
 7. Never commit machine-local state, history, caches, personal memory, credentials, or one maintainer's absolute paths.
 8. Do not claim native marketplace/plugin installation unless verified for this repository.
 
@@ -68,7 +68,7 @@ Plan rollback/recovery before consequential changes.
 Validate the result.
 ```
 
-The network parent is the first fully converted example: TCP, UDP, tcpdump/packet-capture, and VLAN/bonding procedures now live under `skills/network/chunks/` rather than as four competing top-level skills.
+Current converted examples are `network` and `time`: network routes TCP/UDP/packet-capture/VLAN-bonding conditions to chunks, while time routes Chrony/NTP versus system-clock/timezone/RTC conditions to separate chunks.
 
 ## Tool notes
 
