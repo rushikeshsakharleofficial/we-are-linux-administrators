@@ -13,16 +13,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Validate package metadata
-        run: npm pkg get name version description
+      - name: Validate package metadata and contents
+        run: |
+          npm pkg get name version description
+          npm pack --dry-run --json > /tmp/npm-pack.json
+          grep -q 'skills/using-linux-admin/SKILL.md' /tmp/npm-pack.json
+          grep -q 'skills/incident-report-creator-expert/SKILL.md' /tmp/npm-pack.json
+
+      - name: Verify npm authentication is configured
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo '::error::NPM_TOKEN is not configured. Registry publication cannot proceed.'
+            exit 1
+          fi
 
       - name: Publish
         run: npm publish --access public
