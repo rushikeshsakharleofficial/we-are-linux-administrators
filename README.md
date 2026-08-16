@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.7`  
-**Skill count:** `82`  
+**Version:** `1.18.8`  
+**Skill count:** `80`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -31,23 +31,23 @@ This keeps routing compact without deleting specialist knowledge.
 ### Consolidated examples
 
 ```text
-"TCP connections stuck in SYN_RECV" → network → skills/network/chunks/tcp.md
-"chronyd has a large offset" → time → skills/time/chunks/chrony.md
-"fstab blocks boot" → storage → skills/storage/chunks/mounts.md
-"host is swapping heavily" → performance → skills/performance/chunks/swap.md
-"ACL mask removes write access" → permissions → skills/permissions/chunks/acl.md
-"LDAP user resolves but cannot log in" → auth → skills/auth/chunks/sssd-ldap.md
-"sudo rule is too broad" → auth → skills/auth/chunks/sudoers.md
-"rsyslog remote queue is stuck" → logs → skills/logs/chunks/rsyslog.md
-"application log never rotates" → logs → skills/logs/chunks/logrotate.md
-"outage is contained; find the causal chain" → incident-response-expert → skills/incident-response-expert/chunks/root-cause-analysis.md
+"TCP connections stuck in SYN_RECV" → network → chunks/tcp.md
+"chronyd has a large offset" → time → chunks/chrony.md
+"fstab blocks boot" → storage → chunks/mounts.md
+"host is swapping heavily" → performance → chunks/swap.md
+"ACL mask removes write access" → permissions → chunks/acl.md
+"LDAP user resolves but cannot log in" → auth → chunks/sssd-ldap.md
+"rsyslog remote queue is stuck" → logs → chunks/rsyslog.md
+"review this Bash maintenance script" → automation → chunks/bash-scripting.md
+"create a safe maintenance runbook" → automation → chunks/runbooks.md
+"outage is contained; find the causal chain" → incident-response-expert → chunks/root-cause-analysis.md
 ```
 
-Network, timekeeping, first storage branches, core performance branches, POSIX/ACL permissions, core identity/auth branches, core logging branches, and post-containment RCA now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
+Network, timekeeping, first storage branches, core performance, POSIX/ACL permissions, core identity/auth, core logging, Bash/runbook automation and post-containment RCA now use parent/chunk routing. Distinct specialists remain top-level when merging would reduce safety or routing accuracy.
 
-## Incident management reports
+## Incident management
 
-`incident-response-expert` owns active response and, after containment, evidence-backed root-cause analysis through its RCA chunk. `incident-report-creator-expert` remains separate because formal Word `.docx`, Excel `.xlsx`, PDF `.pdf`, and PowerPoint `.pptx` generation is a different tool/output phase. Unknown facts stay unknown rather than being invented.
+`incident-response-expert` owns active response and post-containment RCA. `incident-report-creator-expert` remains separate because formal Word `.docx`, Excel `.xlsx`, PDF `.pdf`, and PowerPoint `.pptx` generation is a different tool/output phase.
 
 ## Install
 
@@ -96,30 +96,31 @@ Detailed project/global paths: [`docs/LOCAL_GLOBAL_AGENT_SETUP.md`](docs/LOCAL_G
 | Request | Start with |
 |---|---|
 | Unknown Linux problem | `diagnose` |
+| Bash/POSIX script or automation helper | `automation` → Bash chunk |
+| Operational maintenance runbook/checklist | `automation` → runbook chunk |
+| Ansible playbook/inventory/rollout | `ansible-expert` |
 | Service failure | `service` |
 | Boot failure | `boot` |
 | High load/OOM/slowness | `performance` |
 | Disk/mount/I/O issue | `storage` |
-| File/path ownership/mode/ACL issue | `permissions` → matching chunk |
-| Local account/PAM/SSSD-LDAP/sudo issue | `auth` → matching chunk |
+| File/path ownership/mode/ACL issue | `permissions` |
+| Local account/PAM/SSSD-LDAP/sudo issue | `auth` |
 | SSH hardening/remote-access policy | `ssh-hardening-expert` |
-| Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` → matching chunk |
-| NTP/Chrony/timezone/RTC issue | `time` → matching chunk |
-| Missing/forwarded/rotating log issue | `logs` → matching chunk |
+| Connectivity/TCP/UDP/VLAN/packet-flow issue | `network` |
+| NTP/Chrony/timezone/RTC issue | `time` |
+| Missing/forwarded/rotating log issue | `logs` |
 | Active incident/outage | `incident-response-expert` |
-| Post-containment RCA | `incident-response-expert` → RCA chunk |
 | Incident management report | `incident-report-creator-expert` |
 | Security audit | `security-expert` |
 | Migration/cutover | `migration-expert` |
-| Tuning/optimisation | `optimization-guardian-expert` first |
 
 Full routing map: [`skills/using-linux-admin/SKILL.md`](skills/using-linux-admin/SKILL.md).
 
 ## Portability and safety
 
-Canonical procedures stay under `skills/`. `AGENTS.md` is the shared repository instruction source where supported; `CLAUDE.md` and vendor adapters stay thin. Never commit local agent state, absolute maintainer paths, command history, personal memory, tokens, or generated credentials.
+Canonical procedures stay under `skills/`. `AGENTS.md` is the shared repository instruction source where supported; `CLAUDE.md` and vendor adapters stay thin. Never commit local agent state, maintainer-specific paths, command history, personal memory, tokens or generated credentials.
 
-Every parent, specialist and chunk follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md): verify facts, plan rollback, check architecture fit, protect recovery paths, use guarded rollback for consequential remote changes, validate results, and keep evidence bounded.
+Every parent, specialist and chunk follows [`docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md): verify facts, plan rollback, check architecture fit, protect recovery paths, use guarded rollback for consequential changes, validate results and keep evidence bounded.
 
 ## Validate
 
