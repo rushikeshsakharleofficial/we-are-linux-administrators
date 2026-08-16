@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-17-1.18.15-iscsi-storage-consolidation",
+  "id": "2026-08-17-1.18.16-network-storage-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.15",
+  "version": "1.18.16",
   "date": "2026-08-17",
-  "title": "linux-admin 1.18.15 — iSCSI consolidated into storage",
-  "summary": "Top-level skill count is now 72. The former iscsi-expert has been retired after initiator/session/target/LUN mapping, stable-device identity and guarded storage-change guidance was preserved and expanded in storage/chunks/iscsi.md. Multipath, NFS, Samba and backup remain separate because their pathing, protocol/authentication and recovery semantics still justify distinct specialists. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.16 — NFS and Samba consolidated into storage",
+  "summary": "Top-level skill count is now 70. The former nfs-expert and samba-expert are retired after their export/share, identity-mapping, permission, safe-change and validation guidance was preserved and expanded in storage/chunks/nfs.md and storage/chunks/samba.md. Multipath and backup/restore remain separate because their path-failover and recovery semantics still justify distinct specialists. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
