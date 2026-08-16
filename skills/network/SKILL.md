@@ -1,39 +1,36 @@
 ---
 name: "network"
-description: "Troubleshoot Linux networking: IP addressing, routing, policy routing, DNS, firewalld/nftables/iptables/ufw, conntrack, MTU, sockets, VLAN/bond/bridge, NetworkManager, systemd-networkd, netplan, ethtool, tc, TCP/sysctl tuning, and connectivity problems."
+description: "Parent Linux networking skill. Runs bounded baseline diagnostics, identifies the failing network layer, then loads only the matching network chunk or distinct specialist skill."
 argument-hint: "[network symptom / host / port / iface / route / dns / firewall / mtu]"
 effort: "high"
 allowed-tools: "Read Grep Glob Bash"
 ---
-# network skill
+# network
 
-Use this plugin skill for: $ARGUMENTS
+Use this parent skill for Linux connectivity, interface, route, TCP/UDP, packet-flow, VLAN/bonding, firewall/NAT, proxy, and renderer problems.
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Begin read-only, protect remote access, plan rollback before network changes, and validate end to end.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+## Routing contract
 
-# Task: Networking, DNS, Routing, Firewall
+Do **not** preload every network reference. Run the baseline below, identify the condition, then load one matching chunk by default. Load a second chunk only when evidence proves the failure crosses layers.
 
-## When to use
+| Condition / evidence | Load next |
+|---|---|
+| TCP SYN, retransmit, queue, socket-state, CLOSE_WAIT/TIME_WAIT, PMTUD issue | `chunks/tcp.md` |
+| UDP datagram loss, receive errors, fragmentation, UDP NAT/conntrack timeout | `chunks/udp.md` |
+| packet-level proof needed | `chunks/packet-capture.md` |
+| VLAN, bond, LACP, layered link or MTU issue | `chunks/vlan-bonding.md` |
+| known route/policy-routing problem | `routing-expert` or `iproute-expert` |
+| known NAT/conntrack translation problem | `natting-expert` |
+| known packet-filter rule problem | `firewall-expert` |
+| host/service proxy problem | `linux-proxy-expert` |
+| DNS/BIND/dnsmasq-specific problem after basic resolver checks | matching DNS skill |
+| condition still unclear | stay in this parent baseline; do not guess |
 
-Use for no connectivity, one-way connectivity, DNS failure, route missing, interface down, packet filtering, port not reachable, local service listening but unreachable, Netplan/NetworkManager/wicked/systemd-networkd issues.
+## Baseline evidence
 
-## Mental model
-
-Debug from bottom to top:
-
-1. Link/interface state.
-2. IP address and neighbor/gateway.
-3. Routing and policy routing.
-4. DNS resolver path.
-5. Local socket/listener.
-6. Firewall/nftables/firewalld/ufw/security group.
-7. Application protocol.
-
-Never start by changing DNS or firewall until link/address/route is known.
-
-## Read-only first commands
+Collect only what is needed for the symptom:
 
 ```bash
 ip -br link
@@ -45,126 +42,43 @@ ss -lntup
 ss -s
 resolvectl status 2>/dev/null || cat /etc/resolv.conf
 getent hosts example.com
-dig +short example.com 2>/dev/null || true
-ping -c1 <gateway-or-known-ip> 2>/dev/null || true
-ping -c1 8.8.8.8 2>/dev/null || true
-tracepath <destination> 2>/dev/null || traceroute <destination> 2>/dev/null || true
+ip route get <destination> 2>/dev/null || true
 nmcli device status 2>/dev/null || true
 networkctl list 2>/dev/null || true
-systemctl is-active NetworkManager 2>/dev/null || true
-systemctl is-active systemd-networkd 2>/dev/null || true
-systemctl is-active wickedd 2>/dev/null || true
 nft list ruleset 2>/dev/null | head -200 || true
-iptables-save 2>/dev/null | head -200 || true
 firewall-cmd --state 2>/dev/null || true
-firewall-cmd --list-all 2>/dev/null || true
 ufw status verbose 2>/dev/null || true
 ```
 
-## Branch interpretation
+## Baseline interpretation
 
 | Signal | Meaning | Next branch |
 |---|---|---|
-| Interface `DOWN` or `NO-CARRIER` | physical/virtual link issue | driver, cable, VM NIC, cloud attachment, renderer |
-| IP missing | DHCP/static config/renderer issue | check Netplan/NM/wicked/networkd config |
-| Default route missing | gateway/renderer/DHCP issue | inspect renderer and config file |
-| Ping IP works, DNS fails | resolver/upstream DNS issue | `resolvectl`, `/etc/resolv.conf`, DNS server reachability |
-| Service listens on `127.0.0.1` only | bind address problem | app config, not firewall |
-| Service listens on `0.0.0.0` but remote fails | firewall, route, cloud SG/NACL, upstream | inspect counters and external path |
-| nft/firewalld counters increment on drop | local firewall blocks | narrow rule addition with rollback |
-| RHEL/Rocky/Alma 10 host has no `ifup`/`ifdown` or ignores `/etc/sysconfig/network-scripts/ifcfg-*` | legacy network scripts removed in Enterprise Linux 10 family | use NetworkManager (`nmcli`, `nmtui`) or `nmstate`; inspect `/etc/NetworkManager/system-connections/` |
-| Enterprise Linux 10 DHCP server migration request references `dhcpd`/ISC DHCP | ISC DHCP server is EOL/replaced downstream | plan Kea DHCP migration; do not recreate old `dhcpd.conf` blindly |
-| Enterprise Linux 10 network teaming config is requested | NIC teaming removed | replace team with bonding; validate driver/LACP/switch side before cutover |
-| systemd-networkd DHCP relay config uses old `[DHCPServer]` relay keys | systemd 261 deprecates relay keys in favor of `DHCPRelay=` and `[DHCPRelay]` | document current behavior; avoid new configs using deprecated relay keys |
+| interface `DOWN` / `NO-CARRIER` | physical, virtual NIC, driver or switch path | inspect link/driver; use VLAN/bonding chunk if layered |
+| IP missing | DHCP/static config/renderer problem | inspect NetworkManager/netplan/networkd/wicked |
+| default route missing | gateway/renderer/DHCP issue | route specialist or renderer config |
+| ping IP works, DNS fails | resolver/upstream DNS issue | verify resolver path, then DNS skill if required |
+| listener bound only to `127.0.0.1` | application bind problem | app/service config, not firewall |
+| listener is global but remote fails | route/firewall/NAT/upstream path | narrow to the proven layer |
+| drops/retransmits but route/listener look correct | protocol/path issue | TCP/UDP chunk, then capture only if needed |
 
-## Distro-aware config checks
+## Renderer and distro notes
 
-Ubuntu Netplan:
+- Netplan: inspect `/etc/netplan/`, `netplan get`; use `netplan try --timeout 60` for remote-safe testing after confirmation.
+- NetworkManager: inspect `nmcli con show`, `nmcli dev show`, and `/etc/NetworkManager/system-connections/`.
+- systemd-networkd: inspect `networkctl` and `/etc/systemd/network/`.
+- SUSE wicked: inspect `wickedd` and `/etc/sysconfig/network/ifcfg-*`.
+- Enterprise Linux 10 family: do not recreate removed legacy network-scripts/`ifup`/`ifdown`; prefer NetworkManager/nmstate. Prefer bonding over removed NIC teaming and Kea over retired ISC DHCP server guidance.
 
-```bash
-ls -l /etc/netplan
-sed -n '1,200p' /etc/netplan/*.yaml 2>/dev/null
-netplan get 2>/dev/null || true
-netplan try --timeout 60   # state-changing; confirmation required
-```
+## Remote-safe changes
 
-NetworkManager:
-
-```bash
-nmcli con show
-nmcli dev show <interface>
-nmcli con show <connection-name>
-ls -l /etc/NetworkManager/system-connections/ 2>/dev/null || true
-```
-
-Enterprise Linux 10 / RHEL-like 10 note:
-
-- Do not create or edit `/etc/sysconfig/network-scripts/ifcfg-*` on Rocky Linux 10 / RHEL-like 10 as a remediation path.
-- Do not suggest `ifup`, `ifdown`, `ifup-local`, or legacy network-scripts hooks on Rocky Linux 10 / RHEL-like 10.
-- Prefer NetworkManager profiles, `nmcli`, `nmtui`, and `nmstate`.
-- For server aggregation, prefer bonding over removed NIC teaming.
-- For DHCP service rebuilds, prefer Kea DHCP over ISC DHCP.
-
-```bash
-cat /etc/os-release
-nmcli -f NAME,UUID,TYPE,DEVICE,AUTOCONNECT con show
-nmcli -f GENERAL,IP4,IP6 dev show <interface>
-ls -l /etc/NetworkManager/system-connections/
-```
-
-systemd-networkd:
-
-```bash
-networkctl status <interface>
-ls -l /etc/systemd/network /run/systemd/network /usr/lib/systemd/network 2>/dev/null
-sed -n '1,200p' /etc/systemd/network/*.network 2>/dev/null
-```
-
-When writing new DHCP relay guidance for modern `systemd-networkd`, prefer the current `[Network]` `DHCPRelay=` model and `[DHCPRelay]` section rather than deprecated `[DHCPServer]` relay settings.
-
-SUSE wicked:
-
-```bash
-systemctl status wickedd --no-pager
-ls -l /etc/sysconfig/network/ifcfg-*
-sed -n '1,200p' /etc/sysconfig/network/ifcfg-<interface>
-```
-
-## Safe remediation patterns
-
-### Remote-safe network change pattern
-
-Require confirmation and prefer timed rollback:
+Never change the only management path without a rollback mechanism or console. Prefer timed/guarded methods such as `netplan try`, temporary firewalld rules, parallel SSH sessions, or out-of-band access.
 
 ```bash
 cp -a <config> <config>.bak.$(date +%F-%H%M%S)
-# apply small change
+# make one small change
 # validate syntax
-# apply with try/timeout if supported
-```
-
-For Netplan:
-
-```bash
-netplan generate
-netplan try --timeout 60
-```
-
-For NetworkManager:
-
-```bash
-nmcli connection reload
-nmcli connection up <connection-name>
-```
-
-For firewalld narrow allow:
-
-```bash
-firewall-cmd --query-port=<port>/tcp
-firewall-cmd --add-port=<port>/tcp --timeout=300
-# validate externally, then make permanent only after confirmation
-firewall-cmd --permanent --add-port=<port>/tcp
-firewall-cmd --reload
+# apply with a guarded/timed method when available
 ```
 
 ## Validation
@@ -174,44 +88,21 @@ ip route get <destination>
 getent hosts <hostname>
 ss -lntup | grep <port>
 curl -v --connect-timeout 5 http://<host>:<port>/ 2>&1 | head -60
-nft list ruleset | grep -n <port> || true
 ```
 
-## Escalation
+## Anti-patterns
 
-Escalate if:
+Do not flush firewall rules, disable offloads globally, change MTU without path evidence, disable `rp_filter` without asymmetric-routing proof, or apply TCP/UDP/sysctl tuning from generic blog posts.
 
-- Multiple hosts fail at same time.
-- Asymmetric routing or BGP/cloud routing is involved.
-- Firewall change can cut SSH and no console exists.
-- Cloud security groups/NACL/LB are outside host visibility.
+## Output
 
-## Advanced evidence (ethtool, conntrack, qdisc)
-
-```bash
-ip -s link
-ethtool <iface> 2>/dev/null || true
-ethtool -S <iface> 2>/dev/null || true
-conntrack -S 2>/dev/null || true
-tc -s qdisc show dev <iface>
-ip route get <DEST>
-ss -tan state syn-recv,time-wait,established '( sport = :<port> or dport = :<port> )'
+```text
+Parent: network
+Condition: <observed layer/symptom>
+Chunk/specialist: <one primary reference>
+Support reference: <optional, only if evidence crosses layers>
+Evidence: <bounded facts>
+Next safe action: <test/fix>
+Rollback: <when state changes>
+Validation: <proof>
 ```
-
-## Runtime vs persistent changes
-
-- `ip addr add`, `ip route add`, `ip rule add` are runtime-only; reboot/network restart removes them.
-- Persistent method depends on host: NetworkManager, systemd-networkd, netplan, ifcfg, cloud-init, Kubernetes CNI.
-- Never apply network changes remotely without rollback: `netplan try`, out-of-band console, timed revert, or parallel SSH session.
-
-## Anti-overoptimization
-
-Do not blindly:
-- increase all TCP buffers to huge values
-- disable offloads globally
-- flush firewall rules
-- change MTU without path testing
-- force `rp_filter=0` without asymmetric routing evidence
-- raise conntrack max without memory sizing
-- set `tcp_tw_reuse`, `tcp_fin_timeout`, or backlog values from blog posts
-- add permanent routes without documenting owner and rollback
