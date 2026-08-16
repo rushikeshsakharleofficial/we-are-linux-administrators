@@ -1,6 +1,6 @@
 ---
 name: using-linux-admin
-description: Main linux-admin routing map. Maps parent domains to the smallest matching micro-skill before specialist content is loaded. Routing only; no troubleshooting procedures.
+description: Main linux-admin routing map. Chooses the smallest parent domain first; parent skills then select condition-specific chunks instead of loading many micro-skills.
 argument-hint: "[linux task or symptom]"
 effort: low
 allowed-tools: "Read Grep Glob"
@@ -8,40 +8,40 @@ allowed-tools: "Read Grep Glob"
 
 # Using linux-admin
 
-Use this skill first when the correct linux-admin skill is unclear. Select the smallest matching skill, load it, and do not load unrelated skills.
+Use this skill first when the correct linux-admin domain is unclear. Select the smallest parent/specialist skill and do not load unrelated content.
 
 ## Universal Skill Execution Contract
 
-Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selects specialists; the selected skill must preserve read-only-first evidence, security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky changes, validation, and token-bounded output.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selects the top-level domain; the selected parent/specialist must preserve read-only-first evidence, security/facts checks, architecture fit, backup/disaster planning, guarded rollback for risky changes, validation, and token-bounded output.
 
-## Rules
+## Routing rules
 
-1. Broad/unclear symptom -> choose a parent skill.
-2. Known technology/failure domain -> choose the exact micro-skill.
-3. Use one primary skill plus at most two support skills unless incident/migration scope requires more.
+1. Broad/unclear symptom -> choose one parent skill.
+2. Parent skills own condition-to-chunk routing. Do not preload all chunks.
+3. Default: one parent + one chunk. Add a second chunk/support skill only when evidence proves a cross-layer issue.
 4. Unknown Linux issue -> `diagnose`.
 5. Broad senior-engineer execution -> `linux-admin-chief-engineer` after this map.
 6. Risky production change -> add `change-safety-expert`.
 7. Tuning/optimization -> load `optimization-guardian-expert` first.
 
-## Parent -> micro map
+## Parent map
 
 - **General:** `diagnose` -> `linux-admin-chief-engineer`, `command-expert`, `bash-script-expert`, `automation`, `ansible-expert`, `runbook-expert`, `root-cause-expert`, `incident-response-expert`, `incident-report-creator-expert`, `change-safety-expert`, `universal-contract-guardian-expert`
 - **Boot/services:** `boot` -> `kernel`, `service`, `systemd-expert`, `process-expert`, `shell-rc-expert`
-- **Performance:** `performance` -> `cpu-expert`, `memory-expert`, `swap-expert`, `limits-expert`, `capacity-planning-expert`, `optimization-guardian-expert`, `minimal-architecture-expert`
-- **Storage:** `storage` -> `disk-mounting-expert`, `filesystem-expert`, `lvm-expert`, `raid-expert`, `smart-disk-expert`, `iscsi-expert`, `multipath-expert`, `nfs-expert`, `samba-expert`, `quota-expert`, `backup-restore-expert`
-- **Permissions:** `permissions` -> `file-permissions-expert`, `acl-permissions-expert`, `user-permissions-expert`, `selinux-expert`, `apparmor-expert`
-- **Auth:** `auth` -> `pam-expert`, `sssd-ldap-expert`, `sudoers-expert`, `ssh-hardening-expert`, `rdp-expert`
-- **Network:** `network` -> `iproute-expert`, `routing-expert`, `natting-expert`, `vlan-bonding-expert`, `tcp-expert`, `udp-expert`, `tcpdump-expert`, `firewall-expert`, `linux-proxy-expert`
-- **DNS/time:** `named-expert` -> `dnsmasq-expert`, `dns-gslb-expert`; time -> `chrony-expert`, `date-timectl-expert`
+- **Performance:** `performance` -> CPU/memory/swap/limits/capacity branches; consolidation into parent chunks is in progress
+- **Storage:** `storage` -> mounting/filesystem/LVM/RAID/SMART/iSCSI/multipath/NFS/Samba/quota/backup branches; consolidation into parent chunks is in progress
+- **Permissions:** `permissions` -> POSIX permissions/ACL/users/SELinux/AppArmor branches
+- **Auth:** `auth` -> PAM/SSSD-LDAP/sudo/SSH/RDP branches
+- **Network:** `network` -> condition-specific chunks for TCP, UDP, packet capture, VLAN/bonding/LACP; distinct routing/NAT/firewall/proxy/DNS specialists are loaded only when baseline evidence points there
+- **DNS/time:** `named-expert` for BIND/DNS; dnsmasq/GSLB/time specialists remain separate until their domain consolidation pass
 - **Web/apps:** `nginx-expert`, `apache-expert`, `php-fpm-expert`, `web-stack-security-expert`, `mysql-expert`, `postgresql-expert`, `redis-expert`
-- **Load balancing:** `load-balancer-expert` -> `haproxy-expert`, `f5-expert`, `lvs-ipvs-expert`, `keepalived-expert`, `cloud-lb-expert`, `dns-gslb-expert`
+- **Load balancing:** `load-balancer-expert` -> HAProxy/F5/LVS/Keepalived/cloud-LB/DNS-GSLB branches
 - **Containers:** `containers` -> `kubernetes-node-expert`
-- **Logs/monitoring:** `logs` -> `rsyslog-expert`, `logrotate-expert`, `nagios-core-expert`, `observium-ce-expert`
-- **Security:** `security-expert` -> `os-security-expert`, `selinux-expert`, `apparmor-expert`, `auditd-expert`, `fail2ban-expert`, `patching-expert`, `package-manager-expert`, `vulnerability-scan-expert`, `sysctl-expert`, `linux-source-guardian-expert`
-- **Migration:** `migration-expert` -> relevant domain skill + `change-safety-expert`
+- **Logs/monitoring:** `logs` -> rsyslog/logrotate/monitoring branches
+- **Security:** `security-expert` -> host security/MAC/audit/fail2ban/patch/vulnerability/sysctl branches
+- **Migration:** `migration-expert` -> relevant domain + `change-safety-expert`
 - **Cloudflare:** `cf-expert`
-- **AI/model choice:** `agent-model-dispatcher-expert` (AI client/model routing only, not Linux technical routing)
+- **AI/model choice:** `agent-model-dispatcher-expert` (AI client/model routing only)
 - **Server context memory:** `server-memory-expert` (stored host/operator context, not RAM troubleshooting)
 
 ## Fast picks
@@ -57,6 +57,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Permission denied | `permissions` |
 | SSH/login/sudo identity issue | `auth` |
 | Cannot reach host/port | `network` |
+| TCP/UDP/VLAN/bond/packet-flow issue | `network`, then matching chunk |
 | Known firewall rule problem | `firewall-expert` |
 | BIND/named DNS problem | `named-expert` |
 | NGINX problem | `nginx-expert` |
@@ -67,7 +68,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | Incident report in Word/Excel/PDF/PowerPoint | `incident-report-creator-expert` |
 | Security audit/hardening | `security-expert` |
 | Production change | domain skill + `change-safety-expert` |
-| Tune/boost/optimize | `optimization-guardian-expert` then domain skill |
+| Tune/boost/optimize | `optimization-guardian-expert` then domain |
 | Migration/cutover | `migration-expert` |
 | Choose load balancer | `load-balancer-expert` |
 | Choose AI agent/model | `agent-model-dispatcher-expert` |
@@ -76,8 +77,8 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 
 - Filesystem/object access -> `permissions`; login/identity/session/sudo auth -> `auth`.
 - Unknown reachability -> `network`; known packet-filter rule -> `firewall-expert`.
-- Unknown slowness -> `performance`; proven CPU/RAM/swap issue -> matching micro-skill.
-- Unknown disk issue -> `storage`; proven filesystem/LVM/RAID layer -> matching micro-skill.
+- Unknown slowness -> `performance`; let that parent identify the proven resource layer.
+- Unknown disk issue -> `storage`; let that parent identify filesystem/LVM/RAID/etc.
 - Generic daemon failure -> `service`; unit/dependency/timer/cgroup semantics -> `systemd-expert`.
 - Broad security validation -> `security-expert`; host hardening implementation -> `os-security-expert`.
 - Active incident handling -> `incident-response-expert`; formal post-incident artifact generation -> `incident-report-creator-expert`.
@@ -85,9 +86,9 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 ## Output
 
 ```text
-Primary skill: <skill>
-Support skill(s): <zero to two>
+Primary parent/specialist: <skill>
 Reason: <one short sentence>
+Next: let that skill select one condition-specific chunk if applicable
 ```
 
-Then load only the selected skill(s).
+Then load only the selected parent/specialist and its chosen chunk.
