@@ -5,7 +5,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_files_exist():
     required = [
-        'skills/firewall-expert/SKILL.md', 'skills/fail2ban-expert/SKILL.md',
+        'skills/firewall-expert/SKILL.md', 'skills/security-expert/SKILL.md',
+        'skills/security-expert/chunks/fail2ban.md',
         'docs/firewall-expert/firewall-model.md', 'docs/fail2ban-expert/jail-model.md',
         'scripts/firewall-expert-audit.py', 'scripts/fail2ban-expert-audit.py',
         'bin/firewall-expert-audit', 'bin/fail2ban-expert-audit'
