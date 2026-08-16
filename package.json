@@ -1,7 +1,7 @@
 {
   "name": "linux-admin",
-  "version": "1.18.13",
-  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q, Zed, Junie, Aider, Cody, goose, and other agent-based ops tools — 74 expert skills organized with focused parent-domain and condition-based chunk routing",
+  "version": "1.18.14",
+  "description": "Senior Linux administrator and SRE workflow for Claude Code, Codex, OpenCode, GitHub Copilot, Cursor, Windsurf, Cline, Amazon Q, Zed, Junie, Aider, Cody, goose, and other agent-based ops tools — 73 expert skills organized with focused parent-domain and condition-based chunk routing",
   "bin": {"linux-admin": "./bin/linux-admin-install.js", "linux-admin-install": "./bin/linux-admin-install.js"},
   "scripts": {"install-plugin": "node bin/linux-admin-install.js install-claude", "install-global": "node bin/linux-admin-install.js install-global", "status": "node bin/linux-admin-install.js status"},
   "keywords": ["claude-code", "codex", "openai-codex", "opencode", "github-copilot", "cursor", "windsurf", "cline", "amazon-q", "zed", "junie", "aider", "sourcegraph-cody", "goose", "agents-md", "linux", "sre", "devops", "plugin", "admin", "universal-contract", "security", "networking", "storage", "monitoring", "load-balancing", "skill-routing", "chunk-routing", "incident-management", "incident-reporting", "patching", "package-management"],
