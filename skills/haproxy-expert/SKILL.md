@@ -1,6 +1,9 @@
 ---
 name: haproxy-expert
 description: Diagnose and safely change HAProxy frontends, backends, ACLs, health checks, stickiness, TLS termination, reloads, and production traffic routing with validation and rollback.
+argument-hint: "[HAProxy frontend/backend, ACL, health-check, TLS, or routing issue]"
+effort: medium
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # haproxy-expert
