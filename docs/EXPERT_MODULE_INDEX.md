@@ -1,6 +1,6 @@
 # Expert Module Index
 
-85 top-level skills.
+83 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -89,6 +89,12 @@ LVM, RAID, iSCSI, multipath, NFS, Samba, quota and backup remain distinct pendin
 - sudoers/least-privilege delegation -> `skills/auth/chunks/sudoers.md`
 - SSH hardening -> keep `ssh-hardening-expert` distinct
 - RDP/xrdp -> keep `rdp-expert` distinct
+
+### Logging
+- rsyslog local routing/remote forwarding/queues/TLS -> `skills/logs/chunks/rsyslog.md`
+- logrotate retention/compression/reopen/copytruncate -> `skills/logs/chunks/logrotate.md`
+- journald baseline investigation -> stays in `skills/logs/SKILL.md`
+- Nagios Core/Observium CE -> keep distinct product specialists
 
 Former top-level specialists were removed only after useful procedures were preserved in parent chunks. Other domains will be consolidated only when overlap is verified; distinct technologies stay top-level when merging would reduce safety or routing accuracy.
 
