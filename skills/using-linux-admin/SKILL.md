@@ -31,7 +31,7 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 - Time: `time` -> Chrony/NTP or system-clock/timezone/RTC chunk.
 - Package lifecycle: `package-manager-expert` -> package/repository work or patching chunk; release upgrades -> `migration-expert`.
 - Logs: `logs` -> rsyslog/logrotate chunk or journald parent flow; product monitoring remains distinct.
-- Security: `security-expert` -> broad audit, auditd or Fail2Ban chunk; distinct controls stay separate.
+- Security: `security-expert` -> broad audit, auditd, Fail2Ban or vulnerability/CVE triage chunk; sysctl, MAC, SSH/auth and firewall controls stay separate when their own semantics are proven.
 - Web/apps: matching Nginx/Apache/PHP/database specialist.
 - Load balancing: `load-balancer-expert`.
 - Containers: `containers` or `kubernetes-node-expert`.
@@ -58,6 +58,8 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 | NTP/timezone | `time` |
 | Package/repository issue | `package-manager-expert` |
 | OS/security patching | `package-manager-expert` -> patching chunk |
+| Vulnerability scanner/CVE finding | `security-expert` -> vulnerability-scan chunk |
+| Sysctl/kernel runtime tuning | `sysctl-expert` |
 | Logs | `logs` |
 | Active incident/RCA | `incident-response-expert` |
 | Formal incident report | `incident-report-creator-expert` |
