@@ -1,6 +1,6 @@
 # Expert Module Index
 
-77 top-level skills.
+76 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -37,14 +37,14 @@ Boot `boot`; services `service`; performance `performance`; storage `storage`; p
 
 - Network: TCP, UDP, packet capture, VLAN/bonding chunks.
 - Time: Chrony/NTP and system-clock chunks.
-- Storage baseline: mounts/fstab, filesystem health, SMART chunks; high-risk storage specialists remain distinct pending review.
+- Storage: mounts/fstab, filesystem health, SMART and quota chunks; LVM/RAID/iSCSI/multipath/NFS/Samba/backup remain distinct pending review.
 - Performance: CPU, memory/OOM, swap/zram, capacity chunks; limits remains distinct.
 - Permissions: POSIX and ACL chunks; SELinux/AppArmor remain distinct.
 - Auth: local accounts, PAM, SSSD/LDAP, sudoers chunks; SSH/RDP remain distinct.
 - Logging: rsyslog and logrotate chunks; product monitoring remains distinct.
 - Incident management: RCA chunk under incident response; artifact creator remains distinct.
 - Automation: Bash/POSIX scripting and operational runbooks are chunks under `automation`; Ansible, cron and systemd remain distinct where their semantics are the actual condition.
-- Security: broad host audit, auditd and Fail2Ban are chunks under `security-expert`; the former `os-security-expert` broad audit is consolidated into `security-expert/chunks/security-audit.md`. MAC, SSH/auth, firewall, kernel/sysctl, patching and vulnerability specialists stay distinct when their control semantics are proven.
+- Security: broad host audit, auditd and Fail2Ban are chunks under `security-expert`; MAC, SSH/auth, firewall, kernel/sysctl, patching and vulnerability specialists stay distinct when their control semantics are proven.
 
 Former top-level specialists are removed only after useful procedures and references are migrated.
 
