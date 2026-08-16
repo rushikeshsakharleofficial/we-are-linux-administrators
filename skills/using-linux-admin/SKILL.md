@@ -33,7 +33,8 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 - **Permissions:** `permissions` -> POSIX permissions/ACL/users/SELinux/AppArmor branches
 - **Auth:** `auth` -> PAM/SSSD-LDAP/sudo/SSH/RDP branches
 - **Network:** `network` -> condition-specific chunks for TCP, UDP, packet capture, VLAN/bonding/LACP; distinct routing/NAT/firewall/proxy/DNS specialists are loaded only when baseline evidence points there
-- **DNS/time:** `named-expert` for BIND/DNS; dnsmasq/GSLB/time specialists remain separate until their domain consolidation pass
+- **DNS:** `named-expert` for BIND/DNS; dnsmasq/GSLB remain distinct specialists until their overlap is reviewed
+- **Time:** `time` -> condition-specific chunks for Chrony/NTP synchronisation or system clock/timezone/RTC/timedatectl issues
 - **Web/apps:** `nginx-expert`, `apache-expert`, `php-fpm-expert`, `web-stack-security-expert`, `mysql-expert`, `postgresql-expert`, `redis-expert`
 - **Load balancing:** `load-balancer-expert` -> HAProxy/F5/LVS/Keepalived/cloud-LB/DNS-GSLB branches
 - **Containers:** `containers` -> `kubernetes-node-expert`
@@ -58,6 +59,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 | SSH/login/sudo identity issue | `auth` |
 | Cannot reach host/port | `network` |
 | TCP/UDP/VLAN/bond/packet-flow issue | `network`, then matching chunk |
+| Clock drift/NTP/Chrony/timezone/RTC issue | `time`, then matching chunk |
 | Known firewall rule problem | `firewall-expert` |
 | BIND/named DNS problem | `named-expert` |
 | NGINX problem | `nginx-expert` |
@@ -77,6 +79,7 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. This skill only selec
 
 - Filesystem/object access -> `permissions`; login/identity/session/sudo auth -> `auth`.
 - Unknown reachability -> `network`; known packet-filter rule -> `firewall-expert`.
+- Time sync/source/offset/stratum issue -> `time` then Chrony chunk; timezone/RTC/local clock issue -> `time` then system-clock chunk.
 - Unknown slowness -> `performance`; let that parent identify the proven resource layer.
 - Unknown disk issue -> `storage`; let that parent identify filesystem/LVM/RAID/etc.
 - Generic daemon failure -> `service`; unit/dependency/timer/cgroup semantics -> `systemd-expert`.
