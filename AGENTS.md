@@ -7,8 +7,8 @@ Primary repository instruction entry point for maintained agent-based tools that
 - Repository: `rushikeshsakharleofficial/we-are-linux-administrators`
 - Branch policy: use `main` unless the user explicitly asks for a branch or pull request.
 - Package/plugin: `linux-admin`
-- Current repository metadata version: `1.18.18`
-- Current top-level skill count: `66`
+- Current repository metadata version: `1.18.19`
+- Current top-level skill count: `65`
 - Canonical router: `skills/using-linux-admin/SKILL.md`
 - Parent routing rule: one parent/specialist -> bounded evidence -> one matching chunk by default.
 - Local/global path guide: `docs/LOCAL_GLOBAL_AGENT_SETUP.md`
@@ -26,6 +26,7 @@ Before repository changes, read the relevant README/release/package/plugin metad
 - Add a second chunk/support skill only when evidence proves a cross-layer issue.
 - `storage` owns mount/fstab, filesystem-health, SMART, quota, LVM, md/RAID, iSCSI, NFS and Samba/SMB chunks; multipath and backup/restore remain distinct.
 - `network` owns TCP, UDP, packet-capture, VLAN/bonding, routing/iproute2 and NAT/conntrack chunks; firewall, proxy and DNS remain distinct control planes.
+- `load-balancer-expert` owns vendor-neutral LB classification/recommendation and the HAProxy chunk; F5, cloud LB, LVS/IPVS, keepalived/VRRP, NGINX proxy and DNS/GSLB remain distinct where their control planes differ.
 - `automation` owns Bash/POSIX scripting and operational-runbook chunks; Ansible, cron and systemd remain distinct when their own semantics are involved.
 - `auth` owns local-account, PAM, SSSD/LDAP and sudoers chunks; SSH hardening remains distinct.
 - `logs` owns rsyslog and logrotate chunks; product monitoring stays distinct.
@@ -44,7 +45,7 @@ Do not commit machine-local agent state, command history, caches, auto-memory, s
 
 ## Safety contract
 
-All skills and operational guidance follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`: verify facts, define rollback, check architecture fit, protect recovery paths, use guarded recovery for risky remote/network/storage/auth/package changes, and keep evidence/output bounded.
+All skills and operational guidance follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`: verify facts, define rollback, check architecture fit, protect recovery paths, use guarded recovery for risky remote/network/storage/auth/package/load-balancer changes, and keep evidence/output bounded.
 
 ## Metadata consistency
 
