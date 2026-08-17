@@ -1,12 +1,12 @@
-# Release 1.18.17
+# Release 1.18.18
 
 ## Package
 
-- Repository/package metadata version: `1.18.17`
-- Plugin metadata version: `1.18.17`
-- Skill count: `69`
+- Repository/package metadata version: `1.18.18`
+- Plugin metadata version: `1.18.18`
+- Skill count: `66`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-17; `v1.18.17` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-17; `v1.18.18` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
@@ -19,13 +19,14 @@ using-linux-admin -> parent/specialist -> bounded evidence -> one matching chunk
 
 A second chunk/support skill is loaded only when evidence proves a cross-layer issue.
 
-## Vulnerability triage consolidation
+## Network routing/NAT consolidation
 
-The former top-level `vulnerability-scan-expert` is retired. Its CVE/scanner triage, false-positive/backport checks, exposure analysis, compensating-control guidance, remediation planning and validation workflow is preserved and expanded under:
+The former top-level `iproute-expert`, `routing-expert` and `natting-expert` are retired. Their useful Linux route/policy-routing/iproute2, namespace/VRF/tunnel, SNAT/DNAT/masquerade/port-forwarding, forwarding and conntrack guidance is preserved and expanded under:
 
-- `skills/security-expert/chunks/vulnerability-scan.md`
+- `skills/network/chunks/routing-iproute.md`
+- `skills/network/chunks/nat-conntrack.md`
 
-`security-expert` now routes proven vulnerability/CVE scanner findings to that chunk. `sysctl-expert` remains distinct because it spans kernel runtime tuning, performance and security hardening rather than vulnerability triage alone.
+`network` now owns condition-based routing for route/policy-routing and NAT/conntrack failures. Firewall filtering, proxy and DNS remain distinct specialists because those are separate control planes.
 
 ## Consolidated domains
 
