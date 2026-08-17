@@ -7,7 +7,7 @@ allowed-tools: "Read Grep Glob Bash"
 ---
 # network
 
-Use this parent skill for Linux connectivity, interface, route, TCP/UDP, packet-flow, VLAN/bonding, firewall/NAT, proxy, and renderer problems.
+Use this parent skill for Linux connectivity, interface/address state, routing, TCP/UDP, packet flow, VLAN/bonding, NAT/conntrack, firewall, proxy and renderer problems.
 
 Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Begin read-only, protect remote access, plan rollback before network changes, and validate end to end.
 
@@ -21,8 +21,8 @@ Do **not** preload every network reference. Run the baseline below, identify the
 | UDP datagram loss, receive errors, fragmentation, UDP NAT/conntrack timeout | `chunks/udp.md` |
 | packet-level proof needed | `chunks/packet-capture.md` |
 | VLAN, bond, LACP, layered link or MTU issue | `chunks/vlan-bonding.md` |
-| known route/policy-routing problem | `routing-expert` or `iproute-expert` |
-| known NAT/conntrack translation problem | `natting-expert` |
+| address/link/route/policy rule/neighbor/namespace/VRF/tunnel problem | `chunks/routing-iproute.md` |
+| SNAT, DNAT, masquerade, port-forwarding, forwarding or conntrack problem | `chunks/nat-conntrack.md` |
 | known packet-filter rule problem | `firewall-expert` |
 | host/service proxy problem | `linux-proxy-expert` |
 | DNS/BIND/dnsmasq-specific problem after basic resolver checks | matching DNS skill |
@@ -55,11 +55,12 @@ ufw status verbose 2>/dev/null || true
 | Signal | Meaning | Next branch |
 |---|---|---|
 | interface `DOWN` / `NO-CARRIER` | physical, virtual NIC, driver or switch path | inspect link/driver; use VLAN/bonding chunk if layered |
-| IP missing | DHCP/static config/renderer problem | inspect NetworkManager/netplan/networkd/wicked |
-| default route missing | gateway/renderer/DHCP issue | route specialist or renderer config |
+| IP missing | DHCP/static config/renderer problem | inspect renderer; use routing/iproute chunk when state/route reasoning is needed |
+| default/specific route or policy rule wrong | routing decision issue | routing/iproute chunk |
 | ping IP works, DNS fails | resolver/upstream DNS issue | verify resolver path, then DNS skill if required |
 | listener bound only to `127.0.0.1` | application bind problem | app/service config, not firewall |
 | listener is global but remote fails | route/firewall/NAT/upstream path | narrow to the proven layer |
+| translation/forwarding/conntrack evidence is wrong | NAT state/path issue | NAT/conntrack chunk |
 | drops/retransmits but route/listener look correct | protocol/path issue | TCP/UDP chunk, then capture only if needed |
 
 ## Renderer and distro notes
@@ -72,12 +73,12 @@ ufw status verbose 2>/dev/null || true
 
 ## Remote-safe changes
 
-Never change the only management path without a rollback mechanism or console. Prefer timed/guarded methods such as `netplan try`, temporary firewalld rules, parallel SSH sessions, or out-of-band access.
+Never change the only management path without rollback or console/OOB access. Prefer temporary route/rule/NAT tests, `netplan try`, temporary firewalld rules, parallel SSH sessions, or out-of-band access before persistence.
 
 ```bash
 cp -a <config> <config>.bak.$(date +%F-%H%M%S)
 # make one small change
-# validate syntax
+# validate syntax/state
 # apply with a guarded/timed method when available
 ```
 
@@ -92,7 +93,7 @@ curl -v --connect-timeout 5 http://<host>:<port>/ 2>&1 | head -60
 
 ## Anti-patterns
 
-Do not flush firewall rules, disable offloads globally, change MTU without path evidence, disable `rp_filter` without asymmetric-routing proof, or apply TCP/UDP/sysctl tuning from generic blog posts.
+Do not flush firewall/NAT state, replace a default route blindly, disable offloads globally, change MTU without path evidence, disable `rp_filter` without asymmetric-routing proof, or apply TCP/UDP/sysctl tuning from generic blog posts.
 
 ## Output
 
