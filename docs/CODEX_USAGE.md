@@ -1,45 +1,45 @@
 # Codex usage guide
 
-This repository supports Codex app, Codex CLI, Codex IDE extension, Codex Web, and GitHub-connected Codex workflows through `AGENTS.md`, the canonical `using-linux-admin` routing map, and shared Linux admin documentation.
+This repository supports Codex through portable repository instructions, Agent Skills discovery where supported, and the Codex Plugin Directory when a published/available plugin is actually visible to the user's plan, workspace, role and surface.
 
-## How linux-admin works with Codex
+## Canonical linux-admin workflow
 
-Codex has two relevant integration models:
+Use these files as the source of truth:
 
-1. **Project instruction pack** — clone this repo or vendor it into another repo. Codex uses the repository instructions and supporting docs.
-2. **Codex plugin directory** — when `linux-admin` is published or shared as a Codex plugin source, install it from the Codex app or Codex CLI `/plugins` browser.
+- `AGENTS.md` — portable repository instructions.
+- `skills/using-linux-admin/SKILL.md` — top-level parent/specialist router.
+- `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — safety, rollback and validation contract.
+- `docs/SECURITY_PATCH_REFRESH_POLICY.md` — vendor-source policy for time-sensitive OS/security guidance.
+- `docs/EXPERT_MODULE_INDEX.md` — compact domain index.
+- `skills/<parent>/SKILL.md` — parent/specialist workflows.
+- `skills/<parent>/chunks/*.md` — condition-specific procedures loaded only when needed.
 
-This repo includes:
+Execution model:
 
-- `AGENTS.md` — default portable repository instructions for Codex and other coding agents.
-- `skills/using-linux-admin/SKILL.md` — canonical parent/micro-skill routing map; use it before loading specialist content when the correct skill is unclear.
-- `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` — shared safety and output contract.
-- `docs/SECURITY_PATCH_REFRESH_POLICY.md` — OS-specific patch and vulnerability-source policy.
-- `docs/EXPERT_MODULE_INDEX.md` — short entry-point and parent-domain index; it intentionally does not duplicate the full routing map.
-- `skills/*/SKILL.md` — task-specific Linux admin workflows.
-- `skills/*/chunks/*.md` — focused category references for large domains.
+```text
+AGENTS.md
+  -> skills/using-linux-admin/SKILL.md
+  -> one parent/specialist
+  -> bounded evidence
+  -> one matching chunk when applicable
+```
+
+Load a second chunk/support skill only when evidence proves a cross-layer issue.
 
 ## Install Codex CLI
 
-Install Codex CLI on macOS/Linux:
-
 ```bash
 npm install -g @openai/codex
-```
-
-Run Codex from a repository root:
-
-```bash
 codex
 ```
 
-Use the authentication flow offered by the current Codex CLI, including Sign in with ChatGPT where available.
+Use the current authentication flow offered by Codex. Do not hard-code an old login command or assume one authentication mode is available everywhere.
 
-## Install/use linux-admin in Codex
+## Use linux-admin with Codex today
 
-### Option A — Use as a Codex project instruction pack now
+### Option A — Repository/project use
 
-Clone the repository and run Codex from its root:
+This is the most predictable mode because it does not depend on plugin-directory publication.
 
 ```bash
 git clone https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git
@@ -47,122 +47,75 @@ cd we-are-linux-administrators
 codex
 ```
 
-Starter prompt:
+Recommended first instruction:
 
 ```text
-Read AGENTS.md first.
-Read skills/using-linux-admin/SKILL.md and choose the smallest relevant primary Linux skill.
-Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md and docs/SECURITY_PATCH_REFRESH_POLICY.md.
-Load only the selected skill and required chunks; do not summarize or load the full skill tree.
+Read AGENTS.md.
+Read skills/using-linux-admin/SKILL.md and choose one parent/specialist.
+Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
+Load only the selected skill and required chunk; do not preload the whole tree.
 ```
 
-### Option B — Install from Codex plugin directory when published/shared
+### Option B — User-wide Agent Skills
 
-Use this only when `linux-admin` is actually available in your Codex Plugin directory or workspace plugin source.
+After installing the verified GitHub source:
 
-In Codex CLI:
-
-```text
-codex
-/plugins
+```bash
+npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators
+linux-admin status
+linux-admin install-global
 ```
 
-Then:
+The installer copies canonical skills to supported user-level skill locations, including `~/.agents/skills/`, while preserving the repository as the source of truth. Existing destinations are skipped unless `--force` is intentional.
 
-```text
-Search: linux-admin
-Open plugin details
-Install plugin
-Start a new thread
-Ask Codex to use linux-admin
-```
+### Option C — Codex Plugin Directory
 
-In Codex app:
+OpenAI currently documents plugins as installable workflow packages in the Codex/ChatGPT Plugin Directory. Availability can depend on plan, workspace settings, role, rollout, supported surface and any required app permissions.
 
-```text
-Open Plugins → search linux-admin → Add to Codex → start a new thread
-```
+Use this mode only when `linux-admin` is actually published/available in the Plugin Directory or supplied through an approved workspace plugin source.
 
-After install:
+Do **not** assume a specific Codex CLI slash command such as `/plugins` unless the current Codex client itself exposes and documents that command. The supported directory/workspace UI is the reliable discovery path; exact client controls can change.
 
-```text
-Use linux-admin to diagnose an Ubuntu Desktop GNOME login loop with read-only-first commands and rollback notes.
-```
+After a plugin is available, verify:
 
-Or, where the installed surface supports plugin mentions:
+1. the listing is the expected `linux-admin` package/workflow;
+2. the workspace permits the plugin for the user's role;
+3. any required apps are enabled and authorised;
+4. a low-risk test prompt can invoke the expected skill workflow;
+5. routing still follows `using-linux-admin -> parent/specialist -> bounded evidence -> one chunk`.
 
-```text
-@linux-admin diagnose Fedora Kinoite update failure and suggest safe validation steps.
-```
+A plugin does not bypass underlying app or source-system permissions.
 
-### Option C — Vendor linux-admin into another repo
-
-Use this when you want Codex to apply linux-admin rules inside a separate infrastructure repo.
+## Vendor linux-admin into another repository
 
 ```bash
 git submodule add https://github.com/rushikeshsakharleofficial/we-are-linux-administrators.git tools/linux-admin-skills
-cp tools/linux-admin-skills/AGENTS.md ./AGENTS.md
 ```
 
-Add this to the target repo's root `AGENTS.md`:
+Reference it from the target repository's `AGENTS.md`:
 
 ```text
-Use tools/linux-admin-skills as the Linux admin skill reference.
-Read tools/linux-admin-skills/skills/using-linux-admin/SKILL.md before choosing specialist Linux skill content.
+Use tools/linux-admin-skills as the Linux administration skill reference.
+Read tools/linux-admin-skills/skills/using-linux-admin/SKILL.md before choosing specialist content.
 Follow tools/linux-admin-skills/docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Follow tools/linux-admin-skills/docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific guidance.
+Follow tools/linux-admin-skills/docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific security and lifecycle guidance.
 ```
 
-## Use with Codex app
+Avoid copying the full skill tree into multiple vendor-specific instruction directories.
 
-1. Open Codex and the repository/worktree you want to use.
-2. Read `AGENTS.md` and `skills/using-linux-admin/SKILL.md` before selecting specialist content.
-3. Keep tasks scoped to specific files or directories.
-4. Require bounded evidence, validation, and changed-file summaries.
-5. Load only the selected specialist skill and required chunks.
+## Codex app, CLI, IDE and web usage
 
-Starter prompt:
+Whichever Codex surface is used:
 
-```text
-Read AGENTS.md first.
-Read skills/using-linux-admin/SKILL.md and select the smallest relevant specialist set.
-Follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Do not change files until the task scope is clear.
-```
+1. load the repository/worktree and its `AGENTS.md` instructions;
+2. select the smallest relevant parent/specialist;
+3. collect bounded evidence before recommending changes;
+4. load only the matching chunk;
+5. define rollback before consequential changes;
+6. validate the result;
+7. report blocked or unverified work instead of inventing support.
 
-## Use with Codex CLI
-
-From the repo root:
-
-```bash
-codex
-```
-
-Then use a scoped task:
-
-```text
-Read AGENTS.md and skills/using-linux-admin/SKILL.md first.
-Task: improve the Ubuntu Desktop release-lifecycle chunk with current official Ubuntu lifecycle guidance.
-Scope: skills/ubuntu-desktop-expert/chunks/release-lifecycle.md only.
-Safety: follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Patch policy: follow docs/SECURITY_PATCH_REFRESH_POLICY.md.
-Validation: document what was checked and whether hooks were run.
-```
-
-## Use with Codex IDE extension
-
-Open this repository in your IDE and use a prompt like:
-
-```text
-Read AGENTS.md and skills/using-linux-admin/SKILL.md.
-Choose the smallest relevant skill for Fedora Desktop update troubleshooting.
-Explain which specialist skill/chunk should be used and why.
-Do not edit files until the scope is confirmed.
-```
-
-## Use with Codex Web / GitHub task
-
-When assigning a task through Codex Web or a GitHub-connected Codex workflow, use this format:
+For GitHub-connected/cloud work, keep task scope explicit:
 
 ```text
 Read AGENTS.md and skills/using-linux-admin/SKILL.md first.
@@ -171,59 +124,32 @@ Scope: <allowed files/directories>
 Safety: follow docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md
 Patch policy: follow docs/SECURITY_PATCH_REFRESH_POLICY.md for OS-specific changes
 Validation: run or document relevant hooks/checks
-Output: summarize changed files, evidence, validation, and rollback notes
+Output: summarize changed files, evidence, validation and rollback notes
 ```
 
-## Use `/init`
+## `/init`
 
-For a new fork or derived repository, `/init` can scaffold or refresh repository instructions. Preserve the important safety and routing rules from this repo's `AGENTS.md`:
+If the current Codex client offers `/init`, it can help scaffold or refresh repository instructions for a new fork/derived project. Preserve the important linux-admin rules:
 
-- work scoped and reversible
-- fetch current files before writing
-- route through `skills/using-linux-admin/SKILL.md`
-- follow the Universal Skill Execution Contract
-- verify official/vendor sources for version-specific or patch guidance
-- keep large domains chunked
-- report validation results and blocked work
+- keep work scoped and reversible;
+- fetch/read current files before writing;
+- route through `skills/using-linux-admin/SKILL.md`;
+- follow the Universal Skill Execution Contract;
+- verify current vendor sources for time-sensitive OS/security guidance;
+- keep large domains chunked;
+- report validation results and blocked work.
 
-## Recommended Codex task templates
+Do not depend on `/init` being present in every Codex surface/version.
 
-### Skill update
-
-```text
-Read AGENTS.md and skills/using-linux-admin/SKILL.md first.
-Update only <skill-path> based on current official vendor docs.
-Treat community sources as signals only.
-Keep the change small and reversible.
-Update RELEASE.md only if user-facing behavior changes.
-Summarize validation and rollback notes.
-```
-
-### New skill
-
-```text
-Read AGENTS.md, skills/using-linux-admin/SKILL.md, and docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md.
-Create a new skill for <domain>.
-Use a small SKILL.md and chunked references if the domain is broad.
-Update the canonical routing map only if the new skill changes routing.
-Add docs/package metadata only if needed.
-Run or document validation hooks.
-```
-
-### OS patch refresh
-
-```text
-Read AGENTS.md, skills/using-linux-admin/SKILL.md, and docs/SECURITY_PATCH_REFRESH_POLICY.md.
-Check current official security patch sources for <OS family>.
-Update only the relevant skill chunk if guidance changed.
-Do not apply broad package/kernel advice without lifecycle and rollback notes.
-```
-
-## Validation commands
+## Validation
 
 ```bash
 bash hooks/validate-linux-admin.sh .
 bash hooks/validate-universal-contract.sh .
 ```
 
-If hooks cannot be run in the Codex environment, Codex should say that clearly and explain what was inspected instead.
+The repository validator also verifies package contents, including the canonical skill tree and required documentation. If an environment cannot run the hooks, state that clearly and report exactly what was inspected instead.
+
+## Publication accuracy
+
+Repository metadata and Plugin Directory/GitHub Release publication are separate states. Never infer that a repository version is published merely because `package.json` or plugin metadata has that version. Verify the actual published surface first.
