@@ -1,6 +1,6 @@
 # Expert Module Index
 
-69 top-level skills.
+66 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -23,6 +23,8 @@ Load a second chunk only when evidence proves a cross-layer issue.
 | Broad senior execution | `linux-admin-chief-engineer` |
 | Bash/POSIX automation | `automation` -> `chunks/bash-scripting.md` |
 | Ansible workflow | `ansible-expert` |
+| Route/policy-routing/iproute2 | `network` -> `chunks/routing-iproute.md` |
+| NAT/conntrack/port forwarding | `network` -> `chunks/nat-conntrack.md` |
 | Package/repository problem | `package-manager-expert` |
 | Planned OS/security patch rollout | `package-manager-expert` -> `chunks/patching.md` |
 | Active incident response/RCA | `incident-response-expert` |
@@ -36,7 +38,7 @@ Boot `boot`; services `service`; performance `performance`; storage `storage`; p
 
 ## Consolidation status
 
-- Network: TCP, UDP, packet capture, VLAN/bonding chunks.
+- Network: TCP, UDP, packet capture, VLAN/bonding, routing/iproute2 and NAT/conntrack chunks; firewall, proxy and DNS remain distinct.
 - Time: Chrony/NTP and system-clock chunks.
 - Storage: mounts/fstab, filesystem health, SMART, quota, LVM, md/RAID, iSCSI, NFS and Samba/SMB chunks; multipath and backup/restore remain distinct.
 - Performance: CPU, memory/OOM, swap/zram, capacity chunks; limits remains distinct.
