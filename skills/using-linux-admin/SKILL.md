@@ -33,7 +33,7 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 - Logs: `logs` -> rsyslog/logrotate chunk or journald parent flow; product monitoring remains distinct.
 - Security: `security-expert` -> broad audit, auditd, Fail2Ban or vulnerability/CVE triage chunk; sysctl, MAC, SSH/auth and firewall controls stay separate when their own semantics are proven.
 - Web/apps: matching Nginx/Apache/PHP/database specialist.
-- Load balancing: `load-balancer-expert`.
+- Load balancing: `load-balancer-expert` -> HAProxy chunk when HAProxy is proven; F5, cloud LB, LVS/IPVS, keepalived, NGINX proxy and DNS/GSLB remain distinct specialists.
 - Containers: `containers` or `kubernetes-node-expert`.
 - Migration: `migration-expert` + relevant domain + `change-safety-expert`.
 
@@ -57,6 +57,11 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 | Connectivity/TCP/UDP | `network` |
 | Route/policy-routing/iproute2 | `network` -> routing-iproute chunk |
 | SNAT/DNAT/masquerade/conntrack | `network` -> nat-conntrack chunk |
+| HAProxy frontend/backend/ACL/health/TLS/reload | `load-balancer-expert` -> HAProxy chunk |
+| F5 BIG-IP | `f5-expert` |
+| Cloud managed LB | `cloud-lb-expert` |
+| LVS/IPVS | `lvs-ipvs-expert` |
+| keepalived/VRRP/VIP failover | `keepalived-expert` |
 | NTP/timezone | `time` |
 | Package/repository issue | `package-manager-expert` |
 | OS/security patching | `package-manager-expert` -> patching chunk |
