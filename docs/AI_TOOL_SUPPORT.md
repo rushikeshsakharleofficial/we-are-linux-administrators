@@ -1,6 +1,6 @@
 # AI tool support
 
-`linux-admin` keeps one canonical 66-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of vendor-specific copies.
+`linux-admin` keeps one canonical 65-skill tree under `skills/` and uses thin adapters or native Agent Skills discovery instead of vendor-specific copies.
 
 For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_SETUP.md`](LOCAL_GLOBAL_AGENT_SETUP.md).
 
@@ -11,7 +11,7 @@ For exact project/user paths and global installation, read [`LOCAL_GLOBAL_AGENT_
 3. Parent skills own condition-to-chunk routing. Default to one parent + one chunk; load a second only when evidence proves a cross-layer issue.
 4. Use root `AGENTS.md` where supported or read it explicitly.
 5. Keep `CLAUDE.md` and vendor adapters thin.
-6. Never duplicate all 66 skills into vendor-specific folders merely to advertise support.
+6. Never duplicate all 65 skills into vendor-specific folders merely to advertise support.
 7. Never commit machine-local state, history, caches, personal memory, credentials or maintainer-specific absolute paths.
 
 ## Global skill distribution
@@ -39,7 +39,7 @@ Plan rollback before consequential changes.
 Validate the result.
 ```
 
-Converted parent/chunk domains include network TCP/UDP/packet-capture/VLAN/routing/NAT, time, storage mounts/filesystem/SMART/quota/LVM/RAID/iSCSI/NFS/Samba, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, post-containment incident RCA, and security host-audit/auditd/Fail2Ban/vulnerability triage. Firewall, proxy, DNS, multipath, backup/restore, sysctl and other distinct high-risk/product-specific specialists remain separate when that improves routing accuracy.
+Converted parent/chunk domains include network TCP/UDP/packet-capture/VLAN/routing/NAT, time, storage mounts/filesystem/SMART/quota/LVM/RAID/iSCSI/NFS/Samba, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, post-containment incident RCA, security host-audit/auditd/Fail2Ban/vulnerability triage, and HAProxy under the vendor-neutral load-balancer parent. F5, cloud LB, LVS/IPVS, keepalived, NGINX proxy, DNS/GSLB, firewall, proxy, multipath, backup/restore, sysctl and other distinct high-risk/product-specific specialists remain separate when that improves routing accuracy.
 
 ## Maintained compatibility
 
