@@ -1,6 +1,6 @@
 # Expert Module Index
 
-66 top-level skills.
+65 top-level skills.
 
 Canonical routing map: [`skills/using-linux-admin/SKILL.md`](../skills/using-linux-admin/SKILL.md).
 
@@ -25,6 +25,8 @@ Load a second chunk only when evidence proves a cross-layer issue.
 | Ansible workflow | `ansible-expert` |
 | Route/policy-routing/iproute2 | `network` -> `chunks/routing-iproute.md` |
 | NAT/conntrack/port forwarding | `network` -> `chunks/nat-conntrack.md` |
+| HAProxy | `load-balancer-expert` -> `chunks/haproxy.md` |
+| F5/cloud/LVS/keepalived | matching distinct specialist |
 | Package/repository problem | `package-manager-expert` |
 | Planned OS/security patch rollout | `package-manager-expert` -> `chunks/patching.md` |
 | Active incident response/RCA | `incident-response-expert` |
@@ -49,8 +51,9 @@ Boot `boot`; services `service`; performance `performance`; storage `storage`; p
 - Automation: Bash/POSIX scripting and operational runbooks are chunks under `automation`; Ansible, cron and systemd remain distinct where their semantics are the actual condition.
 - Security: broad host audit, auditd, Fail2Ban and vulnerability/CVE scanner triage are chunks under `security-expert`; MAC, SSH/auth, firewall and kernel/sysctl stay distinct when their control semantics are proven.
 - Package lifecycle: `package-manager-expert` handles package/repository/transaction state and loads `chunks/patching.md` for planned OS/security patching, kernel maintenance and rollout/reboot coordination; release upgrades remain under migration.
+- Load balancing: `load-balancer-expert` handles vendor-neutral classification/recommendation and loads `chunks/haproxy.md` for HAProxy-specific routing/health/TLS/reload work; F5, cloud LB, LVS/IPVS, keepalived/VRRP, NGINX proxy and DNS/GSLB remain distinct where their control planes differ.
 
-Former top-level specialists are removed only after useful procedures and references are migrated.
+At 65 top-level skills the compactness target is reached. Do not reduce further unless a later review finds a clearly redundant specialist whose unique procedures can be preserved safely.
 
 ## Local/global discovery
 
