@@ -35,10 +35,12 @@ Existing destination skill directories are skipped by default. Use `--force` onl
 
 ## Discovery verification
 
-1. `linux-admin status` reports repository metadata `1.18.18` and current top-level skill count `66`.
+1. `linux-admin status` reports repository metadata `1.18.19` and current top-level skill count `65`.
 2. The target global directory contains `using-linux-admin/SKILL.md`.
 3. Restart/reload the target agent when its docs require a rescan.
 4. Explicitly invoke `using-linux-admin` when routing is uncertain.
 5. Confirm routing selects one parent/specialist and only the required chunk.
 
-The compact tree includes parent/chunk routing for network TCP/UDP/packet capture/VLAN/routing/NAT, time, storage mounts/filesystem/SMART/quota/LVM/RAID/iSCSI/NFS/Samba, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, incident RCA, and security host-audit/auditd/Fail2Ban/vulnerability-triage branches. Firewall, proxy, DNS, multipath, backup/restore, sysctl and other distinct high-risk or product-specific specialists remain separate when merging would reduce safety or routing accuracy.
+The compact tree includes parent/chunk routing for network TCP/UDP/packet capture/VLAN/routing/NAT, time, storage mounts/filesystem/SMART/quota/LVM/RAID/iSCSI/NFS/Samba, performance, permissions, auth, logging, automation Bash/runbook work, package lifecycle/patch rollout, incident RCA, security host-audit/auditd/Fail2Ban/vulnerability-triage, and HAProxy under `load-balancer-expert`. F5, cloud LB, LVS/IPVS, keepalived, NGINX proxy, DNS/GSLB, firewall, proxy, multipath, backup/restore, sysctl and other distinct high-risk or product-specific specialists remain separate when merging would reduce safety or routing accuracy.
+
+At 65 top-level skills the consolidation target is reached. Future reductions should be evidence-driven, not number-driven.
