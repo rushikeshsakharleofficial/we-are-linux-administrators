@@ -2,8 +2,8 @@
 
 Open-source Linux administration/SRE skills for safer troubleshooting, production operations, incident management, and agent-assisted infrastructure work.
 
-**Version:** `1.18.18`  
-**Skill count:** `66`  
+**Version:** `1.18.19`  
+**Skill count:** `65`  
 **Package/plugin:** `linux-admin`
 
 ## Start here
@@ -18,9 +18,9 @@ Open-source Linux administration/SRE skills for safer troubleshooting, productio
 /using-linux-admin -> parent/specialist -> evidence -> one matching chunk
 ```
 
-Examples: TCP -> `network/chunks/tcp.md`; route/policy-routing/iproute2 -> `network/chunks/routing-iproute.md`; NAT/conntrack -> `network/chunks/nat-conntrack.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; NFS -> `storage/chunks/nfs.md`; Samba/SMB -> `storage/chunks/samba.md`; vulnerability/CVE triage -> `security-expert/chunks/vulnerability-scan.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
+Examples: TCP -> `network/chunks/tcp.md`; route/policy-routing/iproute2 -> `network/chunks/routing-iproute.md`; NAT/conntrack -> `network/chunks/nat-conntrack.md`; LVM -> `storage/chunks/lvm.md`; RAID/mdadm -> `storage/chunks/raid.md`; iSCSI -> `storage/chunks/iscsi.md`; NFS -> `storage/chunks/nfs.md`; Samba/SMB -> `storage/chunks/samba.md`; HAProxy -> `load-balancer-expert/chunks/haproxy.md`; vulnerability/CVE triage -> `security-expert/chunks/vulnerability-scan.md`; patch rollout -> `package-manager-expert/chunks/patching.md`; RCA -> `incident-response-expert/chunks/root-cause-analysis.md`.
 
-Distinct high-risk or cross-domain specialists remain top-level where merging would weaken routing or recovery safety. Firewall, proxy, DNS, multipath, backup/restore and sysctl remain separate after the current reviews.
+Distinct high-risk or different control planes stay top-level where merging would weaken routing or recovery safety. F5, cloud LB, LVS/IPVS, keepalived, firewall, proxy, DNS, multipath, backup/restore and sysctl remain separate after the current reviews.
 
 ## Install
 
@@ -56,6 +56,8 @@ linux-admin install-global
 | File/path ownership/mode/ACL | `permissions` |
 | Local account/PAM/SSSD-LDAP/sudo | `auth` |
 | Connectivity/TCP/UDP/VLAN/packet flow/routing/NAT | `network` |
+| HAProxy frontend/backend/ACL/health/TLS | `load-balancer-expert` -> HAProxy chunk |
+| F5/cloud/LVS/keepalived control plane | matching distinct specialist |
 | Packet-filter rule issue | `firewall-expert` |
 | Proxy issue | `linux-proxy-expert` |
 | NTP/timezone/RTC | `time` |
