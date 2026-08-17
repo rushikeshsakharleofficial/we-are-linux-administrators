@@ -1,11 +1,11 @@
 {
-  "id": "2026-08-17-1.18.17-vulnerability-consolidation",
+  "id": "2026-08-17-1.18.18-network-routing-nat-consolidation",
   "type": "repository-update",
   "showPopup": true,
-  "version": "1.18.17",
+  "version": "1.18.18",
   "date": "2026-08-17",
-  "title": "linux-admin 1.18.17 — vulnerability triage consolidated into security",
-  "summary": "Top-level skill count is now 69. The former vulnerability-scan-expert is retired after its CVE/scanner triage, false-positive and distro-backport checks, exposure analysis, compensating controls, remediation planning and validation guidance was preserved and expanded in security-expert/chunks/vulnerability-scan.md. sysctl-expert remains separate because it spans runtime kernel tuning, performance and security hardening. The latest published GitHub Release remains v1.17.74.",
+  "title": "linux-admin 1.18.18 — routing and NAT consolidated into network",
+  "summary": "Top-level skill count is now 66. The former iproute-expert, routing-expert and natting-expert are retired after their route/policy-routing/iproute2, namespace/VRF/tunnel, SNAT/DNAT/masquerade/port-forwarding, forwarding and conntrack guidance was preserved and expanded in network/chunks/routing-iproute.md and network/chunks/nat-conntrack.md. Firewall, proxy and DNS remain distinct control planes. The latest published GitHub Release remains v1.17.74.",
   "commands": {
     "claudeCode": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-claude"],
     "codex": ["npm install -g github:rushikeshsakharleofficial/we-are-linux-administrators", "linux-admin install-global"]
