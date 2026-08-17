@@ -27,7 +27,7 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 - Storage: `storage` -> mounts/fstab, filesystem health, SMART, quota, LVM, md/RAID, iSCSI, NFS or Samba/SMB chunk; multipath and backup/restore remain distinct.
 - Permissions: `permissions` -> POSIX or ACL chunk; SELinux/AppArmor remain distinct.
 - Auth: `auth` -> local accounts, PAM, SSSD/LDAP or sudoers chunk; SSH hardening/RDP remain distinct.
-- Network: `network` -> TCP, UDP, packet capture or VLAN/bonding chunk; routing/NAT/firewall/proxy/DNS remain distinct.
+- Network: `network` -> TCP, UDP, packet capture, VLAN/bonding, routing/iproute2 or NAT/conntrack chunk; firewall/proxy/DNS remain distinct.
 - Time: `time` -> Chrony/NTP or system-clock/timezone/RTC chunk.
 - Package lifecycle: `package-manager-expert` -> package/repository work or patching chunk; release upgrades -> `migration-expert`.
 - Logs: `logs` -> rsyslog/logrotate chunk or journald parent flow; product monitoring remains distinct.
@@ -55,6 +55,8 @@ Use this router when the correct Linux domain is unclear. Follow `../../docs/UNI
 | File mode/ACL | `permissions` |
 | PAM/LDAP/sudo | `auth` |
 | Connectivity/TCP/UDP | `network` |
+| Route/policy-routing/iproute2 | `network` -> routing-iproute chunk |
+| SNAT/DNAT/masquerade/conntrack | `network` -> nat-conntrack chunk |
 | NTP/timezone | `time` |
 | Package/repository issue | `package-manager-expert` |
 | OS/security patching | `package-manager-expert` -> patching chunk |
