@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only swap expert audit helper for linux-admin."""
+"""Read-only swap audit helper kept for legacy command compatibility."""
 from __future__ import annotations
 
 import json
@@ -26,7 +26,14 @@ def run(cmd: list[str]) -> dict:
 
 
 def main() -> None:
-    out = {"tool": "swap-expert-audit", "note": "read-only swap audit"}
+    out = {
+        "tool": "swap-expert-audit",
+        "legacy_command": True,
+        "parent_skill": "performance",
+        "chunk": "chunks/swap.md",
+        "read_only": True,
+        "note": "read-only swap audit",
+    }
     for key, cmd in CMDS.items():
         out[key] = run(cmd)
 
