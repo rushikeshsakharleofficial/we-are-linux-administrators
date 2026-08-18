@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only Date / Timedatectl Expert audit helper for linux-admin plugin."""
+"""Legacy-compatible read-only audit helper for the time parent system-clock chunk."""
 from __future__ import annotations
 import json, platform, subprocess
 from pathlib import Path
@@ -24,7 +24,16 @@ def read(path):
     return None
 
 def main():
-    data={"read_only": True, "expert": "date-timectl-expert", "host": platform.node(), "kernel": platform.release(), "commands": [], "files": {}}
+    data={
+        "read_only": True,
+        "parent": "time",
+        "chunk": "chunks/system-clock.md",
+        "compatibility_command": "date-timectl-expert-audit",
+        "host": platform.node(),
+        "kernel": platform.release(),
+        "commands": [],
+        "files": {}
+    }
     for cmd in COMMANDS:
         data["commands"].append(run(cmd))
     for f in FILES:
