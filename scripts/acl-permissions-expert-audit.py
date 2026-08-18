@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only ACL audit helper. Optionally pass paths."""
+"""Legacy-compatible read-only ACL audit helper for the permissions parent ACL chunk."""
 
 from __future__ import annotations
-import json, shutil, subprocess, sys, os
-from pathlib import Path
+import json, shutil, subprocess, sys
+
 
 def run(cmd, timeout=8):
     if shutil.which(cmd[0]) is None:
@@ -14,18 +14,23 @@ def run(cmd, timeout=8):
     except Exception as e:
         return {"cmd": cmd, "rc": None, "stdout": "", "stderr": str(e)}
 
+
 def sh(script, timeout=8):
-    return run(['bash','-lc',script], timeout)
+    return run(['bash', '-lc', script], timeout)
+
 
 def q(paths):
-    return ' '.join("'"+p.replace("'", "'\\''")+"'" for p in paths[:20])
+    return ' '.join("'" + p.replace("'", "'\\''") + "'" for p in paths[:20])
+
 
 def main():
     paths = sys.argv[1:] or ['.']
     qp = q(paths)
     report = {
-        "tool": "acl-permissions-expert-audit",
         "read_only": True,
+        "parent": "permissions",
+        "chunk": "chunks/acl.md",
+        "compatibility_command": "acl-permissions-expert-audit",
         "paths": paths,
         "commands": {
             "tooling": sh('command -v getfacl; command -v setfacl || true'),
@@ -40,5 +45,9 @@ def main():
             "Use default ACLs only for inheritance on new children."
         ]
     }
-    json.dump(report, sys.stdout, indent=2, sort_keys=True); print()
-if __name__ == '__main__': main()
+    json.dump(report, sys.stdout, indent=2, sort_keys=True)
+    print()
+
+
+if __name__ == '__main__':
+    main()
