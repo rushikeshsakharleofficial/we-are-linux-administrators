@@ -70,11 +70,11 @@ The installer copies canonical skills to supported user-level skill locations, i
 
 ### Option C — Codex Plugin Directory
 
-OpenAI currently documents plugins as installable workflow packages in the Codex/ChatGPT Plugin Directory. Availability can depend on plan, workspace settings, role, rollout, supported surface and any required app permissions.
+OpenAI currently documents plugins as installable workflow packages in the Plugin Directory across ChatGPT and Codex. A plugin can contain skills, apps and app templates. Availability and invocation can depend on plan, workspace settings, role, supported surface, region and any required app permissions.
 
 Use this mode only when `linux-admin` is actually published/available in the Plugin Directory or supplied through an approved workspace plugin source.
 
-Do **not** assume a specific Codex CLI slash command such as `/plugins` unless the current Codex client itself exposes and documents that command. The supported directory/workspace UI is the reliable discovery path; exact client controls can change.
+Do **not** assume a specific Codex CLI slash command such as `/plugins` unless the current Codex client itself exposes and documents that command. In supported Codex task views, OpenAI currently documents plugin selection through **Sources -> Use plugins**. Directory changes in Codex can take time to refresh, so restart Codex or refresh plugin data before treating a newly published/updated listing as missing.
 
 After a plugin is available, verify:
 
