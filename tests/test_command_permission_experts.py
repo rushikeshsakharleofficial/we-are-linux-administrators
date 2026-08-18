@@ -12,6 +12,10 @@ SKILL_PATHS = [
     'skills/permissions/chunks/acl.md',
 ]
 BINS = ['command-expert-audit','user-permissions-expert-audit','file-permissions-expert-audit','acl-permissions-expert-audit']
+PERMISSION_ROUTES = {
+    'file-permissions-expert-audit': ('permissions', 'chunks/posix-modes.md'),
+    'acl-permissions-expert-audit': ('permissions', 'chunks/acl.md'),
+}
 
 def main():
     for rel in SKILL_PATHS:
@@ -27,6 +31,11 @@ def main():
         out = subprocess.check_output([str(p)], cwd=str(ROOT), text=True, timeout=15)
         data = json.loads(out)
         assert data['read_only'] is True
+        if b in PERMISSION_ROUTES:
+            parent, chunk = PERMISSION_ROUTES[b]
+            assert data['parent'] == parent, (b, data)
+            assert data['chunk'] == chunk, (b, data)
+            assert data['compatibility_command'] == b, (b, data)
     guard = (ROOT/'scripts/linux-safety-guard.py').read_text()
     for token in ['setfacl','useradd','visudo','rsync']:
         assert token in guard
