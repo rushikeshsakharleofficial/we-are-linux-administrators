@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only file permission audit helper. Optionally pass paths."""
+"""Legacy-compatible read-only file-permission audit helper for the permissions parent POSIX chunk."""
 
 from __future__ import annotations
-import json, shutil, subprocess, sys, os
-from pathlib import Path
+import json, shutil, subprocess, sys
+
 
 def run(cmd, timeout=8):
     if shutil.which(cmd[0]) is None:
@@ -14,21 +14,26 @@ def run(cmd, timeout=8):
     except Exception as e:
         return {"cmd": cmd, "rc": None, "stdout": "", "stderr": str(e)}
 
+
 def sh(script, timeout=8):
-    return run(['bash','-lc',script], timeout)
+    return run(['bash', '-lc', script], timeout)
+
 
 def q(paths):
     safe = []
     for p in paths[:20]:
         safe.append(p.replace("'", "'\\''"))
-    return ' '.join("'"+p+"'" for p in safe)
+    return ' '.join("'" + p + "'" for p in safe)
+
 
 def main():
     paths = sys.argv[1:] or ['.']
     qp = q(paths)
     report = {
-        "tool": "file-permissions-expert-audit",
         "read_only": True,
+        "parent": "permissions",
+        "chunk": "chunks/posix-modes.md",
+        "compatibility_command": "file-permissions-expert-audit",
         "paths": paths,
         "commands": {
             "identity": sh('id; umask'),
@@ -43,5 +48,9 @@ def main():
             "Avoid chmod -R 777; design owner/group/ACL access instead."
         ]
     }
-    json.dump(report, sys.stdout, indent=2, sort_keys=True); print()
-if __name__ == '__main__': main()
+    json.dump(report, sys.stdout, indent=2, sort_keys=True)
+    print()
+
+
+if __name__ == '__main__':
+    main()
