@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only Chrony Expert audit helper for linux-admin plugin."""
+"""Legacy-compatible read-only audit helper for the time parent Chrony chunk."""
 from __future__ import annotations
 import json, platform, subprocess
 from pathlib import Path
@@ -24,7 +24,16 @@ def read(path):
     return None
 
 def main():
-    data={"read_only": True, "expert": "chrony-expert", "host": platform.node(), "kernel": platform.release(), "commands": [], "files": {}}
+    data={
+        "read_only": True,
+        "parent": "time",
+        "chunk": "chunks/chrony.md",
+        "compatibility_command": "chrony-expert-audit",
+        "host": platform.node(),
+        "kernel": platform.release(),
+        "commands": [],
+        "files": {}
+    }
     for cmd in COMMANDS:
         data["commands"].append(run(cmd))
     for f in FILES:
