@@ -21,6 +21,10 @@ def test_audit_json():
         data = json.loads(p.stdout)
         assert data['tool'] == tool
         assert data['read_only'] is True
+        if script == 'fail2ban-expert-audit.py':
+            assert data['legacy_command'] is True
+            assert data['parent_skill'] == 'security-expert'
+            assert data['chunk'] == 'chunks/fail2ban.md'
 
 if __name__ == '__main__':
     test_files_exist(); test_audit_json(); print('firewall/fail2ban expert tests passed')
