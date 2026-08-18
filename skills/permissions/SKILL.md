@@ -36,9 +36,10 @@ journalctl -k -g 'AVC|SELinux|apparmor|DENIED|audit' -n 80 --no-pager 2>/dev/nul
 | SELinux AVC/context/port-label problem | `selinux-expert` |
 | AppArmor profile denial | `apparmor-expert` |
 | Mount is `ro` or access depends on storage/mount health | `storage` |
-| Login/account/group/sudo/PAM/SSH identity problem rather than object access | `auth` or `user-permissions-expert` as appropriate |
+| Login/account/group/sudo/PAM/SSH identity problem rather than object access | `auth` |
 | systemd sandbox blocks otherwise-correct access | `systemd-expert` after confirming `Protect*`/`ReadWritePaths=` evidence |
-| NFS/Samba remote permission semantics | matching `nfs-expert`/`samba-expert` after local layers are ruled out |
+| NFS export/mount/UID mapping/root-squash permission semantics | `storage` -> `chunks/nfs.md` |
+| Samba/SMB share/auth/identity permission semantics | `storage` -> `chunks/samba.md` |
 
 Default: **one parent + one matching chunk/specialist**. Load a second only when evidence proves two layers are independently involved.
 
