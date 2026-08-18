@@ -45,6 +45,9 @@ def read_configs():
 def main():
     report = {
         "tool": "fail2ban-expert-audit",
+        "legacy_command": True,
+        "parent_skill": "security-expert",
+        "chunk": "chunks/fail2ban.md",
         "read_only": True,
         "commands": {
             "version": sh('fail2ban-client version 2>/dev/null || true'),
