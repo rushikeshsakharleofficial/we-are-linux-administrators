@@ -12,7 +12,8 @@ SKILL_PATHS = [
     'skills/permissions/chunks/acl.md',
 ]
 BINS = ['command-expert-audit','user-permissions-expert-audit','file-permissions-expert-audit','acl-permissions-expert-audit']
-PERMISSION_ROUTES = {
+COMPATIBILITY_ROUTES = {
+    'user-permissions-expert-audit': ('auth', 'chunks/local-accounts.md'),
     'file-permissions-expert-audit': ('permissions', 'chunks/posix-modes.md'),
     'acl-permissions-expert-audit': ('permissions', 'chunks/acl.md'),
 }
@@ -31,8 +32,8 @@ def main():
         out = subprocess.check_output([str(p)], cwd=str(ROOT), text=True, timeout=15)
         data = json.loads(out)
         assert data['read_only'] is True
-        if b in PERMISSION_ROUTES:
-            parent, chunk = PERMISSION_ROUTES[b]
+        if b in COMPATIBILITY_ROUTES:
+            parent, chunk = COMPATIBILITY_ROUTES[b]
             assert data['parent'] == parent, (b, data)
             assert data['chunk'] == chunk, (b, data)
             assert data['compatibility_command'] == b, (b, data)
