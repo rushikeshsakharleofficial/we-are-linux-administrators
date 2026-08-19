@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only local user/group/sudo audit helper."""
+"""Legacy-compatible read-only local account audit helper for the auth parent."""
 
 from __future__ import annotations
-import json, shutil, subprocess, sys, os
-from pathlib import Path
+import json, shutil, subprocess, sys
+
 
 def run(cmd, timeout=8):
     if shutil.which(cmd[0]) is None:
@@ -14,13 +14,17 @@ def run(cmd, timeout=8):
     except Exception as e:
         return {"cmd": cmd, "rc": None, "stdout": "", "stderr": str(e)}
 
+
 def sh(script, timeout=8):
-    return run(['bash','-lc',script], timeout)
+    return run(['bash', '-lc', script], timeout)
+
 
 def main():
     report = {
-        "tool": "user-permissions-expert-audit",
         "read_only": True,
+        "parent": "auth",
+        "chunk": "chunks/local-accounts.md",
+        "compatibility_command": "user-permissions-expert-audit",
         "commands": {
             "current_user": sh('id; umask'),
             "passwd_summary": sh('getent passwd | awk -F: \'{print $1":"$3":"$4":"$7}\' | sed -n "1,200p"'),
@@ -35,5 +39,9 @@ def main():
             "Use role groups and sudoers.d drop-ins for least privilege."
         ]
     }
-    json.dump(report, sys.stdout, indent=2, sort_keys=True); print()
-if __name__ == '__main__': main()
+    json.dump(report, sys.stdout, indent=2, sort_keys=True)
+    print()
+
+
+if __name__ == '__main__':
+    main()
