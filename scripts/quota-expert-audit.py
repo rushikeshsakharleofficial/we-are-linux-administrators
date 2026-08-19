@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only Quota Expert audit helper for linux-admin plugin."""
+"""Read-only legacy quota audit helper for the storage parent skill."""
 from __future__ import annotations
 import json, platform, subprocess
 from pathlib import Path
@@ -24,7 +24,7 @@ def read(path):
     return None
 
 def main():
-    data={"read_only": True, "expert": "quota-expert", "host": platform.node(), "kernel": platform.release(), "commands": [], "files": {}}
+    data={"read_only": True, "parent_skill": "storage", "chunk": "chunks/quota.md", "legacy_command": True, "host": platform.node(), "kernel": platform.release(), "commands": [], "files": {}}
     for cmd in COMMANDS:
         data["commands"].append(run(cmd))
     for f in FILES:
