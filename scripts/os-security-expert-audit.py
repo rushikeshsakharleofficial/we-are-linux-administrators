@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only Linux OS security posture audit."""
+"""Read-only Linux OS security posture audit.
+
+Legacy compatibility command for the retired os-security-expert skill. The
+current routing target is security-expert -> chunks/security-audit.md.
+"""
 
 from __future__ import annotations
 import json, shutil, subprocess, sys, os
@@ -17,7 +21,7 @@ def run(cmd, timeout=8):
 def sh(s, timeout=8): return run(['bash','-lc',s], timeout)
 
 def main():
-    report={"tool":"os-security-expert-audit","read_only":True,"commands":{
+    report={"tool":"os-security-expert-audit","parent_skill":"security-expert","chunk":"chunks/security-audit.md","legacy_command":True,"read_only":True,"commands":{
         "os_kernel": sh('cat /etc/os-release 2>/dev/null; uname -a'),
         "ports": sh('ss -tulpn 2>/dev/null | sed -n "1,240p"'),
         "users": sh('getent passwd | awk -F: \'{print $1":"$3":"$7}\' | sed -n "1,240p"'),
