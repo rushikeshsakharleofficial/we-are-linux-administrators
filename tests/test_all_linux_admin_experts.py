@@ -35,28 +35,18 @@ PARENT_CHUNKS = {
     'load-balancer-expert': ['haproxy.md'],
 }
 
-# Keep this list broad: focused domain tests validate the replacement routes, while
-# this architecture test prevents consolidated micro-skills from quietly returning.
-REMOVED_TOP_LEVEL = [
-    'tcp-expert', 'udp-expert', 'tcpdump-expert', 'vlan-bonding-expert',
-    'iproute-expert', 'routing-expert', 'natting-expert',
-    'ntp-expert', 'chrony-expert', 'date-timectl-expert',
-    'disk-mounting-expert', 'filesystem-expert', 'smart-disk-expert',
-    'quota-expert', 'lvm-expert', 'raid-expert', 'iscsi-expert', 'nfs-expert',
-    'samba-expert',
-    'cpu-expert', 'memory-expert', 'swap-expert', 'capacity-planning-expert',
-    'file-permissions-expert', 'acl-permissions-expert',
-    'user-permissions-expert', 'pam-expert', 'sssd-ldap-expert',
-    'sudoers-expert', 'rsyslog-expert', 'logrotate-expert',
-    'bashrc-expert', 'zshrc-expert', 'shell-script-expert',
-    'bash-script-expert', 'runbook-expert',
-    'root-cause-expert', 'incident-timeline-expert',
-    'change-plan-expert', 'rollback-expert', 'maintenance-window-expert',
-    'risk-assessment-expert', 'preflight-check-expert',
-    'post-change-validation-expert', 'production-safety-expert',
-    'auditd-expert', 'fail2ban-expert', 'os-security-expert',
-    'vulnerability-scan-expert', 'patching-expert', 'haproxy-expert',
-]
+
+def load_removed_top_level():
+    retired_file = ROOT / 'tests' / 'retired_top_level_skills.txt'
+    assert retired_file.exists(), 'missing canonical retired-skill list'
+    retired = [
+        line.strip()
+        for line in retired_file.read_text().splitlines()
+        if line.strip() and not line.lstrip().startswith('#')
+    ]
+    assert retired, 'retired-skill list is empty'
+    assert len(retired) == len(set(retired)), 'retired-skill list contains duplicates'
+    return retired
 
 
 def main():
@@ -75,7 +65,7 @@ def main():
             text = path.read_text()
             assert len(text.strip()) > 100, f'chunk too small: {parent}/{chunk}'
 
-    for removed in REMOVED_TOP_LEVEL:
+    for removed in load_removed_top_level():
         assert not (ROOT / 'skills' / removed / 'SKILL.md').exists(), f'redundant top-level skill restored: {removed}'
 
     assert (ROOT / 'skills' / 'using-linux-admin' / 'SKILL.md').exists()
