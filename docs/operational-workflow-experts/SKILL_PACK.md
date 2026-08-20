@@ -1,32 +1,38 @@
-# Operational workflow expert pack
+# Operational workflow parent pack
 
-This pack adds high-level workflow experts that coordinate the lower-level Linux admin skills.
+This pack documents the current high-level production workflow parents. The former micro-skills for change planning, rollback, maintenance windows, risk assessment, preflight, post-change validation, incident timelines, production safety, and standalone RCA were consolidated so agents do not debate between overlapping top-level skills.
 
-## Skills
+## Current routing
 
-- root-cause-expert
-- change-plan-expert
-- rollback-expert
-- maintenance-window-expert
-- risk-assessment-expert
-- preflight-check-expert
-- post-change-validation-expert
-- incident-timeline-expert
-- production-safety-expert
+- `change-safety-expert`
+  - preflight readiness and go/no-go checks
+  - blast-radius and risk assessment
+  - change-plan structure and pause points
+  - maintenance-window design
+  - rollback triggers and recovery path
+  - post-change validation and accept/monitor/rollback decision
+  - production safety guardrails
+- `incident-response-expert`
+  - active incident triage, evidence preservation, containment, recovery, and timeline reconstruction
+  - post-containment RCA via `skills/incident-response-expert/chunks/root-cause-analysis.md`
+- `incident-report-creator-expert`
+  - formal incident artifacts only after the incident facts are verified
 
-## Purpose
+## Execution model
 
-These skills are not tied to one technology. They help with safe production workflow across all Linux admin domains:
+```text
+using-linux-admin
+  -> change-safety-expert for planned/risky production changes
+  -> incident-response-expert for active incidents
+       -> chunks/root-cause-analysis.md only after containment or for explicit post-incident RCA
+  -> incident-report-creator-expert only for formal report artifacts
+```
 
-- evidence-first investigation
-- change planning
-- rollback readiness
-- maintenance planning
-- risk scoring
-- preflight checks
-- post-change validation
-- incident timelines
-- production safety gates
+Do not restore the retired workflow micro-skills merely for compatibility. Their useful procedures are already preserved in the current parents and RCA chunk.
+
+## Safety
+
+All workflow guidance follows `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`: bounded evidence first, architecture fit, backup/recovery protection, rollback before consequential changes, guarded recovery where lockout is possible, and post-change validation.
 
 ## Validation
 
