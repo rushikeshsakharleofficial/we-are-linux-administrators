@@ -13,7 +13,9 @@ require_file(){ [ -f "$1" ] || err "missing required file: $1"; }
 for f in .claude-plugin/plugin.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
   skills/diagnose/SKILL.md skills/optimization-guardian-expert/SKILL.md \
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
-  docs/LOCAL_GLOBAL_AGENT_SETUP.md tests/retired_top_level_skills.txt; do require_file "$f"; done
+  docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
+  docs/LOCAL_GLOBAL_AGENT_SETUP.md docs/SECURITY_PATCH_REFRESH_POLICY.md \
+  docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md tests/retired_top_level_skills.txt; do require_file "$f"; done
 
 skill_count=$(find skills -mindepth 2 -maxdepth 2 -name SKILL.md -type f 2>/dev/null | wc -l | tr -d ' ')
 plugin_count=$(grep -Eo 'Covers [0-9]+ task-specific skills' .claude-plugin/plugin.json | grep -Eo '[0-9]+' | head -n1 || true)
@@ -78,7 +80,7 @@ if [ -f tests/retired_top_level_skills.txt ]; then
   done < tests/retired_top_level_skills.txt
 fi
 
-# Ensure npm distribution really contains the canonical skill/chunk tree and core safety docs.
+# Ensure npm distribution really contains the canonical skill/chunk tree and core safety/agent docs.
 if command -v npm >/dev/null 2>&1; then
   pack_json=$(npm pack --dry-run --json 2>/dev/null || true)
   [ -n "$pack_json" ] || err "npm pack --dry-run --json returned no package manifest"
@@ -86,6 +88,9 @@ if command -v npm >/dev/null 2>&1; then
   for packaged_file in \
     AGENTS.md \
     CLAUDE.md \
+    docs/AI_TOOL_SUPPORT.md \
+    docs/CODEX_USAGE.md \
+    docs/EXPERT_MODULE_INDEX.md \
     docs/LOCAL_GLOBAL_AGENT_SETUP.md \
     docs/SECURITY_PATCH_REFRESH_POLICY.md \
     docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md; do
