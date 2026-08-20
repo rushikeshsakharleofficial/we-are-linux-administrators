@@ -21,6 +21,8 @@ def test_audit_json():
     assert p.returncode == 0, p.stderr
     data = json.loads(p.stdout)
     assert data['tool'] == 'networking-expert-audit'
+    assert data['parent_skill'] == 'network'
+    assert data['legacy_command'] is True
     assert data['read_only'] is True
 
 if __name__ == '__main__':
