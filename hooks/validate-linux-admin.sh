@@ -13,7 +13,7 @@ require_file(){ [ -f "$1" ] || err "missing required file: $1"; }
 for f in .claude-plugin/plugin.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
   skills/diagnose/SKILL.md skills/optimization-guardian-expert/SKILL.md \
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
-  docs/LOCAL_GLOBAL_AGENT_SETUP.md; do require_file "$f"; done
+  docs/LOCAL_GLOBAL_AGENT_SETUP.md tests/retired_top_level_skills.txt; do require_file "$f"; done
 
 skill_count=$(find skills -mindepth 2 -maxdepth 2 -name SKILL.md -type f 2>/dev/null | wc -l | tr -d ' ')
 plugin_count=$(grep -Eo 'Covers [0-9]+ task-specific skills' .claude-plugin/plugin.json | grep -Eo '[0-9]+' | head -n1 || true)
@@ -62,6 +62,21 @@ for local_path in .agent/CONTEXT.md .agent/STATUS.md .claude/state/bash-command-
   [ ! -e "$local_path" ] || err "machine-local agent state is tracked: $local_path"
 done
 find . -maxdepth 1 -type f \( -name 'AGENTS.md.bak.*' -o -name 'CLAUDE.md.bak.*' \) -print | grep -q . && err "stale agent instruction backup files are tracked" || true
+
+# A retired top-level skill may remain as a legacy command name, but repository
+# documentation/tests/config must not link to a deleted canonical SKILL.md path.
+if [ -f tests/retired_top_level_skills.txt ]; then
+  while IFS= read -r retired_skill; do
+    retired_skill=${retired_skill%%#*}
+    retired_skill=$(printf '%s' "$retired_skill" | xargs)
+    [ -n "$retired_skill" ] || continue
+    [ ! -e "skills/$retired_skill/SKILL.md" ] || err "retired top-level skill restored: $retired_skill"
+
+    stale_refs=$(grep -RIlF "skills/$retired_skill/SKILL.md" . \
+      --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv 2>/dev/null || true)
+    [ -z "$stale_refs" ] || err "stale canonical path for retired skill $retired_skill referenced by: $(printf '%s' "$stale_refs" | tr '\n' ' ')"
+  done < tests/retired_top_level_skills.txt
+fi
 
 # Ensure npm distribution really contains the canonical skill/chunk tree and core safety docs.
 if command -v npm >/dev/null 2>&1; then
