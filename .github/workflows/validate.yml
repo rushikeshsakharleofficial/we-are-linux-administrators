@@ -22,12 +22,21 @@ jobs:
           python -m json.tool hooks/hooks.json >/dev/null
       - name: Compile Python scripts
         run: python -m py_compile scripts/*.py
-      - name: Run tests
+      - name: Run full regression suite
         run: |
-          python tests/test_unified_plugin.py
-          python tests/test_command_permission_experts.py
-          python tests/test_firewall_fail2ban_experts.py
-          python tests/test_expert_safety_guard.py
+          set -euo pipefail
+          test_count=0
+          for test_file in tests/test_*.py; do
+            echo "::group::$test_file"
+            python "$test_file"
+            echo "::endgroup::"
+            test_count=$((test_count + 1))
+          done
+          if [ "$test_count" -eq 0 ]; then
+            echo "No tests/test_*.py files were found" >&2
+            exit 1
+          fi
+          echo "Executed $test_count regression test files"
       - name: Run linux-admin hook validation
         run: |
           chmod +x hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
