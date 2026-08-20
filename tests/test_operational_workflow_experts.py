@@ -3,50 +3,63 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-SKILLS = [
+CHANGE_SAFETY = ROOT / 'skills' / 'change-safety-expert' / 'SKILL.md'
+INCIDENT_RESPONSE = ROOT / 'skills' / 'incident-response-expert' / 'SKILL.md'
+RCA_CHUNK = ROOT / 'skills' / 'incident-response-expert' / 'chunks' / 'root-cause-analysis.md'
+PACK_DOC = ROOT / 'docs' / 'operational-workflow-experts' / 'SKILL_PACK.md'
+
+RETIRED_CHANGE_SKILLS = [
     'change-plan-expert',
     'rollback-expert',
     'maintenance-window-expert',
     'risk-assessment-expert',
     'preflight-check-expert',
     'post-change-validation-expert',
-    'incident-timeline-expert',
     'production-safety-expert',
 ]
-
-REQUIRED_TERMS = [
-    'Evidence first',
-    'Safe workflow',
-    'Anti-patterns',
-    'Output format',
-    'Token-saving tip',
+RETIRED_INCIDENT_SKILLS = [
+    'incident-timeline-expert',
+    'root-cause-expert',
 ]
-
-RCA_PARENT = ROOT / 'skills' / 'incident-response-expert' / 'SKILL.md'
-RCA_CHUNK = ROOT / 'skills' / 'incident-response-expert' / 'chunks' / 'root-cause-analysis.md'
-RETIRED_RCA = ROOT / 'skills' / 'root-cause-expert' / 'SKILL.md'
 
 
 def main():
-    for skill in SKILLS:
-        path = ROOT / 'skills' / skill / 'SKILL.md'
-        assert path.exists(), skill
-        text = path.read_text()
-        assert text.startswith('# '), skill
-        for term in REQUIRED_TERMS:
-            assert term in text, f'{skill} missing {term}'
+    assert CHANGE_SAFETY.exists(), CHANGE_SAFETY
+    safety = CHANGE_SAFETY.read_text()
+    for term in [
+        'Evidence first',
+        'Preflight',
+        'Risk scoring',
+        'Change plan structure',
+        'Maintenance window design',
+        'Post-change validation',
+        'rollback',
+        'Token-saving tip',
+    ]:
+        assert term in safety, f'change-safety-expert missing {term}'
 
-    # RCA was consolidated into incident-response-expert. Guard the parent/chunk
-    # architecture instead of requiring the retired root-cause-expert path.
-    assert RCA_PARENT.exists(), RCA_PARENT
+    assert INCIDENT_RESPONSE.exists(), INCIDENT_RESPONSE
+    incident = INCIDENT_RESPONSE.read_text()
+    for term in ['Evidence first', 'Timeline reconstruction', 'containment', 'recovery', 'Token-saving tip']:
+        assert term in incident, f'incident-response-expert missing {term}'
+
     assert RCA_CHUNK.exists(), RCA_CHUNK
-    assert not RETIRED_RCA.exists(), RETIRED_RCA
     rca = RCA_CHUNK.read_text()
     for term in ['Evidence first', 'Safe RCA workflow', 'root cause', 'confidence', 'Token-saving tip']:
         assert term in rca, f'RCA chunk missing {term}'
 
-    assert (ROOT / 'docs' / 'operational-workflow-experts' / 'SKILL_PACK.md').exists()
-    print('operational workflow experts passed')
+    # These workflow micro-skills were consolidated. Guard against accidentally
+    # restoring stale top-level paths instead of the current parent architecture.
+    for skill in RETIRED_CHANGE_SKILLS + RETIRED_INCIDENT_SKILLS:
+        retired = ROOT / 'skills' / skill / 'SKILL.md'
+        assert not retired.exists(), retired
+
+    assert PACK_DOC.exists(), PACK_DOC
+    pack = PACK_DOC.read_text()
+    for term in ['change-safety-expert', 'incident-response-expert', 'root-cause-analysis.md']:
+        assert term in pack, f'workflow pack missing {term}'
+
+    print('operational workflow parent/chunk architecture passed')
 
 
 if __name__ == '__main__':
