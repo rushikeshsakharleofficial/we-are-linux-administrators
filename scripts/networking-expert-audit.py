@@ -57,6 +57,8 @@ def findings_from(report):
 def main():
     report = {
         "tool": "networking-expert-audit",
+        "parent_skill": "network",
+        "legacy_command": True,
         "read_only": True,
         "managers": detect_managers(),
         "commands": {
