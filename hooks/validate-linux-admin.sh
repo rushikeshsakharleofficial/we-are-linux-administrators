@@ -63,12 +63,23 @@ for local_path in .agent/CONTEXT.md .agent/STATUS.md .claude/state/bash-command-
 done
 find . -maxdepth 1 -type f \( -name 'AGENTS.md.bak.*' -o -name 'CLAUDE.md.bak.*' \) -print | grep -q . && err "stale agent instruction backup files are tracked" || true
 
-# Ensure npm distribution really contains canonical skills/docs.
+# Ensure npm distribution really contains the canonical skill/chunk tree and core safety docs.
 if command -v npm >/dev/null 2>&1; then
   pack_json=$(npm pack --dry-run --json 2>/dev/null || true)
-  printf '%s' "$pack_json" | grep -q 'skills/using-linux-admin/SKILL.md' || err "npm package omits using-linux-admin skill"
-  printf '%s' "$pack_json" | grep -q 'skills/incident-report-creator-expert/SKILL.md' || err "npm package omits incident report creator skill"
-  printf '%s' "$pack_json" | grep -q 'docs/LOCAL_GLOBAL_AGENT_SETUP.md' || err "npm package omits local/global setup docs"
+  [ -n "$pack_json" ] || err "npm pack --dry-run --json returned no package manifest"
+
+  for packaged_file in \
+    AGENTS.md \
+    CLAUDE.md \
+    docs/LOCAL_GLOBAL_AGENT_SETUP.md \
+    docs/SECURITY_PATCH_REFRESH_POLICY.md \
+    docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md; do
+    printf '%s' "$pack_json" | grep -Fq "$packaged_file" || err "npm package omits required file: $packaged_file"
+  done
+
+  while IFS= read -r procedure_file; do
+    printf '%s' "$pack_json" | grep -Fq "$procedure_file" || err "npm package omits canonical procedure: $procedure_file"
+  done < <(find skills -type f \( -name 'SKILL.md' -o -path '*/chunks/*.md' \) | sort)
 fi
 
 secret_hits=$(grep -RInE '(BEGIN (RSA|OPENSSH|EC|DSA|PRIVATE) KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9_]{30,}|xox[baprs]-[A-Za-z0-9-]{20,})' --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv --exclude='validate-linux-admin.sh' . 2>/dev/null || true)
