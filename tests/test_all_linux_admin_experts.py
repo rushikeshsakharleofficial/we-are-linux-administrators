@@ -35,17 +35,25 @@ PARENT_CHUNKS = {
     'load-balancer-expert': ['haproxy.md'],
 }
 
+# Keep this list broad: focused domain tests validate the replacement routes, while
+# this architecture test prevents consolidated micro-skills from quietly returning.
 REMOVED_TOP_LEVEL = [
     'tcp-expert', 'udp-expert', 'tcpdump-expert', 'vlan-bonding-expert',
     'iproute-expert', 'routing-expert', 'natting-expert',
-    'chrony-expert', 'date-timectl-expert', 'disk-mounting-expert',
-    'filesystem-expert', 'smart-disk-expert', 'quota-expert', 'lvm-expert',
-    'raid-expert', 'iscsi-expert', 'nfs-expert', 'samba-expert',
+    'ntp-expert', 'chrony-expert', 'date-timectl-expert',
+    'disk-mounting-expert', 'filesystem-expert', 'smart-disk-expert',
+    'quota-expert', 'lvm-expert', 'raid-expert', 'iscsi-expert', 'nfs-expert',
+    'samba-expert',
     'cpu-expert', 'memory-expert', 'swap-expert', 'capacity-planning-expert',
     'file-permissions-expert', 'acl-permissions-expert',
     'user-permissions-expert', 'pam-expert', 'sssd-ldap-expert',
     'sudoers-expert', 'rsyslog-expert', 'logrotate-expert',
-    'root-cause-expert', 'bash-script-expert', 'runbook-expert',
+    'bashrc-expert', 'zshrc-expert', 'shell-script-expert',
+    'bash-script-expert', 'runbook-expert',
+    'root-cause-expert', 'incident-timeline-expert',
+    'change-plan-expert', 'rollback-expert', 'maintenance-window-expert',
+    'risk-assessment-expert', 'preflight-check-expert',
+    'post-change-validation-expert', 'production-safety-expert',
     'auditd-expert', 'fail2ban-expert', 'os-security-expert',
     'vulnerability-scan-expert', 'patching-expert', 'haproxy-expert',
 ]
