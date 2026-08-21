@@ -143,6 +143,6 @@ For diagnostic-only responses, include the same fields where relevant but keep t
 ## Enforcement
 
 - `skills/diagnose/SKILL.md` must route requests through this contract.
-- `hooks/validate-linux-admin.sh` must detect missing contract coverage.
+- `hooks/validate-universal-contract.sh` must detect missing direct contract coverage, while `hooks/validate-linux-admin.sh` enforces repository/package/metadata integrity.
 - New skills must include either a direct `## Universal Skill Execution Contract` section or a clear reference to this document.
 - Existing skills should be updated progressively until all contain direct coverage.
