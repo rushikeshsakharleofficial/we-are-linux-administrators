@@ -114,10 +114,13 @@ fi
 secret_hits=$(grep -RInE '(BEGIN (RSA|OPENSSH|EC|DSA|PRIVATE) KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9_]{30,}|xox[baprs]-[A-Za-z0-9-]{20,})' --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv --exclude='validate-linux-admin.sh' . 2>/dev/null || true)
 [ -z "$secret_hits" ] || err "possible secret/token material found:\n$secret_hits"
 
-# Syntax-check every Bash validation hook and extensionless Bash wrapper. The
-# legacy audit command names are intentionally retained, so a broken wrapper
-# must fail validation even when its Python target still compiles.
+# Syntax-check every Bash validation hook, the extensionless pre-commit hook,
+# and extensionless Bash wrappers. Local validation should cover the same
+# pre-commit syntax boundary that CI enforces.
 while IFS= read -r sh_file; do bash -n "$sh_file" || err "shell syntax failed: $sh_file"; done < <(find hooks .githooks -type f -name '*.sh' 2>/dev/null | sort)
+if [ -f .githooks/pre-commit ]; then
+  bash -n .githooks/pre-commit || err "shell syntax failed: .githooks/pre-commit"
+fi
 while IFS= read -r bin_file; do
   [ "$(head -n1 "$bin_file" 2>/dev/null || true)" = '#!/usr/bin/env bash' ] || continue
   bash -n "$bin_file" || err "shell syntax failed: $bin_file"
