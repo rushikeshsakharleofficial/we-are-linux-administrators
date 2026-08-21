@@ -10,7 +10,7 @@ warn(){ warnings=$((warnings+1)); printf 'WARN: %s\n' "$*" >&2; }
 info(){ printf 'INFO: %s\n' "$*"; }
 require_file(){ [ -f "$1" ] || err "missing required file: $1"; }
 
-for f in .claude-plugin/plugin.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
+for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
   skills/diagnose/SKILL.md skills/optimization-guardian-expert/SKILL.md \
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
   docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
@@ -19,20 +19,23 @@ for f in .claude-plugin/plugin.json package.json README.md RELEASE.md AGENTS.md 
 
 skill_count=$(find skills -mindepth 2 -maxdepth 2 -name SKILL.md -type f 2>/dev/null | wc -l | tr -d ' ')
 plugin_count=$(grep -Eo 'Covers [0-9]+ task-specific skills' .claude-plugin/plugin.json | grep -Eo '[0-9]+' | head -n1 || true)
+marketplace_count=$(grep -Eo '[0-9]+ expert skills' .claude-plugin/marketplace.json | grep -Eo '[0-9]+' | head -n1 || true)
 package_count=$(grep -Eo '[0-9]+ expert skills' package.json | grep -Eo '[0-9]+' | head -n1 || true)
 readme_count=$(grep -Eo '\*\*Skill count:\*\*[[:space:]]*`[0-9]+`' README.md | grep -Eo '[0-9]+' | head -n1 || true)
 release_count=$(grep -Eo 'Skill count: `[0-9]+`' RELEASE.md | grep -Eo '[0-9]+' | head -n1 || true)
 info "detected skill count: $skill_count"
-for pair in "plugin.json:$plugin_count" "package.json:$package_count" "README.md:$readme_count" "RELEASE.md:$release_count"; do
+for pair in "plugin.json:$plugin_count" "marketplace.json:$marketplace_count" "package.json:$package_count" "README.md:$readme_count" "RELEASE.md:$release_count"; do
   file=${pair%%:*}; count=${pair#*:}
   [ -z "$count" ] && warn "could not detect skill count in $file" || [ "$count" = "$skill_count" ] || err "$file skill count $count does not match actual skills count $skill_count"
 done
 
 plugin_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' .claude-plugin/plugin.json | head -n1 | sed -E 's/.*"([^"]+)"$/\1/' || true)
+marketplace_metadata_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' .claude-plugin/marketplace.json | sed -n '1p' | sed -E 's/.*"([^"]+)"$/\1/' || true)
+marketplace_plugin_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' .claude-plugin/marketplace.json | sed -n '2p' | sed -E 's/.*"([^"]+)"$/\1/' || true)
 package_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' package.json | head -n1 | sed -E 's/.*"([^"]+)"$/\1/' || true)
 readme_version=$(grep -Eo '\*\*Version:\*\*[[:space:]]*`[^`]+`' README.md | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | head -n1 || true)
 release_version=$(grep -Eo '^# Release [^[:space:]]+' RELEASE.md | awk '{print $3}' | head -n1 || true)
-for pair in "package.json:$package_version" "README.md:$readme_version" "RELEASE.md:$release_version"; do
+for pair in "marketplace metadata:$marketplace_metadata_version" "marketplace plugin:$marketplace_plugin_version" "package.json:$package_version" "README.md:$readme_version" "RELEASE.md:$release_version"; do
   file=${pair%%:*}; version=${pair#*:}
   [ -z "$version" ] && warn "could not detect version in $file" || [ "$version" = "$plugin_version" ] || err "$file version $version does not match plugin metadata version $plugin_version"
 done
