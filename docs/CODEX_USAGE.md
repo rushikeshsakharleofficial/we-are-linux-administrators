@@ -74,7 +74,7 @@ OpenAI currently documents plugins as installable workflow packages in the Plugi
 
 Use this mode only when `linux-admin` is actually published/available in the Plugin Directory or supplied through an approved workspace plugin source.
 
-Do **not** assume a specific Codex CLI slash command such as `/plugins` unless the current Codex client itself exposes and documents that command. In supported Codex task views, OpenAI currently documents plugin selection through **Sources -> Use plugins**. Directory changes in Codex can take time to refresh, so restart Codex or refresh plugin data before treating a newly published/updated listing as missing.
+Do **not** assume a specific Codex CLI slash command such as `/plugins` unless the current Codex client itself exposes and documents that command. In supported Codex task views, OpenAI currently documents plugin selection through **Sources -> Use plugins**. OpenAI notes that Plugin Directory changes in Codex can take **up to six hours** to refresh; restart Codex or refresh plugin data before treating a newly published/updated listing as missing.
 
 After a plugin is available, verify:
 
