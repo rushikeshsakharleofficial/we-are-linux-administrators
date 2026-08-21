@@ -60,6 +60,12 @@ fi
 if [ -f site/assets/data/latest-update.json ]; then
   popup_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' site/assets/data/latest-update.json | head -n1 | sed -E 's/.*"([^"]+)"$/\1/' || true)
   [ -z "$popup_version" ] || [ "$popup_version" = "$plugin_version" ] || err "website popup version $popup_version does not match $plugin_version"
+
+  # The popup is user-facing release/update metadata. Guard its advertised
+  # skill count as well as its version so website copy cannot silently drift
+  # from the canonical top-level tree while CI still passes.
+  popup_count=$(grep -Eio 'skill count[^0-9]*[0-9]+' site/assets/data/latest-update.json | grep -Eo '[0-9]+' | head -n1 || true)
+  [ -z "$popup_count" ] && warn "could not detect skill count in website popup summary" || [ "$popup_count" = "$skill_count" ] || err "website popup skill count $popup_count does not match $skill_count"
 fi
 
 # Machine-local agent files must never be tracked in a clean checkout.
