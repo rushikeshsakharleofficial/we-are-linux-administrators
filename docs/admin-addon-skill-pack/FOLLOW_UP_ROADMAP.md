@@ -1,8 +1,17 @@
 # Follow-up roadmap
 
-## Phase 1 follow-up
+> Historical implementation roadmap. The original phase lists below describe the pre-consolidation skill tree and are **not** current routing or installation guidance. For the live architecture, use `skills/using-linux-admin/SKILL.md` and `docs/EXPERT_MODULE_INDEX.md`.
 
-Add detailed docs for:
+## Current maintenance direction
+
+- Keep the compact 65-skill top-level tree; do not recreate retired micro-skills merely because they appear in the historical lists below.
+- Preserve consolidated procedures in their current parent chunks, including network, time, storage, performance, permissions, auth, logs, automation, security, package-manager and incident-response chunks.
+- Keep materially distinct specialists such as backup/restore, multipath, SELinux/AppArmor, SSH/RDP, databases and product-specific load balancers separate unless a future evidence-based review proves a safe merge.
+- Prefer accuracy, validation, safety-contract coverage and packaging fixes over further count reduction.
+
+## Historical Phase 1 follow-up
+
+The following names are retained only as the original roadmap record; several were later consolidated into parent chunks.
 
 - backup-restore-expert
 - logrotate-expert
@@ -16,17 +25,17 @@ Add detailed docs for:
 - php-fpm-expert
 - mysql-expert
 
-## Phase 2 follow-up
+## Historical Phase 2 follow-up
 
 Add audit helpers under `scripts/` and wrappers under `bin/`.
 
-## Phase 3 follow-up
+## Historical Phase 3 follow-up
 
 Update README, `docs/EXPERT_MODULE_INDEX.md`, and manifest keywords after review.
 
-## Phase 4 follow-up
+## Historical Phase 4 follow-up
 
-Add additional experts from the research report:
+These were candidate expert names from the original research report. Do not treat this list as the current top-level skill inventory.
 
 - selinux-expert
 - apparmor-expert
