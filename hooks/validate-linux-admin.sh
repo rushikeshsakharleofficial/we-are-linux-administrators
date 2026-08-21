@@ -15,7 +15,8 @@ for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json package.json
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
   docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
   docs/LOCAL_GLOBAL_AGENT_SETUP.md docs/SECURITY_PATCH_REFRESH_POLICY.md \
-  docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md tests/retired_top_level_skills.txt; do require_file "$f"; done
+  docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md site/assets/js/main.js \
+  site/assets/data/latest-update.json tests/retired_top_level_skills.txt; do require_file "$f"; done
 
 skill_count=$(find skills -mindepth 2 -maxdepth 2 -name SKILL.md -type f 2>/dev/null | wc -l | tr -d ' ')
 plugin_count=$(grep -Eo 'Covers [0-9]+ task-specific skills' .claude-plugin/plugin.json | grep -Eo '[0-9]+' | head -n1 || true)
