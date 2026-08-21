@@ -19,7 +19,11 @@ jobs:
       - name: Validate JSON
         run: |
           python -m json.tool .claude-plugin/plugin.json >/dev/null
+          python -m json.tool .claude-plugin/marketplace.json >/dev/null
+          python -m json.tool package.json >/dev/null
           python -m json.tool hooks/hooks.json >/dev/null
+          python -m json.tool opencode.json >/dev/null
+          python -m json.tool site/assets/data/latest-update.json >/dev/null
       - name: Compile Python scripts
         run: python -m py_compile scripts/*.py
       - name: Run full regression suite
