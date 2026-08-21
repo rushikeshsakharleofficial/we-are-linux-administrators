@@ -54,7 +54,9 @@ grep -q '^name:[[:space:]]*using-linux-admin' skills/using-linux-admin/SKILL.md 
 grep -q 'incident-report-creator-expert' skills/using-linux-admin/SKILL.md || err "router does not include incident report creator"
 
 if [ -f site/assets/js/main.js ]; then
+  site_version=$(grep -Eo "PROJECT_VERSION = '[^']+'" site/assets/js/main.js | sed -E "s/.*'([^']+)'$/\1/" | head -n1 || true)
   site_count=$(grep -Eo "SKILL_COUNT = '[0-9]+'" site/assets/js/main.js | grep -Eo '[0-9]+' | head -n1 || true)
+  [ -z "$site_version" ] && warn "could not detect website runtime version" || [ "$site_version" = "$plugin_version" ] || err "site runtime version $site_version does not match $plugin_version"
   [ -z "$site_count" ] || [ "$site_count" = "$skill_count" ] || err "site runtime skill count $site_count does not match $skill_count"
 fi
 if [ -f site/assets/data/latest-update.json ]; then
