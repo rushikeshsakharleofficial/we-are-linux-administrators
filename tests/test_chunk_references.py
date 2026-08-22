@@ -10,7 +10,7 @@ SKILLS = ROOT / "skills"
 CHUNK_REF = re.compile(r"(?<![A-Za-z0-9_./-])(chunks/[A-Za-z0-9_.\-/]+\.md)")
 
 
-def test_referenced_chunks_exist() -> None:
+def referenced_chunks_exist() -> None:
     """Every explicit chunks/*.md reference in a top-level SKILL.md must resolve locally."""
     missing: list[str] = []
 
@@ -24,7 +24,7 @@ def test_referenced_chunks_exist() -> None:
     assert not missing, "Missing condition-specific chunk reference(s):\n" + "\n".join(missing)
 
 
-def test_chunk_references_stay_local_to_parent() -> None:
+def chunk_references_stay_local_to_parent() -> None:
     """Parent chunk references must remain beneath that parent's chunks directory."""
     escaped: list[str] = []
 
@@ -39,3 +39,13 @@ def test_chunk_references_stay_local_to_parent() -> None:
                 escaped.append(f"{skill_file.relative_to(ROOT)} -> {relative_ref}")
 
     assert not escaped, "Chunk reference escaped its parent chunks directory:\n" + "\n".join(escaped)
+
+
+def main() -> None:
+    referenced_chunks_exist()
+    chunk_references_stay_local_to_parent()
+    print("chunk reference validation passed")
+
+
+if __name__ == "__main__":
+    main()
