@@ -129,6 +129,22 @@ while IFS= read -r bin_file; do
   bash -n "$bin_file" || err "shell syntax failed: $bin_file"
 done < <(find bin -maxdepth 1 -type f 2>/dev/null | sort)
 
+# Compatibility wrappers are tiny, but a syntactically valid wrapper can still
+# point at a deleted or non-executable script. Validate the delegation target
+# here as well as in the regression suite so local/pre-commit validation catches
+# the same packaging break before a push.
+while IFS= read -r bin_file; do
+  [ "$(head -n1 "$bin_file" 2>/dev/null || true)" = '#!/usr/bin/env bash' ] || continue
+  target_rel=$(sed -nE 's#.*\/\.\.\/(scripts\/[A-Za-z0-9_.\/-]+)".*#\1#p' "$bin_file" | head -n1)
+  [ -n "$target_rel" ] || continue
+  case "$target_rel" in
+    scripts/*) ;;
+    *) err "audit wrapper target escapes scripts/: $bin_file -> $target_rel"; continue ;;
+  esac
+  [ -f "$target_rel" ] || { err "audit wrapper target missing: $bin_file -> $target_rel"; continue; }
+  [ -x "$target_rel" ] || err "audit wrapper target is not executable: $bin_file -> $target_rel"
+done < <(find bin -maxdepth 1 -type f 2>/dev/null | sort)
+
 if [ "$errors" -gt 0 ]; then
   printf '\nValidation failed: %d error(s), %d warning(s).\n' "$errors" "$warnings" >&2
   exit 1
