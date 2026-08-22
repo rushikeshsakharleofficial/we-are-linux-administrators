@@ -11,7 +11,7 @@ info(){ printf 'INFO: %s\n' "$*"; }
 require_file(){ [ -f "$1" ] || err "missing required file: $1"; }
 
 for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
-  opencode.json .aider.conf.yml \
+  opencode.json .aider.conf.yml bin/linux-admin-install.js \
   skills/diagnose/SKILL.md skills/optimization-guardian-expert/SKILL.md \
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
   docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
@@ -64,55 +64,43 @@ fi
 if [ -f site/assets/data/latest-update.json ]; then
   popup_version=$(grep -Eo '"version"[[:space:]]*:[[:space:]]*"[^"]+"' site/assets/data/latest-update.json | head -n1 | sed -E 's/.*"([^"]+)"$/\1/' || true)
   [ -z "$popup_version" ] || [ "$popup_version" = "$plugin_version" ] || err "website popup version $popup_version does not match $plugin_version"
-
-  # The popup is user-facing release/update metadata. Guard its advertised
-  # skill count as well as its version so website copy cannot silently drift
-  # from the canonical top-level tree while CI still passes.
   popup_count=$(grep -Eio 'skill count[^0-9]*[0-9]+' site/assets/data/latest-update.json | grep -Eo '[0-9]+' | head -n1 || true)
   [ -z "$popup_count" ] && warn "could not detect skill count in website popup summary" || [ "$popup_count" = "$skill_count" ] || err "website popup skill count $popup_count does not match $skill_count"
 fi
 
-# Machine-local agent files must never be tracked in a clean checkout.
 for local_path in .agent/CONTEXT.md .agent/STATUS.md .claude/state/bash-command-history.tsv site/.claude/state/bash-command-history.tsv; do
   [ ! -e "$local_path" ] || err "machine-local agent state is tracked: $local_path"
 done
 find . -maxdepth 1 -type f \( -name 'AGENTS.md.bak.*' -o -name 'CLAUDE.md.bak.*' \) -print | grep -q . && err "stale agent instruction backup files are tracked" || true
 
-# A retired top-level skill may remain as a legacy command name, but repository
-# documentation/tests/config must not link to a deleted canonical SKILL.md path.
 if [ -f tests/retired_top_level_skills.txt ]; then
   while IFS= read -r retired_skill; do
     retired_skill=${retired_skill%%#*}
     retired_skill=$(printf '%s' "$retired_skill" | xargs)
     [ -n "$retired_skill" ] || continue
     [ ! -e "skills/$retired_skill/SKILL.md" ] || err "retired top-level skill restored: $retired_skill"
-
-    stale_refs=$(grep -RIlF "skills/$retired_skill/SKILL.md" . \
-      --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv 2>/dev/null || true)
+    stale_refs=$(grep -RIlF "skills/$retired_skill/SKILL.md" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv 2>/dev/null || true)
     [ -z "$stale_refs" ] || err "stale canonical path for retired skill $retired_skill referenced by: $(printf '%s' "$stale_refs" | tr '\n' ' ')"
   done < tests/retired_top_level_skills.txt
 fi
 
-# Ensure npm distribution really contains the canonical skill/chunk tree, core
-# safety/agent docs, and thin cross-agent adapters promised by package metadata.
+# Validate the npm CLI contract before packaging. package.json promises both
+# commands and they intentionally share one executable implementation.
+if command -v node >/dev/null 2>&1; then
+  node --check bin/linux-admin-install.js >/dev/null 2>&1 || err "Node syntax failed: bin/linux-admin-install.js"
+  cli_contract=$(node -e 'const p=require("./package.json"); const b=p.bin||{}; if(b["linux-admin"]!=="./bin/linux-admin-install.js"||b["linux-admin-install"]!=="./bin/linux-admin-install.js") process.exit(1)' 2>/dev/null || true)
+  node -e 'const p=require("./package.json"); const b=p.bin||{}; if(b["linux-admin"]!=="./bin/linux-admin-install.js"||b["linux-admin-install"]!=="./bin/linux-admin-install.js") process.exit(1)' 2>/dev/null || err "package.json CLI bin mappings drifted from bin/linux-admin-install.js"
+fi
+
 if command -v npm >/dev/null 2>&1; then
   pack_json=$(npm pack --dry-run --json 2>/dev/null || true)
   [ -n "$pack_json" ] || err "npm pack --dry-run --json returned no package manifest"
-
-  for packaged_file in \
-    AGENTS.md \
-    CLAUDE.md \
-    opencode.json \
-    .aider.conf.yml \
-    docs/AI_TOOL_SUPPORT.md \
-    docs/CODEX_USAGE.md \
-    docs/EXPERT_MODULE_INDEX.md \
-    docs/LOCAL_GLOBAL_AGENT_SETUP.md \
-    docs/SECURITY_PATCH_REFRESH_POLICY.md \
+  for packaged_file in AGENTS.md CLAUDE.md opencode.json .aider.conf.yml bin/linux-admin-install.js \
+    docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
+    docs/LOCAL_GLOBAL_AGENT_SETUP.md docs/SECURITY_PATCH_REFRESH_POLICY.md \
     docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md; do
     printf '%s' "$pack_json" | grep -Fq "$packaged_file" || err "npm package omits required file: $packaged_file"
   done
-
   while IFS= read -r procedure_file; do
     printf '%s' "$pack_json" | grep -Fq "$procedure_file" || err "npm package omits canonical procedure: $procedure_file"
   done < <(find skills -type f \( -name 'SKILL.md' -o -path '*/chunks/*.md' \) | sort)
@@ -121,30 +109,18 @@ fi
 secret_hits=$(grep -RInE '(BEGIN (RSA|OPENSSH|EC|DSA|PRIVATE) KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9_]{30,}|xox[baprs]-[A-Za-z0-9-]{20,})' --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv --exclude='validate-linux-admin.sh' . 2>/dev/null || true)
 [ -z "$secret_hits" ] || err "possible secret/token material found:\n$secret_hits"
 
-# Syntax-check every Bash validation hook, the extensionless pre-commit hook,
-# and extensionless Bash wrappers. Local validation should cover the same
-# pre-commit syntax boundary that CI enforces.
 while IFS= read -r sh_file; do bash -n "$sh_file" || err "shell syntax failed: $sh_file"; done < <(find hooks .githooks -type f -name '*.sh' 2>/dev/null | sort)
-if [ -f .githooks/pre-commit ]; then
-  bash -n .githooks/pre-commit || err "shell syntax failed: .githooks/pre-commit"
-fi
+if [ -f .githooks/pre-commit ]; then bash -n .githooks/pre-commit || err "shell syntax failed: .githooks/pre-commit"; fi
 while IFS= read -r bin_file; do
   [ "$(head -n1 "$bin_file" 2>/dev/null || true)" = '#!/usr/bin/env bash' ] || continue
   bash -n "$bin_file" || err "shell syntax failed: $bin_file"
 done < <(find bin -maxdepth 1 -type f 2>/dev/null | sort)
 
-# Compatibility wrappers are tiny, but a syntactically valid wrapper can still
-# point at a deleted or non-executable script. Validate the delegation target
-# here as well as in the regression suite so local/pre-commit validation catches
-# the same packaging break before a push.
 while IFS= read -r bin_file; do
   [ "$(head -n1 "$bin_file" 2>/dev/null || true)" = '#!/usr/bin/env bash' ] || continue
   target_rel=$(sed -nE 's#.*\/\.\.\/(scripts\/[A-Za-z0-9_.\/-]+)".*#\1#p' "$bin_file" | head -n1)
   [ -n "$target_rel" ] || continue
-  case "$target_rel" in
-    scripts/*) ;;
-    *) err "audit wrapper target escapes scripts/: $bin_file -> $target_rel"; continue ;;
-  esac
+  case "$target_rel" in scripts/*) ;; *) err "audit wrapper target escapes scripts/: $bin_file -> $target_rel"; continue ;; esac
   [ -f "$target_rel" ] || { err "audit wrapper target missing: $bin_file -> $target_rel"; continue; }
   [ -x "$target_rel" ] || err "audit wrapper target is not executable: $bin_file -> $target_rel"
 done < <(find bin -maxdepth 1 -type f 2>/dev/null | sort)
