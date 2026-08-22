@@ -41,9 +41,8 @@ jobs:
             exit 1
           fi
           echo "Executed $test_count regression test files"
-      - name: Run linux-admin hook validation
+      - name: Run canonical pre-commit validation
         run: |
           bash -n .githooks/pre-commit
-          chmod +x hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
-          hooks/validate-linux-admin.sh "$GITHUB_WORKSPACE"
-          hooks/validate-universal-contract.sh "$GITHUB_WORKSPACE"
+          chmod +x .githooks/pre-commit hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
+          .githooks/pre-commit
