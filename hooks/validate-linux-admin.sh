@@ -11,6 +11,7 @@ info(){ printf 'INFO: %s\n' "$*"; }
 require_file(){ [ -f "$1" ] || err "missing required file: $1"; }
 
 for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
+  opencode.json .aider.conf.yml \
   skills/diagnose/SKILL.md skills/optimization-guardian-expert/SKILL.md \
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
   docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
@@ -92,7 +93,8 @@ if [ -f tests/retired_top_level_skills.txt ]; then
   done < tests/retired_top_level_skills.txt
 fi
 
-# Ensure npm distribution really contains the canonical skill/chunk tree and core safety/agent docs.
+# Ensure npm distribution really contains the canonical skill/chunk tree, core
+# safety/agent docs, and thin cross-agent adapters promised by package metadata.
 if command -v npm >/dev/null 2>&1; then
   pack_json=$(npm pack --dry-run --json 2>/dev/null || true)
   [ -n "$pack_json" ] || err "npm pack --dry-run --json returned no package manifest"
@@ -100,6 +102,8 @@ if command -v npm >/dev/null 2>&1; then
   for packaged_file in \
     AGENTS.md \
     CLAUDE.md \
+    opencode.json \
+    .aider.conf.yml \
     docs/AI_TOOL_SUPPORT.md \
     docs/CODEX_USAGE.md \
     docs/EXPERT_MODULE_INDEX.md \
