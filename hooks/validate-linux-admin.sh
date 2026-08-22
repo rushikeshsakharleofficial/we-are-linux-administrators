@@ -11,13 +11,30 @@ info(){ printf 'INFO: %s\n' "$*"; }
 require_file(){ [ -f "$1" ] || err "missing required file: $1"; }
 
 for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json package.json README.md RELEASE.md AGENTS.md CLAUDE.md \
-  opencode.json .aider.conf.yml bin/linux-admin-install.js \
+  opencode.json .aider.conf.yml bin/linux-admin-install.js hooks/hooks.json \
   skills/diagnose/SKILL.md skills/optimization-guardian-expert/SKILL.md \
   skills/using-linux-admin/SKILL.md skills/incident-report-creator-expert/SKILL.md \
   docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
   docs/LOCAL_GLOBAL_AGENT_SETUP.md docs/SECURITY_PATCH_REFRESH_POLICY.md \
   docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md site/assets/js/main.js \
   site/assets/data/latest-update.json tests/retired_top_level_skills.txt; do require_file "$f"; done
+
+# Keep local/pre-commit validation aligned with CI. Metadata parsed below with
+# grep must first be syntactically valid JSON, otherwise malformed files can
+# produce misleading version/count errors or pass some checks accidentally.
+if command -v python3 >/dev/null 2>&1; then
+  json_python=python3
+elif command -v python >/dev/null 2>&1; then
+  json_python=python
+else
+  json_python=""
+  warn "python is unavailable; JSON syntax validation skipped"
+fi
+if [ -n "$json_python" ]; then
+  for json_file in .claude-plugin/plugin.json .claude-plugin/marketplace.json package.json hooks/hooks.json opencode.json site/assets/data/latest-update.json; do
+    "$json_python" -m json.tool "$json_file" >/dev/null 2>&1 || err "invalid JSON: $json_file"
+  done
+fi
 
 skill_count=$(find skills -mindepth 2 -maxdepth 2 -name SKILL.md -type f 2>/dev/null | wc -l | tr -d ' ')
 plugin_count=$(grep -Eo 'Covers [0-9]+ task-specific skills' .claude-plugin/plugin.json | grep -Eo '[0-9]+' | head -n1 || true)
@@ -88,7 +105,6 @@ fi
 # commands and they intentionally share one executable implementation.
 if command -v node >/dev/null 2>&1; then
   node --check bin/linux-admin-install.js >/dev/null 2>&1 || err "Node syntax failed: bin/linux-admin-install.js"
-  cli_contract=$(node -e 'const p=require("./package.json"); const b=p.bin||{}; if(b["linux-admin"]!=="./bin/linux-admin-install.js"||b["linux-admin-install"]!=="./bin/linux-admin-install.js") process.exit(1)' 2>/dev/null || true)
   node -e 'const p=require("./package.json"); const b=p.bin||{}; if(b["linux-admin"]!=="./bin/linux-admin-install.js"||b["linux-admin-install"]!=="./bin/linux-admin-install.js") process.exit(1)' 2>/dev/null || err "package.json CLI bin mappings drifted from bin/linux-admin-install.js"
 fi
 
