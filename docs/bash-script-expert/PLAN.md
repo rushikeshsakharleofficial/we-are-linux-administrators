@@ -1,73 +1,52 @@
-# bash-script-expert plan
+# Bash scripting plan (historical)
 
-## Goal
+> Historical design note. The standalone `bash-script-expert` was retired during skill consolidation. Do **not** recreate `skills/bash-script-expert/SKILL.md` from this document.
+>
+> Current canonical route: `skills/automation/SKILL.md` -> `skills/automation/chunks/bash-scripting.md`.
 
-Create a deep Bash scripting expert for Linux administration workflows.
+## Original goal
 
-The skill should produce scripts that are:
+Create deep Bash scripting guidance for Linux administration workflows.
 
-- readable
-- safe
-- practical
-- human-written in style
-- minimally commented
-- easy to test
-- suitable for cron, systemd, and manual execution where applicable
+The maintained automation chunk preserves this intent. Scripts should be readable, safe, practical, minimally commented, easy to test, and suitable for cron, systemd, or manual execution where applicable.
 
-## Core flow
+## Maintained workflow
 
-1. Understand the task.
-2. Decide if Bash is the correct language.
-3. Identify risk level.
-4. Define inputs and outputs.
-5. Define failure behavior.
-6. Create simple structure.
-7. Add argument parsing if needed.
-8. Add validation.
-9. Add logging.
-10. Add dry-run for state-changing work.
-11. Add rollback notes when needed.
-12. Review with ShellCheck-style checks.
+Use `skills/automation/chunks/bash-scripting.md` for script creation, review, debugging, hardening, merging, dry-run design, ShellCheck-style review, and POSIX `/bin/sh` portability.
 
-## Clean structure
+The current flow is:
 
-Recommended sections:
+1. Understand the task and target shell.
+2. Decide whether Bash/POSIX shell is the correct tool.
+3. Identify privilege and risk level.
+4. Define inputs, outputs, and failure behaviour.
+5. Use the smallest practical structure.
+6. Add argument/input validation where needed.
+7. Add bounded logging and useful exit codes.
+8. Add dry-run/apply separation and rollback for mutations.
+9. Validate syntax and perform ShellCheck-style review.
+10. Test success plus at least one failure/rollback path.
 
-- shebang
-- short purpose comment
-- shell options when suitable
-- constants
-- usage function
-- log and error helpers
-- argument parser
-- validation functions
-- main workflow
-- final main call
+Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for facts/security first, architecture fit, backup/disaster planning, rollback, bounded evidence/output, and validation.
 
-Do not force full boilerplate on small scripts.
+## Structure and comments
 
-## Comment rules
+Do not force boilerplate on small scripts. For larger scripts, a clean structure can include a shebang, short purpose comment, suitable shell options, constants, usage/error helpers, argument parsing, validation functions, main workflow, and final main call.
 
-Good comments explain why, risk, assumptions, or non-obvious behavior.
+Good comments explain why, risk, assumptions, or non-obvious behaviour. Avoid comments that merely repeat the command below them.
 
-Avoid comments that simply repeat what the next command already says.
+## Conditions, loops, and portability
 
-## Conditions and loops
-
-Use clear conditions, guard clauses, case blocks, quoted variables, safe argument iteration, line-safe file reading, and arrays where Bash is allowed.
+Use guard clauses, clear `case` blocks, quoted variables, safe argument iteration, line-safe file reading, and arrays when Bash is explicitly allowed. For POSIX `/bin/sh`, avoid Bash-only arrays, `[[ ]]`, process substitution, `$'...'`, `declare`, and Bash-only parameter expansions.
 
 ## Script merging
 
-Do not concatenate scripts. Preserve behavior, exit codes, arguments, logs, cleanup, and output format. Extract shared logic only when it reduces duplication without hiding simple flow.
+Do not concatenate scripts blindly. Preserve behaviour, exit codes, arguments, logs, cleanup, and output format. Extract shared logic only when it reduces duplication without hiding simple flow.
 
 ## Testing
 
-Recommend syntax check, ShellCheck review, dry-run mode, sample input tests, and validation commands after changes.
+Use syntax checks, ShellCheck-style review, dry-run mode, representative sample inputs, and post-change validation commands. Test under the actual target shell.
 
-## Plugin files later
+## Superseded paths
 
-- `skills/bash-script-expert/SKILL.md`
-- `docs/bash-script-expert/review-checklist.md`
-- `docs/bash-script-expert/merge-playbook.md`
-- `templates/bash-script-template.sh`
-- `tests/test_bash_script_expert.py`
+The old proposal to create `skills/bash-script-expert/SKILL.md` is obsolete. New Bash/POSIX operational guidance belongs in `skills/automation/chunks/bash-scripting.md`; cron, systemd, and Ansible keep their distinct specialists when those semantics are the actual condition.
