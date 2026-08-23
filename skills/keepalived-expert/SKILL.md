@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for keepalived VRRP, VIP ownership, failover, health-check scripts, and keepalived-managed LVS/IPVS.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence, verify the active/standby topology and current VIP owner, check architecture fit before changing VRRP or health-check behavior, preserve the current configuration and an out-of-band recovery path where possible, define guarded rollback before any priority/preempt/VIP movement, and validate peer state, VIP ownership, ARP/neighbor convergence, service reachability and client traffic after change.
+
 ## Safety boundary
 
 Default to read-only inspection. Do not restart keepalived, force failover, change priority, alter preempt behavior, or move VIPs without a maintenance plan and rollback.
