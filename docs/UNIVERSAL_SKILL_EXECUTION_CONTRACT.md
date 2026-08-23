@@ -1,6 +1,6 @@
 # Universal Skill Execution Contract
 
-Every `linux-admin` skill must follow this contract. This applies to all existing skills, future skills, hooks, automation, docs, website update text, and generated recommendations.
+Every `linux-admin` executable procedure surface — a top-level skill or a condition-specific chunk — must follow this contract. This also applies to hooks, automation, docs, website update text, and generated recommendations.
 
 ## 1. Security checks and facts before apply
 
@@ -143,6 +143,6 @@ For diagnostic-only responses, include the same fields where relevant but keep t
 ## Enforcement
 
 - `skills/diagnose/SKILL.md` must route requests through this contract.
-- `hooks/validate-universal-contract.sh` must detect missing direct contract coverage, while `hooks/validate-linux-admin.sh` enforces repository/package/metadata integrity.
-- New skills must include either a direct `## Universal Skill Execution Contract` section or a clear reference to this document.
-- Existing skills should be updated progressively until all contain direct coverage.
+- `hooks/validate-universal-contract.sh` must detect missing direct contract coverage across top-level `SKILL.md` files and condition-specific `chunks/*.md`, while `hooks/validate-linux-admin.sh` enforces repository/package/metadata integrity.
+- New skills and chunks must include either a direct `## Universal Skill Execution Contract` section or a clear reference to this document.
+- Existing procedure files should be updated progressively until all top-level skills and chunks contain direct coverage.
