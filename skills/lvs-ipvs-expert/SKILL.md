@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for Linux kernel Layer 4 load balancing with LVS/IPVS, `ipvsadm`, ldirectord, and keepalived-managed IPVS setups.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence, verify the actual LVS mode, VIP/director/real-server topology and kernel/IPVS state, check architecture fit before tuning or redesign, preserve current IPVS/VIP/sysctl configuration before change, define guarded rollback for VIP/routing/ARP/sysctl changes, validate both director state and end-to-end client traffic after change, and keep output bounded.
+
 ## Safety boundary
 
 Default to read-only inspection. Do not flush IPVS tables, remove virtual services, change scheduler, move VIPs, or alter ARP/sysctl behavior without change window, backup of current state, and rollback.
