@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill as a mandatory guardrail for any optimization or tuning request. It is not a normal performance skill. Its job is to prevent over-optimization, cargo-cult tuning, risky sysctl changes, fake benchmark improvements, and production instability caused by changing too many knobs without evidence.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Optimization work must collect bounded facts first, confirm architecture fit, preserve recovery paths, define exact rollback before consequential changes, use guarded rollback for risky remote/network changes, and validate the target metric plus regressions after each change group.
+
 Always load this skill when the user says or implies:
 
 - optimize, tuning, tune, boost, speed up, improve performance
@@ -193,23 +197,25 @@ What not to tune yet:
 
 ## Specialist routing
 
-After this skill validates the optimization request, route to the relevant specialist:
+After this skill validates the optimization request, route to one current parent/specialist. Let that parent select one matching chunk only when evidence proves the condition.
 
 | Optimization target | Route |
 |---|---|
-| CPU/load | `cpu-expert`, `performance` |
-| memory/OOM/swap | `memory-expert`, `swap-expert` |
-| disk/filesystem/I/O | `filesystem-expert`, `io-wait-expert`, `storage` |
-| sysctl/kernel | `sysctl-expert`, `kernel-expert` |
-| TCP/UDP/network | `tcp-expert`, `udp-expert`, `networking-expert` |
-| firewall/NAT | `firewall-expert`, `natting-expert` |
-| systemd/cgroup/limits | `systemd-expert`, `limits-expert` |
-| Nginx/Apache/PHP-FPM | `nginx-expert`, `apache-expert`, `php-fpm-expert` |
-| MySQL/PostgreSQL/Redis | `mysql-expert`, `postgresql-expert`, `redis-expert` |
-| Postfix/mail queues | `postfix-expert` or mail-related skill if present |
-| Docker/Podman/Kubernetes | `docker-expert`, `containers`, `kubernetes-node-expert` |
-| load balancing | `load-balancer-expert` |
+| CPU/load, memory/OOM/swap, capacity | `performance` -> matching CPU, memory, swap, or capacity chunk |
+| disk/filesystem/I/O | `storage`; add `io-wait-expert` only when measured I/O wait is the actual bottleneck |
+| sysctl/kernel runtime tuning | `sysctl-expert`; use `kernel` when the issue is kernel state rather than sysctl policy |
+| TCP/UDP/routing/NAT | `network` -> matching TCP, UDP, routing-iproute, or nat-conntrack chunk |
+| firewall policy | `firewall-expert` |
+| systemd/cgroup/limits | `systemd-expert` or `limits-expert`, according to the proven control layer |
+| Nginx/Apache/PHP-FPM | `nginx-expert`, `apache-expert`, or `php-fpm-expert` |
+| MySQL/PostgreSQL/Redis | `mysql-expert`, `postgresql-expert`, or `redis-expert` |
+| Postfix/mail queues | `postfix-expert` |
+| Docker/Podman | `containers` |
+| Kubernetes node/runtime | `kubernetes-node-expert` |
+| load balancing | `load-balancer-expert`; let it select HAProxy chunk only when HAProxy is proven |
 | proxy servers | `linux-proxy-expert` |
+
+Do not route to retired micro-skills such as `cpu-expert`, `memory-expert`, `swap-expert`, `filesystem-expert`, `tcp-expert`, `udp-expert`, `routing-expert`, `iproute-expert`, `natting-expert`, or `haproxy-expert`.
 
 ## Final rule
 
