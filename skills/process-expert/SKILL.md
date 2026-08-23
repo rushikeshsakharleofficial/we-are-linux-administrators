@@ -1,6 +1,7 @@
 ---
 name: process-expert
 description: Diagnose Linux process states, stuck or zombie processes, signals, open files, parent-child trees, service relationships, and safe process intervention. Use when investigating hung processes, unexpected process behaviour, kill or restart decisions, or process ownership and lifecycle issues.
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # process-expert
