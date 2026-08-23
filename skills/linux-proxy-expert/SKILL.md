@@ -10,7 +10,11 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for Linux proxy server and proxy-client troubleshooting across HTTP, HTTPS CONNECT, SOCKS4/SOCKS5, package-manager proxy use, systemd service proxy environment, Docker/Podman proxy settings, corporate proxy CA chains, and transparent/intercepting proxy behavior.
 
-Use `nginx-proxy-expert` for NGINX reverse proxy/load-balancing application traffic. Use `haproxy-expert` for HAProxy L4/L7 balancing. Use this skill when the focus is a Linux host acting as a forward proxy, SOCKS proxy, client behind a proxy, or system-wide proxy configuration.
+Use `nginx-expert` for NGINX reverse proxy/load-balancing application traffic. Use `load-balancer-expert` for HAProxy L4/L7 balancing, loading `chunks/haproxy.md` only after HAProxy is proven to be the active implementation. Use this skill when the focus is a Linux host acting as a forward proxy, SOCKS proxy, client behind a proxy, or system-wide proxy configuration.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence, verify the actual proxy role and traffic path, confirm architecture fit before changing proxy/firewall/NAT/TLS behavior, preserve configuration and trust material, define rollback before consequential changes, use guarded rollback where a remote proxy change could cut off management or application access, validate client-to-proxy-to-upstream traffic after change, and keep output bounded and credential-safe.
 
 ## Safety boundary
 
@@ -274,6 +278,17 @@ conntrack -S 2>/dev/null || true
 - IPv6 proxy issues: daemon bind, egress route, ACL only matching IPv4, bracket syntax, upstream IPv6 reachability.
 - Random clients denied: ACL order, CIDR mismatch, auth helper overload, max clients/file descriptors.
 - Slow proxy: DNS latency, disk cache pressure, file descriptor limits, conntrack/NAT saturation, upstream congestion.
+
+## Failure-safe change workflow
+
+Before editing proxy ACLs, listeners, authentication, TLS trust, transparent-proxy NAT, or service proxy environment:
+
+1. Save the exact current configuration and permissions, and record the active service/unit state.
+2. Validate the candidate configuration with the daemon's parser where available (`squid -k parse`, service-specific test mode, or equivalent).
+3. For remote management/application paths that depend on the proxy, arm an approved guarded rollback or maintain out-of-band access before reload/restart.
+4. Change the smallest possible object set; do not combine unrelated firewall, DNS, proxy and certificate changes in one step.
+5. Validate from a representative client through the proxy to the intended upstream, plus daemon logs and listener state.
+6. Roll back immediately if ACL/auth/TLS behavior broadens unexpectedly or required traffic fails.
 
 ## Output format
 
