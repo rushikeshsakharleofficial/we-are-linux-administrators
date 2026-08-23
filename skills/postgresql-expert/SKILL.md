@@ -1,6 +1,7 @@
 ---
 name: postgresql-expert
 description: Diagnose PostgreSQL service health, connection limits, WAL and checkpoint pressure, replication lag, vacuum and autovacuum issues, storage pressure, backup readiness, and safe configuration changes. Use for PostgreSQL outages, slow or blocked databases, replication problems, WAL growth, vacuum debt, connection exhaustion, and rollback-aware database maintenance.
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # postgresql-expert
