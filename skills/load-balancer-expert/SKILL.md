@@ -21,7 +21,7 @@ Collect bounded evidence first, then choose exactly one branch.
 | Proven condition | Route |
 |---|---|
 | HAProxy frontend/backend/ACL/health/TLS/reload | `chunks/haproxy.md` |
-| NGINX reverse proxy/upstream | `nginx-proxy-expert` |
+| NGINX reverse proxy/upstream | `nginx-expert` |
 | F5 BIG-IP/LTM/GTM/iRules/appliance HA | `f5-expert` |
 | AWS/Azure/GCP managed LB | `cloud-lb-expert` |
 | Linux LVS/IPVS/ldirectord | `lvs-ipvs-expert` |
