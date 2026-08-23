@@ -12,6 +12,10 @@ Use this skill when the user wants fast recall of server login flow, server iden
 
 This skill supports plain-text micro memory for non-secret metadata only. It must not store passwords, SSH private keys, API tokens, MFA seeds, cookies, database credentials, cloud keys, or customer secrets.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep discovery bounded and read-only first, verify the matched server identity and environment before relying on stored access context, keep secret material out of the memory store, preserve or back up existing records before edits, use a clear rollback for record changes, and validate that the resulting record contains only non-secret metadata and correct credential references.
+
 ## Hard secret rule
 
 Never store these in the memory files:
@@ -182,7 +186,7 @@ Before using stored login context:
 ## Specialist routing
 
 - SSH access: `auth`, `ssh-hardening-expert`
-- user and sudo: `user-permissions-expert`, `sudoers-expert`
+- local accounts, PAM, SSSD/LDAP, and sudo: `auth`
 - inventory automation: `automation`, `ansible-expert`
 - incident context: `logs`, `incident-response-expert`
 - agent routing: `agent-model-dispatcher-expert`
