@@ -12,6 +12,10 @@ Use this skill for Nagios Core community/open-source monitoring environments. Fo
 
 Use `observium-ce-expert` for Observium Community Edition SNMP/RRD polling and discovery. Use this skill for Nagios Core, not Nagios XI-only GUI workflows.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`: collect bounded security and service facts before changes, confirm architecture fit and alert blast radius, preserve the exact configuration being changed, define rollback before reload/restart, protect monitoring and notification recovery paths, use guarded recovery when a remote change could hide or suppress production failures, validate the resulting checks/notifications, and keep evidence/output bounded.
+
 ## Safety boundary
 
 Default to read-only. Never reload/restart Nagios Core, change contacts, disable notifications, acknowledge alerts, schedule downtime, remove objects, or modify command definitions until the config has been verified and alert impact is understood.
