@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for DNS-based load balancing and global traffic steering: weighted records, latency/geo routing, health-check failover, active-active regions, active-passive DR, MX balancing, and CDN/cloud DNS policies.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only DNS and health evidence, verify the authoritative provider/policy and downstream regional path, export current records and routing policy before changes, assess TTL/cache and multi-region blast radius, schedule guarded rollback before consequential DNS/GSLB cutovers where the platform permits it, and validate answers plus application traffic from multiple resolvers/regions before cancelling rollback.
+
 ## Safety boundary
 
 DNS changes have delayed and cached impact. Do not recommend changing production records, lowering TTLs, or cutting traffic between regions without propagation plan, rollback records, and validation from multiple resolvers.
