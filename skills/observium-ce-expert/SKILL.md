@@ -12,6 +12,10 @@ Use this skill for Observium Community Edition monitoring environments. Focus on
 
 Use `nagios-core-expert` for Nagios Core host/service/plugin monitoring. Use this skill for Observium CE and avoid assuming Subscription Edition-only features are available.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep discovery read-only and bounded first, verify the Observium edition/path and affected device before changes, assess architecture fit and monitoring blast radius, back up `config.php` plus the database and relevant RRD/recovery state before consequential updates, define rollback before schema/config/cron changes, protect remote monitoring and alerting recovery paths, validate discovery/poller/RRD/database/UI health after changes, and redact SNMP/database credentials from evidence.
+
 ## Safety boundary
 
 Default to read-only. Do not run schema updates, remove devices, truncate RRDs, change polling/discovery intervals, change authentication, or migrate CE to Subscription Edition without an explicit backup and rollback plan.
