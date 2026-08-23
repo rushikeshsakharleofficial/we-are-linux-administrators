@@ -19,7 +19,7 @@ Use this skill for cron/crond, crontab, /etc/cron.d, anacron, systemd timers, jo
 - Never suggest a persistent config change without backup, validation, and rollback.
 - Explain why the command/value/change is needed so the user does not over-tune or copy random internet fixes.
 - If the built-in skill is not enough, research official docs and Linux community pages before proposing changes.
-- If another expert owns the deeper risk, route there: `systemd-expert`, `sysctl-expert`, `package-manager-expert`, `storage`, `os-security-expert`, or `migration-expert`.
+- If another expert owns the deeper risk, route there: `systemd-expert`, `sysctl-expert`, `package-manager-expert`, `storage`, `security-expert`, or `migration-expert`.
 
 ## Universal Skill Execution Contract
 
