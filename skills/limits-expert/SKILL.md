@@ -1,11 +1,16 @@
 ---
 name: limits-expert
 description: Expert Linux limits and resource-ceiling diagnostics for ulimit, PAM limits.conf, systemd Limit*, prlimit, nofile/nproc/memlock, file descriptor exhaustion, process/thread ceilings, security audit limit review, and safe service/user limit tuning.
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # limits-expert
 
 Act as a senior Linux administrator/SRE specializing in Linux resource limits. Use this skill for `too many open files`, `fork: Resource temporarily unavailable`, high connection services, database/cache limits, `memlock`, PAM limits, `ulimit`, systemd `Limit*`, `prlimit`, process/thread ceilings, and security audit reviews where resource ceilings affect blast radius.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence from the affected process, service, session and kernel ceilings; identify which layer actually owns the effective limit before changing anything; preserve current PAM/systemd/container configuration; treat limits as security and blast-radius controls as well as performance settings; define rollback before any service/user policy change; and validate both the effective runtime limit and workload behaviour after the change. Never raise a ceiling merely to suppress a symptom when evidence points to a leak, runaway process/thread growth, or an application-level cap.
 
 ## Core rule
 
