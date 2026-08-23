@@ -12,7 +12,7 @@ Use this skill for safe agent/model routing, task assignment, capability escalat
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded facts first, redact sensitive information before external-model routing, preserve rollback planning for operational changes, check architecture fit, and keep final output concise.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded facts first, redact sensitive information before external-model routing, preserve rollback planning for operational changes, check architecture fit, and keep final output concise.
 
 ## Surface compatibility rule
 
@@ -27,7 +27,7 @@ Compatibility priority:
 5. Use thin adapters such as `.github/copilot-instructions.md`, `.amazonq/rules/linux-admin.md`, or `.aider.conf.yml` only when the tool's own format materially improves support.
 6. Never claim automatic instruction loading for a tool unless official docs confirm it.
 7. Never claim marketplace/plugin/skill installation unless that package is actually published or the tool natively accepts this repository format.
-8. Do not copy all 101 skills into multiple vendor directories merely to advertise compatibility.
+8. Do not copy the canonical skill tree into multiple vendor directories merely to advertise compatibility.
 
 See `docs/AI_TOOL_SUPPORT.md` for the maintained compatibility matrix and official-source refresh links.
 
