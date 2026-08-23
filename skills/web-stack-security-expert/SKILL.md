@@ -10,7 +10,11 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for secure Linux web-stack design and troubleshooting across Apache, NGINX, OpenLiteSpeed, reverse proxies, TLS, caching, WAF controls, request classification, and rate-limit policy.
 
-This skill complements `apache-expert`, `nginx-expert`, `linux-proxy-expert`, `haproxy-expert`, `cf-expert`, and `load-balancer-expert` by providing unified web security and traffic policy decisions.
+This skill complements `apache-expert`, `nginx-expert`, `linux-proxy-expert`, `cf-expert`, and `load-balancer-expert` by providing unified web security and traffic policy decisions.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only facts, verify the actual proxy/server chain and client-IP trust boundary, check architecture fit before adding WAF/proxy/rate-limit layers, preserve affected vhost/proxy/TLS configuration, define guarded rollback before remote-facing changes, validate both config syntax and real request paths after apply, and keep logs/headers/output scoped to the minimum needed evidence.
 
 ## Scope
 
@@ -189,9 +193,9 @@ Architecture fit:
 - Apache implementation: `apache-expert`
 - OpenLiteSpeed or generic proxy edge: this skill plus `linux-proxy-expert`
 - Cloudflare/WAF/CDN: `cf-expert`
-- HA/load balancing: `load-balancer-expert`, `haproxy-expert`, `cloud-lb-expert`
+- HA/load balancing: `load-balancer-expert`; HAProxy implementation uses `load-balancer-expert/chunks/haproxy.md`, while managed cloud LB stays with `cloud-lb-expert`
 - firewall exposure: `firewall-expert`
-- performance: `optimization-guardian-expert`, `capacity-planning-expert`
+- performance bottleneck or tuning: `optimization-guardian-expert`; proven capacity/headroom planning routes through `performance` -> `chunks/capacity-planning.md`
 
 ## Final guardrail
 
