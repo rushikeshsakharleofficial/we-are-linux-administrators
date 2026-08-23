@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for NGINX virtual hosts, reverse proxying, load balancing, upstream failures, safe reloads, TLS/server block review, FastCGI handoff, WebSocket/gRPC, and status/debug evidence.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded facts before changing NGINX, confirm the selected server/location/upstream path, check architecture fit before adding proxy or load-balancing complexity, preserve the active configuration and dependent certificate/key references, define exact rollback before reload, use guarded rollback or a second access path when a remote proxy/TLS change could cut off service, and validate both NGINX syntax and the client-to-origin request path after apply.
+
 ## Safety boundary
 
 Default to read-only inspection. Do not reload NGINX until `nginx -t` passes. Do not edit many `server` or `location` blocks at once. Preserve rollback config before changing upstream, proxy headers, TLS, timeout, or buffering.
