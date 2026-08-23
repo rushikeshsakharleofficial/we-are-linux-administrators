@@ -202,7 +202,7 @@ After this skill validates the optimization request, route to one current parent
 | Optimization target | Route |
 |---|---|
 | CPU/load, memory/OOM/swap, capacity | `performance` -> matching CPU, memory, swap, or capacity chunk |
-| disk/filesystem/I/O | `storage`; add `io-wait-expert` only when measured I/O wait is the actual bottleneck |
+| disk/filesystem/I/O | `storage`; use `performance` as the second skill only when bounded metrics prove host-level I/O pressure is the performance bottleneck |
 | sysctl/kernel runtime tuning | `sysctl-expert`; use `kernel` when the issue is kernel state rather than sysctl policy |
 | TCP/UDP/routing/NAT | `network` -> matching TCP, UDP, routing-iproute, or nat-conntrack chunk |
 | firewall policy | `firewall-expert` |
