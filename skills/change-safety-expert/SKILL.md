@@ -9,6 +9,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for Linux production change safety: pre-change readiness, production guardrails, and post-change validation.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Establish bounded facts before changes, verify architecture fit and dependencies, protect backup/recovery and access paths, define rollback and stop conditions before consequential work, use guarded rollback where lockout or broad impact is plausible, validate end-to-end results, and keep evidence/output bounded.
+
 ## Purpose
 
 Keep production work safe by forcing evidence, blast-radius review, rollback planning, and validation — before, during, and after a change.
