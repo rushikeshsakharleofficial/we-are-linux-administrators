@@ -102,4 +102,4 @@ Always respond with:
 
 ## Escalation
 
-Use `command-expert` for unsafe one-liners, `logs` for broad log timeline building, `systemd-expert` for service-state analysis, and domain experts such as `memory-expert`, `firewall-expert`, `dnsmasq-expert`, or `named-expert` after grep finds the evidence.
+Use `command-expert` for unsafe one-liners, `logs` for broad log timeline building, `systemd-expert` for service-state analysis, `performance -> chunks/memory.md` for memory/OOM findings, and domain experts such as `firewall-expert`, `dnsmasq-expert`, or `named-expert` after grep finds the evidence.
