@@ -118,25 +118,38 @@ dracut -f --regenerate-all
 
 ### GRUB config regeneration
 
-Require distro-specific path and confirmation. Never guess blindly.
+High-risk bootloader work. First verify the exact OS major version, firmware mode, Secure Boot state, and vendor documentation. Never choose the output path only from “BIOS vs UEFI”.
 
-RHEL BIOS-style common path:
+```bash
+. /etc/os-release 2>/dev/null || true
+printf 'ID=%s VERSION_ID=%s\n' "${ID:-unknown}" "${VERSION_ID:-unknown}"
+test -d /sys/firmware/efi && echo UEFI || echo BIOS
+```
+
+Debian/Ubuntu commonly use:
+
+```bash
+update-grub
+```
+
+For **RHEL 9 and RHEL 10**, current Red Hat documentation uses the same real configuration path for BIOS and UEFI:
 
 ```bash
 grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
-RHEL UEFI common path:
+On RHEL 9/10 UEFI systems, `/boot/efi/EFI/redhat/grub.cfg` is a stub that loads `/boot/grub2/grub.cfg`; **do not overwrite or recreate that stub with `grub2-mkconfig`**.
+
+Older RHEL releases differ. For example, RHEL 8 documentation uses `/boot/efi/EFI/redhat/grub.cfg` on UEFI systems. Therefore, on RHEL 7/8 or another downstream/version, verify that release's vendor documentation and actual boot layout before regenerating GRUB rather than copying a RHEL 9/10 command blindly.
+
+Before any GRUB write, preserve the files that actually exist:
 
 ```bash
-grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+cp -a /etc/default/grub /etc/default/grub.bak.$(date +%F-%H%M%S) 2>/dev/null || true
+cp -a /boot/grub2/grub.cfg /boot/grub2/grub.cfg.bak.$(date +%F-%H%M%S) 2>/dev/null || true
 ```
 
-Debian/Ubuntu:
-
-```bash
-update-grub
-```
+Do not run `grub2-install` on UEFI Secure Boot systems unless the exact vendor recovery procedure explicitly requires it; a wrong bootloader write can make the host unbootable.
 
 ## Escalation
 
