@@ -26,8 +26,11 @@ def read(path):
 def main():
     data={
         "read_only": True,
-        "parent": "storage",
+        "legacy_command": True,
+        "parent_skill": "storage",
         "chunk": "chunks/mounts.md",
+        # Older field names remain as aliases for existing consumers.
+        "parent": "storage",
         "compatibility_command": "disk-mounting-expert-audit",
         "host": platform.node(),
         "kernel": platform.release(),
