@@ -10,6 +10,10 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill as the senior Linux engineer execution layer when the user gives a broad Linux administration task, asks for the best possible AI prompt, or needs senior workflow shaping after skill selection.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep discovery bounded and read-only first, verify architecture and blast radius before choosing a change path, protect recovery access and backups, define rollback before consequential work, use guarded rollback for risky remote/network/auth/storage changes, validate the actual workload after implementation, and keep evidence/output scoped to the decision being made.
+
 ## Routing dependency
 
 Before selecting specialists, read `../using-linux-admin/SKILL.md`.
