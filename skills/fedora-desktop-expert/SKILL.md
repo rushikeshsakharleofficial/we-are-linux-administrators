@@ -10,11 +10,11 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this skill for Fedora Workstation, Fedora KDE Plasma Edition, Fedora Spins, Fedora Atomic Desktops, and Fedora Labs when the issue involves desktop environments, display stack, desktop updates, OS upgrades, kernel/graphics behavior, UI customization, extensions/plugins, hardware enablement, or user-facing desktop applications.
 
-Follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every answer, plan, and change.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every answer, plan, and change.
 
 ## First-run context
 
-On first run in Claude Code, Codex, or another coding agent, load repo root `CLAUDE.md`, `AGENTS.md`, and `docs/SECURITY_PATCH_REFRESH_POLICY.md` when present.
+On first run in a supported coding agent, load repo root `AGENTS.md` and `docs/SECURITY_PATCH_REFRESH_POLICY.md` when present, then load only the active agent's thin adapter where applicable (for example `CLAUDE.md` in Claude Code).
 
 ## Chunked reference model
 
@@ -22,13 +22,13 @@ Keep this main file small. Load only the matching chunk:
 
 | Category | Chunk |
 |---|---|
-| Release lifecycle and upgrades | `${CLAUDE_SKILL_DIR}/chunks/release-lifecycle.md` |
-| Workstation, KDE Edition, Spins, Labs, Atomic Desktops | `${CLAUDE_SKILL_DIR}/chunks/desktop-flavors.md` |
-| Wayland, Xorg, display managers, login/session issues | `${CLAUDE_SKILL_DIR}/chunks/display-stack.md` |
-| Kernel, graphics, firmware, and hardware | `${CLAUDE_SKILL_DIR}/chunks/kernel-drivers-hardware.md` |
-| UI customization, extensions, widgets, and apps | `${CLAUDE_SKILL_DIR}/chunks/ui-extensions-apps.md` |
-| Security patches, SELinux, dnf, rpm-ostree updates | `${CLAUDE_SKILL_DIR}/chunks/security-updates.md` |
-| Safety checklist, backup planning, validation | `${CLAUDE_SKILL_DIR}/chunks/safety-validation.md` |
+| Release lifecycle and upgrades | `chunks/release-lifecycle.md` |
+| Workstation, KDE Edition, Spins, Labs, Atomic Desktops | `chunks/desktop-flavors.md` |
+| Wayland, Xorg, display managers, login/session issues | `chunks/display-stack.md` |
+| Kernel, graphics, firmware, and hardware | `chunks/kernel-drivers-hardware.md` |
+| UI customization, extensions, widgets, and apps | `chunks/ui-extensions-apps.md` |
+| Security patches, SELinux, dnf, rpm-ostree updates | `chunks/security-updates.md` |
+| Safety checklist, backup planning, validation | `chunks/safety-validation.md` |
 
 ## Source refresh rule
 
