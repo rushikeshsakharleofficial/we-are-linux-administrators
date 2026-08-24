@@ -1,6 +1,7 @@
 ---
 name: redis-expert
 description: Diagnose and safely remediate Redis memory pressure, eviction policy, persistence, replication, Sentinel, connection limits, latency, and configuration issues. Use when Redis is slow, unstable, evicting keys, failing persistence or replication, hitting client limits, or needs a bounded production-safe configuration review.
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # redis-expert
@@ -13,7 +14,7 @@ Keep Redis stable by separating memory sizing, persistence risk, replication hea
 
 ## Universal Skill Execution Contract
 
-Follow `docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback, validation, and bounded output before any Redis change.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security/facts checks, architecture fit, backup/disaster planning, rollback, validation, and bounded output before any Redis change.
 
 ## Evidence first
 
