@@ -49,9 +49,9 @@ Ask for target OS families, server count, inventory structure, network access pa
 
 Avoid shell when a native module exists, all-host rollout without canary/serial, unvalidated templates, plaintext secrets, destructive playbooks without rollback, and dumping entire inventories/playbooks when one failing task is enough.
 
-## Module and rollout guidance
+## Module, handlers and rollout guidance
 
-Prefer package/service/systemd/template/copy/file/lineinfile/blockinfile/user/group/mount/cron/get_url/wait_for modules as appropriate. Keep environment inventories and vars separated. For production changes use canary groups, `serial`, `--limit` and bounded failure thresholds.
+Prefer package/service/systemd/template/copy/file/lineinfile/blockinfile/user/group/mount/cron/get_url/wait_for modules as appropriate. Use handlers for reload/restart actions triggered by actual configuration changes instead of restarting services unconditionally; validate the rendered configuration before notifying a consequential handler, and keep the prior config available for rollback if the handler exposes a bad change. Keep environment inventories and vars separated. For production changes use canary groups, `serial`, `--limit` and bounded failure thresholds.
 
 ## Inventory and compatibility
 
