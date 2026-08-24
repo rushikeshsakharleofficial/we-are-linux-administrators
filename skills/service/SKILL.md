@@ -9,9 +9,11 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this plugin skill for: $ARGUMENTS
 
-Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
+## Universal Skill Execution Contract
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Begin with bounded read-only evidence, verify the exact unit and dependency path, preserve the effective unit/config before edits, define rollback before reload/restart or dependency changes, protect remote-access and production dependencies, use guarded rollback when a service change can cut operator access or client traffic, and validate both unit state and the actual workload after change.
+
+Supporting documentation is available under `../../docs/`.
 
 # Task: systemd Service Failures and Restart Loops
 
@@ -108,6 +110,8 @@ systemctl status <unit> --no-pager
 journalctl -u <unit> -b --since '5 minutes ago' --no-pager
 ss -lntup | grep -E '<port>|<process>' || true
 ```
+
+Also validate the real workload path (for example an application health endpoint, a client connection, or the dependent unit), not only `systemctl is-active`.
 
 ## Prevention
 
