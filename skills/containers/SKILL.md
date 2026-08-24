@@ -9,9 +9,13 @@ allowed-tools: "Read Grep Glob Bash"
 
 Use this plugin skill for: $ARGUMENTS
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for facts and security before changes, architecture fit, recovery/backup planning, rollback or guarded rollback, bounded evidence/output, and post-change validation.
+
 Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Supporting docs are available under `../../docs/`.
 
 # Task: Docker, Podman, Containers
 
