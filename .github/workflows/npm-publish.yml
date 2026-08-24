@@ -14,19 +14,61 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Validate package metadata and contents
+      - name: Verify release tag matches package version
+        if: github.event_name == 'release'
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          npm pkg get name version description
-          npm pack --dry-run --json > /tmp/npm-pack.json
-          grep -q 'skills/using-linux-admin/SKILL.md' /tmp/npm-pack.json
-          grep -q 'skills/incident-report-creator-expert/SKILL.md' /tmp/npm-pack.json
+          set -euo pipefail
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          EXPECTED_TAG="v${PACKAGE_VERSION}"
+          if [ "$RELEASE_TAG" != "$EXPECTED_TAG" ]; then
+            echo "::error::Release tag $RELEASE_TAG does not match package version $PACKAGE_VERSION (expected $EXPECTED_TAG)."
+            exit 1
+          fi
+
+      - name: Compile Python scripts
+        run: python -m py_compile scripts/*.py
+
+      - name: Run full regression suite
+        run: |
+          set -euo pipefail
+          test_count=0
+          for test_file in tests/test_*.py; do
+            echo "::group::$test_file"
+            python "$test_file"
+            echo "::endgroup::"
+            test_count=$((test_count + 1))
+          done
+          if [ "$test_count" -eq 0 ]; then
+            echo "No tests/test_*.py files were found" >&2
+            exit 1
+          fi
+          echo "Executed $test_count regression test files"
+
+      - name: Run canonical repository validation
+        run: |
+          set -euo pipefail
+          bash -n .githooks/pre-commit
+          chmod +x .githooks/pre-commit hooks/validate-linux-admin.sh hooks/validate-universal-contract.sh
+          .githooks/pre-commit
+
+      - name: Verify package metadata
+        run: npm pkg get name version description
 
       - name: Verify npm authentication is configured
         env:
