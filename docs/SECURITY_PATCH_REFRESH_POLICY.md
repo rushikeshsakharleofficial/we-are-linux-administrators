@@ -4,7 +4,7 @@ This repository treats OS security patch guidance as time-sensitive.
 
 ## First-run behavior
 
-At the start of a Claude Code, Codex, or similar coding-agent session, load this file plus `CLAUDE.md` and `AGENTS.md` when present. Treat them as persistent project context for skill maintenance.
+At the start of any supported coding-agent session, load this file plus `AGENTS.md` when present. Then load only the current agent's thin adapter when applicable—for example, `CLAUDE.md` in Claude Code. Do not require one vendor's adapter inside a different agent. Treat these files as persistent project context for skill maintenance.
 
 ## Rule for OS-specific skills
 
