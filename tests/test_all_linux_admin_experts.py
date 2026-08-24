@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DISTINCT_SKILLS = [
     'backup-restore-expert', 'selinux-expert', 'apparmor-expert',
     'ssh-hardening-expert', 'multipath-expert', 'process-expert',
-    'load-average-expert', 'io-wait-expert', 'nginx-expert', 'apache-expert',
+    'nginx-expert', 'apache-expert',
     'php-fpm-expert', 'mysql-expert', 'postgresql-expert', 'redis-expert',
     'kubernetes-node-expert', 'ansible-expert', 'incident-response-expert',
     'f5-expert', 'cloud-lb-expert', 'lvs-ipvs-expert', 'keepalived-expert',
@@ -64,6 +64,16 @@ def main():
             assert path.exists(), f'missing chunk: {parent}/{chunk}'
             text = path.read_text()
             assert len(text.strip()) > 100, f'chunk too small: {parent}/{chunk}'
+
+    performance_text = (ROOT / 'skills' / 'performance' / 'SKILL.md').read_text().lower()
+    assert 'high load' in performance_text, 'performance parent must own load diagnosis'
+    assert 'blocked `d` tasks' in performance_text or 'storage latency' in performance_text, (
+        'performance parent must route proven I/O-wait/storage-latency symptoms'
+    )
+    for removed in ('load-average-expert', 'io-wait-expert'):
+        assert not (ROOT / 'skills' / removed / 'SKILL.md').exists(), (
+            f'obsolete performance micro-skill restored: {removed}'
+        )
 
     for removed in load_removed_top_level():
         assert not (ROOT / 'skills' / removed / 'SKILL.md').exists(), f'redundant top-level skill restored: {removed}'
