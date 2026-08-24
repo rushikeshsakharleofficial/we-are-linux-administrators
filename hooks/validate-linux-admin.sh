@@ -90,6 +90,12 @@ for local_path in .agent/CONTEXT.md .agent/STATUS.md .claude/state/bash-command-
 done
 find . -maxdepth 1 -type f \( -name 'AGENTS.md.bak.*' -o -name 'CLAUDE.md.bak.*' \) -print | grep -q . && err "stale agent instruction backup files are tracked" || true
 
+# Canonical skills/chunks are cross-agent procedures. Keep Claude-only path
+# variables out of the portable skill tree so local/pre-commit validation
+# catches the same regression covered by tests/test_portable_skill_paths.py.
+portable_skill_path_hits=$(grep -RInF '${CLAUDE_SKILL_DIR}' skills --include='*.md' 2>/dev/null || true)
+[ -z "$portable_skill_path_hits" ] || err "Claude-only path variable found in canonical skills/chunks; use repository-relative paths instead:\n$portable_skill_path_hits"
+
 if [ -f tests/retired_top_level_skills.txt ]; then
   while IFS= read -r retired_skill; do
     retired_skill=${retired_skill%%#*}
