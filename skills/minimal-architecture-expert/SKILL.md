@@ -12,6 +12,10 @@ Use this skill when the user asks for the smallest, cheapest, or simplest Linux/
 
 This skill is not a generic architecture brainstorming skill. Its purpose is to right-size the design, avoid unnecessary components, and still catch the scenarios that usually break "minimal" systems in production.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded facts before proposing architecture, verify the real availability/RTO/RPO/security/compliance requirements, avoid both over- and under-implementation, preserve a realistic recovery path, define rollback or cutover reversal before consequential changes, and validate the smallest design against failure scenarios rather than only the happy path.
+
 ## Core goal
 
 Find the minimum viable production architecture that satisfies the real requirement.
@@ -189,10 +193,10 @@ Next scale trigger:
 Route detailed implementation to:
 
 - web serving: `web-stack-security-expert`, `nginx-expert`, `apache-expert`
-- load balancing: `load-balancer-expert`, `haproxy-expert`, `cloud-lb-expert`, `keepalived-expert`, `lvs-ipvs-expert`
+- load balancing: `load-balancer-expert` (HAProxy -> `chunks/haproxy.md` when proven), `cloud-lb-expert`, `keepalived-expert`, `lvs-ipvs-expert`
 - database: `mysql-expert`, `postgresql-expert`, `redis-expert`
-- performance: `optimization-guardian-expert`, `capacity-planning-expert`, `performance`
-- security: `security-expert`, `os-security-expert`, `firewall-expert`
+- performance: `optimization-guardian-expert`, `performance` (capacity planning -> `chunks/capacity-planning.md`)
+- security: `security-expert`, `firewall-expert`; use `auth`, `ssh-hardening-expert`, SELinux/AppArmor, or `sysctl-expert` only when that control plane is actually involved
 - migration/cutover: `migration-expert`, `change-safety-expert`
 
 ## Final guardrail
