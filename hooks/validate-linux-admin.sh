@@ -96,13 +96,33 @@ find . -maxdepth 1 -type f \( -name 'AGENTS.md.bak.*' -o -name 'CLAUDE.md.bak.*'
 portable_skill_path_hits=$(grep -RInF '${CLAUDE_SKILL_DIR}' skills --include='*.md' 2>/dev/null || true)
 [ -z "$portable_skill_path_hits" ] || err "Claude-only path variable found in canonical skills/chunks; use repository-relative paths instead:\n$portable_skill_path_hits"
 
+# Retired names are intentionally present in negative regression tests and
+# historical design notes. Scan only canonical user-facing routing/install
+# surfaces for dead *canonical paths*; tests separately guard that retired
+# top-level skills are not restored and that replacement routes are correct.
+canonical_ref_files=(
+  README.md RELEASE.md AGENTS.md CLAUDE.md opencode.json .aider.conf.yml
+  docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md
+  docs/LOCAL_GLOBAL_AGENT_SETUP.md docs/SECURITY_PATCH_REFRESH_POLICY.md
+  docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md docs/USAGE.md
+  skills/using-linux-admin/SKILL.md skills/diagnose/SKILL.md
+  site/assets/data/latest-update.json site/assets/js/main.js
+)
 if [ -f tests/retired_top_level_skills.txt ]; then
   while IFS= read -r retired_skill; do
     retired_skill=${retired_skill%%#*}
     retired_skill=$(printf '%s' "$retired_skill" | xargs)
     [ -n "$retired_skill" ] || continue
     [ ! -e "skills/$retired_skill/SKILL.md" ] || err "retired top-level skill restored: $retired_skill"
-    stale_refs=$(grep -RIlF "skills/$retired_skill/SKILL.md" . --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv 2>/dev/null || true)
+    stale_refs=""
+    for canonical_file in "${canonical_ref_files[@]}"; do
+      [ -f "$canonical_file" ] || continue
+      grep -IlF "skills/$retired_skill/SKILL.md" "$canonical_file" 2>/dev/null || true
+    done | while IFS= read -r hit; do
+      [ -n "$hit" ] && printf '%s\n' "$hit"
+    done > /tmp/linux-admin-stale-refs.$$
+    stale_refs=$(cat /tmp/linux-admin-stale-refs.$$ 2>/dev/null || true)
+    rm -f /tmp/linux-admin-stale-refs.$$
     [ -z "$stale_refs" ] || err "stale canonical path for retired skill $retired_skill referenced by: $(printf '%s' "$stale_refs" | tr '\n' ' ')"
   done < tests/retired_top_level_skills.txt
 fi
