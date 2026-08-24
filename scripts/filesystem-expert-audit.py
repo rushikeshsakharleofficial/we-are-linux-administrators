@@ -26,8 +26,11 @@ def read(path):
 def main():
     data={
         "read_only": True,
-        "parent": "storage",
+        "legacy_command": True,
+        "parent_skill": "storage",
         "chunk": "chunks/filesystem-health.md",
+        # Older field names remain as aliases for existing consumers.
+        "parent": "storage",
         "compatibility_command": "filesystem-expert-audit",
         "host": platform.node(),
         "kernel": platform.release(),
