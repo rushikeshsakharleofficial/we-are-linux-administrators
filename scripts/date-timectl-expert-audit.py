@@ -26,8 +26,11 @@ def read(path):
 def main():
     data={
         "read_only": True,
-        "parent": "time",
+        "legacy_command": True,
+        "parent_skill": "time",
         "chunk": "chunks/system-clock.md",
+        # Older field names remain as aliases for existing consumers.
+        "parent": "time",
         "compatibility_command": "date-timectl-expert-audit",
         "host": platform.node(),
         "kernel": platform.release(),
