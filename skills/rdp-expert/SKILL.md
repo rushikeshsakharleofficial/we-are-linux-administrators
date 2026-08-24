@@ -12,6 +12,10 @@ Use this skill for Linux Remote Desktop Protocol setups, especially `xrdp`, `xrd
 
 Use this skill when the issue involves RDP login failures, black screen after login, disconnected sessions, desktop session selection, Wayland/Xorg mismatch, PAM authentication, Polkit prompts, clipboard, drive redirection, sound redirection, TLS/certificate issues, firewall rules, installer remote graphical access, or multiple users sharing the same server.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence, verify the exact RDP stack and remote-access path, preserve working configuration and recovery access before consequential changes, define rollback before service/session/firewall/auth changes, use guarded rollback when a change could lock out remote users, validate from a separate client/session where practical, and keep logs/config output bounded.
+
 ## Safety boundary
 
 Default to read-only checks. Do not restart `xrdp`, `xrdp-sesman`, `gnome-remote-desktop`, display managers, or desktop services until active users and rollback impact are known. Do not disable firewall, SELinux, AppArmor, PAM, or Polkit globally to make RDP work. Prefer narrow fixes and preserve original config files before editing.
@@ -31,7 +35,7 @@ Rocky Linux 10 is not the same as Rocky 9 for remote desktop troubleshooting:
 
 Decision rule: on Rocky Linux 10 GNOME systems, check `gnome-remote-desktop` first for supported RDP workflows. Use XRDP only when the user explicitly installed it or requires non-GNOME/XRDP behavior, and verify whether an Xorg backend is actually available before giving old `xorgxrdp` fixes.
 
-Rocky Linux 10 reference file: `${CLAUDE_SKILL_DIR}/../../docs/skill-improvement/rocky-linux-10-notes.md`
+Rocky Linux 10 reference file: `../../docs/skill-improvement/rocky-linux-10-notes.md`
 
 ## Object model
 
