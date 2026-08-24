@@ -16,7 +16,9 @@ Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Keep discovery read-o
 
 ## MCP rule
 
-When a Cloudflare MCP server is available, prefer MCP read-only discovery before API changes. Use least-privilege OAuth/API token scopes. Every change must include current-state export, desired-state diff, validation, and rollback.
+When a Cloudflare MCP server is available, prefer MCP read-only discovery before API changes. Cloudflare's managed MCP servers use the `/mcp` Streamable HTTP endpoint for new connections and support the MCP 2026-07-28 specification; historical `/sse` URLs are compatibility aliases and should not be used to force the deprecated HTTP+SSE transport.
+
+Prefer OAuth for interactive use and grant only the permissions required for the task. Cloudflare's API MCP authorization now supports optional OAuth scopes: review the consent screen and deselect unnecessary optional scopes. For CI/CD or unattended automation, use a narrowly scoped Cloudflare API token only when the client supports bearer-token configuration. Every change must include current-state export, desired-state diff, validation, and rollback.
 
 Recommended MCP config pattern:
 
@@ -29,6 +31,8 @@ Recommended MCP config pattern:
   }
 }
 ```
+
+Do not put Cloudflare API tokens, Access service-token secrets, or other credentials directly into committed MCP configuration.
 
 ## Core rules
 
@@ -57,12 +61,13 @@ curl -I https://example.com
 
 ```text
 1. Search/list zone.
-2. Export DNS records and rulesets.
-3. Build desired-state diff.
-4. Identify risky settings: proxy, SSL, WAF, redirects, rate limits, cache, DNSSEC.
-5. Apply one small change.
-6. Validate DNS, HTTP headers, TLS, origin, logs/events.
-7. Roll back if validation fails.
+2. Confirm MCP endpoint/transport and granted OAuth/token scopes.
+3. Export DNS records and rulesets.
+4. Build desired-state diff.
+5. Identify risky settings: proxy, SSL, WAF, redirects, rate limits, cache, DNSSEC.
+6. Apply one small change.
+7. Validate DNS, HTTP headers, TLS, origin, logs/events.
+8. Roll back if validation fails.
 ```
 
 ## Output format
@@ -70,6 +75,7 @@ curl -I https://example.com
 ```text
 Cloudflare zone/account:
 Current state:
+MCP transport/auth scope:
 Proposed change:
 MCP/API operation:
 Risk:
