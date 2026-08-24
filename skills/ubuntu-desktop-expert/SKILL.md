@@ -18,7 +18,7 @@ Interpret common spelling variants:
 
 ## Mandatory contract
 
-Follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every answer, plan, and change:
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every answer, plan, and change:
 
 1. Security checks and facts before apply.
 2. Rollback plan.
@@ -29,19 +29,23 @@ Follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` fo
 7. Guarded rollback/recovery plan for failed changes, especially network failure, SSH/RDP loss, display-manager restart, failed login, or broken graphics sessions.
 8. Token-optimized execution with bounded outputs.
 
+## First-run context
+
+On first run in a supported coding agent, load repo root `AGENTS.md` and `docs/SECURITY_PATCH_REFRESH_POLICY.md` when present, then load only the active agent's thin adapter where applicable (for example `CLAUDE.md` in Claude Code).
+
 ## Chunked reference model
 
 Keep this main file small. Load only the chunk matching the user's issue:
 
 | Category | Chunk |
 |---|---|
-| Release lifecycle, upgrades, support, Ubuntu Pro | `${CLAUDE_SKILL_DIR}/chunks/release-lifecycle.md` |
-| GNOME/KDE/Xfce/MATE/Cinnamon/LXQt/Budgie/UKUI/Unity/Studio | `${CLAUDE_SKILL_DIR}/chunks/desktop-environments.md` |
-| Wayland, Xorg, Xwayland, display managers, login issues | `${CLAUDE_SKILL_DIR}/chunks/display-stack.md` |
-| Kernels, HWE/OEM/GA, graphics, firmware, laptop hardware | `${CLAUDE_SKILL_DIR}/chunks/kernel-drivers-hardware.md` |
-| UI customization, extensions, plugins, apps, package sources | `${CLAUDE_SKILL_DIR}/chunks/ui-extensions-apps.md` |
-| Security, AppArmor, Secure Boot, encryption, updates | `${CLAUDE_SKILL_DIR}/chunks/security-updates.md` |
-| Evidence commands, backup, rollback, validation | `${CLAUDE_SKILL_DIR}/chunks/diagnostics-rollback.md` |
+| Release lifecycle, upgrades, support, Ubuntu Pro | `chunks/release-lifecycle.md` |
+| GNOME/KDE/Xfce/MATE/Cinnamon/LXQt/Budgie/UKUI/Unity/Studio | `chunks/desktop-environments.md` |
+| Wayland, Xorg, Xwayland, display managers, login issues | `chunks/display-stack.md` |
+| Kernels, HWE/OEM/GA, graphics, firmware, laptop hardware | `chunks/kernel-drivers-hardware.md` |
+| UI customization, extensions, plugins, apps, package sources | `chunks/ui-extensions-apps.md` |
+| Security, AppArmor, Secure Boot, encryption, updates | `chunks/security-updates.md` |
+| Evidence commands, backup, rollback, validation | `chunks/diagnostics-rollback.md` |
 
 ## Source refresh rule
 
