@@ -11,11 +11,11 @@ Use this plugin skill for: $ARGUMENTS
 
 Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Supporting docs are available under `../../docs/` relative to this skill.
 
 ## Universal Skill Execution Contract
 
-Follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and bounded output.
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for security facts before changes, rollback planning, architecture fit, backup/disaster planning, guarded recovery, validation, and bounded output.
 
 # Task: Boot Failures, Emergency Mode, initramfs, fstab, GRUB
 
