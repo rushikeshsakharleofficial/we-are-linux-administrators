@@ -12,6 +12,10 @@ Use this skill whenever a user asks to apply, review, generate, or trust AI-sugg
 
 This skill exists to prevent unreviewed AI code from weakening Linux security, stability, or maintainability.
 
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Start with bounded read-only evidence, verify the exact OS/kernel/package ownership and supported configuration path, protect boot and remote recovery access, define rollback before any consequential change, use isolated lab/canary validation for source or module work, and do not treat an unreviewed source patch as a normal administration fix.
+
 ## Hard rule
 
 Do not modify Linux kernel source or core operating system source code as a quick fix.
@@ -137,9 +141,9 @@ Escalation required:
 ## Specialist routing
 
 - kernel behavior: `kernel`, `sysctl-expert`
-- security posture: `security-expert`, `os-security-expert`
-- auth stack: `pam-expert`, `ssh-hardening-expert`, `sudoers-expert`, `sssd-ldap-expert`
-- firewall/network: `firewall-expert`, `network`, `routing-expert`
+- security posture: `security-expert`; use `selinux-expert` or `apparmor-expert` only when that MAC control plane is the proven issue
+- auth stack: `auth` for local accounts/PAM/SSSD-LDAP/sudo; `ssh-hardening-expert` for SSH policy and remote-access hardening
+- firewall/network: `firewall-expert`; use `network` for connectivity and its routing/iproute2 chunk when route semantics are the proven issue
 - services: `systemd-expert`, `service`
 - AI verification: `agent-model-dispatcher-expert`, `change-safety-expert`
 
