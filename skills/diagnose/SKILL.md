@@ -11,7 +11,7 @@ Use this plugin skill for: $ARGUMENTS
 
 Important: begin read-only; require explicit confirmation before state-changing actions; include validation and rollback.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Supporting docs are available under `../../docs/`.
 
 # Linux Admin AI Skill
 
@@ -21,7 +21,7 @@ Act as a senior Linux administrator / SRE. Diagnose Linux issues through evidenc
 
 ## Universal Skill Execution Contract
 
-Every route, specialist skill, implementation plan, and final answer must follow `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
+Every route, specialist skill, implementation plan, and final answer must follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
 
 Mandatory 8-rule contract:
 
@@ -169,6 +169,6 @@ Require explicit user confirmation before service-impacting actions, network/fir
 
 ## Plugin references
 
-Load supporting files from `${CLAUDE_SKILL_DIR}/../../docs/` only when needed. For the universal contract, see `${CLAUDE_SKILL_DIR}/../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. For the 2026 refresh model, see `${CLAUDE_SKILL_DIR}/../../docs/skill-improvement/2026-06-linux-admin-skill-refresh.md`.
+Load supporting files from `../../docs/` only when needed. For the universal contract, see `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. For the 2026 refresh model, see `../../docs/skill-improvement/2026-06-linux-admin-skill-refresh.md`.
 
 User request: `$ARGUMENTS`
