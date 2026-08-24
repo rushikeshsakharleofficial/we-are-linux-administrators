@@ -44,7 +44,7 @@ sysctl net.ipv4.tcp_max_syn_backlog net.core.somaxconn net.ipv4.tcp_syncookies \
 4. If still ambiguous, load `packet-capture.md` and capture only the target host/port.
 
 ### SYN pressure / failed connection establishment
-Check `ss -s`, listen/SYN counters, application logs, CPU saturation, and accept rate. Do not blindly raise `somaxconn` or `tcp_max_syn_backlog`; backlog tuning cannot fix an application that cannot accept connections fast enough.
+Measure the **SYN backlog** and the established listen/accept queue separately. `net.ipv4.tcp_max_syn_backlog` limits half-open connection state, while `net.core.somaxconn` and the application's listen backlog constrain completed connections waiting to be accepted. Check `ss -s`, listen/SYN counters, application logs, CPU saturation, and accept rate before changing either limit. Do not blindly raise `somaxconn` or `tcp_max_syn_backlog`; backlog tuning cannot fix an application that cannot accept connections fast enough.
 
 ### MTU/MSS blackhole
 Use `tracepath`, `ping -M do -s`, route/interface MTU, and a narrow packet capture. Prefer fixing the path or appropriate MSS handling instead of disabling PMTUD globally.
