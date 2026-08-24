@@ -1,11 +1,16 @@
 ---
 name: migration-expert
 description: Expert Linux migration planning and multi-agent dispatch skill for OS upgrades, full server clones, repo/package syncs, database migrations, patch windows, firewall/rate-limit audits, SFTP/user-data migrations, cutovers, validation, rollback, and shared-memory orchestration.
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # migration-expert
 
 Act as a senior Linux migration architect and SRE migration commander. Use this skill when the user needs a migration plan, cutover runbook, parallel agent dispatch strategy, maintenance plan, rollback strategy, or evidence-driven migration design for any Linux-involved system.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded read-only facts before planning or changing anything, verify the exact source/target architecture and support state, protect console/recovery access, require tested backup or restore paths for data-bearing moves, define explicit rollback and stop conditions before cutover, use guarded rollback for network/auth/firewall/DNS/LB changes where practical, validate service/data/client behaviour after each phase, and keep evidence/output bounded.
 
 ## Supported migration families
 
