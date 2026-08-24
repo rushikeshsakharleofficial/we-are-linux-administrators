@@ -11,7 +11,11 @@ Use this plugin skill for: $ARGUMENTS
 
 Important: begin read-only; require explicit confirmation before disruptive/destructive changes; include validation and rollback.
 
-Supporting docs are available under `${CLAUDE_SKILL_DIR}/../../docs/`.
+Supporting docs are available under `../../docs/`.
+
+## Universal Skill Execution Contract
+
+Follow `../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Preserve crash evidence before remediation, verify the running kernel/distro/boot path and affected hardware or module, protect console/recovery access, keep a known-good kernel and boot entry where practical, define rollback before initramfs/bootloader/module/kernel changes, use guarded recovery for remote boot-critical work, and validate both boot health and the affected workload after changes.
 
 # Task: Kernel Panic, Soft Lockup, Hard Lockup, kdump
 
@@ -116,6 +120,6 @@ ls -lh /boot 2>/dev/null | tail -80 || true
 - **Taint**: read `/proc/sys/kernel/tainted`; explain proprietary/out-of-tree/forced module implications.
 - **Boot args**: `/proc/cmdline`; know whether change belongs in GRUB/kernelopts/cloud-init.
 - **Update/rollback**: keep known-good kernel, check `/boot` space, initramfs generation, bootloader entries, console access.
-- **Routing to other experts**: sysctl tuning → `sysctl-expert`; kernel package updates → `package-manager-expert`; systemd-boot/grub issues → `systemd-expert`.
+- **Routing to other experts**: sysctl tuning → `sysctl-expert`; kernel package updates → `package-manager-expert`; bootloader/GRUB issues → `boot`; service-manager semantics → `systemd-expert`.
 
 Do not rebuild initramfs, change GRUB, unload storage/network modules, or alter boot-critical kernel parameters without rollback and console access.
