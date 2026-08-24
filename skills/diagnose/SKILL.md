@@ -48,7 +48,7 @@ Use this sequence for every Linux issue:
 1. Classify issue class.
 2. Load and apply the Universal Skill Execution Contract.
 3. If optimization/tuning is involved, load optimization-guardian-expert first.
-4. Load the relevant task file from tasks/ or route to a specialist skill.
+4. Load the relevant task file from tasks/ or route to a current parent/specialist.
 5. Detect environment using distro/version, kernel, init, package manager, security module, firewall controller, virtualization/cloud/container context, and access risk.
 6. Generate a read-only diagnostic command set with bounded output.
 7. Explain expected signals and branch decisions.
@@ -73,30 +73,41 @@ printf '== virtualization ==\n'; systemd-detect-virt 2>/dev/null || true
 
 ## Task router
 
-| User symptom | Load these files / route to skill |
+This table must stay aligned with `../using-linux-admin/SKILL.md`. Route to a current parent/specialist first; let a parent select its matching chunk after bounded evidence.
+
+| User symptom | Route |
 |---|---|
-| Optimization, tuning, boost, speed up, sysctl changes, kernel/network/database/web tuning, workers, buffers, queues, limits, capacity changes | `/linux-admin:optimization-guardian-expert` first, then route to the relevant specialist |
-| Boot failure, emergency mode, initramfs, fstab, GRUB, root disk missing | `tasks/boot-failures.md`, `/linux-admin:boot`, `/linux-admin:kernel-expert` |
-| Service failed, restart loop, unit dependency, daemon crash, timers, sockets, cgroups | `tasks/systemd-services.md`, `/linux-admin:service`, `/linux-admin:systemd-expert` |
-| No connectivity, DNS fail, firewall, routing, interface issue | `tasks/networking-dns-firewall.md`, `/linux-admin:network`, `/linux-admin:networking-expert`, `/linux-admin:firewall-expert` |
-| nftables/firewalld/iptables/NAT/forwarding | `/linux-admin:firewall-expert`, `/linux-admin:natting-expert`, `/linux-admin:networking-expert` |
-| TCP/UDP packet behavior, retransmits, drops, MTU, conntrack | `/linux-admin:tcp-expert`, `/linux-admin:udp-expert`, `/linux-admin:tcpdump-expert` |
-| High CPU, load, memory, OOM, slow host, latency, PSI/cgroup pressure | `tasks/performance-cpu-memory.md`, `/linux-admin:performance`, `/linux-admin:memory-expert`, `/linux-admin:cpu-expert`, `/linux-admin:io-wait-expert` |
-| Disk full, inode full, I/O errors, LVM, RAID, SMART, filesystem | `tasks/storage-filesystems-lvm-raid.md`, `/linux-admin:storage`, `/linux-admin:filesystem-expert`, `/linux-admin:lvm-expert`, `/linux-admin:raid-expert` |
-| Permission denied, ACL, sudo, SELinux, AppArmor | `tasks/permissions-selinux-apparmor.md`, `/linux-admin:permissions`, `/linux-admin:selinux-expert`, `/linux-admin:apparmor-expert` |
-| Broken update, package conflict, repo issue, rollback | `tasks/packages-updates.md`, `/linux-admin:packages`, `/linux-admin:package-manager-expert`, `/linux-admin:patching-expert` |
-| Kernel panic, soft/hard lockup, kdump, driver issue, vendor/LTS kernel planning | `tasks/kernel-panic-lockup.md`, `/linux-admin:kernel`, `/linux-admin:kernel-expert` |
-| Docker/Podman/container crash, rootless, mounts, networking, cgroups | `tasks/containers-docker-podman.md`, `/linux-admin:containers`, `/linux-admin:docker-expert` |
-| Podman Quadlet/systemd container unit | `/linux-admin:docker-expert` plus `/linux-admin:systemd-expert` |
-| Kubernetes node health, kubelet, CNI, version skew, node pressure | `/linux-admin:kubernetes-node-expert`, `/linux-admin:containers`, `/linux-admin:networking-expert` |
-| SSH/login/user/group/sudo/PAM/LDAP/SSSD issues | `tasks/users-auth-sudo-ssh.md`, `/linux-admin:auth`, `/linux-admin:ssh-hardening-expert`, `/linux-admin:pam-expert`, `/linux-admin:sssd-ldap-expert` |
-| RDP/XRDP, GNOME/KDE/XFCE black screen, remote desktop, Wayland/Xorg | `/linux-admin:rdp-expert` |
-| Nagios Core checks, plugins, NRPE/NCPA/passive checks, notifications, object configs | `/linux-admin:nagios-core-expert` |
-| Observium CE SNMP, device discovery, poller, RRD, graphs, cron, MySQL/PHP | `/linux-admin:observium-ce-expert` |
-| Log analysis, journald, rsyslog, monitoring, alert investigation | `tasks/logging-monitoring.md`, `/linux-admin:logs`, `/linux-admin:rsyslog-expert`, `/linux-admin:incident-timeline-expert` |
-| Load balancer, HAProxy, NGINX proxy, F5, LVS/IPVS, keepalived, GSLB, cloud LB | `/linux-admin:load-balancer-expert` then specialist |
-| Security audit, hardening, scoring, exposed server review | `/linux-admin:security-expert`, `/linux-admin:os-security-expert` |
-| Need scripts, Ansible, repeatable checks, fleet triage | `tasks/automation-ansible-scripts.md`, `/linux-admin:automation`, `/linux-admin:ansible-expert`, `/linux-admin:bash-script-expert` |
+| Optimization, tuning, boost, speed up, sysctl changes, kernel/network/database/web tuning, workers, buffers, queues, limits, capacity changes | `optimization-guardian-expert` first, then the proven domain |
+| Boot failure, emergency mode, initramfs, GRUB, root disk missing | `boot`; add `storage` only when evidence proves a storage/mount cause |
+| Service failed, restart loop, unit dependency, daemon crash, timers, sockets, cgroups | `service` or `systemd-expert` when systemd semantics are the condition |
+| No connectivity, routing, interface, TCP/UDP, packet flow | `network` -> matching TCP/UDP/packet-capture/VLAN/routing chunk |
+| NAT/conntrack/SNAT/DNAT/masquerade | `network` -> `chunks/nat-conntrack.md`; use `firewall-expert` only when packet-filter policy is also involved |
+| Firewall/firewalld/nftables/iptables/UFW rule issue | `firewall-expert` |
+| High CPU, load, memory, OOM, swap, slow host, latency, PSI/cgroup pressure | `performance` -> matching CPU/memory/swap/capacity chunk; `limits-expert` only for resource ceilings |
+| Disk full, inode full, I/O errors, mount/fstab, filesystem, SMART, quota, LVM, RAID, iSCSI, NFS, Samba | `storage` -> one matching chunk |
+| Multipath/WWID/ALUA path issue | `multipath-expert` |
+| Backup/restore workflow | `backup-restore-expert` |
+| File ownership/mode/ACL | `permissions` -> POSIX or ACL chunk |
+| Local account/PAM/LDAP/SSSD/sudo | `auth` -> matching chunk |
+| SSH hardening/login transport issue | `ssh-hardening-expert`; add `auth` only when PAM/account/SSSD/sudo is proven |
+| SELinux/AppArmor denial or policy | matching `selinux-expert` or `apparmor-expert` |
+| Broken package/repository/transaction | `package-manager-expert` |
+| Planned OS/security patch rollout or kernel maintenance | `package-manager-expert` -> `chunks/patching.md` |
+| Release upgrade/cutover | `migration-expert` + relevant domain + `change-safety-expert` |
+| Kernel panic, lockup, driver/runtime kernel issue | `kernel`; use `sysctl-expert` for runtime sysctl tuning |
+| Docker/Podman/container issue | `containers`; add `systemd-expert` only for systemd/Quadlet semantics |
+| Kubernetes node health, kubelet, CNI, version skew, node pressure | `kubernetes-node-expert`; add `network`/`containers` only when evidence proves that layer |
+| RDP/XRDP desktop issue | `rdp-expert` |
+| Nagios Core | `nagios-core-expert` |
+| Observium CE | `observium-ce-expert` |
+| journald/rsyslog/logrotate | `logs` -> matching parent flow/chunk |
+| Active incident, containment, timeline, RCA | `incident-response-expert`; post-containment RCA uses its RCA chunk |
+| Formal incident report/artifact | `incident-report-creator-expert` |
+| HAProxy | `load-balancer-expert` -> `chunks/haproxy.md` |
+| F5/cloud LB/LVS-IPVS/keepalived/NGINX proxy/DNS-GSLB | matching distinct specialist |
+| Broad security audit, auditd, Fail2Ban, vulnerability/CVE triage | `security-expert` -> matching chunk |
+| Bash/POSIX script or operational runbook | `automation` -> matching chunk |
+| Ansible workflow | `ansible-expert` |
 
 ## Default first response format
 
