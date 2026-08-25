@@ -6,7 +6,7 @@
 - Plugin metadata version: `1.18.19`
 - Skill count: `65`
 - Package name: `linux-admin`
-- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-17; `v1.18.19` is repository metadata only until separately published.
+- Latest published GitHub Release: `v1.17.74` as verified on 2026-08-25; `v1.18.19` is repository metadata only until separately published.
 - npm registry publication: not currently verified; use GitHub source installation until publication succeeds.
 
 ## Architecture
