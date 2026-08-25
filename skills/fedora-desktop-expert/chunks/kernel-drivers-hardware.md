@@ -2,6 +2,10 @@
 
 Use for Fedora kernel updates, graphics drivers, Mesa, firmware, Wi-Fi, Bluetooth, printing, audio, suspend/resume, docking, and laptop hardware behavior.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded hardware and kernel evidence first, verify the Fedora release and driver/package source, keep a known-good kernel or deployment available, preserve relevant configuration, and define the rollback path before changing drivers, firmware, kernel packages, graphics stacks, or hardware-enablement settings. Validate boot, graphics, network/audio devices, suspend/resume, and the original workload after the change.
+
 ## Evidence
 
 ```bash
