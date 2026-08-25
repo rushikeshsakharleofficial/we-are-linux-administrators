@@ -2,6 +2,10 @@
 
 Use for Wayland, Xorg/X11, Xwayland, display managers, login loops, black screens, greeter issues, scaling, multi-monitor behavior, and compositor/session problems.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Identify the active session, display manager, compositor, GPU/driver path, and whether the operator has a working TTY/SSH/recovery session before changing the graphical stack. Back up relevant display-manager/session configuration, define rollback before switching Wayland/Xorg or restarting the display manager, and validate a fresh login plus the affected monitors/apps before closing the working recovery path.
+
 ## Components
 
 - Display managers: GDM, SDDM, LightDM where installed.
