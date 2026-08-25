@@ -137,14 +137,18 @@ fi
 if command -v npm >/dev/null 2>&1; then
   pack_json=$(npm pack --dry-run --json 2>/dev/null || true)
   [ -n "$pack_json" ] || err "npm pack --dry-run --json returned no package manifest"
+  # Avoid `printf ... | grep -q` here: with `pipefail`, grep can exit as soon
+  # as it finds a match, causing printf to receive SIGPIPE and making a valid
+  # package entry look missing. A here-string keeps the membership check
+  # deterministic for large npm manifests.
   for packaged_file in AGENTS.md CLAUDE.md opencode.json .aider.conf.yml bin/linux-admin-install.js \
     docs/AI_TOOL_SUPPORT.md docs/CODEX_USAGE.md docs/EXPERT_MODULE_INDEX.md \
     docs/LOCAL_GLOBAL_AGENT_SETUP.md docs/SECURITY_PATCH_REFRESH_POLICY.md \
     docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md; do
-    printf '%s' "$pack_json" | grep -Fq "$packaged_file" || err "npm package omits required file: $packaged_file"
+    grep -Fq "$packaged_file" <<< "$pack_json" || err "npm package omits required file: $packaged_file"
   done
   while IFS= read -r procedure_file; do
-    printf '%s' "$pack_json" | grep -Fq "$procedure_file" || err "npm package omits canonical procedure: $procedure_file"
+    grep -Fq "$procedure_file" <<< "$pack_json" || err "npm package omits canonical procedure: $procedure_file"
   done < <(find skills -type f \( -name 'SKILL.md' -o -path '*/chunks/*.md' \) | sort)
 fi
 
