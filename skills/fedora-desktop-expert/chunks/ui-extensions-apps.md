@@ -2,6 +2,10 @@
 
 Use for GNOME Shell extensions, KDE Plasma widgets, themes, icons, fonts, default applications, Flatpak apps, RPM packages, third-party repositories, autostart entries, MIME handlers, and accessibility.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Capture the current desktop/session and enabled extension/widget/application state before changing it, prefer trusted Fedora/Flathub/upstream sources, avoid opaque install scripts, back up user configuration when a change is broad, make one reversible change at a time, and validate login, shell/compositor stability, affected applications, MIME/default-app behavior, and accessibility settings before keeping the change.
+
 ## Evidence
 
 ```bash
