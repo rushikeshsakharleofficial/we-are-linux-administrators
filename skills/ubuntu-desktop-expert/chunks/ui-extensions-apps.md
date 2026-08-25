@@ -2,6 +2,18 @@
 
 Use this chunk for themes, icons, cursors, GNOME Shell extensions, KDE widgets, Xfce panel plugins, Cinnamon spices, MATE/Budgie/LXQt applets, default apps, MIME handlers, autostart, Snap/Flatpak/AppImage/deb/PPAs, fonts, codecs, input methods, and accessibility.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every recommendation and change in this chunk.
+
+- Start with bounded read-only evidence: desktop/session version, active shell or panel, affected user, enabled extensions/plugins, package source, and whether the issue reproduces with a clean/test user.
+- Check architecture fit before adding another extension, widget, PPA, autostart entry, codec source, or packaging format. Prefer the desktop's built-in feature or Ubuntu repository when it meets the requirement with less maintenance and supply-chain risk.
+- Preserve current user configuration and extension/plugin state before edits. Do not delete broad `$HOME/.config`, dconf, shell, panel, or application state as a first-line reset.
+- Define rollback before enabling, removing, upgrading, or replacing extensions/plugins, desktop files, MIME defaults, autostart entries, PPAs, package sources, fonts, codecs, or accessibility settings. Keep an alternate TTY/session or test user available when a desktop-shell change could make the primary session unusable.
+- Apply one narrow change at a time. For shell/panel breakage, disable the suspected extension/plugin first rather than deleting it; for third-party package sources, remove or disable only the proven source and restore the previous package state where practical.
+- Validate from the affected desktop session after the change: login/session starts normally, panel/shell is stable, target application launches, MIME/default-app behaviour is correct, accessibility/input settings still work, and no new package-source or extension errors appear.
+- Keep secrets and personal desktop data out of output. Bound extension lists, desktop files, dconf excerpts, and package-source output to the minimum needed for the decision.
+
 ## Source trust rule
 
 - Prefer Ubuntu repositories and verified Snap publishers.
