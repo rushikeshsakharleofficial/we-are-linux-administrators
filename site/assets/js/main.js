@@ -12,14 +12,14 @@
     'risk-assessment-expert', 'rollback-expert',
     'tcp-expert', 'udp-expert', 'tcpdump-expert', 'vlan-bonding-expert',
     'iproute-expert', 'routing-expert', 'natting-expert',
-    'chrony-expert', 'date-timectl-expert',
+    'ntp-expert', 'chrony-expert', 'date-timectl-expert',
     'disk-mounting-expert', 'filesystem-expert', 'smart-disk-expert', 'quota-expert', 'lvm-expert', 'raid-expert', 'iscsi-expert', 'nfs-expert', 'samba-expert',
     'cpu-expert', 'memory-expert', 'swap-expert', 'capacity-planning-expert',
     'file-permissions-expert', 'acl-permissions-expert',
     'user-permissions-expert', 'pam-expert', 'sssd-ldap-expert', 'sudoers-expert',
     'rsyslog-expert', 'logrotate-expert', 'root-cause-expert',
-    'bash-script-expert', 'runbook-expert', 'auditd-expert', 'fail2ban-expert',
-    'os-security-expert', 'patching-expert', 'vulnerability-scan-expert',
+    'bashrc-expert', 'zshrc-expert', 'shell-script-expert', 'bash-script-expert', 'runbook-expert',
+    'auditd-expert', 'fail2ban-expert', 'os-security-expert', 'patching-expert', 'vulnerability-scan-expert',
     'haproxy-expert'
   ]);
 
