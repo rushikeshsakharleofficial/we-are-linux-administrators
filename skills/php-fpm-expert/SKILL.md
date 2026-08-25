@@ -1,6 +1,7 @@
 ---
 name: php-fpm-expert
 description: Diagnose and safely tune PHP-FPM pools, process manager modes, max children, slowlog and status endpoints, listen sockets, and NGINX FastCGI integration. Use for PHP 502/504 errors, max-children exhaustion, slow or stuck requests, pool sizing, socket permission problems, and PHP-FPM observability.
+allowed-tools: "Read Grep Glob Bash"
 ---
 
 # php-fpm-expert
