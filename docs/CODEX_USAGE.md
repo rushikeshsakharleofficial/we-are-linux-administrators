@@ -74,6 +74,14 @@ OpenAI currently documents plugins as installable workflow packages in the Plugi
 
 Use this mode only when `linux-admin` is actually published/available in the Plugin Directory or supplied through an approved workspace plugin source.
 
+#### Import this repository into a workspace from GitHub
+
+OpenAI currently supports GitHub-backed plugin marketplaces using either `.agents/plugins/marketplace.json` for a Codex-native marketplace or `.claude-plugin/marketplace.json` for a Claude-compatible marketplace. This repository already contains the supported `.claude-plugin/marketplace.json`, so a workspace admin can import the repository root without creating a second copy of the skill tree or a redundant Codex-only marketplace file.
+
+In a supported managed workspace, use **Workspace settings -> Plugins -> Add -> Import marketplace**, supply the repository URL `https://github.com/rushikeshsakharleofficial/we-are-linux-administrators`, leave **Path** empty for the repository root, and select the intended branch when needed. GitHub marketplace import uses repository content directly; it does not verify or depend on an npm registry publication.
+
+Marketplace sync imports plugin content only. It does not grant app permissions, authenticate provider accounts, or bypass workspace/source-system access controls. Review installation policy and any required app permissions after import.
+
 Do **not** assume a specific Codex CLI slash command such as `/plugins` unless the current Codex client itself exposes and documents that command. In supported Codex task views, OpenAI currently documents plugin selection through **Sources -> Use plugins**. OpenAI notes that Plugin Directory changes in Codex can take **up to six hours** to refresh; restart Codex or refresh plugin data before treating a newly published/updated listing as missing.
 
 After a plugin is available, verify:
