@@ -2,6 +2,10 @@
 
 Use for Fedora desktop patching, SELinux, dnf updates, rpm-ostree updates, Flatpak updates, browser updates, and current vulnerability-fix workflows.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Confirm the exact Fedora release and package/deployment model, enabled repositories, SELinux state, current bootable kernel/deployment, and recovery access before patching. Preserve relevant configuration and a known-good rollback target, define the restore or deployment rollback path before consequential updates, and validate boot, graphical login, package health, critical applications, and SELinux state after the change.
+
 ## Verify current sources
 
 Check Fedora Project advisories, Fedora package metadata, Fedora common issues, Fedora Docs, and upstream project advisories before recommending version-specific patch actions.
