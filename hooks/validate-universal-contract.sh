@@ -35,15 +35,17 @@ if [ -f skills/diagnose/SKILL.md ]; then
   grep -q 'Token-saving note' skills/diagnose/SKILL.md || warn "diagnose default output should include Token-saving note"
 fi
 
-# Every executable procedure surface must carry either a direct contract
-# reference or one of the contract's core safety/architecture markers. This
-# includes condition-specific chunks: they are packaged procedures and may be
-# loaded after the parent, so auditing only top-level SKILL.md files leaves a
-# real coverage blind spot. Keep the warning non-blocking while legacy files
-# are migrated, but print exact paths so the debt is actionable.
+# Every executable procedure surface must carry direct Universal Skill
+# Execution Contract coverage: either a reference to the canonical contract or
+# an explicit Universal Skill Execution Contract section/statement. Generic
+# words such as "validation" or "rollback" are normal procedure vocabulary and
+# must not be treated as proof of contract inheritance. Include chunks because
+# they are packaged procedures and may be loaded independently after routing.
+# Keep the warning non-blocking while remaining legacy files are migrated, but
+# print exact paths so the freshly measured debt stays actionable.
 missing_files=()
 while IFS= read -r procedure_file; do
-  if ! grep -Eq 'Universal Skill Execution Contract|UNIVERSAL_SKILL_EXECUTION_CONTRACT|Security/facts check|Backup/disaster plan|Architecture fit|Rollback|rollback|Validation|validation' "$procedure_file"; then
+  if ! grep -Eqi 'UNIVERSAL_SKILL_EXECUTION_CONTRACT(\.md)?|Universal Skill Execution Contract' "$procedure_file"; then
     missing_files+=("$procedure_file")
   fi
 done < <(find skills -type f \( -name SKILL.md -o -path '*/chunks/*.md' \) | sort)
