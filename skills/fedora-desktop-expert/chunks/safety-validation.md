@@ -2,6 +2,10 @@
 
 Use for all Fedora Desktop remediation plans.
 
+## Universal Skill Execution Contract
+
+This chunk directly inherits `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect facts before changes, protect recovery paths, define rollback or guarded rollback before consequential desktop changes, keep evidence bounded, and validate the workload and user session after remediation.
+
 ## Safety checklist
 
 - Identify Fedora release, desktop flavor, session type, package model, kernel, and third-party repos first.
