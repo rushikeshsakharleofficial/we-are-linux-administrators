@@ -2,6 +2,10 @@
 
 Use this chunk for desktop-safe hardening, AppArmor, Secure Boot, encryption, Ubuntu Pro, Livepatch, unattended upgrades, browser/app confinement, Snap permissions, firewall, remote desktop exposure, Bluetooth/Wi-Fi sharing, and update failures.
 
+## Universal execution contract
+
+This chunk directly inherits [`../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md). Collect bounded facts before changing security or update state, preserve the working access path and relevant configuration/package state, define rollback before consequential changes, use guarded rollback where firewall, encryption, Secure Boot, kernel, remote-access, or desktop changes could cut access, and validate both the security control and the original workload after remediation.
+
 ## Security principle
 
 Do not reduce security to fix convenience issues. Never suggest disabling AppArmor, Secure Boot, firewall, sandboxing, signature checks, or encryption without a bounded diagnostic reason and rollback.
