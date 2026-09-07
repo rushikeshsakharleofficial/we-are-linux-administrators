@@ -2,6 +2,15 @@
 
 Use this chunk for Ubuntu Desktop kernel selection, HWE/OEM/GA kernels, graphics drivers, firmware, Secure Boot/DKMS/MOK, laptops, docking, suspend/resume, audio hardware, Wi-Fi, Bluetooth, printers, webcams, and touchpad issues.
 
+## Universal Skill Execution Contract
+
+Directly inherit `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`.
+
+- Collect bounded facts first: Ubuntu release, active/installed kernels, hardware/GPU, driver/module state, Secure Boot/DKMS/MOK state, and current access/recovery path.
+- Preserve the known-good kernel and relevant package/config state before kernel, driver, firmware, Secure Boot, or module changes.
+- Define rollback before applying changes; use guarded recovery when a graphics, network, input, or boot-path change could remove local or remote access.
+- Change one layer at a time and validate boot, login/session health, affected hardware, security state, and the original workload before declaring success.
+
 ## Kernel rule
 
 Prefer Ubuntu archive kernels and vendor-supported OEM/HWE stacks. Do not recommend random mainline kernels unless the user explicitly needs a bounded hardware-enablement test and accepts rollback risk.
