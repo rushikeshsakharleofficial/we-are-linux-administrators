@@ -2,6 +2,10 @@
 
 Load this chunk only after the `time` parent identifies Chrony/NTP synchronisation as the failing layer.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Inherit its facts/security-first checks, architecture-fit review, recovery/backup planning, rollback or guarded rollback for consequential changes, bounded evidence/output, and post-change validation.
+
 ## Scope
 
 Use for `chronyd`/`chronyc`, NTP source selection and quality, offset/drift, stepping vs slewing, `makestep`, NTS, server mode, VM clock interaction, UDP/123 reachability, and conflicting time daemons.

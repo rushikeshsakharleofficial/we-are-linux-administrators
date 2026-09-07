@@ -2,6 +2,10 @@
 
 Load this chunk only after the `time` parent identifies local clock, timezone, RTC/hwclock, `timedatectl`, `systemd-timesyncd`, or application timestamp interpretation as the failing layer.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Inherit its facts/security-first checks, architecture-fit review, recovery/backup planning, rollback or guarded rollback for consequential changes, bounded evidence/output, and post-change validation.
+
 ## Mental model
 
 Keep these layers separate:
