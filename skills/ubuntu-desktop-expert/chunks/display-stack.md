@@ -2,6 +2,17 @@
 
 Use this chunk for Wayland, Xorg/X11, Xwayland, login loops, black screens, frozen greeter, scaling, multi-monitor issues, color profiles, display managers, compositors, and session selection.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md` for every recommendation and change in this chunk.
+
+- Start with bounded read-only evidence: active session type, display manager, compositor, installed sessions, affected user, relevant logs, and whether the issue is local or remote.
+- Preserve the working session choice and relevant display-manager/session configuration before edits. Do not swap display managers or disable Wayland/Xorg as a first-line diagnostic shortcut.
+- Define rollback before changing a display manager, compositor, session default, GPU/display setting, or user authority file. Keep a TTY, console, or proven SSH path available when a graphical restart could remove access.
+- Apply one narrow change at a time and use guarded rollback when remote access or the only usable graphical session could be lost.
+- Validate the original workload after remediation: greeter and user login succeed, the intended session starts, compositor/display behavior is stable, monitors/scaling behave as expected, and relevant logs show no new errors.
+- Keep evidence bounded and exclude unrelated user-session data or secrets from output.
+
 ## Components
 
 - Display managers: GDM/GDM3, SDDM, LightDM, LXDM.
