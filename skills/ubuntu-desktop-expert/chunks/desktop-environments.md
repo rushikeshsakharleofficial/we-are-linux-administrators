@@ -2,6 +2,10 @@
 
 Use this chunk for GNOME, KDE Plasma/Kubuntu, Xfce/Xubuntu, MATE, Cinnamon, LXQt/Lubuntu, Budgie, UKUI/Kylin, Unity, Ubuntu Studio, Edubuntu, and non-default installed desktop sessions.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Verify the Ubuntu release, active and installed sessions, display manager, GPU/driver state, package health, available recovery access, and the user's actual reason for changing desktops before applying anything. Preserve relevant desktop/display-manager configuration and user data, keep the known-working session available until the replacement is validated, define rollback before package or display-manager changes, and use guarded recovery when a change could remove local or remote graphical access. Validate both login/session health and the user's original workload after each narrow change.
+
 ## Official flavor map
 
 | Ubuntu family | Desktop focus | Typical session components |
