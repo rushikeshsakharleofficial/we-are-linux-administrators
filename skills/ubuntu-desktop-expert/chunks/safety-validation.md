@@ -2,6 +2,10 @@
 
 Use this chunk for safe evidence gathering, backup planning, change validation, and recovery notes for Ubuntu Desktop work.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Collect bounded facts before changes, preserve a working login or recovery path, back up only the configuration and data relevant to the planned change, define rollback before applying it, and use guarded recovery for display-manager, network, boot, kernel, driver, encryption, or remote-access changes that could lock out the operator. Validate the original workload and desktop login before closing the recovery path.
+
 ## Evidence checklist
 
 Collect only bounded facts:
