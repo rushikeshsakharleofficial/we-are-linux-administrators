@@ -4,6 +4,10 @@ Use this chunk for Ubuntu Desktop release support, LTS/interim selection, releas
 
 _Last refreshed: 2026-06-29._
 
+## Universal execution contract
+
+This chunk directly inherits [`../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`](../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md). Verify current release/support facts from official Ubuntu sources before version-specific advice, preserve user data and a known recovery path before lifecycle changes, treat release upgrades as restore-based rather than assuming an in-place rollback, use guarded recovery when remote or graphical access could be lost, and validate package health, boot/login access, security coverage, and the original desktop workload after remediation.
+
 ## Current official release facts
 
 As of this refresh, the official Ubuntu releases index lists these standard-support desktop/server releases:
