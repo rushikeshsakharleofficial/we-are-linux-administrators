@@ -2,6 +2,10 @@
 
 Use for Fedora Workstation, KDE Plasma Edition, Spins, Labs, and Atomic Desktops.
 
+## Universal Skill Execution Contract
+
+Follow `../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.md`. Verify the Fedora release, package/deployment model, active desktop/session, and current official Fedora flavor status before recommending a switch or install. Preserve a working login/recovery path, back up relevant user/session configuration before broad changes, make changes incrementally, and validate login, networking, display behavior, and the user's critical applications before removing the previous working desktop or deployment.
+
 ## Coverage
 
 - Workstation: GNOME-focused Fedora desktop.
