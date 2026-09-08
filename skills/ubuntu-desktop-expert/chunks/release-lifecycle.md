@@ -15,10 +15,11 @@ As of this refresh:
 - Latest Ubuntu LTS point release available from the official releases index: Ubuntu 26.04.1 LTS (Resolute Raccoon).
 - Previous LTS releases still in standard support include Ubuntu 24.04 LTS and Ubuntu 22.04 LTS.
 - Ubuntu 20.04 LTS is outside standard security maintenance and requires Ubuntu Pro/ESM for expanded security maintenance.
-- Canonical's release-cycle page lists Ubuntu 26.04 LTS standard security maintenance through May 2031, expanded security maintenance through May 2036, and legacy add-on coverage through May 2041. It lists Ubuntu 24.04 LTS standard security maintenance through May 2029 and Ubuntu 22.04 LTS through May 2027.
+- Canonical's release-cycle page lists Ubuntu 26.04 LTS standard security maintenance through May 2031, expanded security maintenance through May 2036, and legacy add-on coverage through May 2041. It lists Ubuntu 22.04 LTS standard security maintenance through May 2027.
+- Canonical's official pages currently disagree on the exact Ubuntu 24.04 LTS standard-support cutoff month: the release-cycle page shows May 2029, while the Release Team's list of releases shows June 2029. Do not turn this one-month documentation mismatch into a precise operational cutoff claim; verify the current lifecycle/security surface and host coverage before making an end-of-support decision.
 - Canonical's release-cycle data places Ubuntu 25.10 standard security maintenance ending in July 2026. The separate releases download index still displays Ubuntu 25.10 under its "Standard support" interim section as of 2026-09-08. Treat that surface mismatch conservatively: do not infer current security support from download-index placement alone; use the lifecycle/support data and host package/security status for support decisions.
 
-Treat this section as a snapshot only. Always re-check the official Ubuntu releases index and Canonical release-cycle page before version-specific advice.
+Treat this section as a snapshot only. Always re-check the official Ubuntu releases index and Canonical lifecycle/release-team pages before version-specific advice.
 
 ## Official facts to verify first
 
@@ -33,6 +34,7 @@ Treat this section as a snapshot only. Always re-check the official Ubuntu relea
 
 - Ubuntu releases index: `https://releases.ubuntu.com/`
 - Canonical release cycle and support coverage: `https://ubuntu.com/about/release-cycle`
+- Ubuntu Release Team list of releases: `https://ubuntu.com/project/docs/release-team/list-of-releases/`
 - Ubuntu Security Notices: `https://ubuntu.com/security/notices`
 - Ubuntu CVE tracker: `https://ubuntu.com/security/cves`
 - Ubuntu Pro client status on the host: `pro status`
