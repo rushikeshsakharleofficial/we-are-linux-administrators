@@ -64,7 +64,8 @@ systemctl --version
 systemctl status <unit> --no-pager -l
 systemctl show <unit> --no-pager -p Id,LoadState,ActiveState,SubState,Result,ExecMainStatus,ExecMainCode,MainPID,NRestarts,RestartUSec,FragmentPath,DropInPaths,UnitFileState,NeedDaemonReload,ConditionResult,AssertResult,InvocationID,ControlGroup
 systemctl cat <unit>
-systemd-analyze verify <unit-file-or-dropin-if-known>
+unit_file="$(systemctl show -p FragmentPath --value <unit>)"
+test -n "$unit_file" && systemd-analyze verify "$unit_file"
 journalctl -u <unit> -b --no-pager -n 200 -o short-iso
 journalctl -u <unit> --since "1 hour ago" --no-pager -o short-iso
 systemctl list-dependencies <unit> --reverse --plain --no-pager
