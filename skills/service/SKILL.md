@@ -89,17 +89,27 @@ systemctl restart <unit>
 
 ### Use systemd drop-ins, not vendor unit edits
 
+Before editing, preserve the current effective unit and any existing local drop-ins. A narrow rollback must restore only the configuration touched by this change.
+
 ```bash
+systemctl cat <unit>
+cp -a /etc/systemd/system/<unit>.d /var/tmp/<unit>.d.bak.$(date +%F-%H%M%S) 2>/dev/null || true
 systemctl edit <unit>
 systemctl daemon-reload
-systemd-analyze verify /etc/systemd/system/<unit>.d/*.conf
+unit_file="$(systemctl show -p FragmentPath --value <unit>)"
+test -n "$unit_file" && systemd-analyze verify "$unit_file"
+systemctl cat <unit>
 ```
 
-Rollback:
+Do not use `systemctl revert <unit>` as the default rollback when the unit already had local overrides. `revert` removes all matching local drop-ins and overriding unit files, so it can erase unrelated administrator or configuration-management changes.
+
+Rollback only the drop-in changed in this operation: restore its exact pre-change backup, or remove only the newly created drop-in if none existed before, then reload and validate the merged unit again.
 
 ```bash
-systemctl revert <unit>
 systemctl daemon-reload
+systemctl cat <unit>
+unit_file="$(systemctl show -p FragmentPath --value <unit>)"
+test -n "$unit_file" && systemd-analyze verify "$unit_file"
 ```
 
 ## Validation
