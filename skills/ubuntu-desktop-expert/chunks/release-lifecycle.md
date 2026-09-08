@@ -2,7 +2,7 @@
 
 Use this chunk for Ubuntu Desktop release support, LTS/interim selection, release upgrades, Ubuntu Pro Desktop, ESM, Livepatch, installer changes, and flavor support-policy questions.
 
-_Last refreshed: 2026-06-29._
+_Last refreshed: 2026-09-08._
 
 ## Universal execution contract
 
@@ -10,14 +10,13 @@ This chunk directly inherits [`../../../docs/UNIVERSAL_SKILL_EXECUTION_CONTRACT.
 
 ## Current official release facts
 
-As of this refresh, the official Ubuntu releases index lists these standard-support desktop/server releases:
+As of this refresh:
 
-- Latest LTS: Ubuntu 26.04 LTS (Resolute Raccoon).
-- Previous LTS releases still in standard support: Ubuntu 24.04 LTS and Ubuntu 22.04 LTS.
-- Current interim release: Ubuntu 25.10 (Questing Quokka).
+- Latest Ubuntu LTS point release available from the official releases index: Ubuntu 26.04.1 LTS (Resolute Raccoon).
+- Previous LTS releases still in standard support include Ubuntu 24.04 LTS and Ubuntu 22.04 LTS.
 - Ubuntu 20.04 LTS is outside standard security maintenance and requires Ubuntu Pro/ESM for expanded security maintenance.
-
-Canonical's release-cycle page lists Ubuntu 26.04 LTS standard security maintenance through May 2031, expanded security maintenance through May 2036, and legacy add-on coverage through May 2041. It lists Ubuntu 25.10 standard security maintenance through July 2026, Ubuntu 24.04 LTS standard security maintenance through May 2029, and Ubuntu 22.04 LTS standard security maintenance through May 2027.
+- Canonical's release-cycle page lists Ubuntu 26.04 LTS standard security maintenance through May 2031, expanded security maintenance through May 2036, and legacy add-on coverage through May 2041. It lists Ubuntu 24.04 LTS standard security maintenance through May 2029 and Ubuntu 22.04 LTS through May 2027.
+- Canonical's release-cycle data places Ubuntu 25.10 standard security maintenance ending in July 2026. The separate releases download index still displays Ubuntu 25.10 under its "Standard support" interim section as of 2026-09-08. Treat that surface mismatch conservatively: do not infer current security support from download-index placement alone; use the lifecycle/support data and host package/security status for support decisions.
 
 Treat this section as a snapshot only. Always re-check the official Ubuntu releases index and Canonical release-cycle page before version-specific advice.
 
