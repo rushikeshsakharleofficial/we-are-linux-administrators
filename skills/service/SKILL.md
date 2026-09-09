@@ -88,11 +88,13 @@ systemctl restart <unit>
 
 ### Use systemd drop-ins, not vendor unit edits
 
-Before editing, preserve the current effective unit and any existing local drop-ins. A narrow rollback must restore only the configuration touched by this change.
+Before editing, preserve the current effective unit and any existing local drop-ins. A narrow rollback must restore only the configuration touched by this change. If a drop-in directory already exists, its backup is mandatory: do not continue to `systemctl edit` if that backup fails.
 
 ```bash
 systemctl cat <unit>
-cp -a /etc/systemd/system/<unit>.d /var/tmp/<unit>.d.bak.$(date +%F-%H%M%S) 2>/dev/null || true
+if [ -d /etc/systemd/system/<unit>.d ]; then
+  cp -a /etc/systemd/system/<unit>.d /var/tmp/<unit>.d.bak.$(date +%F-%H%M%S)
+fi
 systemctl edit <unit>
 systemctl daemon-reload
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
