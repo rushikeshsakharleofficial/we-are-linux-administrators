@@ -48,7 +48,10 @@ If unit configuration was edited, verify the actual loaded unit fragment and kee
 
 ```bash
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
-test -n "$unit_file" || { echo "Unable to resolve loaded unit fragment" >&2; return 1 2>/dev/null || exit 1; }
+if [ -z "$unit_file" ]; then
+  echo "Unable to resolve loaded unit fragment" >&2
+  exit 1
+fi
 if systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'; then
   systemd-analyze verify --recursive-errors=no "$unit_file"
 else
@@ -103,7 +106,10 @@ fi
 systemctl edit <unit>
 systemctl daemon-reload
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
-test -n "$unit_file" || { echo "Unable to resolve loaded unit fragment" >&2; return 1 2>/dev/null || exit 1; }
+if [ -z "$unit_file" ]; then
+  echo "Unable to resolve loaded unit fragment" >&2
+  exit 1
+fi
 if systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'; then
   systemd-analyze verify --recursive-errors=no "$unit_file"
 else
@@ -120,7 +126,10 @@ Rollback only the drop-in changed in this operation: restore its exact pre-chang
 systemctl daemon-reload
 systemctl cat <unit>
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
-test -n "$unit_file" || { echo "Unable to resolve loaded unit fragment" >&2; return 1 2>/dev/null || exit 1; }
+if [ -z "$unit_file" ]; then
+  echo "Unable to resolve loaded unit fragment" >&2
+  exit 1
+fi
 if systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'; then
   systemd-analyze verify --recursive-errors=no "$unit_file"
 else
