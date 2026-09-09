@@ -44,12 +44,11 @@ coredumpctl list <unit> 2>/dev/null || true
 ss -lntup 2>/dev/null | head -100
 ```
 
-If unit file was edited:
+If unit configuration was edited, verify the actual loaded unit fragment and do not suppress verification failures:
 
 ```bash
-systemd-analyze verify /etc/systemd/system/<unit>.service 2>/dev/null || true
-systemd-analyze verify /usr/lib/systemd/system/<unit>.service 2>/dev/null || true
-systemd-analyze verify /lib/systemd/system/<unit>.service 2>/dev/null || true
+unit_file="$(systemctl show -p FragmentPath --value <unit>)"
+test -n "$unit_file" && systemd-analyze verify "$unit_file"
 ```
 
 ## Branch interpretation
