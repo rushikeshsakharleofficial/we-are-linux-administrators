@@ -22,8 +22,17 @@ def test_service_preserves_narrow_rollback():
     assert 'validate the real workload path' in skill
 
 
+def test_service_dropin_backup_failure_is_not_suppressed():
+    skill = (ROOT / 'skills/service/SKILL.md').read_text()
+    assert 'if [ -d /etc/systemd/system/<unit>.d ]; then' in skill
+    assert 'cp -a /etc/systemd/system/<unit>.d /var/tmp/<unit>.d.bak.$(date +%F-%H%M%S)' in skill
+    assert 'cp -a /etc/systemd/system/<unit>.d /var/tmp/<unit>.d.bak.$(date +%F-%H%M%S) 2>/dev/null || true' not in skill
+    assert 'do not continue to `systemctl edit` if that backup fails' in skill
+
+
 if __name__ == '__main__':
     test_service_skill_exists()
     test_service_verify_uses_loaded_unit_fragment()
     test_service_preserves_narrow_rollback()
+    test_service_dropin_backup_failure_is_not_suppressed()
     print('service expert tests passed')
