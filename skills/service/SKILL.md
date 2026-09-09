@@ -44,11 +44,16 @@ coredumpctl list <unit> 2>/dev/null || true
 ss -lntup 2>/dev/null | head -100
 ```
 
-If unit configuration was edited, verify the actual loaded unit fragment and do not suppress verification failures:
+If unit configuration was edited, verify the actual loaded unit fragment and keep verification diagnostics visible. On systemd versions that expose `--recursive-errors`, use `--recursive-errors=no` so warnings in the specified unit make the command fail. Older systemd versions can print verification warnings while still returning zero, so review their output and never treat exit status alone as proof that the unit is clean.
 
 ```bash
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
-test -n "$unit_file" && systemd-analyze verify "$unit_file"
+test -n "$unit_file" || { echo "Unable to resolve loaded unit fragment" >&2; return 1 2>/dev/null || exit 1; }
+if systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'; then
+  systemd-analyze verify --recursive-errors=no "$unit_file"
+else
+  systemd-analyze verify "$unit_file"
+fi
 ```
 
 ## Branch interpretation
@@ -98,7 +103,12 @@ fi
 systemctl edit <unit>
 systemctl daemon-reload
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
-test -n "$unit_file" && systemd-analyze verify "$unit_file"
+test -n "$unit_file" || { echo "Unable to resolve loaded unit fragment" >&2; return 1 2>/dev/null || exit 1; }
+if systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'; then
+  systemd-analyze verify --recursive-errors=no "$unit_file"
+else
+  systemd-analyze verify "$unit_file"
+fi
 systemctl cat <unit>
 ```
 
@@ -110,7 +120,12 @@ Rollback only the drop-in changed in this operation: restore its exact pre-chang
 systemctl daemon-reload
 systemctl cat <unit>
 unit_file="$(systemctl show -p FragmentPath --value <unit>)"
-test -n "$unit_file" && systemd-analyze verify "$unit_file"
+test -n "$unit_file" || { echo "Unable to resolve loaded unit fragment" >&2; return 1 2>/dev/null || exit 1; }
+if systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'; then
+  systemd-analyze verify --recursive-errors=no "$unit_file"
+else
+  systemd-analyze verify "$unit_file"
+fi
 ```
 
 ## Validation
