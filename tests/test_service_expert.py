@@ -15,6 +15,14 @@ def test_service_verify_uses_loaded_unit_fragment():
     assert 'systemd-analyze verify "$unit_file" 2>/dev/null || true' not in skill
 
 
+def test_service_verify_preserves_recursive_error_semantics():
+    skill = (ROOT / 'skills/service/SKILL.md').read_text()
+    assert "systemd-analyze verify --help 2>&1 | grep -q -- '--recursive-errors'" in skill
+    assert 'systemd-analyze verify --recursive-errors=no "$unit_file"' in skill
+    assert 'Older systemd versions can print verification warnings while still returning zero' in skill
+    assert 'never treat exit status alone as proof that the unit is clean' in skill
+
+
 def test_service_preserves_narrow_rollback():
     skill = (ROOT / 'skills/service/SKILL.md').read_text()
     assert 'Do not use `systemctl revert <unit>` as the default rollback' in skill
@@ -33,6 +41,7 @@ def test_service_dropin_backup_failure_is_not_suppressed():
 if __name__ == '__main__':
     test_service_skill_exists()
     test_service_verify_uses_loaded_unit_fragment()
+    test_service_verify_preserves_recursive_error_semantics()
     test_service_preserves_narrow_rollback()
     test_service_dropin_backup_failure_is_not_suppressed()
     print('service expert tests passed')
